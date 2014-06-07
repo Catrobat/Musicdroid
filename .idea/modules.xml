@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Musicdroid.iml" filepath="$PROJECT_DIR$/Musicdroid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/musicdroid/musicdroid.iml" filepath="$PROJECT_DIR$/musicdroid/musicdroid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/musicdroidSourceTest/musicdroidSourceTest.iml" filepath="$PROJECT_DIR$/musicdroidSourceTest/musicdroidSourceTest.iml" />
+    </modules>
+  </component>
+</project>
+
