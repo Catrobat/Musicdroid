@@ -21,14 +21,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+apply plugin: 'android-sdk-manager'
 apply plugin: 'android'
+
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.3"
+    buildToolsVersion "19.1.0"
 
     defaultConfig {
-        packageName "org.catrobat.musicdroid.pocketmusic"
+        applicationId "org.catrobat.musicdroid.pocketmusic"
         minSdkVersion 15
         targetSdkVersion 19
         testInstrumentationRunner "pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
