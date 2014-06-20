@@ -25,12 +25,22 @@ package org.catrobat.musicdroid.pocketmusic;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+
+import org.catrobat.musicdroid.pocketmusic.properties.PianoProperties;
+
+import java.util.ArrayList;
 
 
 public class PianoActivity extends Activity {
@@ -41,7 +51,7 @@ public class PianoActivity extends Activity {
         setContentView(R.layout.activity_piano);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new PianoViewFragment())
                     .commit();
         }
     }
@@ -69,16 +79,142 @@ public class PianoActivity extends Activity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class PianoViewFragment extends Fragment {
 
-        public PlaceholderFragment() {
+        private ArrayList<Button> whiteButtons;
+        private ArrayList<Button> blackButtons;
+
+        public PianoViewFragment() {
+            whiteButtons = new ArrayList<>();
+            blackButtons = new ArrayList<>();
+        }
+
+        private void findViewsById(View rootView) {
+            whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_01_white));
+            whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_02_white));
+            whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_03_white));
+            whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_04_white));
+            whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_05_white));
+            whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_06_white));
+            whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_07_white));
+
+            blackButtons.add((Button) rootView.findViewById(R.id.oct_button_01_black));
+            blackButtons.add((Button) rootView.findViewById(R.id.oct_button_02_black));
+            blackButtons.add((Button) rootView.findViewById(R.id.oct_button_03_black));
+            blackButtons.add((Button) rootView.findViewById(R.id.oct_button_04_black));
+            blackButtons.add((Button) rootView.findViewById(R.id.oct_button_05_black));
+            blackButtons.add((Button) rootView.findViewById(R.id.oct_button_06_black));
+        }
+
+        private int[] initializeDisplay() {
+            Display display = getActivity().getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            int[] widthAndHeight = new int[2];
+            widthAndHeight[0] = size.x;
+            widthAndHeight[1] = size.y;
+            return widthAndHeight;
+        }
+
+        private int getDisplayWidth() {
+            return initializeDisplay()[PianoProperties.X_POS];
+        }
+
+        private int getDisplayHeight() {
+            return initializeDisplay()[PianoProperties.Y_POS];
+
+        }
+
+        private void calculatePianoPositions(int pianoKeyWidthScaleFactor, int pianoBlackKeyHeightScaleFactor) {
+
+            int whiteButtonWidth = getDisplayWidth() / (PianoProperties.WHITE_BUTTONS_PER_OCT + pianoKeyWidthScaleFactor);
+
+
+            ArrayList<RelativeLayout.LayoutParams> blackKeyLayoutParams = new ArrayList<>();
+            ArrayList<RelativeLayout.LayoutParams> whiteKeyLayoutParams = new ArrayList<>();
+
+
+            for (int i = 0; i < blackButtons.size(); i++) {
+
+                blackKeyLayoutParams.add(new RelativeLayout.LayoutParams(
+                        whiteButtonWidth,
+                        getDisplayHeight() / pianoBlackKeyHeightScaleFactor
+                ));
+                // calculate the proper position of the black piano key
+                blackKeyLayoutParams.get(i).setMargins((whiteButtonWidth / 2) * ((i * 2) + 1), 0, 0, 0);
+                blackButtons.get(i).setLayoutParams(blackKeyLayoutParams.get(i));
+
+
+            }
+
+            for (int i = 0; i < whiteButtons.size(); i++) {
+                whiteKeyLayoutParams.add(new RelativeLayout.LayoutParams(
+                        whiteButtonWidth,
+                        RelativeLayout.LayoutParams.MATCH_PARENT
+                ));
+                // calculate the proper position of the black piano key
+                whiteKeyLayoutParams.get(i).setMargins(whiteButtonWidth * i, 0, 0, 0);
+                whiteButtons.get(i).setLayoutParams(whiteKeyLayoutParams.get(i));
+            }
+
+        }
+
+        private void disableBlackKey(int index) {
+            blackButtons.get(index - 1).setVisibility(View.INVISIBLE);
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_piano, container, false);
-            return rootView;
+            findViewsById(rootView);
+            // for fullscreen piano mode pianoBlackKeyScaleFactor = 3
+            calculatePianoPositions(PianoProperties.DEFAULT_PIANO_KEY_HEIGHT_SCALE_FACTOR, PianoProperties.DEFAULT_BLACK_KEY_WIDTH_SCALE_FACTOR);
+            disableBlackKey(PianoProperties.DEFAULT_INACTIVE_BLACK_KEY);
+    return rootView;
+
+
+
         }
+
+       /* private View.OnTouchListener setOnTouchPianoKey(){
+            return (new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent event) {
+
+                    if (isDownActionEvent(event)) {
+                        addKeyPress(new NoteEvent(noteName, true));
+                        toggleSoundOn(noteName);
+
+                    } else if (isUpActionEvent(event)) {
+                        addKeyPress(new NoteEvent(noteName, false));
+                        toggleSoundOff(noteName);
+                    }
+
+                    return true;
+                }
+
+                private void toggleSoundOn(NoteName noteName) {
+                    if (!soundPlayer.isNotePlaying(noteName.getMidi())) {
+                        soundPlayer.playNote(noteName.getMidi());
+
+                    }
+
+                }
+
+                private void toggleSoundOff(NoteName noteName) {
+                    soundPlayer.stopNote(noteName.getMidi());
+                }
+
+                private boolean isDownActionEvent(MotionEvent event) {
+                    return (event.getAction() == android.view.MotionEvent.ACTION_DOWN);
+                }
+
+                private boolean isUpActionEvent(MotionEvent event) {
+                    return (event.getAction() == android.view.MotionEvent.ACTION_UP);
+                }
+            });
+        }*/
+
     }
 }
