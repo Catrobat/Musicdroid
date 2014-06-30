@@ -26,6 +26,7 @@ package org.catrobat.musicdroid.pocketmusic;
 import android.app.Fragment;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -37,7 +38,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import org.catrobat.musicdroid.pocketmusic.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.Octave;
@@ -46,6 +49,7 @@ import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetView;
 import org.catrobat.musicdroid.pocketmusic.properties.PianoProperties;
 import org.catrobat.musicdroid.pocketmusic.soundplayer.SoundPlayer;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -77,9 +81,11 @@ public class PianoActivity extends InstrumentActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_save) {
+            onActionSave();
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -90,6 +96,20 @@ public class PianoActivity extends InstrumentActivity {
     @Override
     protected void doAfterAddNoteEvent(NoteEvent noteEvent) {
         noteSheetViewFragment.redraw(getTrack());
+    }
+
+    private void onActionSave() {
+        Project project = new Project("Test", 60);
+        project.addTrack(getTrack());
+
+        ProjectToMidiConverter converter = new ProjectToMidiConverter();
+        try {
+            converter.convertProjectAndWriteMidi(project, Environment.getExternalStorageDirectory().toString() + "/musicdroid");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Toast.makeText(getBaseContext(), R.string.save_text_succ,
+                Toast.LENGTH_SHORT).show();
     }
 
 }

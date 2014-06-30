@@ -26,7 +26,14 @@
     tools:context=".PianoActivity" >
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="100"
+        android:icon="@drawable/icon_menu_overflow"
+        android:showAsAction="always"
+        android:title="@string/action_settings" >
+    <menu>
+      <item
+        android:id="@+id/action_save"
         android:showAsAction="never"
-        android:title="@string/action_settings" />
+        android:title="@string/action_save" />
+    </menu>
+    </item>
 </menu >
