@@ -23,7 +23,7 @@
 package org.catrobat.musicdroid.pocketmusic.note.symbol;
 
 
-import org.catrobat.musicdroid.pocketmusic.note.Key;
+import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 
@@ -80,7 +80,7 @@ public class NoteSymbol implements Symbol {
 		return "[NoteSymbol] size: " + size();
 	}
 
-	public boolean isStemUp(Key key) {
+	public boolean isStemUp(MusicalKey key) {
 		List<NoteName> noteNames = new ArrayList<NoteName>(notes.keySet());
 		Collections.sort(noteNames);
 

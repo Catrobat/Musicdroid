@@ -25,7 +25,7 @@ package org.catrobat.musicdroid.pocketmusic.note.draw;
 import android.content.Context;
 
 
-import org.catrobat.musicdroid.pocketmusic.note.Key;
+import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 
 import org.catrobat.musicdroid.pocketmusic.note.symbol.BoundNoteSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
@@ -36,11 +36,11 @@ public class SymbolDrawer {
 
 	private NoteSheetCanvas noteSheetCanvas;
 	private Context context;
-	private Key key;
+	private MusicalKey key;
 	private NoteDrawer noteDrawer;
 	private BreakDrawer breakDrawer;
 
-	public SymbolDrawer(NoteSheetCanvas noteSheetCanvas, Context context, Key key) {
+	public SymbolDrawer(NoteSheetCanvas noteSheetCanvas, Context context, MusicalKey key) {
 		this.noteSheetCanvas = noteSheetCanvas;
 		this.key = key;
 		this.context = context;

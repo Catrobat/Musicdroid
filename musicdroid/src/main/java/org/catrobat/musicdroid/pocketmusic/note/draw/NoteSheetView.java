@@ -35,7 +35,7 @@ import android.widget.ScrollView;
 
 
 import org.catrobat.musicdroid.pocketmusic.R;
-import org.catrobat.musicdroid.pocketmusic.note.Key;
+import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
@@ -68,7 +68,7 @@ public class NoteSheetView extends ScrollView {
 	public NoteSheetView(Context context) {
 		super(context);
 		paint = new Paint();
-		track = new Track(Key.VIOLIN); // TODO fw aus Settings auslesen
+		track = new Track(MusicalKey.VIOLIN); // TODO fw aus Settings auslesen
 		long tick = 0;
 		NoteEvent note = new NoteEvent(NoteName.D4, true);
 		track.addNoteEvent(tick, note);
@@ -162,8 +162,8 @@ public class NoteSheetView extends ScrollView {
 	private void drawKey() {
 		Resources res = getContext().getResources();
 		Bitmap keyPicture;
-		Key key = track.getKey();
-		if (key == Key.VIOLIN) {
+		MusicalKey key = track.getKey();
+		if (key == MusicalKey.VIOLIN) {
 			keyPicture = BitmapFactory.decodeResource(res, R.drawable.violine);
 		} else {
 			keyPicture = BitmapFactory.decodeResource(res, R.drawable.violine);

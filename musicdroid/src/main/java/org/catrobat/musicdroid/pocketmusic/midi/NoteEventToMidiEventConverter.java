@@ -20,33 +20,25 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.musicdroid.pocketmusic.midi;
 
-package org.catrobat.musicdroid.pocketmusic;
 
-import android.util.Log;
+import com.leff.midi.event.ChannelEvent;
+import com.leff.midi.event.NoteOff;
+import com.leff.midi.event.NoteOn;
 
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
-import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
-import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 
-public class TickThread {
+public class NoteEventToMidiEventConverter {
 
-    private long tick;
-    private NoteEvent lastNoteEvent;
+	private static final int DEFAULT_NOISE = 64;
+	private static final int DEFAULT_SILENT = 0;
 
-    public TickThread() {
-        tick = 0;
-        lastNoteEvent = new NoteEvent(NoteName.C4, true);
-    }
-
-    // TODO fw remove noteEvent parameter
-    public long getNextTick(NoteEvent noteEvent) {
-        if (lastNoteEvent.isNoteOn()){
-            if (false == noteEvent.isNoteOn()) {
-                tick += NoteLength.HALF.getTickDuration();
-            }
-        }
-        lastNoteEvent = noteEvent;
-        return tick;
-    }
+	public ChannelEvent convertNoteEvent(long tick, NoteEvent noteEvent, int channel) {
+		if (noteEvent.isNoteOn()) {
+			return new NoteOn(tick, channel, noteEvent.getNoteName().getMidi(), DEFAULT_NOISE);
+		} else {
+			return new NoteOff(tick, channel, noteEvent.getNoteName().getMidi(), DEFAULT_SILENT);
+		}
+	}
 }

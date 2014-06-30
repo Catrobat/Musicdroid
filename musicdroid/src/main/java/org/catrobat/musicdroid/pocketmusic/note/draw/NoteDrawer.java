@@ -29,7 +29,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Point;
 import android.graphics.RectF;
 
-import org.catrobat.musicdroid.pocketmusic.note.Key;
+import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
@@ -40,9 +40,9 @@ public class NoteDrawer {
 
 	private NoteSheetCanvas noteSheetCanvas;
 	private Context context;
-	private Key key;
+	private MusicalKey key;
 
-	public NoteDrawer(NoteSheetCanvas noteSheetCanvas, Key key, Context context) {
+	public NoteDrawer(NoteSheetCanvas noteSheetCanvas, MusicalKey key, Context context) {
 		this.noteSheetCanvas = noteSheetCanvas;
 		this.context = context;
 		this.key = key;
@@ -96,7 +96,7 @@ public class NoteDrawer {
 	}
 
 	private void drawHelpLines(NoteSheetCanvas noteSheetCanvas, List<RectF> noteSurroundingRects, NoteSymbol symbol,
-			Key key) {
+			MusicalKey key) {
 
 		int numberOfHalfLineDistancesWithoutHelpLines = 5;
 		List<NoteName> noteNames = symbol.getNoteNamesSorted();

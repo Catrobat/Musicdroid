@@ -35,30 +35,30 @@ import java.util.TreeSet;
  */
 public class Track implements Serializable {
 
-    public static final Instrument DEFAULT_INSTRUMENT = Instrument.ACOUSTIC_GRAND_PIANO;
+    public static final MusicalInstrument DEFAULT_INSTRUMENT = MusicalInstrument.ACOUSTIC_GRAND_PIANO;
     private static final long serialVersionUID = 7483021689872527955L;
 
-    private Instrument instrument;
+    private MusicalInstrument instrument;
     private HashMap<Long, List<NoteEvent>> events;
-    private Key key;
+    private MusicalKey key;
 
-    public Track(Key key) {
+    public Track(MusicalKey key) {
         this.events = new HashMap<Long, List<NoteEvent>>();
         this.instrument = DEFAULT_INSTRUMENT;
         this.key = key;
     }
 
-    public Track(Key key, Instrument instrument) {
+    public Track(MusicalKey key, MusicalInstrument instrument) {
         this.events = new HashMap<Long, List<NoteEvent>>();
         this.instrument = instrument;
         this.key = key;
     }
 
-    public Instrument getInstrument() {
+    public MusicalInstrument getInstrument() {
         return instrument;
     }
 
-    public Key getKey() {
+    public MusicalKey getKey() {
         return key;
     }
 

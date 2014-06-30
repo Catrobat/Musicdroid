@@ -24,6 +24,7 @@
 package org.catrobat.musicdroid.pocketmusic;
 
 import android.app.Fragment;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
@@ -32,6 +33,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetView;
 import org.catrobat.musicdroid.pocketmusic.properties.PianoProperties;
@@ -40,12 +42,14 @@ import org.catrobat.musicdroid.pocketmusic.properties.PianoProperties;
  * Created by Andrej on 23.06.2014.
  */
 public class NoteSheetViewFragment extends Fragment {
-    NoteSheetView noteSheetView;
+    private NoteSheetView noteSheetView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        noteSheetView = new NoteSheetView(getActivity());
+        if(savedInstanceState == null)
+          noteSheetView = new NoteSheetView(getActivity());
         noteSheetView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,getDisplayHeight()/3));
+        noteSheetView.setBackgroundColor(Color.WHITE);
         return noteSheetView;
     }
     private int[] initializeDisplay() {

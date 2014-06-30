@@ -20,33 +20,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.musicdroid.pocketmusic.midi;
 
-package org.catrobat.musicdroid.pocketmusic;
+public class MidiException extends Exception {
 
-import android.util.Log;
+	private static final long serialVersionUID = -5877964610580199490L;
 
-import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
-import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
-import org.catrobat.musicdroid.pocketmusic.note.NoteName;
-
-public class TickThread {
-
-    private long tick;
-    private NoteEvent lastNoteEvent;
-
-    public TickThread() {
-        tick = 0;
-        lastNoteEvent = new NoteEvent(NoteName.C4, true);
-    }
-
-    // TODO fw remove noteEvent parameter
-    public long getNextTick(NoteEvent noteEvent) {
-        if (lastNoteEvent.isNoteOn()){
-            if (false == noteEvent.isNoteOn()) {
-                tick += NoteLength.HALF.getTickDuration();
-            }
-        }
-        lastNoteEvent = noteEvent;
-        return tick;
-    }
+	public MidiException(String error) {
+		super(error);
+	}
 }

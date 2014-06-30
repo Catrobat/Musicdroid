@@ -25,7 +25,7 @@ package org.catrobat.musicdroid.pocketmusic.note.draw;
 import android.app.Activity;
 
 import org.catrobat.musicdroid.pocketmusic.TickThread;
-import org.catrobat.musicdroid.pocketmusic.note.Key;
+import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 
@@ -36,7 +36,7 @@ public abstract class InstrumentActivity extends Activity {
 
     public InstrumentActivity() {
         tickThread = new TickThread();
-        track = new Track(Key.VIOLIN); //TODO FW
+        track = new Track(MusicalKey.VIOLIN); //TODO FW
     }
 
     public Track getTrack() {
@@ -44,6 +44,7 @@ public abstract class InstrumentActivity extends Activity {
     }
 
     public void addNoteEvent(NoteEvent noteEvent) {
+
         track.addNoteEvent(tickThread.getNextTick(noteEvent), noteEvent);
         doAfterAddNoteEvent(noteEvent);
     }

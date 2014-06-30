@@ -51,7 +51,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile files('libs/android-midi-libv3-1-42.jar')
 }
 
 def signing_config_file = file(System.getProperty("user.home") + "/.catrobat/musicdroid_signing_config.gradle")

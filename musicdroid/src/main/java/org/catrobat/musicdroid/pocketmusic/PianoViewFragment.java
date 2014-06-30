@@ -12,8 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import org.catrobat.musicdroid.pocketmusic.PianoActivity;
-import org.catrobat.musicdroid.pocketmusic.R;
+
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.Octave;
@@ -37,7 +36,7 @@ public  class PianoViewFragment extends Fragment {
 
         soundPlayer = new SoundPlayer(getActivity());
 
-        Octave octave = Octave.createSmallOctave();
+        Octave octave = Octave.createOneLineOctave();
         noteNames = octave.getNoteNames();
     }
     @Override
@@ -49,9 +48,10 @@ public  class PianoViewFragment extends Fragment {
         calculatePianoPositions(PianoProperties.DEFAULT_PIANO_KEY_HEIGHT_SCALE_FACTOR,
                 PianoProperties.DEFAULT_BLACK_KEY_WIDTH_SCALE_FACTOR);
         disableBlackKey(PianoProperties.DEFAULT_INACTIVE_BLACK_KEY);
+        // TODO: fix onTouchListeners
         int j = 0;
         for(int i = 0; i < whiteButtons.size(); i++){
-            whiteButtons.get(i).setOnTouchListener(setOnTouchPianoKey(noteNames[j]));
+           whiteButtons.get(i).setOnTouchListener(setOnTouchPianoKey(noteNames[j]));
             if(i == 2)
                 j+=1;
             else
@@ -152,10 +152,13 @@ public  class PianoViewFragment extends Fragment {
 
                 if (isDownActionEvent(event)) {
                     Log.d("t1", noteName.toString());
+                    view.setX(view.getX()+5);
                     addKeyPress(new NoteEvent(noteName, true));
                     //  toggleSoundOn(noteName);
 
                 } else if (isUpActionEvent(event)) {
+                    view.setX(view.getX()-5);
+
                     addKeyPress(new NoteEvent(noteName, false));
                     //  toggleSoundOff(noteName);
                 }

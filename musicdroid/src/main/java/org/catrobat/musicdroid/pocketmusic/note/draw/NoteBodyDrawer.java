@@ -29,7 +29,7 @@ import android.graphics.Point;
 import android.graphics.RectF;
 
 
-import org.catrobat.musicdroid.pocketmusic.note.Key;
+import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
@@ -42,7 +42,7 @@ public final class NoteBodyDrawer {
 	}
 
 	public static List<RectF> drawBody(NoteSheetCanvas noteSheetCanvas, NoteSymbol noteSymbol,
-			boolean isStemUpdirected, Key key) {
+			boolean isStemUpdirected, MusicalKey key) {
 
 		int lineHeight = noteSheetCanvas.getDistanceBetweenNoteLines();
 		int noteHeigth = lineHeight / 2;
