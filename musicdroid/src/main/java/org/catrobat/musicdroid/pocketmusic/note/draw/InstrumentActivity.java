@@ -24,18 +24,19 @@ package org.catrobat.musicdroid.pocketmusic.note.draw;
 
 import android.app.Activity;
 
-import org.catrobat.musicdroid.pocketmusic.TickThread;
+import org.catrobat.musicdroid.pocketmusic.tempo.AbstractTickThread;
+import org.catrobat.musicdroid.pocketmusic.tempo.SimpleTickThread;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 
 public abstract class InstrumentActivity extends Activity {
 
-    private TickThread tickThread;
+    private AbstractTickThread tickThread;
     private Track track;
 
     public InstrumentActivity() {
-        tickThread = new TickThread();
+        tickThread = new SimpleTickThread();
         track = new Track(MusicalKey.VIOLIN); //TODO FW
     }
 

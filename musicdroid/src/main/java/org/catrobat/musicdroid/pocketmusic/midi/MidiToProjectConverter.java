@@ -32,7 +32,7 @@ import com.leff.midi.event.ProgramChange;
 import com.leff.midi.event.meta.Tempo;
 import com.leff.midi.event.meta.Text;
 
-import org.catrobat.musicdroid.pocketmusic.Project;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.Project;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
@@ -62,7 +62,7 @@ public class MidiToProjectConverter {
 
 		validateMidiFile(midi);
 
-		return convertMidi(midi, file.getName());
+		return convertMidi(midi);
 	}
 
 	protected void validateMidiFile(MidiFile midiFile) throws MidiException {
@@ -77,7 +77,7 @@ public class MidiToProjectConverter {
 				if (event instanceof Text) {
 					Text text = (Text) event;
 
-					if (text.getText().equals(ProjectToMidiConverter.MUSICDROID_MIDI_FILE_IDENTIFIER)) {
+					if (text.getText().equals(ProjectToMidiConverter.MIDI_FILE_IDENTIFIER)) {
 						return;
 					}
 				}
@@ -87,14 +87,14 @@ public class MidiToProjectConverter {
 		throw new MidiException("Unsupported MIDI!");
 	}
 
-	protected Project convertMidi(MidiFile midi, String name) {
+	protected Project convertMidi(MidiFile midi) {
 		List<Track> tracks = new ArrayList<Track>();
 
 		for (MidiTrack midiTrack : midi.getTracks()) {
 			tracks.add(createTrack(midiTrack));
 		}
 
-		Project project = new Project(name, beatsPerMinute);
+		Project project = new Project(beatsPerMinute);
 
 		for (Track track : tracks) {
 			if (track.size() > 0) {
