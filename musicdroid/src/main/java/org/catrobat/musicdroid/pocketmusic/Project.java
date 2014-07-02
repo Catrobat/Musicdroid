@@ -29,27 +29,17 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by Andrej on 30.06.2014.
- */
 public class Project implements Serializable {
 
-    public static final String DEFAULT_NAME = "MusicdroidProject";
     public static final int DEFAULT_BEATS_PER_MINUTE = 120;
     private static final long serialVersionUID = 7396763540934053008L;
 
-    private String name;
     private int beatsPerMinute;
     private List<Track> tracks;
 
-    public Project(String name, int beatsPerMinute) {
-        this.name = name;
+    public Project(int beatsPerMinute) {
         this.beatsPerMinute = beatsPerMinute;
         this.tracks = new LinkedList<Track>();
-    }
-
-    public String getName() {
-        return name;
     }
 
     public int getBeatsPerMinute() {
@@ -80,10 +70,6 @@ public class Project implements Serializable {
 
         Project project = (Project) obj;
 
-        if (false == name.equals(project.getName())) {
-            return false;
-        }
-
         if (size() == project.size()) {
             for (int i = 0; i < size(); i++) {
                 if (!getTrack(i).equals(project.getTrack(i))) {
@@ -99,7 +85,7 @@ public class Project implements Serializable {
 
     @Override
     public String toString() {
-        return "[Project] name=" + name + " beatsPerMinute=" + beatsPerMinute + " trackCount=" + size();
+        return "[Project] beatsPerMinute=" + beatsPerMinute + " trackCount=" + size();
     }
 }
 

@@ -24,11 +24,11 @@
 package org.catrobat.musicdroid.pocketmusic.note;
 
 public enum NoteLength {
-    WHOLE_DOT(4f + 2f), WHOLE(4f), HALF_DOT(2f + 1f), HALF(2f), QUARTER_DOT(1f + 1 / 2f), QUARTER(1f), EIGHT_DOT(
-            1 / 2f + 1 / 4f), EIGHT(1 / 2f), SIXTEENTH(1 / 4f);
+    WHOLE_DOT(4f + 2f), WHOLE(4f), HALF_DOT(2f + 1f), HALF(2f), QUARTER_DOT(1f + 1 / 2f),
+    QUARTER(1f), EIGHT_DOT(1 / 2f + 1 / 4f), EIGHT(1 / 2f), SIXTEENTH(1 / 4f);
 
-    protected static final double DEFAULT_DURATION = 384 / 48 * 60;
-    protected static final NoteLength SMALLEST_NOTE_LENGTH = SIXTEENTH;
+    public static final double DEFAULT_DURATION = 384 / 48 * 60;
+    private static final NoteLength SMALLEST_NOTE_LENGTH = SIXTEENTH;
 
     private long tickDuration;
 
