@@ -29,8 +29,7 @@ import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 public class NoteLengthTest extends AndroidTestCase {
 
 	public void testCalculateDuration1() {
-		double defaultDuration = NoteLength.DEFAULT_DURATION;
-		long expected = Math.round(defaultDuration * 1f);
+		long expected = 384 / 48 * 60;
 		long actual = NoteLength.QUARTER.getTickDuration();
 
 		assertEquals(expected, actual);

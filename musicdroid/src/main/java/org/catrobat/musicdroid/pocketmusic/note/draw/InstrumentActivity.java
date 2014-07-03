@@ -37,7 +37,7 @@ public abstract class InstrumentActivity extends Activity {
 
     public InstrumentActivity() {
         tickThread = new SimpleTickThread();
-        track = new Track(MusicalKey.VIOLIN); //TODO FW
+        track = new Track(MusicalKey.VIOLIN, Track.DEFAULT_INSTRUMENT); //TODO FW
     }
 
     public Track getTrack() {

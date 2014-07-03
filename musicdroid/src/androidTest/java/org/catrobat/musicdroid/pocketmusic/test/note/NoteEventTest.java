@@ -33,14 +33,14 @@ public class NoteEventTest extends AndroidTestCase {
 		NoteEvent noteEvent1 = NoteEventTestDataFactory.createNoteEvent();
 		NoteEvent noteEvent2 = NoteEventTestDataFactory.createNoteEvent();
 
-        assertNoteEventEquals(noteEvent1, noteEvent2);
+        assertTrue(noteEvent1.equals(noteEvent2));
 	}
 
 	public void testEquals2() {
 		NoteEvent noteEvent1 = NoteEventTestDataFactory.createNoteEvent(NoteName.C1);
 		NoteEvent noteEvent2 = NoteEventTestDataFactory.createNoteEvent(NoteName.C2);
 
-        assertNoteEventNotEquals(noteEvent1, noteEvent2);
+        assertFalse(noteEvent1.equals(noteEvent2));
 	}
 
 	public void testEquals3() {
@@ -48,41 +48,33 @@ public class NoteEventTest extends AndroidTestCase {
 		NoteEvent noteEvent1 = NoteEventTestDataFactory.createNoteEvent(noteName, true);
 		NoteEvent noteEvent2 = NoteEventTestDataFactory.createNoteEvent(noteName, false);
 
-        assertNoteEventNotEquals(noteEvent1, noteEvent2);
+        assertFalse(noteEvent1.equals(noteEvent2));
 	}
 
 	public void testEquals4() {
 		NoteEvent noteEvent1 = NoteEventTestDataFactory.createNoteEvent(NoteName.C1, true);
 		NoteEvent noteEvent2 = NoteEventTestDataFactory.createNoteEvent(NoteName.C2, false);
 
-        assertNoteEventNotEquals(noteEvent1, noteEvent2);
+        assertFalse(noteEvent1.equals(noteEvent2));
 	}
 
 	public void testEquals5() {
 		NoteEvent noteEvent = NoteEventTestDataFactory.createNoteEvent();
 
-        assertNoteEventNotEquals(noteEvent, null);
+        assertFalse(noteEvent.equals(null));
 	}
 
 	public void testEquals6() {
 		NoteEvent noteEvent = NoteEventTestDataFactory.createNoteEvent();
 
-        assertNoteEventNotEquals(noteEvent, "");
+        assertFalse(noteEvent.equals(""));
 	}
-
-    private void assertNoteEventEquals(NoteEvent noteEvent, Object obj) {
-        assertTrue("Objects should match", noteEvent.equals(obj));
-    }
-
-    private void assertNoteEventNotEquals(NoteEvent noteEvent, Object obj) {
-        assertFalse("Objects should not match", noteEvent.equals(obj));
-    }
 
 	public void testToString() {
 		NoteEvent noteEvent = NoteEventTestDataFactory.createNoteEvent();
 		String expectedString = "[NoteEvent] noteName= " + noteEvent.getNoteName() +
                 " noteOn=" + noteEvent.isNoteOn();
 
-		assertEquals("Strings do not match", expectedString, noteEvent.toString());
+		assertEquals(expectedString, noteEvent.toString());
 	}
 }

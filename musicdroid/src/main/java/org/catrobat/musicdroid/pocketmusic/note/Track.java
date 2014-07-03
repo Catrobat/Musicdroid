@@ -42,12 +42,6 @@ public class Track implements Serializable {
     private HashMap<Long, List<NoteEvent>> events;
     private MusicalKey key;
 
-    public Track(MusicalKey key) {
-        this.events = new HashMap<Long, List<NoteEvent>>();
-        this.instrument = DEFAULT_INSTRUMENT;
-        this.key = key;
-    }
-
     public Track(MusicalKey key, MusicalInstrument instrument) {
         this.events = new HashMap<Long, List<NoteEvent>>();
         this.instrument = instrument;

@@ -31,7 +31,7 @@ public class NoteEventTestDataFactory {
 	}
 
 	public static NoteEvent createNoteEvent() {
-		return createNoteEvent(NoteName.C4, true);
+        return createNoteEvent(NoteName.C4, true);
 	}
 
 	public static NoteEvent createNoteEvent(NoteName noteName) {

@@ -30,11 +30,12 @@ import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 
 public final class TrackTestDataFactory {
+
 	private TrackTestDataFactory() {
 	}
 
 	public static Track createTrack() {
-		return new Track(MusicalKey.VIOLIN);
+		return createTrack(Track.DEFAULT_INSTRUMENT);
 	}
 
 	public static Track createTrack(MusicalInstrument instrument) {
@@ -42,7 +43,7 @@ public final class TrackTestDataFactory {
 	}
 
 	public static Track createSimpleTrack() {
-		Track track = new Track(MusicalKey.VIOLIN);
+		Track track = createTrack();
 
 		long tick = 0;
 
@@ -78,7 +79,7 @@ public final class TrackTestDataFactory {
 	}
 
 	public static Track createTrackWithBreak() {
-		Track track = new Track(MusicalKey.VIOLIN);
+		Track track = createTrack();
 
 		long tick = 0;
 
@@ -138,7 +139,7 @@ public final class TrackTestDataFactory {
 	}
 
 	public static Track createComplexTrack() {
-		Track track = new Track(MusicalKey.VIOLIN);
+		Track track = createTrack();
 
 		long tick = 0;
 

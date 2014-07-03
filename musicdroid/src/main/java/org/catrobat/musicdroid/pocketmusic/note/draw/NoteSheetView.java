@@ -68,7 +68,7 @@ public class NoteSheetView extends ScrollView {
 	public NoteSheetView(Context context) {
 		super(context);
 		paint = new Paint();
-		track = new Track(MusicalKey.VIOLIN); // TODO fw aus Settings auslesen
+		track = new Track(MusicalKey.VIOLIN, Track.DEFAULT_INSTRUMENT); // TODO fw aus Settings auslesen
 		long tick = 0;
 		NoteEvent note = new NoteEvent(NoteName.D4, true);
 		track.addNoteEvent(tick, note);
