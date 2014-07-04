@@ -20,29 +20,30 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.musicdroid.pocketmusic.test.note;
+
+package org.catrobat.musicdroid.pocketmusic.instrument.tempo;
 
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
-import org.catrobat.musicdroid.pocketmusic.note.NoteName;
+import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 
-public class NoteEventTestDataFactory {
+public class SimpleTickThread extends AbstractTickThread {
 
-	private NoteEventTestDataFactory() {
-	}
+    private static final NoteLength DEFAULT_NOTE_LENGTH = NoteLength.QUARTER;
 
-	public static NoteEvent createNoteEvent() {
-        return createNoteEvent(NoteName.C4, true);
-	}
+    private boolean lastIsNoteOn;
 
-	public static NoteEvent createNoteEvent(NoteName noteName) {
-		return createNoteEvent(noteName, true);
-	}
+    public SimpleTickThread() {
+        lastIsNoteOn = true;
+    }
 
-	public static NoteEvent createNoteEvent(NoteName noteName, boolean noteOn) {
-		return new NoteEvent(noteName, noteOn);
-	}
+    @Override
+    public long getNextTick(NoteEvent noteEvent) {
+        if (lastIsNoteOn && (false == noteEvent.isNoteOn())){
+            tick += DEFAULT_NOTE_LENGTH.getTickDuration();
+        }
 
-    public static NoteEvent createNoteEvent(boolean noteOn) {
-        return new NoteEvent(NoteName.C4, noteOn);
+        lastIsNoteOn = noteEvent.isNoteOn();
+
+        return tick;
     }
 }

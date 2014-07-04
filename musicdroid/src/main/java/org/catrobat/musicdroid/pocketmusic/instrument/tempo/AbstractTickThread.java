@@ -21,32 +21,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic;
-
-import android.util.Log;
+package org.catrobat.musicdroid.pocketmusic.instrument.tempo;
 
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
-import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
-import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 
-public class TickThread {
+public abstract class AbstractTickThread {
 
-    private long tick;
-    private NoteEvent lastNoteEvent;
+    protected long tick;
 
-    public TickThread() {
+    public AbstractTickThread() {
         tick = 0;
-        lastNoteEvent = new NoteEvent(NoteName.C4, true);
     }
 
-    // TODO fw remove noteEvent parameter
-    public long getNextTick(NoteEvent noteEvent) {
-        if (lastNoteEvent.isNoteOn()){
-            if (false == noteEvent.isNoteOn()) {
-                tick += NoteLength.HALF.getTickDuration();
-            }
-        }
-        lastNoteEvent = noteEvent;
-        return tick;
-    }
+    public abstract long getNextTick(NoteEvent noteEvent);
 }
