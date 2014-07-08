@@ -22,7 +22,6 @@
  */
 package org.catrobat.musicdroid.pocketmusic.midi;
 
-
 import com.leff.midi.MidiFile;
 import com.leff.midi.MidiTrack;
 import com.leff.midi.event.ChannelEvent;
@@ -31,7 +30,7 @@ import com.leff.midi.event.meta.Tempo;
 import com.leff.midi.event.meta.Text;
 import com.leff.midi.event.meta.TimeSignature;
 
-import org.catrobat.musicdroid.pocketmusic.note.symbol.Project;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
@@ -62,7 +61,7 @@ public class ProjectToMidiConverter {
 		midi.writeToFile(file);
 	}
 
-	protected MidiFile convertProject(Project project) throws MidiException {
+	private MidiFile convertProject(Project project) throws MidiException {
 		ArrayList<MidiTrack> tracks = new ArrayList<MidiTrack>();
 
 		MidiTrack tempoTrack = createTempoTrackWithMetaInfo(project.getBeatsPerMinute());
@@ -80,7 +79,7 @@ public class ProjectToMidiConverter {
 		return new MidiFile(MidiFile.DEFAULT_RESOLUTION, tracks);
 	}
 
-	protected int addInstrumentAndGetChannel(MusicalInstrument instrument) throws MidiException {
+    private int addInstrumentAndGetChannel(MusicalInstrument instrument) throws MidiException {
 		if (usedChannels.contains(instrument)) {
 			return usedChannels.indexOf(instrument) + 1;
 		} else if (usedChannels.size() == MAX_CHANNEL) {
@@ -92,7 +91,7 @@ public class ProjectToMidiConverter {
 		}
 	}
 
-	protected MidiTrack createTempoTrackWithMetaInfo(int beatsPerMinute) {
+	private MidiTrack createTempoTrackWithMetaInfo(int beatsPerMinute) {
 		MidiTrack tempoTrack = new MidiTrack();
 
 		Text text = new Text(0, 0, MIDI_FILE_IDENTIFIER);
@@ -109,7 +108,7 @@ public class ProjectToMidiConverter {
 		return tempoTrack;
 	}
 
-	public MidiTrack createNoteTrack(Track track, int channel) throws MidiException {
+	private MidiTrack createNoteTrack(Track track, int channel) throws MidiException {
 		MidiTrack noteTrack = new MidiTrack();
 
 		ProgramChange program = new ProgramChange(0, channel, track.getInstrument().getProgram());

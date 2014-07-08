@@ -27,6 +27,7 @@ import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 
 public class ProjectTestDataFactory {
+
 	private ProjectTestDataFactory() {
 	}
 

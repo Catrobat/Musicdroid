@@ -22,7 +22,6 @@
  */
 package org.catrobat.musicdroid.pocketmusic.midi;
 
-
 import com.leff.midi.MidiFile;
 import com.leff.midi.MidiTrack;
 import com.leff.midi.event.MidiEvent;
@@ -32,7 +31,7 @@ import com.leff.midi.event.ProgramChange;
 import com.leff.midi.event.meta.Tempo;
 import com.leff.midi.event.meta.Text;
 
-import org.catrobat.musicdroid.pocketmusic.note.symbol.Project;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
@@ -45,7 +44,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 
 public class MidiToProjectConverter {
 
@@ -65,7 +63,7 @@ public class MidiToProjectConverter {
 		return convertMidi(midi);
 	}
 
-	protected void validateMidiFile(MidiFile midiFile) throws MidiException {
+	private void validateMidiFile(MidiFile midiFile) throws MidiException {
 		if (midiFile.getTrackCount() > 0) {
 			MidiTrack tempoTrack = midiFile.getTracks().get(0);
 
@@ -87,7 +85,7 @@ public class MidiToProjectConverter {
 		throw new MidiException("Unsupported MIDI!");
 	}
 
-	protected Project convertMidi(MidiFile midi) {
+	private Project convertMidi(MidiFile midi) {
 		List<Track> tracks = new ArrayList<Track>();
 
 		for (MidiTrack midiTrack : midi.getTracks()) {
