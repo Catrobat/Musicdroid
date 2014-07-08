@@ -23,17 +23,35 @@
 
 package org.catrobat.musicdroid.pocketmusic.uitest;
 
-import android.test.InstrumentationTestCase;
+import android.app.Activity;
+import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 
-public abstract class BaseInstrumentationTestCase extends InstrumentationTestCase {
+import com.robotium.solo.Solo;
 
-    @Override
-    protected void setUp() {
-        //this should be done for every test
+public abstract class BaseActivityInstrumentationTestCase2<T extends Activity> extends
+        ActivityInstrumentationTestCase2<T> {
+
+    protected Solo solo;
+
+    private static final String TAG = "BaseActivityInstrumentationTestCase";
+
+    public BaseActivityInstrumentationTestCase2(Class<T> activityClass) {
+        super(activityClass);
     }
 
     @Override
-    protected void tearDown() {
-        //this should be done for every test
+    protected void setUp() throws Exception {
+        super.setUp();
+        Log.d(TAG, "setUp");
+        solo = new Solo(getInstrumentation(), getActivity());
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        Log.v(TAG, "tearDown");
+        solo.finishOpenedActivities();
+        solo = null;
+        super.tearDown();
     }
 }
