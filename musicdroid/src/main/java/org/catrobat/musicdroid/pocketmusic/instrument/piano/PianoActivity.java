@@ -23,6 +23,7 @@
 
 package org.catrobat.musicdroid.pocketmusic.instrument.piano;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,6 +39,7 @@ public class PianoActivity extends InstrumentActivity {
     private SoundPlayer soundPlayer;
     // TODO: fix orientation (NullPointerException on changing orientation)
     private NoteSheetViewFragment noteSheetViewFragment;
+    private PianoViewFragment pianoViewFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +48,10 @@ public class PianoActivity extends InstrumentActivity {
 
         if (savedInstanceState == null) {
             noteSheetViewFragment = new NoteSheetViewFragment();
+            pianoViewFragment = new PianoViewFragment();
             getFragmentManager().beginTransaction().add(R.id.container, noteSheetViewFragment).commit();
-            getFragmentManager().beginTransaction().add(R.id.container, new PianoViewFragment()).commit();
-
+            getFragmentManager().beginTransaction().add(R.id.container, pianoViewFragment).commit();
         }
-
     }
 
     @Override
@@ -59,6 +60,12 @@ public class PianoActivity extends InstrumentActivity {
         return true;
     }
 
+    public Fragment getPianoViewFragment(){
+        return pianoViewFragment;
+    }
+    public NoteSheetViewFragment getNoteSheetViewFragment(){
+        return noteSheetViewFragment;
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

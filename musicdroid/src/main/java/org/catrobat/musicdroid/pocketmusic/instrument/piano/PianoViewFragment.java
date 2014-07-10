@@ -34,25 +34,36 @@ public  class PianoViewFragment extends Fragment {
     public PianoViewFragment() {
         whiteButtons = new ArrayList<>();
         blackButtons = new ArrayList<>();
-
         soundPlayer = new SoundPlayer(getActivity());
 
         Octave octave = Octave.createOneLineOctave();
         noteNames = octave.getNoteNames();
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_piano, container, false);
         rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,getDisplayHeight()/2));
+
         findViewsById(rootView);
-        calculatePianoPositions(PianoProperties.DEFAULT_PIANO_KEY_HEIGHT_SCALE_FACTOR,
+
+        calculatePianoKeyPositions(PianoProperties.DEFAULT_PIANO_KEY_HEIGHT_SCALE_FACTOR,
                 PianoProperties.DEFAULT_BLACK_KEY_WIDTH_SCALE_FACTOR);
+
         disableBlackKey(PianoProperties.DEFAULT_INACTIVE_BLACK_KEY);
-        // TODO: fix onTouchListeners
+
+        // TODO: optimize touch events
+        setOnTouchListeners();
+        return rootView;
+
+
+    }
+    private void setOnTouchListeners(){
         int j = 0;
         for(int i = 0; i < whiteButtons.size(); i++){
-           whiteButtons.get(i).setOnTouchListener(setOnTouchPianoKey(noteNames[j]));
+            whiteButtons.get(i).setOnTouchListener(setOnTouchPianoKey(noteNames[j]));
+            // TODO: works only for the specific octave, do for all // in Octave.java - noteNames Array
             if(i == 2)
                 j+=1;
             else
@@ -66,11 +77,7 @@ public  class PianoViewFragment extends Fragment {
             else
                 j+=2;
         }
-        return rootView;
-
-
     }
-
     private void findViewsById(View rootView) {
         whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_01_white));
         whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_02_white));
@@ -98,19 +105,17 @@ public  class PianoViewFragment extends Fragment {
         return widthAndHeight;
     }
 
-    private int getDisplayWidth() {
+    public int getDisplayWidth() {
         return initializeDisplay()[PianoProperties.X_POS];
     }
 
-    private int getDisplayHeight() {
+    public int getDisplayHeight() {
         return initializeDisplay()[PianoProperties.Y_POS];
-
     }
 
-    private void calculatePianoPositions(int pianoKeyWidthScaleFactor, int pianoBlackKeyHeightScaleFactor) {
+    public void calculatePianoKeyPositions(int pianoKeyWidthScaleFactor, int pianoBlackKeyHeightScaleFactor) {
 
-        int whiteButtonWidth = getDisplayWidth() / (PianoProperties.WHITE_BUTTONS_PER_OCT + pianoKeyWidthScaleFactor);
-
+        int buttonWidth = getDisplayWidth() / (PianoProperties.WHITE_BUTTONS_PER_OCT + pianoKeyWidthScaleFactor);
 
         ArrayList<RelativeLayout.LayoutParams> blackKeyLayoutParams = new ArrayList<>();
         ArrayList<RelativeLayout.LayoutParams> whiteKeyLayoutParams = new ArrayList<>();
@@ -119,11 +124,11 @@ public  class PianoViewFragment extends Fragment {
         for (int i = 0; i < blackButtons.size(); i++) {
 
             blackKeyLayoutParams.add(new RelativeLayout.LayoutParams(
-                    whiteButtonWidth,
+                    buttonWidth,
                     getDisplayHeight() / pianoBlackKeyHeightScaleFactor
             ));
             // calculate the proper position of the black piano key
-            blackKeyLayoutParams.get(i).setMargins((whiteButtonWidth / 2) * ((i * 2) + 1), 0, 0, 0);
+            blackKeyLayoutParams.get(i).setMargins((buttonWidth / 2) * ((i * 2) + 1), 0, 0, 0);
             blackButtons.get(i).setLayoutParams(blackKeyLayoutParams.get(i));
 
 
@@ -131,20 +136,20 @@ public  class PianoViewFragment extends Fragment {
 
         for (int i = 0; i < whiteButtons.size(); i++) {
             whiteKeyLayoutParams.add(new RelativeLayout.LayoutParams(
-                    whiteButtonWidth,
+                    buttonWidth,
                     RelativeLayout.LayoutParams.MATCH_PARENT
             ));
             // calculate the proper position of the black piano key
-            whiteKeyLayoutParams.get(i).setMargins(whiteButtonWidth * i, 0, 0, 0);
+            whiteKeyLayoutParams.get(i).setMargins(buttonWidth * i, 0, 0, 0);
             whiteButtons.get(i).setLayoutParams(whiteKeyLayoutParams.get(i));
         }
 
     }
 
-    private void disableBlackKey(int index) {
-        blackButtons.get(index - 1).setVisibility(View.INVISIBLE);
+    public void disableBlackKey(int index) {
+        if(index <= blackButtons.size())
+            blackButtons.get(index - 1).setVisibility(View.INVISIBLE);
     }
-
 
     private View.OnTouchListener setOnTouchPianoKey(final NoteName noteName){
         return (new View.OnTouchListener() {
@@ -153,11 +158,16 @@ public  class PianoViewFragment extends Fragment {
 
                 if (isDownActionEvent(event)) {
                     Log.d("t1", noteName.toString());
+
+                    // TODO: animation for clicking
                     view.setX(view.getX()+5);
+
                     addKeyPress(new NoteEvent(noteName, true));
                     //  toggleSoundOn(noteName);
 
                 } else if (isUpActionEvent(event)) {
+
+                    // TODO: animation for clicking
                     view.setX(view.getX()-5);
 
                     addKeyPress(new NoteEvent(noteName, false));
@@ -170,9 +180,7 @@ public  class PianoViewFragment extends Fragment {
             private void toggleSoundOn(NoteName noteName) {
                 if (!soundPlayer.isNotePlaying(noteName.getMidi())) {
                     soundPlayer.playNote(noteName.getMidi());
-
                 }
-
             }
 
             private void toggleSoundOff(NoteName noteName) {
@@ -191,6 +199,12 @@ public  class PianoViewFragment extends Fragment {
     private void addKeyPress(NoteEvent noteEvent) {
         PianoActivity pianoActivity = (PianoActivity) getActivity();
         pianoActivity.addNoteEvent(noteEvent);
+    }
+    public ArrayList<Button> getBlackButtons(){
+        return blackButtons;
+    }
+    public ArrayList<Button> getWhiteButtons(){
+        return whiteButtons;
     }
 
 }
