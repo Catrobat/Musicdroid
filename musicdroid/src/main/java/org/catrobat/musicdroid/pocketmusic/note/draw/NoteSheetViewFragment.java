@@ -52,9 +52,7 @@ public class NoteSheetViewFragment extends Fragment {
         noteSheetView.setBackgroundColor(Color.WHITE);
         return noteSheetView;
     }
-    public NoteSheetView getNoteSheetView(){
-        return noteSheetView;
-    }
+
     private int[] initializeDisplay() {
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();

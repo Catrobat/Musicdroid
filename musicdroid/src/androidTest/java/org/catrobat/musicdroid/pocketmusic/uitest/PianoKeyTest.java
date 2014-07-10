@@ -38,6 +38,7 @@ public class PianoKeyTest extends ActivityInstrumentationTestCase2<PianoActivity
     public PianoKeyTest(){
         super(PianoActivity.class);
     }
+
     @Override
     protected void setUp() {
         pianoActivity  = getActivity();
@@ -49,19 +50,17 @@ public class PianoKeyTest extends ActivityInstrumentationTestCase2<PianoActivity
         solo.finishOpenedActivities();
     }
 
-    public void testPianoKeys1(){
+    public void testPianoKeys(){
         solo.waitForActivity(PianoActivity.class);
-        // 2 track size increases 2 per one note
+        int clicks = 7;
+        int expectedTrackSize = clicks * 2;
 
-        solo.clickOnButton("C");
-        solo.clickOnButton("D");
-        solo.clickOnButton("E");
-        solo.clickOnButton("F");
-        solo.clickOnButton("G");
-        solo.clickOnButton("A");
-        solo.clickOnButton("H");
+        for (int i = 0; i < clicks; i++) {
+            solo.clickOnButton("C"); // TODO get rid of that "C"
+        }
 
-        Log.d("t1",""+ pianoActivity.getNoteSheetViewFragment().getNoteSheetView().getTrack().size());
-        assertTrue(pianoActivity.getNoteSheetViewFragment().getNoteSheetView().getTrack().size()  == 14);
+        int actualTrackSize = pianoActivity.getTrack().size();
+
+        assertEquals(expectedTrackSize, actualTrackSize);
     }
 }

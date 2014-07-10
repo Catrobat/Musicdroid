@@ -201,8 +201,4 @@ public class NoteSheetView extends ScrollView {
 	private void drawTrack() {
 		trackDrawer.drawTrack(track, noteSheetCanvas, getContext());
 	}
-
-    public Track getTrack(){
-        return track;
-    }
 }

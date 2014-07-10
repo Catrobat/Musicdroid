@@ -31,10 +31,18 @@ import android.widget.Button;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoViewFragment;
 
+import java.util.List;
+
 /**
  * Created by Andrej on 10.07.2014.
  */
 public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoActivity> {
+
+    private static final int MIN_WIDTH = 240;
+    private static final int MAX_WIDTH = 2000;
+
+    private static final int MIN_HEIGHT = 240;
+    private static final int MAX_HEIGHT = 2000;
 
     PianoActivity pianoActivity;
     private PianoViewFragment pianoViewFragment;
@@ -47,66 +55,94 @@ public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoAct
     protected void setUp() throws Exception {
         super.setUp();
         pianoActivity = getActivity();
-        pianoViewFragment = (PianoViewFragment) pianoActivity.getPianoViewFragment();
-
+        pianoViewFragment = pianoActivity.getPianoViewFragment();
     }
 
     //---------------------------- FRAGMENT TESTS --------------------------------------------------
-    public void testGetDisplayWidth1() {
-        assertNotNull(pianoViewFragment.getDisplayWidth());
+    public void testGetDisplayWidth() {
+        assertTrue(pianoViewFragment.getDisplayWidth() > MIN_WIDTH);
+        assertTrue(pianoViewFragment.getDisplayWidth() < MAX_WIDTH);
     }
-    public void testGetDisplayWidth2() {
-        Log.i(this.getName(), "testGetDisplayWidth: DisplayWidth(px):"+ pianoViewFragment.getDisplayWidth());
-        assertTrue(pianoViewFragment.getDisplayWidth() > 240);
-        assertTrue(pianoViewFragment.getDisplayWidth()< 2000);
-    }
-    public void testGetDisplayHeight1() {
-        assertNotNull(pianoViewFragment.getDisplayHeight());
-    }
-    public void testGetDisplayHeight2() {
-        Log.i(this.getName(), "testGetDisplayHeight: DisplayWidth(px):"+ pianoViewFragment.getDisplayHeight());
-        assertTrue(pianoViewFragment.getDisplayHeight()> 240);
-        assertTrue(pianoViewFragment.getDisplayHeight()< 2000);
+
+    public void testGetDisplayHeight() {
+        assertTrue(pianoViewFragment.getDisplayHeight() > MIN_HEIGHT);
+        assertTrue(pianoViewFragment.getDisplayHeight() < MAX_HEIGHT);
     }
     public void testCalculatePianoKeyPositions(){
-        Log.i(this.getName(), "testCalculatePianoPositions: ");
         int blackKeyHeightScaleFactor = 6;
         int keyWidthScaleFactor = 0;
         int keysPerOctave = 7;
 
-        pianoViewFragment.calculatePianoKeyPositions(keyWidthScaleFactor,blackKeyHeightScaleFactor);
-        int buttonWidth = pianoViewFragment.getDisplayWidth()/(keysPerOctave+keyWidthScaleFactor);
+        pianoViewFragment.calculatePianoKeyPositions(keyWidthScaleFactor, blackKeyHeightScaleFactor);
 
-        // testing button width
-        for(int i = 0 ; i < pianoViewFragment.getBlackButtons().size(); i++)
-            assertEquals(pianoViewFragment.getBlackButtons().get(i).getWidth(), buttonWidth);
-        for(int i = 0 ; i < pianoViewFragment.getWhiteButtons().size(); i++)
-            assertEquals(pianoViewFragment.getWhiteButtons().get(i).getWidth(), buttonWidth);
-
-        // testing left margin
-        assertEquals(buttonWidth/2,pianoViewFragment.getBlackButtons().get(0).getLeft());
-        assertEquals((buttonWidth/2) * 3,pianoViewFragment.getBlackButtons().get(1).getLeft());
-
-        assertEquals(0,pianoViewFragment.getWhiteButtons().get(0).getLeft());
-        assertEquals(buttonWidth,pianoViewFragment.getWhiteButtons().get(1).getLeft());
+        assertButtonPosition(keyWidthScaleFactor, keysPerOctave);
     }
+
+    private void assertButtonPosition(int keyWidthScaleFactor, int keysPerOctave) {
+        int buttonWidth = pianoViewFragment.getDisplayWidth() / (keysPerOctave + keyWidthScaleFactor);
+
+        for(int i = 0 ; i < pianoViewFragment.getBlackButtonCount(); i++)
+            assertEquals(pianoViewFragment.getBlackButton(i).getWidth(), buttonWidth);
+        for(int i = 0 ; i < pianoViewFragment.getWhiteButtonCount(); i++)
+            assertEquals(pianoViewFragment.getWhiteButton(i).getWidth(), buttonWidth);
+
+        assertEquals((buttonWidth / 2), pianoViewFragment.getBlackButton(0).getLeft());
+        assertEquals((buttonWidth / 2 * 3), pianoViewFragment.getBlackButton(1).getLeft());
+
+        assertEquals(0 , pianoViewFragment.getWhiteButton(0).getLeft());
+        assertEquals(buttonWidth, pianoViewFragment.getWhiteButton(1).getLeft());
+    }
+
     @UiThreadTest
     public void testDisableBlackKey1(){
-        pianoViewFragment.disableBlackKey(1);
-        assertEquals(pianoViewFragment.getBlackButtons().get(0).getVisibility(), Button.INVISIBLE);
-    }
-    @UiThreadTest
-    public void testDisableBlackKey2(){
-        pianoViewFragment.disableBlackKey(6);
-        assertEquals(pianoViewFragment.getBlackButtons().get(5).getVisibility(), Button.INVISIBLE);
-    }
-    @UiThreadTest
-    public void testDisableBlackKey3(){
-        pianoViewFragment.disableBlackKey(10);
-        for(int i = 0; i < 2; i++)
-            assertEquals(pianoViewFragment.getBlackButtons().get(i).getVisibility(), Button.VISIBLE);
-        for(int i = 3; i < pianoViewFragment.getBlackButtons().size(); i++)
-            assertEquals(pianoViewFragment.getBlackButtons().get(i).getVisibility(), Button.VISIBLE);
+        disableKeyAndAssert(1);
     }
 
+    @UiThreadTest
+    public void testDisableBlackKey2(){
+        disableKeyAndAssert(3);
+    }
+
+    @UiThreadTest
+    public void testDisableBlackKey3(){
+        try {
+            disableKeyAndAssert(100);
+            fail();
+        } catch (Exception e) {
+        }
+    }
+
+    @UiThreadTest
+    public void testDisableBlackKey4(){
+        try {
+            disableKeyAndAssert(-1);
+            fail();
+        } catch (Exception e) {
+        }
+    }
+
+    private void disableKeyAndAssert(int index) {
+        assertButtonVisibilityPianoLayout();
+
+        pianoViewFragment.disableBlackKey(index);
+
+        assertEquals(pianoViewFragment.getBlackButton(index).getVisibility(), Button.INVISIBLE);
+    }
+
+    private void assertButtonVisibilityPianoLayout() {
+        int expectedVisibility = 0;
+        int actualVisibility = 0;
+
+        for (int i = 0; i < pianoViewFragment.getBlackButtonCount(); i++) {
+            if (i == 3) {
+                expectedVisibility = Button.INVISIBLE;
+            } else {
+                expectedVisibility = Button.VISIBLE;
+            }
+
+            actualVisibility = pianoViewFragment.getBlackButton(i).getVisibility();
+
+            assertEquals(expectedVisibility, actualVisibility);
+        }
+    }
 }

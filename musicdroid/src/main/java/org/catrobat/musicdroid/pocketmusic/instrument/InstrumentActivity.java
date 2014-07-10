@@ -45,7 +45,6 @@ public abstract class InstrumentActivity extends Activity {
     }
 
     public void addNoteEvent(NoteEvent noteEvent) {
-
         track.addNoteEvent(tickThread.getNextTick(noteEvent), noteEvent);
         doAfterAddNoteEvent(noteEvent);
     }

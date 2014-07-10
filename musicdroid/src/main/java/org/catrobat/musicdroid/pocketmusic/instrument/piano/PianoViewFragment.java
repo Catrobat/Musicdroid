@@ -147,8 +147,8 @@ public  class PianoViewFragment extends Fragment {
     }
 
     public void disableBlackKey(int index) {
-        if(index <= blackButtons.size())
-            blackButtons.get(index - 1).setVisibility(View.INVISIBLE);
+        if((index < blackButtons.size()) && (index > 0))
+            blackButtons.get(index).setVisibility(View.INVISIBLE);
     }
 
     private View.OnTouchListener setOnTouchPianoKey(final NoteName noteName){
@@ -196,15 +196,33 @@ public  class PianoViewFragment extends Fragment {
             }
         });
     }
+
     private void addKeyPress(NoteEvent noteEvent) {
         PianoActivity pianoActivity = (PianoActivity) getActivity();
         pianoActivity.addNoteEvent(noteEvent);
     }
-    public ArrayList<Button> getBlackButtons(){
-        return blackButtons;
-    }
-    public ArrayList<Button> getWhiteButtons(){
-        return whiteButtons;
+
+    public Button getBlackButton(int index) {
+        if((index < blackButtons.size()) && (index >= 0)) {
+            return blackButtons.get(index);
+        }
+
+        return null;
     }
 
+    public int getBlackButtonCount() {
+        return blackButtons.size();
+    }
+
+    public Button getWhiteButton(int index) {
+        if((index < whiteButtons.size()) && (index >= 0)) {
+            return whiteButtons.get(index);
+        }
+
+        return null;
+    }
+
+    public int getWhiteButtonCount() {
+        return whiteButtons.size();
+    }
 }
