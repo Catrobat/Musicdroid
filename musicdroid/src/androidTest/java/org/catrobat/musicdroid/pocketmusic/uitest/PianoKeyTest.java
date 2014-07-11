@@ -56,7 +56,7 @@ public class PianoKeyTest extends ActivityInstrumentationTestCase2<PianoActivity
         int expectedTrackSize = clicks * 2;
 
         for (int i = 0; i < clicks; i++) {
-            solo.clickOnButton("C"); // TODO get rid of that "C"
+            solo.clickOnButton(0);
         }
 
         int actualTrackSize = pianoActivity.getTrack().size();
