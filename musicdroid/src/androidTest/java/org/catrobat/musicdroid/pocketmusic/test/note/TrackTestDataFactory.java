@@ -35,7 +35,7 @@ public final class TrackTestDataFactory {
 	}
 
 	public static Track createTrack() {
-		return createTrack(Track.DEFAULT_INSTRUMENT);
+		return createTrack(MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 	}
 
 	public static Track createTrack(MusicalInstrument instrument) {

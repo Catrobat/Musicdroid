@@ -35,6 +35,7 @@ import android.widget.ScrollView;
 
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
@@ -68,7 +69,7 @@ public class NoteSheetView extends ScrollView {
 	public NoteSheetView(Context context) {
 		super(context);
 		paint = new Paint();
-		track = new Track(MusicalKey.VIOLIN, Track.DEFAULT_INSTRUMENT); // TODO fw aus Settings auslesen
+		track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO); // TODO fw
 		long tick = 0;
 		NoteEvent note = new NoteEvent(NoteName.D4, true);
 		track.addNoteEvent(tick, note);

@@ -23,22 +23,28 @@
 
 package org.catrobat.musicdroid.pocketmusic.instrument.piano;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
+import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
+import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetViewFragment;
 import org.catrobat.musicdroid.pocketmusic.soundplayer.SoundPlayer;
 
 public class PianoActivity extends InstrumentActivity {
+
     private SoundPlayer soundPlayer;
     // TODO: fix orientation (NullPointerException on changing orientation)
     private NoteSheetViewFragment noteSheetViewFragment;
     private PianoViewFragment pianoViewFragment;
+
+    public PianoActivity() {
+        super(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
+    }
 
     public PianoViewFragment getPianoViewFragment() {
         return pianoViewFragment;
@@ -60,25 +66,23 @@ public class PianoActivity extends InstrumentActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.piano, menu);
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
         if (id == R.id.action_settings) {
             return true;
         }
-        return super.onOptionsItemSelected(item);
-    }
 
-    public SoundPlayer getSoundPlayer() {
-        return this.soundPlayer;
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void doAfterAddNoteEvent(NoteEvent noteEvent) {
         noteSheetViewFragment.redraw(getTrack());
     }
-
 }

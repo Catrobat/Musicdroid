@@ -34,7 +34,7 @@ public class TrackTest extends AndroidTestCase {
 	public void testGetInstrument() {
 		Track track = TrackTestDataFactory.createTrack();
 
-		assertEquals(Track.DEFAULT_INSTRUMENT, track.getInstrument());
+		assertEquals(MusicalInstrument.ACOUSTIC_GRAND_PIANO, track.getInstrument());
 	}
 
 	public void testAddNoteEvent1() {
@@ -110,7 +110,7 @@ public class TrackTest extends AndroidTestCase {
 
 	public void testToString() {
 		Track track = TrackTestDataFactory.createTrack();
-		String expectedString = "[Track] instrument=" + Track.DEFAULT_INSTRUMENT + " key=" + track.getKey() + " size="
+		String expectedString = "[Track] instrument=" + MusicalInstrument.ACOUSTIC_GRAND_PIANO + " key=" + track.getKey() + " size="
 				+ track.size();
 
 		assertEquals(expectedString, track.toString());

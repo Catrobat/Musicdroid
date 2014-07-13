@@ -35,7 +35,6 @@ import java.util.TreeSet;
  */
 public class Track implements Serializable {
 
-    public static final MusicalInstrument DEFAULT_INSTRUMENT = MusicalInstrument.ACOUSTIC_GRAND_PIANO;
     private static final long serialVersionUID = 7483021689872527955L;
 
     private MusicalInstrument instrument;
