@@ -1,0 +1,66 @@
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+
+check.dependsOn 'checkstyle'
+//check.dependsOn 'findbugs'
+check.dependsOn 'pmd'
+
+dependencies {
+    pmd 'net.sourceforge.pmd:pmd:5.1.1'
+}
+
+task checkstyle(type: Checkstyle) {
+    configFile file("${project.rootDir}/config/quality/checkstyle/checkstyle.xml")
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**', '**/build/**', '**/res/**'
+
+    classpath = files()
+
+    showViolations true
+    ignoreFailures false
+
+    reports {
+        xml.destination "build/reports/checkstyle.xml"
+    }
+}
+
+task findbugs(type: FindBugs) {
+    ignoreFailures = true
+    effort = "max"
+    reportLevel = "high"
+    excludeFilter = new File("${project.rootDir}/config/quality/findbugs/findbugs-filter.xml")
+    classes = files("$project.buildDir/classes")
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**', '**/build/**', '**/res/**'
+
+    reports {
+        xml {
+            destination "$project.buildDir/reports/findbugs/findbugs-${project.name}.xml"
+            xml.withMessages true
+        }
+    }
+
+    classpath = files()
+}
+
+task pmd(type: Pmd) {
+//    toolVersion = '5.1.1'
+    ruleSetFiles = files("${project.rootDir}/config/quality/pmd/pmd-ruleset.xml")
+    ignoreFailures = false
+    ruleSets = ['java-android', 'java-braces', 'java-empty', 'java-sunsecure', 'java-unusedcode', 'java-basic',
+                'java-strings', 'java-unnecessary']
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**', '**/build/**', '**/res/**'
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+        xml.destination "build/reports/pmd.xml"
+    }
+}

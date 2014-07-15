@@ -23,17 +23,18 @@
 
 package org.catrobat.musicdroid.pocketmusic.uitest;
 
-import android.test.InstrumentationTestCase;
 
-public abstract class BaseInstrumentationTestCase extends InstrumentationTestCase {
+import android.test.UiThreadTest;
 
-    @Override
-    protected void setUp() {
-        //this should be done for every test
+import org.catrobat.musicdroid.pocketmusic.PianoActivity;
+
+public class PianoActivityTest extends BaseActivityInstrumentationTestCase2<PianoActivity> {
+    public PianoActivityTest() {
+        super(PianoActivity.class);
     }
 
-    @Override
-    protected void tearDown() {
-        //this should be done for every test
+    @UiThreadTest
+    public void testToOpenTheProgram() {
+        assertTrue("Text not found", solo.searchText("Musicdroid"));
     }
 }
