@@ -68,6 +68,7 @@ public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoAct
         assertTrue(pianoViewFragment.getDisplayHeight() > MIN_HEIGHT);
         assertTrue(pianoViewFragment.getDisplayHeight() < MAX_HEIGHT);
     }
+    @UiThreadTest
     public void testCalculatePianoKeyPositions(){
         int blackKeyHeightScaleFactor = 6;
         int keyWidthScaleFactor = 0;
