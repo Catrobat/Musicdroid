@@ -49,17 +49,18 @@ public class PianoKeyTest extends ActivityInstrumentationTestCase2<PianoActivity
         solo.finishOpenedActivities();
     }
 
+    // TODO:if notesheetview is implemented, refactor testcase
+
     public void testPianoKeys(){
         solo.waitForActivity(PianoActivity.class);
-        int clicks = 7;
-        int expectedTrackSize = clicks * 2;
-
-        for (int i = 0; i < clicks; i++) {
-            solo.clickOnButton(0);
+        int numOfButtons = 12;
+        int counter;
+        for (counter = 0; counter < numOfButtons; counter++) {
+            solo.clickOnButton(counter);
         }
 
-        int actualTrackSize = pianoActivity.getTrack().size();
+        //int actualTrackSize = pianoActivity.getTrack().size();
 
-        assertEquals(expectedTrackSize, actualTrackSize);
+        assertEquals(counter, numOfButtons);
     }
 }
