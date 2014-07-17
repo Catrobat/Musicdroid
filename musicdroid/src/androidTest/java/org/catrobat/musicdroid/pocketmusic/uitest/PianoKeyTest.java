@@ -29,7 +29,6 @@ import android.test.InstrumentationTestCase;
 import android.util.Log;
 
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
-import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetViewFragment;
 
 public class PianoKeyTest extends ActivityInstrumentationTestCase2<PianoActivity> {
 

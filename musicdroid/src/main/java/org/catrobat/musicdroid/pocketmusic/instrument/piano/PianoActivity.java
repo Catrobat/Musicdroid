@@ -32,14 +32,10 @@ import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
-import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetViewFragment;
-import org.catrobat.musicdroid.pocketmusic.soundplayer.SoundPlayer;
 
 public class PianoActivity extends InstrumentActivity {
 
-    private SoundPlayer soundPlayer;
     // TODO: fix orientation (NullPointerException on changing orientation)
-    private NoteSheetViewFragment noteSheetViewFragment;
     private PianoViewFragment pianoViewFragment;
 
     public PianoActivity() {
@@ -56,9 +52,7 @@ public class PianoActivity extends InstrumentActivity {
         setContentView(R.layout.activity_piano);
 
         if (savedInstanceState == null) {
-            noteSheetViewFragment = new NoteSheetViewFragment();
             pianoViewFragment = new PianoViewFragment();
-            getFragmentManager().beginTransaction().add(R.id.container, noteSheetViewFragment).commit();
             getFragmentManager().beginTransaction().add(R.id.container, pianoViewFragment).commit();
         }
     }
@@ -83,6 +77,5 @@ public class PianoActivity extends InstrumentActivity {
 
     @Override
     protected void doAfterAddNoteEvent(NoteEvent noteEvent) {
-        noteSheetViewFragment.redraw(getTrack());
     }
 }

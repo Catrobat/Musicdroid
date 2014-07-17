@@ -25,13 +25,12 @@ package org.catrobat.musicdroid.pocketmusic.note;
 
 import java.util.Arrays;
 
-/**
- * Created by Andrej on 23.06.2014.
- */
 public final class Octave {
 
     public static final int NUMBER_OF_HALF_TONE_STEPS_PER_OCTAVE = 12;
     public static final int NUMBER_OF_UNSIGNED_HALF_TONE_STEPS_PER_OCTAVE = 7;
+    // TODO fw rename this
+    public static int DEFAULT_INACTIVE_BLACK_KEY = 3;
 
     private NoteName[] noteNames;
 

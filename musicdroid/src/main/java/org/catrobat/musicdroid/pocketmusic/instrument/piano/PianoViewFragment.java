@@ -12,29 +12,28 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.Octave;
-import org.catrobat.musicdroid.pocketmusic.properties.PianoProperties;
-import org.catrobat.musicdroid.pocketmusic.soundplayer.SoundPlayer;
 
 import java.util.ArrayList;
 
 public  class PianoViewFragment extends Fragment {
 
+    public static int DEFAULT_BLACK_KEY_WIDTH_SCALE_FACTOR = 6;
+    public static int DEFAULT_PIANO_KEY_HEIGHT_SCALE_FACTOR = 0;
+
+    public static int X_POS = 0;
+    public static int Y_POS = 1;
+
     private ArrayList<Button> whiteButtons;
     private ArrayList<Button> blackButtons;
-    private SoundPlayer soundPlayer;
     private NoteName[] noteNames;
-
-
 
     public PianoViewFragment() {
         whiteButtons = new ArrayList<>();
         blackButtons = new ArrayList<>();
-        soundPlayer = new SoundPlayer(getActivity());
 
         Octave octave = Octave.createOneLineOctave();
         noteNames = octave.getNoteNames();
@@ -48,17 +47,16 @@ public  class PianoViewFragment extends Fragment {
 
         findViewsById(rootView);
 
-        calculatePianoKeyPositions(PianoProperties.DEFAULT_PIANO_KEY_HEIGHT_SCALE_FACTOR,
-                PianoProperties.DEFAULT_BLACK_KEY_WIDTH_SCALE_FACTOR);
+        calculatePianoKeyPositions(DEFAULT_PIANO_KEY_HEIGHT_SCALE_FACTOR,
+                DEFAULT_BLACK_KEY_WIDTH_SCALE_FACTOR);
 
-        disableBlackKey(PianoProperties.DEFAULT_INACTIVE_BLACK_KEY);
+        disableBlackKey(Octave.DEFAULT_INACTIVE_BLACK_KEY);
 
         // TODO: optimize touch events
         setOnTouchListeners();
         return rootView;
-
-
     }
+
     private void setOnTouchListeners(){
         int j = 0;
         for(int i = 0; i < whiteButtons.size(); i++){
@@ -106,16 +104,16 @@ public  class PianoViewFragment extends Fragment {
     }
 
     public int getDisplayWidth() {
-        return initializeDisplay()[PianoProperties.X_POS];
+        return initializeDisplay()[X_POS];
     }
 
     public int getDisplayHeight() {
-        return initializeDisplay()[PianoProperties.Y_POS];
+        return initializeDisplay()[Y_POS];
     }
 
     public void calculatePianoKeyPositions(int pianoKeyWidthScaleFactor, int pianoBlackKeyHeightScaleFactor) {
 
-        int buttonWidth = getDisplayWidth() / (PianoProperties.WHITE_BUTTONS_PER_OCT + pianoKeyWidthScaleFactor);
+        int buttonWidth = getDisplayWidth() / (Octave.NUMBER_OF_UNSIGNED_HALF_TONE_STEPS_PER_OCTAVE + pianoKeyWidthScaleFactor);
 
         ArrayList<RelativeLayout.LayoutParams> blackKeyLayoutParams = new ArrayList<>();
         ArrayList<RelativeLayout.LayoutParams> whiteKeyLayoutParams = new ArrayList<>();
@@ -163,7 +161,6 @@ public  class PianoViewFragment extends Fragment {
                     view.setX(view.getX()+5);
 
                     addKeyPress(new NoteEvent(noteName, true));
-                    //  toggleSoundOn(noteName);
 
                 } else if (isUpActionEvent(event)) {
 
@@ -171,20 +168,9 @@ public  class PianoViewFragment extends Fragment {
                     view.setX(view.getX()-5);
 
                     addKeyPress(new NoteEvent(noteName, false));
-                    //  toggleSoundOff(noteName);
                 }
 
                 return true;
-            }
-
-            private void toggleSoundOn(NoteName noteName) {
-                if (!soundPlayer.isNotePlaying(noteName.getMidi())) {
-                    soundPlayer.playNote(noteName.getMidi());
-                }
-            }
-
-            private void toggleSoundOff(NoteName noteName) {
-                soundPlayer.stopNote(noteName.getMidi());
             }
 
             private boolean isDownActionEvent(MotionEvent event) {
