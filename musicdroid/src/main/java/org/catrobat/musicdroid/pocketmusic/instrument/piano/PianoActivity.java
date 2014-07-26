@@ -24,7 +24,6 @@
 package org.catrobat.musicdroid.pocketmusic.instrument.piano;
 
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -88,13 +87,13 @@ public class PianoActivity extends InstrumentActivity {
 
     private void onActionSave() {
         ProjectToMidiConverter converter = new ProjectToMidiConverter();
-        // TODO 60 und Environment.getExternal...
-        Project project = new Project(60);
+        Project project = new Project(Project.DEFAULT_BEATS_PER_MINUTE);
 
         project.addTrack(getTrack());
 
         try {
-            converter.convertProjectAndWriteMidi(project, Environment.getExternalStorageDirectory().toString() + "/musicdroid/Durp1.midi");
+            // TODO change the static string Durp1.midi
+            converter.convertProjectAndWriteMidi(project, "Durp1.midi");
 
             Toast.makeText(getBaseContext(), R.string.action_export_midi_success,
                     Toast.LENGTH_LONG).show();

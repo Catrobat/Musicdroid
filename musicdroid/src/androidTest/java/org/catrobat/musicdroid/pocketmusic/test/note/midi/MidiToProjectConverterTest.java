@@ -38,14 +38,15 @@ public class MidiToProjectConverterTest extends AndroidTestCase {
 
     // TODO fw add me again
 	/*public void testConvertMidi() throws MidiException, IOException {
-        String midiFileAbsolutePath = Environment.getExternalStorageDirectory()
-                .getAbsoluteFile() + File.separator + "TestMidi.midi";
+        String fileName = "TestMidi.midi";
+        String midiFileAbsolutePath = ProjectToMidiConverter.MIDI_FOLDER + fileName;
+
 		ProjectToMidiConverter projectConverter = new ProjectToMidiConverter();
 		MidiToProjectConverter midiConverter = new MidiToProjectConverter();
 		Project expectedProject = ProjectTestDataFactory.createProjectWithSemiComplexTracks();
 
         try {
-            projectConverter.convertProjectAndWriteMidi(expectedProject, midiFileAbsolutePath);
+            projectConverter.convertProjectAndWriteMidi(expectedProject, fileName);
             Project actualProject = midiConverter.readFileAndConvertMidi(new File(midiFileAbsolutePath));
 
             assertEquals(expectedProject, actualProject);

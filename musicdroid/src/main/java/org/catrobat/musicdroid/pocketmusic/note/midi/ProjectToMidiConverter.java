@@ -22,6 +22,8 @@
  */
 package org.catrobat.musicdroid.pocketmusic.note.midi;
 
+import android.os.Environment;
+
 import com.leff.midi.MidiFile;
 import com.leff.midi.MidiTrack;
 import com.leff.midi.event.ChannelEvent;
@@ -43,6 +45,7 @@ import java.util.List;
 public class ProjectToMidiConverter {
 
 	public static final String MIDI_FILE_IDENTIFIER = "Musicdroid Midi File";
+    public static final String MIDI_FOLDER = Environment.getExternalStorageDirectory().toString() + File.separator + "musicdroid" + File.separator;
 
 	private static final int MAX_CHANNEL = 16;
 
@@ -54,10 +57,10 @@ public class ProjectToMidiConverter {
 		usedChannels = new ArrayList<MusicalInstrument>();
 	}
 
-	public void convertProjectAndWriteMidi(Project project, String absoluteFilePathAndName) throws IOException, MidiException {
+	public void convertProjectAndWriteMidi(Project project, String fileName) throws IOException, MidiException {
 		MidiFile midi = convertProject(project);
 
-		File file = new File(absoluteFilePathAndName);
+		File file = new File(MIDI_FOLDER + fileName);
 		midi.writeToFile(file);
 	}
 
