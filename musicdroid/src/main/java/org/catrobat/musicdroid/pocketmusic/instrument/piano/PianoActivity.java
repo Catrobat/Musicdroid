@@ -24,14 +24,18 @@
 package org.catrobat.musicdroid.pocketmusic.instrument.piano;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
+import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 
 public class PianoActivity extends InstrumentActivity {
 
@@ -70,6 +74,9 @@ public class PianoActivity extends InstrumentActivity {
 
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.action_export_midi) {
+            onActionSave();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -77,5 +84,23 @@ public class PianoActivity extends InstrumentActivity {
 
     @Override
     protected void doAfterAddNoteEvent(NoteEvent noteEvent) {
+    }
+
+    private void onActionSave() {
+        ProjectToMidiConverter converter = new ProjectToMidiConverter();
+        // TODO 60 und Environment.getExternal...
+        Project project = new Project(60);
+
+        project.addTrack(getTrack());
+
+        try {
+            converter.convertProjectAndWriteMidi(project, Environment.getExternalStorageDirectory().toString() + "/musicdroid/Durp1.midi");
+
+            Toast.makeText(getBaseContext(), R.string.action_export_midi_success,
+                    Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(getBaseContext(), R.string.action_export_midi_error,
+                    Toast.LENGTH_LONG).show();
+        }
     }
 }

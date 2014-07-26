@@ -22,9 +22,10 @@
   -->
 
 <resources >
-
-    <string name="app_name" >Musicdroid</string >
-    <string name="hello_world" >Hello world!</string >
-    <string name="action_settings" >Settings</string >
-
+  <string name="app_name">Musicdroid</string>
+  <string name="hello_world">Hello world!</string>
+  <string name="action_settings">Settings</string>
+  <string name="action_export_midi_title">Save</string>
+  <string name="action_export_midi_success">Export successful</string>
+  <string name="action_export_midi_error">Export failed</string>
 </resources >
