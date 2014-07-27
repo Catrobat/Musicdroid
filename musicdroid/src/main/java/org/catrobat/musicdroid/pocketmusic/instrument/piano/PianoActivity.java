@@ -38,6 +38,7 @@ import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 
 public class PianoActivity extends InstrumentActivity {
 
+    // TODO fw tests
     // TODO: fix orientation (NullPointerException on changing orientation)
     private PianoViewFragment pianoViewFragment;
 
@@ -74,7 +75,10 @@ public class PianoActivity extends InstrumentActivity {
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_export_midi) {
-            onActionSave();
+            onActionExportMidi();
+            return true;
+        } else if (id == R.id.action_clear_track) {
+            onActionClearTrack();
             return true;
         }
 
@@ -85,7 +89,7 @@ public class PianoActivity extends InstrumentActivity {
     protected void doAfterAddNoteEvent(NoteEvent noteEvent) {
     }
 
-    private void onActionSave() {
+    public void onActionExportMidi() {
         ProjectToMidiConverter converter = new ProjectToMidiConverter();
         Project project = new Project(Project.DEFAULT_BEATS_PER_MINUTE);
 
@@ -101,5 +105,12 @@ public class PianoActivity extends InstrumentActivity {
             Toast.makeText(getBaseContext(), R.string.action_export_midi_error,
                     Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void onActionClearTrack() {
+        clearTrack();
+
+        Toast.makeText(getBaseContext(), R.string.action_clear_track_success,
+                Toast.LENGTH_LONG).show();
     }
 }

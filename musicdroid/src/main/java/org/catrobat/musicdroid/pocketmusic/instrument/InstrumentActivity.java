@@ -33,6 +33,8 @@ import org.catrobat.musicdroid.pocketmusic.note.Track;
 
 public abstract class InstrumentActivity extends Activity {
 
+    // TODO fw tests
+
     private AbstractTickThread tickThread;
     private Track track;
 
@@ -43,6 +45,13 @@ public abstract class InstrumentActivity extends Activity {
 
     public Track getTrack() {
         return track;
+    }
+
+    public void clearTrack() {
+        MusicalKey currentKey = track.getKey();
+        MusicalInstrument currentInstrument = track.getInstrument();
+
+        track = new Track(currentKey, currentInstrument);
     }
 
     public void addNoteEvent(NoteEvent noteEvent) {
