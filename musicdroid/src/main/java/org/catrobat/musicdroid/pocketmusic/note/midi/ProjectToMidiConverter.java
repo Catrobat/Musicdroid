@@ -45,6 +45,7 @@ import java.util.List;
 public class ProjectToMidiConverter {
 
 	public static final String MIDI_FILE_IDENTIFIER = "Musicdroid Midi File";
+    // TODO: mkdir musicdroid?
     public static final String MIDI_FOLDER = Environment.getExternalStorageDirectory().toString() + File.separator + "musicdroid" + File.separator;
 
 	private static final int MAX_CHANNEL = 16;

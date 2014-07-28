@@ -32,6 +32,10 @@ import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 
 public class PianoActivityKeyTest extends PianoActivityTest{
 
+    @Override
+    protected void setUp() {
+        super.setUp();
+    }
 
     // TODO:if notesheetview is implemented, refactor testcase
     public void testPianoKeys(){
@@ -45,5 +49,9 @@ public class PianoActivityKeyTest extends PianoActivityTest{
         //int actualTrackSize = pianoActivity.getTrack().size();
 
         assertEquals(counter, numOfButtons);
+    }
+
+    protected void tearDown() {
+        super.tearDown();
     }
 }

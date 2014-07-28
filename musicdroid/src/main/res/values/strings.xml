@@ -31,7 +31,7 @@
     <string name="action_clear_track_title">Clear track</string>
     <string name="action_clear_track_success">Track cleared</string>
     <string name="action_export_dialog_positive_button" >OK</string >
-    <string name="action_export_dialog_negative_button" >cancel</string >
+    <string name="action_export_dialog_negative_button" >CANCEL</string >
     <string name="action_export_dialog_title" >Export Midi</string >
     <string name="action_export_dialog_message" >Please enter the file name:</string >
     <string name="action_export_dialog_wrong_file_name" >The file name is not allowed!</string >

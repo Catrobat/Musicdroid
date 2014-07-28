@@ -23,27 +23,65 @@
 
 package org.catrobat.musicdroid.pocketmusic.uitest;
 
-import com.robotium.solo.Solo;
+import android.os.Environment;
 
-import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
-import org.catrobat.musicdroid.pocketmusic.test.instrument.piano.*;
+import org.catrobat.musicdroid.pocketmusic.R;
+
+import java.io.File;
 
 /**
  * Created by Andrej on 28.07.2014.
  */
 public class PianoActivityMenuTest extends PianoActivityTest {
+    private String filePath = Environment.getExternalStorageDirectory().toString()
+            + File.separator + "musicdroid" + File.separator;
+    private String[] exportTestFileNames = {"testfile.midi", ".midi", "testfile.midis"};
 
-    public PianoActivityMenuTest(){
+    public PianoActivityMenuTest() {
         super();
     }
+
     @Override
     protected void setUp() {
-       super.setUp();
+        super.setUp();
     }
-    public void testExportMidi1(){
+
+    public void testExportMidi() {
+        exportMidiProcedure(exportTestFileNames[0], true, true);
+        exportMidiProcedure(exportTestFileNames[1], false, true);
+        exportMidiProcedure(exportTestFileNames[2], false, true);
+        removeAllExportTestfiles();
+        exportMidiProcedure(exportTestFileNames[0], false, false);
+    }
+
+
+    private void removeAllExportTestfiles() {
+        for (int i = 0; i < exportTestFileNames.length; i++) {
+            File file = new File(filePath, exportTestFileNames[i]);
+            file.delete();
+        }
+    }
+
+    private void exportMidiProcedure(String filename, boolean fileShouldBePresent, boolean clickOnSaveButton) {
         solo.pressMenuItem(1);
-        solo.clickOnMenuItem("Export as MIDI");
+        solo.clickOnMenuItem(pianoActivity.getString(R.string.action_export_midi_title));
+        solo.waitForDialogToOpen();
+        solo.clearEditText(pianoActivity.getDialogFileNameField());
+        solo.enterText(pianoActivity.getDialogFileNameField(), filename);
+        if(clickOnSaveButton)
+            solo.clickOnButton(pianoActivity.getString(R.string.action_export_dialog_positive_button));
+        else
+            solo.clickOnButton(pianoActivity.getString(R.string.action_export_dialog_negative_button));
+        if (fileShouldBePresent)
+            solo.waitForText(pianoActivity.getString(R.string.action_export_midi_success));
+        File file = new File(filePath, filename);
+        if (file.exists()) {
+            assertTrue(fileShouldBePresent);
+        } else {
+            assertTrue(!fileShouldBePresent);
+        }
     }
+
     @Override
     protected void tearDown() {
         super.tearDown();

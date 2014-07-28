@@ -45,6 +45,7 @@ public class PianoActivity extends InstrumentActivity {
     // TODO: fix orientation (NullPointerException on changing orientation)
     private PianoViewFragment pianoViewFragment;
     private final String MIDI_FILE_EXTENSION = ".midi";
+    private EditText dialogFileNameField;
 
     public PianoActivity() {
         super(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
@@ -58,11 +59,12 @@ public class PianoActivity extends InstrumentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_piano);
-
         if (savedInstanceState == null) {
             pianoViewFragment = new PianoViewFragment();
             getFragmentManager().beginTransaction().add(R.id.container, pianoViewFragment).commit();
         }
+
+
     }
 
     @Override
@@ -75,9 +77,7 @@ public class PianoActivity extends InstrumentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.action_export_midi) {
+        if (id == R.id.action_export_midi) {
             onActionExportMidi();
             return true;
         } else if (id == R.id.action_clear_track) {
@@ -92,21 +92,21 @@ public class PianoActivity extends InstrumentActivity {
 
         final ProjectToMidiConverter converter = new ProjectToMidiConverter();
         final Project project = new Project(Project.DEFAULT_BEATS_PER_MINUTE);
-        final EditText fileNameField = new EditText(this);
-
-        fileNameField.setText(MIDI_FILE_EXTENSION);
+        dialogFileNameField = new EditText(this);
+        dialogFileNameField.setText(MIDI_FILE_EXTENSION);
         project.addTrack(getTrack());
 
-        new AlertDialog.Builder(this)
-                .setTitle(getString(R.string.action_export_dialog_title))
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(getString(R.string.action_export_dialog_title))
                 .setMessage(getString(R.string.action_export_dialog_message))
-                .setView(fileNameField)
+                .setView(dialogFileNameField)
+                .setCancelable(false)
                 .setPositiveButton(R.string.action_export_dialog_positive_button,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 try {
-                                    String fileName = fileNameField.getText().toString();
+                                    String fileName = dialogFileNameField.getText().toString();
                                     if (fileName.equals(MIDI_FILE_EXTENSION) ||
                                             !fileName.endsWith(MIDI_FILE_EXTENSION)) {
                                         Toast.makeText(getBaseContext(),
@@ -122,16 +122,18 @@ public class PianoActivity extends InstrumentActivity {
                                             Toast.LENGTH_LONG).show();
 
                                 } catch (Exception e) {
-
+                                    e.printStackTrace();
                                     Toast.makeText(getBaseContext(), R.string.action_export_midi_error,
                                             Toast.LENGTH_LONG).show();
 
                                 }
+
                             }
                         }
                 )
-                .setNegativeButton(R.string.action_export_dialog_negative_button, null)
-                .show();
+                .setNegativeButton(R.string.action_export_dialog_negative_button, null);
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
 
     }
 
@@ -144,5 +146,10 @@ public class PianoActivity extends InstrumentActivity {
 
     @Override
     protected void doAfterAddNoteEvent(NoteEvent noteEvent) {
+    }
+
+    // TODO: for tcs, better solution?
+    public EditText getDialogFileNameField() {
+        return dialogFileNameField;
     }
 }
