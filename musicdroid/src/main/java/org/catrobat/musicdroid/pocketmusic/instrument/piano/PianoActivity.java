@@ -23,9 +23,12 @@
 
 package org.catrobat.musicdroid.pocketmusic.instrument.piano;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
@@ -41,6 +44,7 @@ public class PianoActivity extends InstrumentActivity {
     // TODO fw tests
     // TODO: fix orientation (NullPointerException on changing orientation)
     private PianoViewFragment pianoViewFragment;
+    private final String MIDI_FILE_EXTENSION = ".midi";
 
     public PianoActivity() {
         super(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
@@ -64,7 +68,6 @@ public class PianoActivity extends InstrumentActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.piano, menu);
-
         return true;
     }
 
@@ -85,26 +88,51 @@ public class PianoActivity extends InstrumentActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void doAfterAddNoteEvent(NoteEvent noteEvent) {
-    }
-
     public void onActionExportMidi() {
-        ProjectToMidiConverter converter = new ProjectToMidiConverter();
-        Project project = new Project(Project.DEFAULT_BEATS_PER_MINUTE);
 
+        final ProjectToMidiConverter converter = new ProjectToMidiConverter();
+        final Project project = new Project(Project.DEFAULT_BEATS_PER_MINUTE);
+        final EditText fileNameField = new EditText(this);
+
+        fileNameField.setText(MIDI_FILE_EXTENSION);
         project.addTrack(getTrack());
 
-        try {
-            // TODO change the static string Durp1.midi
-            converter.convertProjectAndWriteMidi(project, "Durp1.midi");
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.action_export_dialog_title))
+                .setMessage(getString(R.string.action_export_dialog_message))
+                .setView(fileNameField)
+                .setPositiveButton(R.string.action_export_dialog_positive_button,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                try {
+                                    String fileName = fileNameField.getText().toString();
+                                    if (fileName.equals(MIDI_FILE_EXTENSION) ||
+                                            !fileName.endsWith(MIDI_FILE_EXTENSION)) {
+                                        Toast.makeText(getBaseContext(),
+                                                getString(R.string.action_export_dialog_wrong_file_name),
+                                                Toast.LENGTH_LONG).show();
+                                        return;
+                                    }
 
-            Toast.makeText(getBaseContext(), R.string.action_export_midi_success,
-                    Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            Toast.makeText(getBaseContext(), R.string.action_export_midi_error,
-                    Toast.LENGTH_LONG).show();
-        }
+                                    converter.convertProjectAndWriteMidi(project, fileName
+                                    );
+
+                                    Toast.makeText(getBaseContext(), R.string.action_export_midi_success,
+                                            Toast.LENGTH_LONG).show();
+
+                                } catch (Exception e) {
+
+                                    Toast.makeText(getBaseContext(), R.string.action_export_midi_error,
+                                            Toast.LENGTH_LONG).show();
+
+                                }
+                            }
+                        }
+                )
+                .setNegativeButton(R.string.action_export_dialog_negative_button, null)
+                .show();
+
     }
 
     public void onActionClearTrack() {
@@ -112,5 +140,9 @@ public class PianoActivity extends InstrumentActivity {
 
         Toast.makeText(getBaseContext(), R.string.action_clear_track_success,
                 Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void doAfterAddNoteEvent(NoteEvent noteEvent) {
     }
 }

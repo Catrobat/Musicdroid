@@ -131,7 +131,7 @@ public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoAct
     }
 
     private void assertButtonVisibilityPianoLayout() {
-        int expectedVisibility = 0;
+        int expectedVisibility = 0 ;
         int actualVisibility = 0;
 
         for (int i = 0; i < pianoViewFragment.getBlackButtonCount(); i++) {

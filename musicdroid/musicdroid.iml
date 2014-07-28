@@ -61,9 +61,9 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 19 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="the-missing-android-xml-junit-test-runner-release-1.3_2" level="project" />
-    <orderEntry type="library" exported="" name="robotium-solo-5.1" level="project" />
     <orderEntry type="library" exported="" name="android-midi-libv3-1-42" level="project" />
+    <orderEntry type="library" exported="" name="robotium-solo-5.1" level="project" />
+    <orderEntry type="library" exported="" name="the-missing-android-xml-junit-test-runner-release-1.3_2" level="project" />
   </component>
 </module>
 
