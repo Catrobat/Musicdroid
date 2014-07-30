@@ -62,8 +62,6 @@ public class PianoActivity extends InstrumentActivity {
             pianoViewFragment = new PianoViewFragment();
             getFragmentManager().beginTransaction().add(R.id.container, pianoViewFragment).commit();
         }
-
-
     }
 
     @Override
