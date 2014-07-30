@@ -41,10 +41,9 @@ import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 
 public class PianoActivity extends InstrumentActivity {
 
-    // TODO fw tests
+    // TODO fw tests (test/uiTest)
     // TODO: fix orientation (NullPointerException on changing orientation)
     private PianoViewFragment pianoViewFragment;
-    private final String MIDI_FILE_EXTENSION = ".midi";
     private EditText dialogFileNameField;
 
     public PianoActivity() {
@@ -93,7 +92,7 @@ public class PianoActivity extends InstrumentActivity {
         final ProjectToMidiConverter converter = new ProjectToMidiConverter();
         final Project project = new Project(Project.DEFAULT_BEATS_PER_MINUTE);
         dialogFileNameField = new EditText(this);
-        dialogFileNameField.setText(MIDI_FILE_EXTENSION);
+        dialogFileNameField.setText(ProjectToMidiConverter.MIDI_FILE_EXTENSION);
         project.addTrack(getTrack());
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -107,8 +106,8 @@ public class PianoActivity extends InstrumentActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 try {
                                     String fileName = dialogFileNameField.getText().toString();
-                                    if (fileName.equals(MIDI_FILE_EXTENSION) ||
-                                            !fileName.endsWith(MIDI_FILE_EXTENSION)) {
+                                    if (fileName.equals(ProjectToMidiConverter.MIDI_FILE_EXTENSION) ||
+                                            !fileName.endsWith(ProjectToMidiConverter.MIDI_FILE_EXTENSION)) {
                                         Toast.makeText(getBaseContext(),
                                                 getString(R.string.action_export_dialog_wrong_file_name),
                                                 Toast.LENGTH_LONG).show();

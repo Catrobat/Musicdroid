@@ -44,8 +44,8 @@ import java.util.List;
 
 public class ProjectToMidiConverter {
 
+    public static final String MIDI_FILE_EXTENSION = ".midi";
 	public static final String MIDI_FILE_IDENTIFIER = "Musicdroid Midi File";
-    // TODO: mkdir musicdroid?
     public static final String MIDI_FOLDER = Environment.getExternalStorageDirectory().toString() + File.separator + "musicdroid" + File.separator;
 
 	private static final int MAX_CHANNEL = 16;
@@ -58,10 +58,23 @@ public class ProjectToMidiConverter {
 		usedChannels = new ArrayList<MusicalInstrument>();
 	}
 
+    // TODO fw test me
 	public void convertProjectAndWriteMidi(Project project, String fileName) throws IOException, MidiException {
 		MidiFile midi = convertProject(project);
 
+        File folder = new File(MIDI_FOLDER);
+
+        if (!folder.exists()) {
+            boolean success = folder.mkdir();
+
+            if (!success) {
+                throw new IOException("Could not create folder: " + MIDI_FOLDER);
+            }
+        }
+
 		File file = new File(MIDI_FOLDER + fileName);
+
+
 		midi.writeToFile(file);
 	}
 

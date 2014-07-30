@@ -68,6 +68,7 @@ public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoAct
         assertTrue(pianoViewFragment.getDisplayHeight() > MIN_HEIGHT);
         assertTrue(pianoViewFragment.getDisplayHeight() < MAX_HEIGHT);
     }
+
     @UiThreadTest
     public void testCalculatePianoKeyPositions(){
         int blackKeyHeightScaleFactor = 6;
@@ -106,20 +107,12 @@ public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoAct
 
     @UiThreadTest
     public void testDisableBlackKey3(){
-        try {
-            disableKeyAndAssert(100);
-            fail();
-        } catch (Exception e) {
-        }
+        disableKeyAndAssert(100);
     }
 
     @UiThreadTest
     public void testDisableBlackKey4(){
-        try {
-            disableKeyAndAssert(-1);
-            fail();
-        } catch (Exception e) {
-        }
+        disableKeyAndAssert(-1);
     }
 
     private void disableKeyAndAssert(int index) {
@@ -127,11 +120,15 @@ public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoAct
 
         pianoViewFragment.disableBlackKey(index);
 
-        assertEquals(pianoViewFragment.getBlackButton(index).getVisibility(), Button.INVISIBLE);
+        Button button = pianoViewFragment.getBlackButton(index);
+
+        if (button != null) {
+            assertEquals(button.getVisibility(), Button.INVISIBLE);
+        }
     }
 
     private void assertButtonVisibilityPianoLayout() {
-        int expectedVisibility = 0 ;
+        int expectedVisibility = 0;
         int actualVisibility = 0;
 
         for (int i = 0; i < pianoViewFragment.getBlackButtonCount(); i++) {
