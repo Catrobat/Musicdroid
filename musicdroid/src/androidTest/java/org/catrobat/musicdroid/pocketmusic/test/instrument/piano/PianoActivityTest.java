@@ -97,25 +97,25 @@ public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoAct
 
     @UiThreadTest
     public void testDisableBlackKey1(){
-        disableKeyAndAssert(1);
+        disableKeyAndAssertVisibility(1);
     }
 
     @UiThreadTest
     public void testDisableBlackKey2(){
-        disableKeyAndAssert(3);
+        disableKeyAndAssertVisibility(3);
     }
 
     @UiThreadTest
     public void testDisableBlackKey3(){
-        disableKeyAndAssert(100);
+        disableKeyAndAssertVisibility(100);
     }
 
     @UiThreadTest
     public void testDisableBlackKey4(){
-        disableKeyAndAssert(-1);
+        disableKeyAndAssertVisibility(-1);
     }
 
-    private void disableKeyAndAssert(int index) {
+    private void disableKeyAndAssertVisibility(int index) {
         assertButtonVisibilityPianoLayout();
 
         pianoViewFragment.disableBlackKey(index);

@@ -22,7 +22,6 @@
  */
 package org.catrobat.musicdroid.pocketmusic.test.note.midi;
 
-import android.os.Environment;
 import android.test.AndroidTestCase;
 
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
@@ -36,10 +35,9 @@ import java.io.IOException;
 
 public class MidiToProjectConverterTest extends AndroidTestCase {
 
-    // TODO fw add me again
-	/*public void testConvertMidi() throws MidiException, IOException {
-        String fileName = "TestMidi.midi";
-        String midiFileAbsolutePath = ProjectToMidiConverter.MIDI_FOLDER + fileName;
+	public void testConvertMidi() throws MidiException, IOException {
+        String fileName = "TestMidi";
+        String midiFileAbsolutePath = ProjectToMidiConverter.MIDI_FOLDER + fileName + ProjectToMidiConverter.MIDI_FILE_EXTENSION;
 
 		ProjectToMidiConverter projectConverter = new ProjectToMidiConverter();
 		MidiToProjectConverter midiConverter = new MidiToProjectConverter();
@@ -56,5 +54,5 @@ public class MidiToProjectConverterTest extends AndroidTestCase {
             File file = new File(midiFileAbsolutePath);
             file.delete();
         }
-	}*/
+	}
 }

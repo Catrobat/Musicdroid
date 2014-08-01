@@ -23,7 +23,9 @@
 package org.catrobat.musicdroid.pocketmusic.instrument;
 
 import android.app.Activity;
+import android.view.MenuItem;
 
+import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.tempo.AbstractTickThread;
 import org.catrobat.musicdroid.pocketmusic.instrument.tempo.SimpleTickThread;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
@@ -32,8 +34,6 @@ import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 
 public abstract class InstrumentActivity extends Activity {
-
-    // TODO fw tests
 
     private AbstractTickThread tickThread;
     private Track track;
@@ -47,16 +47,26 @@ public abstract class InstrumentActivity extends Activity {
         return track;
     }
 
-    public void clearTrack() {
-        MusicalKey currentKey = track.getKey();
-        MusicalInstrument currentInstrument = track.getInstrument();
-
-        track = new Track(currentKey, currentInstrument);
-    }
-
     public void addNoteEvent(NoteEvent noteEvent) {
         track.addNoteEvent(tickThread.getNextTick(noteEvent), noteEvent);
         doAfterAddNoteEvent(noteEvent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_export_midi) {
+            onActionExportMidi();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    protected void onActionExportMidi() {
+        MidiExportHelper helper = new MidiExportHelper(this);
+        helper.promptUserForFilename();
     }
 
     protected abstract void doAfterAddNoteEvent(NoteEvent noteEvent);
