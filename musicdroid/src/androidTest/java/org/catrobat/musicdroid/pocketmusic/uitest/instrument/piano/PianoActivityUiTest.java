@@ -30,6 +30,7 @@ import com.robotium.solo.Solo;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
+import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 
 import java.io.File;
 
@@ -37,10 +38,6 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
     private PianoActivity pianoActivity;
     private Solo solo;
-
-    private String filePath = Environment.getExternalStorageDirectory().toString()
-            + File.separator + "musicdroid" + File.separator;
-    private String[] exportTestFileNames = {"testfile.midi", ".midi", "testfile.midis"};
 
     public PianoActivityUiTest() {
         super(PianoActivity.class);
@@ -71,40 +68,63 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         assertEquals(counter, numOfButtons);
     }
 
-    public void testExportMidi() {
-        exportMidiProcedure(exportTestFileNames[0], true, true);
-        exportMidiProcedure(exportTestFileNames[1], false, true);
-        exportMidiProcedure(exportTestFileNames[2], false, true);
-        removeAllExportTestfiles();
-        exportMidiProcedure(exportTestFileNames[0], false, false);
+    public void testExportMidi1() {
+        String filename = "music";
+        boolean saveFile = true;
+        boolean expectedFileExists = true;
+
+        exportMidi(filename, saveFile);
+
+        assertFileExists(filename, expectedFileExists);
+
+        removeFile(filename);
     }
 
+    public void testExportMidi2() {
+        String filename = "";
+        boolean saveFile = true;
+        boolean expectedFileExists = false;
 
-    private void removeAllExportTestfiles() {
-        for (int i = 0; i < exportTestFileNames.length; i++) {
-            File file = new File(filePath, exportTestFileNames[i]);
-            file.delete();
-        }
+        exportMidi(filename, saveFile);
+
+        assertFileExists(filename, expectedFileExists);
+
+        removeFile(filename);
     }
 
-    // TODO fw fix me
-    private void exportMidiProcedure(String filename, boolean fileShouldBePresent, boolean clickOnSaveButton) {
-        /*solo.pressMenuItem(1);
+    public void testExportMidi3() {
+        String filename = "music";
+        boolean saveFile = false;
+        boolean expectedFileExists = false;
+
+        exportMidi(filename, saveFile);
+
+        assertFileExists(filename, expectedFileExists);
+    }
+
+    private void removeFile(String filename) {
+        File file = new File(ProjectToMidiConverter.MIDI_FOLDER, filename + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
+        file.delete();
+    }
+
+    private void assertFileExists(String filename, boolean expectedExistResult) {
+        File file = new File(ProjectToMidiConverter.MIDI_FOLDER, filename + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
+
+        assertEquals(expectedExistResult, file.exists());
+    }
+
+    private void exportMidi(String filename, boolean clickOnSaveButton) {
+        solo.pressMenuItem(1);
         solo.clickOnMenuItem(pianoActivity.getString(R.string.action_export_midi_title));
         solo.waitForDialogToOpen();
-        solo.clearEditText(pianoActivity.getDialogFileNameField());
-        solo.enterText(pianoActivity.getDialogFileNameField(), filename);
-        if(clickOnSaveButton)
+        solo.clearEditText(pianoActivity.getEditTextMidiExportNameDialogPrompt());
+        solo.enterText(pianoActivity.getEditTextMidiExportNameDialogPrompt(), filename);
+
+        if(clickOnSaveButton) {
             solo.clickOnButton(pianoActivity.getString(R.string.action_export_dialog_positive_button));
-        else
-            solo.clickOnButton(pianoActivity.getString(R.string.action_export_dialog_negative_button));
-        if (fileShouldBePresent)
             solo.waitForText(pianoActivity.getString(R.string.action_export_midi_success));
-        File file = new File(filePath, filename);
-        if (file.exists()) {
-            assertTrue(fileShouldBePresent);
         } else {
-            assertTrue(!fileShouldBePresent);
-        }*/
+            solo.clickOnButton(pianoActivity.getString(R.string.action_export_dialog_negative_button));
+        }
     }
 }

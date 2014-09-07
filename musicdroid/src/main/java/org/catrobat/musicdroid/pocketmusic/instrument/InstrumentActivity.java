@@ -23,7 +23,11 @@
 package org.catrobat.musicdroid.pocketmusic.instrument;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.tempo.AbstractTickThread;
@@ -31,14 +35,20 @@ import org.catrobat.musicdroid.pocketmusic.instrument.tempo.SimpleTickThread;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 
 public abstract class InstrumentActivity extends Activity {
+
+    private EditText editTextMidiExportNameDialogPrompt;
 
     private AbstractTickThread tickThread;
     private Track track;
 
     public InstrumentActivity(MusicalKey key, MusicalInstrument instrument) {
+        editTextMidiExportNameDialogPrompt = null;
+
         tickThread = new SimpleTickThread();
         track = new Track(key, instrument);
     }
@@ -65,8 +75,59 @@ public abstract class InstrumentActivity extends Activity {
     }
 
     protected void onActionExportMidi() {
-        MidiExportHelper helper = new MidiExportHelper(this);
-        helper.promptUserForFilename();
+        promptUserForFilenameAndExportMidi();
+    }
+
+    private void promptUserForFilenameAndExportMidi() {
+        editTextMidiExportNameDialogPrompt = new EditText(this);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(getString(R.string.action_export_dialog_title))
+                .setMessage(getString(R.string.action_export_dialog_message))
+                .setView(editTextMidiExportNameDialogPrompt)
+                .setCancelable(false)
+                .setPositiveButton(R.string.action_export_dialog_positive_button,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // TODO fw validate filename
+                                String filename = editTextMidiExportNameDialogPrompt.getText().toString();
+
+                                if ((filename != null) && (false == filename.equals(""))) {
+                                    final ProjectToMidiConverter converter = new ProjectToMidiConverter();
+                                    final Project project = new Project(Project.DEFAULT_BEATS_PER_MINUTE);
+                                    project.addTrack(getTrack());
+
+                                    try {
+                                        converter.convertProjectAndWriteMidi(project, filename);
+
+                                        Toast.makeText(getBaseContext(), R.string.action_export_midi_success,
+                                                Toast.LENGTH_LONG).show();
+                                    } catch (Exception e) {
+                                        Toast.makeText(getBaseContext(), R.string.action_export_midi_error,
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                } else {
+                                    Toast.makeText(getBaseContext(), R.string.action_export_midi_cancel,
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }
+                )
+                .setNegativeButton(R.string.action_export_dialog_negative_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getBaseContext(), R.string.action_export_midi_cancel,
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    public EditText getEditTextMidiExportNameDialogPrompt() {
+        return editTextMidiExportNameDialogPrompt;
     }
 
     protected abstract void doAfterAddNoteEvent(NoteEvent noteEvent);

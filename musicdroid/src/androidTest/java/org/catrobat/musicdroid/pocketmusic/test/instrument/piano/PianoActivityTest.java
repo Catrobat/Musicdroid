@@ -44,7 +44,7 @@ public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoAct
     private static final int MIN_HEIGHT = 240;
     private static final int MAX_HEIGHT = 2000;
 
-    PianoActivity pianoActivity;
+    private PianoActivity pianoActivity;
     private PianoViewFragment pianoViewFragment;
 
     public PianoActivityTest(){
