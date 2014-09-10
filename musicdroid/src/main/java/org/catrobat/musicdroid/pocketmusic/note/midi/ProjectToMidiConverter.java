@@ -46,7 +46,7 @@ public class ProjectToMidiConverter {
 
     public static final String MIDI_FILE_EXTENSION = ".midi";
 	public static final String MIDI_FILE_IDENTIFIER = "Musicdroid Midi File";
-    public static final String MIDI_FOLDER = Environment.getExternalStorageDirectory().toString() + File.separator + "musicdroid" + File.separator;
+    public static final File MIDI_FOLDER = new File(Environment.getExternalStorageDirectory().toString() + File.separator + "musicdroid" + File.separator);
 
 	private static final int MAX_CHANNEL = 16;
 
@@ -61,11 +61,9 @@ public class ProjectToMidiConverter {
 	public void convertProjectAndWriteMidi(Project project, String filename) throws IOException, MidiException {
 		MidiFile midi = convertProject(project);
 
-        File folder = new File(MIDI_FOLDER);
-
         // TODO fw test me
-        if (!folder.exists()) {
-            boolean success = folder.mkdir();
+        if (!MIDI_FOLDER.exists()) {
+            boolean success = MIDI_FOLDER.mkdir();
 
             if (!success) {
                 throw new IOException("Could not create folder: " + MIDI_FOLDER);

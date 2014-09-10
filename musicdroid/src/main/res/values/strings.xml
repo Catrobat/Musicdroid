@@ -25,14 +25,20 @@
     <string name="app_name">Musicdroid</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="action_export_midi_title">Export as MIDI</string>
-    <string name="action_export_midi_success">Export successful</string>
-    <string name="action_export_midi_cancel">Export canceled</string>
-    <string name="action_export_midi_error">Export failed</string>
-    <string name="action_clear_track_title">Clear track</string>
-    <string name="action_export_dialog_positive_button" >OK</string >
-    <string name="action_export_dialog_negative_button" >CANCEL</string >
-    <string name="action_export_dialog_title" >Export Midi</string >
-    <string name="action_export_dialog_message" >Please enter the file name:</string >
-    <string name="action_export_dialog_wrong_file_name" >The file name is not allowed!</string >
+
+    <string name="action_export_midi_title">Save Project</string>
+    <string name="action_export_midi_success">Save successful!</string>
+    <string name="action_export_midi_cancel">Save canceled!</string>
+    <string name="action_export_midi_error">Save failed!</string>
+    <string name="action_export_dialog_positive_button" >Ok</string >
+    <string name="action_export_dialog_negative_button" >Cancel</string >
+    <string name="action_export_dialog_title" >Save Project</string >
+    <string name="action_export_dialog_message" >Please enter a Project name:</string >
+    <string name="action_export_dialog_wrong_file_name" >This Project name is not allowed!</string >
+
+    <string name="action_import_midi_title">Open Project</string>
+    <string name="action_import_midi_validation_error">The given Project was not created with Musicdroid</string>
+    <string name="action_import_midi_io_error">The device encountered an internal error: </string>
+    <string name="action_import_midi_file_chooser_title">Open Project</string>
+    <string name="action_import_midi_success">Open successful!</string>
 </resources >

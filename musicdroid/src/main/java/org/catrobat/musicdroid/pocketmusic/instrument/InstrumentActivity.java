@@ -24,12 +24,16 @@ package org.catrobat.musicdroid.pocketmusic.instrument;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Environment;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.tempo.AbstractTickThread;
 import org.catrobat.musicdroid.pocketmusic.instrument.tempo.SimpleTickThread;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
@@ -37,7 +41,14 @@ import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
+
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOError;
+import java.io.IOException;
 
 public abstract class InstrumentActivity extends Activity {
 
@@ -45,12 +56,15 @@ public abstract class InstrumentActivity extends Activity {
 
     private AbstractTickThread tickThread;
     private Track track;
+    private String[] midiFileList;
 
     public InstrumentActivity(MusicalKey key, MusicalInstrument instrument) {
         editTextMidiExportNameDialogPrompt = null;
 
         tickThread = new SimpleTickThread();
         track = new Track(key, instrument);
+
+        midiFileList = null;
     }
 
     public Track getTrack() {
@@ -69,6 +83,9 @@ public abstract class InstrumentActivity extends Activity {
         if (id == R.id.action_export_midi) {
             onActionExportMidi();
             return true;
+        } else if (id == R.id.action_import_midi) {
+            onActionImportMidi();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -76,6 +93,63 @@ public abstract class InstrumentActivity extends Activity {
 
     protected void onActionExportMidi() {
         promptUserForFilenameAndExportMidi();
+    }
+
+    // TODO fw fix me
+    protected void onActionImportMidi() {
+        if (ProjectToMidiConverter.MIDI_FOLDER.exists()) {
+            FilenameFilter filter = new FilenameFilter() {
+                public boolean accept(File dir, String filename) {
+                    File selectedFile = new File(dir, filename);
+                    return filename.contains(ProjectToMidiConverter.MIDI_FILE_EXTENSION) || selectedFile.isDirectory();
+                }
+            };
+
+            midiFileList = ProjectToMidiConverter.MIDI_FOLDER.list(filter);
+
+            removeMidiExtension();
+
+            // TODO fw wie kann ich sicher gehen dass das midi geöffnet worden is? TESTS
+            // TODO fw diese Methode (ja auch die Export) sollte kein AND im Namen haben. DO IT BETTER.
+            promptUserForFilenameAndImportMidi();
+        }
+    }
+
+    private void removeMidiExtension() {
+        for (int i = 0; i < midiFileList.length; i++) {
+            midiFileList[i] = midiFileList[i].replaceFirst("[.][^.]+$", "");
+        }
+    }
+
+    protected void promptUserForFilenameAndImportMidi() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle(R.string.action_import_midi_file_chooser_title);
+
+        builder.setItems(midiFileList, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int index) {
+                File midiFile = new File(ProjectToMidiConverter.MIDI_FOLDER, midiFileList[index] + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
+
+                final MidiToProjectConverter converter = new MidiToProjectConverter();
+
+                try {
+                    Project project = converter.readFileAndConvertMidi(midiFile);
+
+                    track = project.getTrack(0); // TODO fw instrument erkennen
+
+                    Toast.makeText(getBaseContext(), R.string.action_import_midi_success,
+                            Toast.LENGTH_LONG).show();
+                } catch (MidiException e) {
+                    Toast.makeText(getBaseContext(), R.string.action_import_midi_validation_error,
+                            Toast.LENGTH_LONG).show();
+                } catch (IOException e) {
+                    Toast.makeText(getBaseContext(), R.string.action_import_midi_io_error + e.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        builder.show();
     }
 
     private void promptUserForFilenameAndExportMidi() {

@@ -31,6 +31,8 @@ import com.robotium.solo.Solo;
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
+import org.catrobat.musicdroid.pocketmusic.test.note.ProjectTestDataFactory;
+import org.catrobat.musicdroid.pocketmusic.test.note.midi.ProjectToMidiConverterTestDataFactory;
 
 import java.io.File;
 
@@ -126,5 +128,21 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         } else {
             solo.clickOnButton(pianoActivity.getString(R.string.action_export_dialog_negative_button));
         }
+    }
+
+    // TODO fw fix me
+    public void testImportMidi() {
+        String filename = "huga";
+        exportMidi(filename, true);
+
+        //assertFileExists(filename, true);
+
+        solo.pressMenuItem(2);
+        solo.clickOnMenuItem(pianoActivity.getString(R.string.action_import_midi_title));
+        solo.waitForDialogToOpen();
+        solo.clickOnButton(filename);
+        solo.waitForText(pianoActivity.getString(R.string.action_import_midi_success));
+
+        removeFile(filename);
     }
 }
