@@ -92,7 +92,7 @@ public abstract class InstrumentActivity extends Activity {
     }
 
     protected void onActionExportMidi() {
-        promptUserForFilenameAndExportMidi();
+        exportMidiFileByUserInput();
     }
 
     // TODO fw fix me
@@ -110,8 +110,7 @@ public abstract class InstrumentActivity extends Activity {
             removeMidiExtension();
 
             // TODO fw wie kann ich sicher gehen dass das midi geöffnet worden is? TESTS
-            // TODO fw diese Methode (ja auch die Export) sollte kein AND im Namen haben. DO IT BETTER.
-            promptUserForFilenameAndImportMidi();
+            importMidiFileByUserInput();
         }
     }
 
@@ -121,7 +120,7 @@ public abstract class InstrumentActivity extends Activity {
         }
     }
 
-    protected void promptUserForFilenameAndImportMidi() {
+    protected void importMidiFileByUserInput() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle(R.string.action_import_midi_file_chooser_title);
@@ -133,9 +132,9 @@ public abstract class InstrumentActivity extends Activity {
                 final MidiToProjectConverter converter = new MidiToProjectConverter();
 
                 try {
-                    Project project = converter.readFileAndConvertMidi(midiFile);
+                    Project project = converter.convertMidiFileToProject(midiFile);
 
-                    track = project.getTrack(0); // TODO fw instrument erkennen
+                    track = project.getTrack(0);
 
                     Toast.makeText(getBaseContext(), R.string.action_import_midi_success,
                             Toast.LENGTH_LONG).show();
@@ -152,7 +151,7 @@ public abstract class InstrumentActivity extends Activity {
         builder.show();
     }
 
-    private void promptUserForFilenameAndExportMidi() {
+    private void exportMidiFileByUserInput() {
         editTextMidiExportNameDialogPrompt = new EditText(this);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -173,7 +172,7 @@ public abstract class InstrumentActivity extends Activity {
                                     project.addTrack(getTrack());
 
                                     try {
-                                        converter.convertProjectAndWriteMidi(project, filename);
+                                        converter.writeProjectAsMidi(project, filename);
 
                                         Toast.makeText(getBaseContext(), R.string.action_export_midi_success,
                                                 Toast.LENGTH_LONG).show();

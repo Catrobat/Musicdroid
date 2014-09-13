@@ -55,7 +55,7 @@ public class MidiToProjectConverter {
 		beatsPerMinute = Project.DEFAULT_BEATS_PER_MINUTE;
 	}
 
-	public Project readFileAndConvertMidi(File file) throws MidiException, IOException {
+	public Project convertMidiFileToProject(File file) throws MidiException, IOException {
 		MidiFile midi = new MidiFile(file);
 
 		validateMidiFile(midi);

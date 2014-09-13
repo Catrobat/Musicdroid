@@ -44,8 +44,8 @@ public class MidiToProjectConverterTest extends AndroidTestCase {
 		Project expectedProject = ProjectTestDataFactory.createProjectWithSemiComplexTracks();
 
         try {
-            projectConverter.convertProjectAndWriteMidi(expectedProject, fileName);
-            Project actualProject = midiConverter.readFileAndConvertMidi(new File(midiFileAbsolutePath));
+            projectConverter.writeProjectAsMidi(expectedProject, fileName);
+            Project actualProject = midiConverter.convertMidiFileToProject(new File(midiFileAbsolutePath));
 
             assertEquals(expectedProject, actualProject);
         } catch (Exception e) {
