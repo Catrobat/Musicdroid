@@ -46,7 +46,7 @@ public class ProjectToMidiConverter {
 
     public static final String MIDI_FILE_EXTENSION = ".midi";
 	public static final String MIDI_FILE_IDENTIFIER = "Musicdroid Midi File";
-    public static final File MIDI_FOLDER = new File(Environment.getExternalStorageDirectory().toString() + File.separator + "musicdroid" + File.separator);
+    public static final File MIDI_FOLDER = new File(Environment.getExternalStorageDirectory().toString() + File.separator + "musicdroid");
 
 	private static final int MAX_CHANNEL = 16;
 
@@ -69,7 +69,7 @@ public class ProjectToMidiConverter {
             }
         }
 
-		File file = new File(MIDI_FOLDER + filename + MIDI_FILE_EXTENSION);
+		File file = new File(MIDI_FOLDER + File.separator + filename + MIDI_FILE_EXTENSION);
 
 		midi.writeToFile(file);
 	}
