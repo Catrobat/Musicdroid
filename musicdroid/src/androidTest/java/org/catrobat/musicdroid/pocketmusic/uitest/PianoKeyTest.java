@@ -50,7 +50,6 @@ public class PianoKeyTest extends ActivityInstrumentationTestCase2<PianoActivity
     }
 
     // TODO:if notesheetview is implemented, refactor testcase
-
     public void testPianoKeys(){
         solo.waitForActivity(PianoActivity.class);
         int numOfButtons = 12;
@@ -58,9 +57,6 @@ public class PianoKeyTest extends ActivityInstrumentationTestCase2<PianoActivity
         for (counter = 0; counter < numOfButtons; counter++) {
             solo.clickOnButton(counter);
         }
-
-        //int actualTrackSize = pianoActivity.getTrack().size();
-
         assertEquals(counter, numOfButtons);
     }
 }

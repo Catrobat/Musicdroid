@@ -155,17 +155,11 @@ public  class PianoViewFragment extends Fragment {
             public boolean onTouch(View view, MotionEvent event) {
 
                 if (isDownActionEvent(event)) {
+
                     Log.d("t1", noteName.toString());
-
-                    // TODO: animation for clicking
-                    view.setX(view.getX()+5);
-
                     addKeyPress(new NoteEvent(noteName, true));
 
                 } else if (isUpActionEvent(event)) {
-
-                    // TODO: animation for clicking
-                    view.setX(view.getX()-5);
 
                     addKeyPress(new NoteEvent(noteName, false));
                 }
