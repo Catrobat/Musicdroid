@@ -51,6 +51,9 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
     @Override
     protected void tearDown() {
+        for(File file: ProjectToMidiConverter.MIDI_FOLDER.listFiles())
+            file.delete();
+
         solo.finishOpenedActivities();
     }
 
@@ -76,8 +79,6 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         exportMidi(filename, saveFile);
 
         assertFileExists(filename, expectedFileExists);
-
-        removeFile(filename);
     }
 
     public void testExportMidi2() {
@@ -88,8 +89,6 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         exportMidi(filename, saveFile);
 
         assertFileExists(filename, expectedFileExists);
-
-        removeFile(filename);
     }
 
     public void testExportMidi3() {
@@ -100,15 +99,6 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         exportMidi(filename, saveFile);
 
         assertFileExists(filename, expectedFileExists);
-    }
-
-    private void removeFile(String filename) {
-        File file = new File(ProjectToMidiConverter.MIDI_FOLDER, filename + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
-        file.delete();
-    }
-    private void removeAllFiles() {
-        for(File file: ProjectToMidiConverter.MIDI_FOLDER.listFiles())
-            file.delete();
     }
 
     private void assertFileExists(String filename, boolean expectedExistResult) {
@@ -136,31 +126,35 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
             solo.clickOnButton(pianoActivity.getString(R.string.action_export_dialog_negative_button));
         }
     }
+
     private void importMidi(String filename) {
         solo.pressMenuItem(1);
         solo.clickOnMenuItem(pianoActivity.getString(R.string.action_import_midi_title));
         solo.waitForDialogToOpen();
         solo.clickOnText(filename);
-
+        solo.waitForText(pianoActivity.getString(R.string.action_import_midi_success));
     }
 
-    public void testImportMidi() {
+    public void testImportMidi1() {
+        boolean expectedFileExists = true;
+        boolean saveFile = true;
+        String filename = "testFile";
+        String buttonName = "C";
+
+        solo.clickOnButton(buttonName);
+
+        exportMidi(filename, saveFile);
+        assertFileExists(filename, expectedFileExists);
+        importMidi(filename);
+    }
+
+    public void testImportMidi2() {
         boolean expectedFileExists = true;
         boolean saveFile = true;
         String filename = "testFile";
 
-        removeAllFiles();
-
-        solo.clickOnButton("C");
-
         exportMidi(filename, saveFile);
         assertFileExists(filename, expectedFileExists);
-
         importMidi(filename);
-
-        solo.waitForText(pianoActivity.getString(R.string.action_import_midi_success));
-
-        removeFile(filename);
     }
-
 }

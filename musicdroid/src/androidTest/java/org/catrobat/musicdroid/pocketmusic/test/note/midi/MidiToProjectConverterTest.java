@@ -37,7 +37,7 @@ public class MidiToProjectConverterTest extends AndroidTestCase {
 
 	public void testConvertMidi() throws MidiException, IOException {
         String fileName = "TestMidi";
-        String midiFileAbsolutePath = ProjectToMidiConverter.MIDI_FOLDER + fileName + ProjectToMidiConverter.MIDI_FILE_EXTENSION;
+        String midiFileAbsolutePath = ProjectToMidiConverter.MIDI_FOLDER + File.separator + fileName + ProjectToMidiConverter.MIDI_FILE_EXTENSION;
 
 		ProjectToMidiConverter projectConverter = new ProjectToMidiConverter();
 		MidiToProjectConverter midiConverter = new MidiToProjectConverter();

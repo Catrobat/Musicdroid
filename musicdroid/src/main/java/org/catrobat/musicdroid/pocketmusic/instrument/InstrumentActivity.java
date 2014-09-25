@@ -164,9 +164,11 @@ public abstract class InstrumentActivity extends Activity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // TODO fw validate filename
-                                String filename = editTextMidiExportNameDialogPrompt.getText().toString();
+                                String userInput = editTextMidiExportNameDialogPrompt.getText().toString();
 
-                                if ((filename != null) && (false == filename.equals(""))) {
+                                if ((userInput != null) && (false == userInput.equals(""))) {
+                                    String filename = userInput.split(ProjectToMidiConverter.MIDI_FILE_EXTENSION)[0];
+
                                     final ProjectToMidiConverter converter = new ProjectToMidiConverter();
                                     final Project project = new Project(Project.DEFAULT_BEATS_PER_MINUTE);
                                     project.addTrack(getTrack());

@@ -75,6 +75,10 @@ public class ProjectToMidiConverter {
 	}
 
 	private MidiFile convertProject(Project project) throws MidiException {
+        if (0 == project.size()) {
+            throw new MidiException("Cannot save an empty project");
+        }
+
 		ArrayList<MidiTrack> tracks = new ArrayList<MidiTrack>();
 
 		MidiTrack tempoTrack = createTempoTrackWithMetaInfo(project.getBeatsPerMinute());
