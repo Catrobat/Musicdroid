@@ -75,8 +75,12 @@ public class ProjectToMidiConverter {
 	}
 
 	private MidiFile convertProject(Project project) throws MidiException {
-        if (0 == project.size()) {
-            throw new MidiException("Cannot save an empty project");
+        for (int i = 0; i < project.size(); i++) {
+            Track track = project.getTrack(i);
+
+            if (0 == track.size()) {
+                throw new MidiException("");
+            }
         }
 
 		ArrayList<MidiTrack> tracks = new ArrayList<MidiTrack>();

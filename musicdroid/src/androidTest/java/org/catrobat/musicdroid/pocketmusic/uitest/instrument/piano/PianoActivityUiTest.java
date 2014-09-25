@@ -30,9 +30,14 @@ import com.robotium.solo.Solo;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
+import org.catrobat.musicdroid.pocketmusic.test.note.ProjectTestDataFactory;
+import org.catrobat.musicdroid.pocketmusic.test.note.midi.ProjectToMidiConverterTestDataFactory;
 
 import java.io.File;
+import java.io.IOException;
 
 public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoActivity> {
 
@@ -108,6 +113,9 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     }
 
     private void exportMidi(String filename, boolean clickOnSaveButton) {
+        String buttonName = "C";
+
+        solo.clickOnButton(buttonName);
         solo.pressMenuItem(1);
         solo.clickOnMenuItem(pianoActivity.getString(R.string.action_export_midi_title));
         solo.waitForDialogToOpen();
@@ -135,25 +143,11 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         solo.waitForText(pianoActivity.getString(R.string.action_import_midi_success));
     }
 
-    public void testImportMidi1() {
+    public void testImportMidi1() throws IOException, MidiException {
         boolean expectedFileExists = true;
-        boolean saveFile = true;
-        String filename = "testFile";
-        String buttonName = "C";
-
-        solo.clickOnButton(buttonName);
-
-        exportMidi(filename, saveFile);
-        assertFileExists(filename, expectedFileExists);
-        importMidi(filename);
-    }
-
-    public void testImportMidi2() {
-        boolean expectedFileExists = true;
-        boolean saveFile = true;
         String filename = "testFile";
 
-        exportMidi(filename, saveFile);
+        ProjectToMidiConverterTestDataFactory.writeTestProject(filename);
         assertFileExists(filename, expectedFileExists);
         importMidi(filename);
     }
