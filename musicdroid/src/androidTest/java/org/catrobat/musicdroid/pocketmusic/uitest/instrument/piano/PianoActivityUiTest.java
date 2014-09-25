@@ -137,7 +137,8 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
     private void importMidi(String filename) {
         solo.pressMenuItem(1);
-        solo.clickOnMenuItem(pianoActivity.getString(R.string.action_import_midi_title));
+        solo.clickOnText(pianoActivity.getString(R.string.action_import_midi_title));
+        //solo.clickOnMenuItem(pianoActivity.getString(R.string.action_import_midi_title));
         solo.waitForDialogToOpen();
         solo.clickOnText(filename);
         solo.waitForText(pianoActivity.getString(R.string.action_import_midi_success));
