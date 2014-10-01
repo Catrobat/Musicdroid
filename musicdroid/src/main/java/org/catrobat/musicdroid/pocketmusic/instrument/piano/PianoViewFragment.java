@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 public  class PianoViewFragment extends Fragment {
 
+    public static int DEFAULT_INACTIVE_BLACK_KEY = 3;
     public static int DEFAULT_BLACK_KEY_WIDTH_SCALE_FACTOR = 6;
     public static int DEFAULT_PIANO_KEY_HEIGHT_SCALE_FACTOR = 0;
 
@@ -50,7 +51,7 @@ public  class PianoViewFragment extends Fragment {
         calculatePianoKeyPositions(DEFAULT_PIANO_KEY_HEIGHT_SCALE_FACTOR,
                 DEFAULT_BLACK_KEY_WIDTH_SCALE_FACTOR);
 
-        disableBlackKey(Octave.DEFAULT_INACTIVE_BLACK_KEY);
+        disableBlackKey(DEFAULT_INACTIVE_BLACK_KEY);
 
         // TODO: optimize touch events
         setOnTouchListeners();

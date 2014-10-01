@@ -79,7 +79,7 @@ public class ProjectToMidiConverter {
             Track track = project.getTrack(i);
 
             if (0 == track.size()) {
-                throw new MidiException("");
+                throw new MidiException("Cannot save a project with an empty track!");
             }
         }
 

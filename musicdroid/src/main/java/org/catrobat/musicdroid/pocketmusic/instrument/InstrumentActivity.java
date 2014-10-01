@@ -95,7 +95,6 @@ public abstract class InstrumentActivity extends Activity {
         exportMidiFileByUserInput();
     }
 
-    // TODO fw fix me
     protected void onActionImportMidi() {
         if (ProjectToMidiConverter.MIDI_FOLDER.exists()) {
             FilenameFilter filter = new FilenameFilter() {
@@ -109,7 +108,6 @@ public abstract class InstrumentActivity extends Activity {
 
             removeMidiExtension();
 
-            // TODO fw wie kann ich sicher gehen dass das midi geöffnet worden is? TESTS
             importMidiFileByUserInput();
         }
     }
