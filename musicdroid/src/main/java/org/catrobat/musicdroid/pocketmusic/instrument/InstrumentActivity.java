@@ -161,7 +161,6 @@ public abstract class InstrumentActivity extends Activity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // TODO fw validate filename
                                 String userInput = editTextMidiExportNameDialogPrompt.getText().toString();
 
                                 if ((userInput != null) && (false == userInput.equals(""))) {
