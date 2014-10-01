@@ -52,7 +52,6 @@ public  class PianoViewFragment extends Fragment {
 
         setBlackKeyInvisible(Octave.DEFAULT_INACTIVE_BLACK_KEY);
 
-        // TODO: optimize touch events
         setOnTouchListeners();
         return rootView;
     }
