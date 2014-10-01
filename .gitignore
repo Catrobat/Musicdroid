@@ -46,3 +46,10 @@ out
 
 # OS dependend files
 .DS_Store
+.idea/encodings.xml
+.idea/misc.xml
+build.gradle
+gradle/wrapper/gradle-wrapper.properties
+Musicdroid.iml
+musicdroid/musicdroid.iml
+musicdroidSourceTest/musicdroidSourceTest.iml
