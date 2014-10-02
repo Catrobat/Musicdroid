@@ -23,14 +23,11 @@ local.properties
 proguard/
 
 # IntelliJ config files
-/.idea/workspace.xml
 tasks.xml
 datasources.xml
 dataSources.ids
 out
 .idea
-.idea/libraries
-.idea/dictionaries
 !.idea/.name
 !.idea/codeStyleSettings.xml
 !.idea/compiler.xml
@@ -46,10 +43,6 @@ out
 
 # OS dependend files
 .DS_Store
-.idea/encodings.xml
-.idea/misc.xml
-build.gradle
-gradle/wrapper/gradle-wrapper.properties
 Musicdroid.iml
 musicdroid/musicdroid.iml
 musicdroidSourceTest/musicdroidSourceTest.iml

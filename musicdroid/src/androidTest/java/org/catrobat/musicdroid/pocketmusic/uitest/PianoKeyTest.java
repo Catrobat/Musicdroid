@@ -24,9 +24,8 @@
 package org.catrobat.musicdroid.pocketmusic.uitest;
 
 import android.test.ActivityInstrumentationTestCase2;
+
 import com.robotium.solo.Solo;
-import android.test.InstrumentationTestCase;
-import android.util.Log;
 
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 
