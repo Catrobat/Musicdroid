@@ -53,6 +53,7 @@ public class PianoKeyTest extends ActivityInstrumentationTestCase2<PianoActivity
         solo.waitForActivity(PianoActivity.class);
         int numOfButtons = 12;
         int counter;
+
         for (counter = 0; counter < numOfButtons; counter++) {
             solo.clickOnButton(counter);
         }
