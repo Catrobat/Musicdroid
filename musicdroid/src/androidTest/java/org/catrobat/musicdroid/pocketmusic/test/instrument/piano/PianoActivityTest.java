@@ -30,6 +30,7 @@ import android.widget.Button;
 
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoViewFragment;
+import org.catrobat.musicdroid.pocketmusic.note.Octave;
 
 import java.util.List;
 
@@ -96,7 +97,7 @@ public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoAct
 
     @UiThreadTest
     public void testDisableBlackKey1(){
-        disableKeyAndAssert(1);
+        disableKeyAndAssert(0);
     }
 
     @UiThreadTest
@@ -123,19 +124,20 @@ public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoAct
     }
 
     private void disableKeyAndAssert(int index) {
-        assertButtonVisibilityPianoLayout();
 
-        pianoViewFragment.setBlackKeyInvisible(index);
+        pianoViewFragment.setBlackKeyVisibilityAtIndex(Button.INVISIBLE, index);
 
         assertEquals(pianoViewFragment.getBlackButtonAtIndex(index).getVisibility(), Button.INVISIBLE);
+        pianoViewFragment.setBlackKeyVisibilityAtIndex(Button.VISIBLE, index);
     }
 
-    private void assertButtonVisibilityPianoLayout() {
+    @UiThreadTest
+    public void testDefaultOctaveVisibilities() {
         int expectedVisibility;
         int actualVisibility;
 
         for (int i = 0; i < pianoViewFragment.getBlackButtonCount(); i++) {
-            if (i == 3) {
+            if (i == Octave.DEFAULT_INACTIVE_BLACK_KEY_INDEX) {
                 expectedVisibility = Button.INVISIBLE;
             } else {
                 expectedVisibility = Button.VISIBLE;

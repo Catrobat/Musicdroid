@@ -50,7 +50,7 @@ public  class PianoViewFragment extends Fragment {
         calculatePianoKeyPositions(DEFAULT_PIANO_KEY_HEIGHT_SCALE_FACTOR,
                 DEFAULT_BLACK_KEY_WIDTH_SCALE_FACTOR);
 
-        setBlackKeyInvisible(Octave.DEFAULT_INACTIVE_BLACK_KEY);
+        setBlackKeyVisibilityAtIndex(Button.INVISIBLE, Octave.DEFAULT_INACTIVE_BLACK_KEY_INDEX);
 
         setOnTouchListeners();
         return rootView;
@@ -143,9 +143,9 @@ public  class PianoViewFragment extends Fragment {
 
     }
 
-    public void setBlackKeyInvisible(int index) {
-        if((index < blackButtons.size()) && (index > 0))
-            blackButtons.get(index).setVisibility(View.INVISIBLE);
+    public void setBlackKeyVisibilityAtIndex(int visibility, int index) {
+        if((index < blackButtons.size()) && (index >= 0))
+            blackButtons.get(index).setVisibility(visibility);
     }
 
     private View.OnTouchListener setOnTouchPianoKey(final NoteName noteName){
