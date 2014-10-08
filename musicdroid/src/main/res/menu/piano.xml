@@ -41,6 +41,11 @@
         android:icon="@drawable/ic_action_read"
         android:showAsAction="never"
         android:title="@string/action_import_midi_title" />
+      <item
+        android:id="@+id/action_delete_midi"
+        android:icon="@drawable/ic_action_discard"
+        android:showAsAction="never"
+        android:title="@string/action_delete_midi_title" />
     </menu>
     </item>
 </menu >

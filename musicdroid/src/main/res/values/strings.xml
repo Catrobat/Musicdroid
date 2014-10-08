@@ -41,4 +41,7 @@
     <string name="action_import_midi_io_error">The device encountered an internal error: </string>
     <string name="action_import_midi_file_chooser_title">Open Project</string>
     <string name="action_import_midi_success">Open successful!</string>
+
+    <string name="action_delete_midi_title">Clear Project</string>
+    <string name="action_delete_midi_success">Clear successful</string>
 </resources >

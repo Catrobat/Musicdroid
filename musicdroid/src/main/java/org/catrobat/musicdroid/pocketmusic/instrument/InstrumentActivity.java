@@ -86,6 +86,9 @@ public abstract class InstrumentActivity extends Activity {
         } else if (id == R.id.action_import_midi) {
             onActionImportMidi();
             return true;
+        } else if (id == R.id.action_delete_midi) {
+            onActionDeleteMidi();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -110,6 +113,12 @@ public abstract class InstrumentActivity extends Activity {
 
             importMidiFileByUserInput();
         }
+    }
+
+    private void onActionDeleteMidi() {
+        track = new Track(track.getKey(), track.getInstrument());
+
+        Toast.makeText(getBaseContext(), R.string.action_delete_midi_success, Toast.LENGTH_LONG).show();
     }
 
     private void removeMidiExtension() {

@@ -31,6 +31,7 @@ import com.robotium.solo.Solo;
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
+import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.test.note.ProjectTestDataFactory;
@@ -150,5 +151,18 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         ProjectToMidiConverterTestDataFactory.writeTestProject(filename);
         assertFileExists(filename, expectedFileExists);
         importMidi(filename);
+    }
+
+    public void testClear() {
+        String buttonName = "C";
+
+        solo.clickOnButton(buttonName);
+        solo.pressMenuItem(1);
+        solo.clickOnMenuItem(pianoActivity.getString(R.string.action_delete_midi_title));
+        solo.waitForText(pianoActivity.getString(R.string.action_delete_midi_success));
+
+        Track newTrack = getActivity().getTrack();
+
+        assertEquals(0, newTrack.size());
     }
 }
