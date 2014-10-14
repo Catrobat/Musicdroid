@@ -21,12 +21,12 @@ import java.util.ArrayList;
 
 public  class PianoViewFragment extends Fragment {
 
-    public static int DEFAULT_INACTIVE_BLACK_KEY = 3;
+    public static int DEFAULT_INACTIVE_BLACK_KEY = 2;
     public static int DEFAULT_BLACK_KEY_WIDTH_SCALE_FACTOR = 6;
     public static int DEFAULT_PIANO_KEY_HEIGHT_SCALE_FACTOR = 0;
 
-    public static int X_POS = 0;
-    public static int Y_POS = 1;
+    private static int X_INDEX = 0;
+    private static int Y_INDEX = 1;
 
     private ArrayList<Button> whiteButtons;
     private ArrayList<Button> blackButtons;
@@ -51,9 +51,8 @@ public  class PianoViewFragment extends Fragment {
         calculatePianoKeyPositions(DEFAULT_PIANO_KEY_HEIGHT_SCALE_FACTOR,
                 DEFAULT_BLACK_KEY_WIDTH_SCALE_FACTOR);
 
-        disableBlackKey(DEFAULT_INACTIVE_BLACK_KEY);
+        setBlackKeyInvisibilityAtIndex(DEFAULT_INACTIVE_BLACK_KEY);
 
-        // TODO: optimize touch events
         setOnTouchListeners();
         return rootView;
     }
@@ -105,11 +104,11 @@ public  class PianoViewFragment extends Fragment {
     }
 
     public int getDisplayWidth() {
-        return initializeDisplay()[X_POS];
+        return initializeDisplay()[X_INDEX];
     }
 
     public int getDisplayHeight() {
-        return initializeDisplay()[Y_POS];
+        return initializeDisplay()[Y_INDEX];
     }
 
     public void calculatePianoKeyPositions(int pianoKeyWidthScaleFactor, int pianoBlackKeyHeightScaleFactor) {
@@ -126,7 +125,7 @@ public  class PianoViewFragment extends Fragment {
                     buttonWidth,
                     getDisplayHeight() / pianoBlackKeyHeightScaleFactor
             ));
-            // calculate the proper position of the black piano key
+
             blackKeyLayoutParams.get(i).setMargins((buttonWidth / 2) * ((i * 2) + 1), 0, 0, 0);
             blackButtons.get(i).setLayoutParams(blackKeyLayoutParams.get(i));
 
@@ -138,14 +137,14 @@ public  class PianoViewFragment extends Fragment {
                     buttonWidth,
                     RelativeLayout.LayoutParams.MATCH_PARENT
             ));
-            // calculate the proper position of the black piano key
+
             whiteKeyLayoutParams.get(i).setMargins(buttonWidth * i, 0, 0, 0);
             whiteButtons.get(i).setLayoutParams(whiteKeyLayoutParams.get(i));
         }
 
     }
 
-    public void disableBlackKey(int index) {
+    public void setBlackKeyInvisibilityAtIndex(int index) {
         if((index < blackButtons.size()) && (index > 0))
             blackButtons.get(index).setVisibility(View.INVISIBLE);
     }
@@ -189,7 +188,7 @@ public  class PianoViewFragment extends Fragment {
         pianoActivity.addNoteEvent(noteEvent);
     }
 
-    public Button getBlackButton(int index) {
+    public Button getBlackButtonAtIndex(int index) {
         if((index < blackButtons.size()) && (index >= 0)) {
             return blackButtons.get(index);
         }
@@ -201,7 +200,7 @@ public  class PianoViewFragment extends Fragment {
         return blackButtons.size();
     }
 
-    public Button getWhiteButton(int index) {
+    public Button getWhiteButtonAtIndex(int index) {
         if((index < whiteButtons.size()) && (index >= 0)) {
             return whiteButtons.get(index);
         }

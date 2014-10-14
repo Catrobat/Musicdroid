@@ -37,7 +37,6 @@ import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 
 public class PianoActivity extends InstrumentActivity {
 
-    // TODO: fix orientation (NullPointerException on changing orientation)
     private PianoViewFragment pianoViewFragment;
     private NoteSheetViewFragment noteSheetViewFragment;
 
@@ -70,6 +69,12 @@ public class PianoActivity extends InstrumentActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

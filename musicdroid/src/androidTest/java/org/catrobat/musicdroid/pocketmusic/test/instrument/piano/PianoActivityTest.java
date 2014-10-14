@@ -25,13 +25,10 @@ package org.catrobat.musicdroid.pocketmusic.test.instrument.piano;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
-import android.util.Log;
 import android.widget.Button;
 
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoViewFragment;
-
-import java.util.List;
 
 /**
  * Created by Andrej on 10.07.2014.
@@ -84,15 +81,15 @@ public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoAct
         int buttonWidth = pianoViewFragment.getDisplayWidth() / (keysPerOctave + keyWidthScaleFactor);
 
         for(int i = 0 ; i < pianoViewFragment.getBlackButtonCount(); i++)
-            assertEquals(pianoViewFragment.getBlackButton(i).getWidth(), buttonWidth);
+            assertEquals(pianoViewFragment.getBlackButtonAtIndex(i).getWidth(), buttonWidth);
         for(int i = 0 ; i < pianoViewFragment.getWhiteButtonCount(); i++)
-            assertEquals(pianoViewFragment.getWhiteButton(i).getWidth(), buttonWidth);
+            assertEquals(pianoViewFragment.getWhiteButtonAtIndex(i).getWidth(), buttonWidth);
 
-        assertEquals((buttonWidth / 2), pianoViewFragment.getBlackButton(0).getLeft());
-        assertEquals((buttonWidth / 2 * 3), pianoViewFragment.getBlackButton(1).getLeft());
+        assertEquals((buttonWidth / 2), pianoViewFragment.getBlackButtonAtIndex(0).getLeft());
+        assertEquals((buttonWidth / 2 * 3), pianoViewFragment.getBlackButtonAtIndex(1).getLeft());
 
-        assertEquals(0 , pianoViewFragment.getWhiteButton(0).getLeft());
-        assertEquals(buttonWidth, pianoViewFragment.getWhiteButton(1).getLeft());
+        assertEquals(0 , pianoViewFragment.getWhiteButtonAtIndex(0).getLeft());
+        assertEquals(buttonWidth, pianoViewFragment.getWhiteButtonAtIndex(1).getLeft());
     }
 
     @UiThreadTest
@@ -118,9 +115,9 @@ public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoAct
     private void disableKeyAndAssertVisibility(int index) {
         assertButtonVisibilityPianoLayout();
 
-        pianoViewFragment.disableBlackKey(index);
+        pianoViewFragment.setBlackKeyInvisibilityAtIndex(index);
 
-        Button button = pianoViewFragment.getBlackButton(index);
+        Button button = pianoViewFragment.getBlackButtonAtIndex(index);
 
         if (button != null) {
             assertEquals(button.getVisibility(), Button.INVISIBLE);
@@ -132,13 +129,13 @@ public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoAct
         int actualVisibility = 0;
 
         for (int i = 0; i < pianoViewFragment.getBlackButtonCount(); i++) {
-            if (i == 3) {
+            if (i == PianoViewFragment.DEFAULT_INACTIVE_BLACK_KEY) {
                 expectedVisibility = Button.INVISIBLE;
             } else {
                 expectedVisibility = Button.VISIBLE;
             }
 
-            actualVisibility = pianoViewFragment.getBlackButton(i).getVisibility();
+            actualVisibility = pianoViewFragment.getBlackButtonAtIndex(i).getVisibility();
 
             assertEquals(expectedVisibility, actualVisibility);
         }
