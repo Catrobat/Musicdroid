@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Musicdroid: An on-device music generator for Android
   ~ Copyright (C) 2010-2014 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -21,12 +21,19 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+<HorizontalScrollView
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" android:background="#ff321f"
+    android:id="@+id/scroll_note_sheet_view">
+<org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetView
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+    android:background="#ffffff"
+    android:id ="@+id/note_sheet_view">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo" >
-        <item name="android:windowEnableSplitTouch">false</item>
-        <item name="android:splitMotionEvents">false</item>
-    </style >
-
-</resources >
+    </org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetView >
+</HorizontalScrollView >
+ </LinearLayout >

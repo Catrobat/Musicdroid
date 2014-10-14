@@ -26,9 +26,11 @@ package org.catrobat.musicdroid.pocketmusic.instrument.piano;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.HorizontalScrollView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
+import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetViewFragment;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
@@ -37,6 +39,7 @@ public class PianoActivity extends InstrumentActivity {
 
     // TODO: fix orientation (NullPointerException on changing orientation)
     private PianoViewFragment pianoViewFragment;
+    private NoteSheetViewFragment noteSheetViewFragment;
 
     public PianoActivity() {
         super(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
@@ -51,6 +54,9 @@ public class PianoActivity extends InstrumentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_piano);
         if (savedInstanceState == null) {
+
+            noteSheetViewFragment = new NoteSheetViewFragment();
+            getFragmentManager().beginTransaction().add(R.id.container, noteSheetViewFragment).commit();
             pianoViewFragment = new PianoViewFragment();
             getFragmentManager().beginTransaction().add(R.id.container, pianoViewFragment).commit();
         }
@@ -69,5 +75,13 @@ public class PianoActivity extends InstrumentActivity {
 
     @Override
     protected void doAfterAddNoteEvent(NoteEvent noteEvent) {
+        noteSheetViewFragment.redraw(getTrack());
+    }
+
+    public void scrollNoteSheet() {
+        if (noteSheetViewFragment.checkForScrollAndRecalculateWidth()) {
+            HorizontalScrollView hv = (HorizontalScrollView) findViewById(R.id.scroll_note_sheet_view);
+            hv.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+        }
     }
 }
