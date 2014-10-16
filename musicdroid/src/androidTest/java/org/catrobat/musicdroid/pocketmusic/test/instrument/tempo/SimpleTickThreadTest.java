@@ -27,7 +27,10 @@ import android.test.AndroidTestCase;
 
 import org.catrobat.musicdroid.pocketmusic.instrument.tempo.SimpleTickThread;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
+import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.test.note.NoteEventTestDataFactory;
+import org.catrobat.musicdroid.pocketmusic.test.note.TrackTest;
+import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
 
 public class SimpleTickThreadTest extends AndroidTestCase {
 
@@ -70,5 +73,14 @@ public class SimpleTickThreadTest extends AndroidTestCase {
         long actual = clock.getNextTick(NoteEventTestDataFactory.createNoteEvent(false));
 
         assertEquals(expected, actual);
+    }
+
+    public void testSetTickBasedOnTrack() {
+        SimpleTickThread clock = new SimpleTickThread();
+        Track track = TrackTestDataFactory.createTrack();
+
+        clock.setTickBasedOnTrack(track);
+
+        assertEquals(track.getLastTick(), clock.getCurrentTick());
     }
 }

@@ -45,16 +45,16 @@
     <string name="action_delete_midi_title">Clear Project</string>
     <string name="action_delete_midi_success">Clear successful</string>
 	
-    <string name="note_name_simple_c" >C</string >
-    <string name="note_name_simple_d" >D</string >
-    <string name="note_name_simple_e" >E</string >
-    <string name="note_name_simple_f" >F</string >
-    <string name="note_name_simple_g" >G</string >
-    <string name="note_name_simple_a" >A</string >
-    <string name="note_name_simple_h" >H</string >
-    <string name="note_name_simple_cis" >CIS</string >
-    <string name="note_name_simple_dis" >DIS</string >
-    <string name="note_name_simple_eis" >EIS</string >
-    <string name="note_name_simple_fis" >FIS</string >
-    <string name="note_name_simple_gis" >GIS</string >
+    <string name="note_name_simple_c">C</string>
+    <string name="note_name_simple_d">D</string>
+    <string name="note_name_simple_e">E</string>
+    <string name="note_name_simple_f">F</string>
+    <string name="note_name_simple_g">G</string>
+    <string name="note_name_simple_a">A</string>
+    <string name="note_name_simple_h">H</string>
+    <string name="note_name_simple_cis">CIS</string>
+    <string name="note_name_simple_dis">DIS</string>
+    <string name="note_name_simple_fis">FIS</string>
+    <string name="note_name_simple_gis">GIS</string>
+    <string name="note_name_simple_ais">AIS</string>
 </resources >

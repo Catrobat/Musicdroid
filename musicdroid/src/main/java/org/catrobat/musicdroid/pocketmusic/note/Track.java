@@ -40,11 +40,13 @@ public class Track implements Serializable {
     private MusicalInstrument instrument;
     private HashMap<Long, List<NoteEvent>> events;
     private MusicalKey key;
+    private long lastTick;
 
     public Track(MusicalKey key, MusicalInstrument instrument) {
         this.events = new HashMap<Long, List<NoteEvent>>();
         this.instrument = instrument;
         this.key = key;
+        this.lastTick = 0;
     }
 
     public MusicalInstrument getInstrument() {
@@ -63,6 +65,10 @@ public class Track implements Serializable {
         } else {
             noteEventList = new LinkedList<NoteEvent>();
             events.put(tick, noteEventList);
+        }
+
+        if (false == noteEvent.isNoteOn()) {
+            lastTick = tick;
         }
 
         noteEventList.add(noteEvent);
@@ -84,6 +90,10 @@ public class Track implements Serializable {
         }
 
         return size;
+    }
+
+    public long getLastTick() {
+        return lastTick;
     }
 
     @Override

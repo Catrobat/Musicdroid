@@ -24,6 +24,7 @@
 package org.catrobat.musicdroid.pocketmusic.instrument.tempo;
 
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
+import org.catrobat.musicdroid.pocketmusic.note.Track;
 
 public abstract class AbstractTickThread {
 
@@ -34,4 +35,12 @@ public abstract class AbstractTickThread {
     }
 
     public abstract long getNextTick(NoteEvent noteEvent);
+
+    public long getCurrentTick() {
+        return tick;
+    }
+
+    public void setTickBasedOnTrack(Track track) {
+        tick = track.getLastTick();
+    }
 }

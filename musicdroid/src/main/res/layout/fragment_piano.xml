@@ -91,7 +91,7 @@
         android:id="@+id/oct_button_03_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/note_name_simple_eis" />
+        android:text="" />
 
     <Button
         android:id="@+id/oct_button_04_black"
@@ -109,7 +109,7 @@
         android:id="@+id/oct_button_06_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="AIS" />
+        android:text="@string/note_name_simple_ais" />
 
     </RelativeLayout >
 

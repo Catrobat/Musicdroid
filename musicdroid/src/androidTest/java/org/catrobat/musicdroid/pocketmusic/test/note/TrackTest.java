@@ -26,6 +26,7 @@ import android.test.AndroidTestCase;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
+import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 
@@ -115,4 +116,21 @@ public class TrackTest extends AndroidTestCase {
 
 		assertEquals(expectedString, track.toString());
 	}
+
+    public void testSetTickBasedOnTrack1() {
+        Track track = TrackTestDataFactory.createTrack();
+
+        assertEquals(0, track.getLastTick());
+    }
+
+    public void testSetTickBasedOnTrack2() {
+        Track track = TrackTestDataFactory.createTrack();
+        long tick = 0;
+
+        track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(true));
+        tick += NoteLength.QUARTER.getTickDuration();
+        track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(false));
+
+        assertEquals(tick, track.getLastTick());
+    }
 }

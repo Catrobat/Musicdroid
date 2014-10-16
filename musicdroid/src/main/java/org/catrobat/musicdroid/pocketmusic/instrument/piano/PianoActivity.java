@@ -83,6 +83,16 @@ public class PianoActivity extends InstrumentActivity {
         noteSheetViewFragment.redraw(getTrack());
     }
 
+    @Override
+    protected void doAfterDeleteMidi() {
+        noteSheetViewFragment.redraw(getTrack());
+    }
+
+    @Override
+    protected void doAfterImportMidi() {
+        noteSheetViewFragment.redraw(getTrack());
+    }
+
     public void scrollNoteSheet() {
         if (noteSheetViewFragment.checkForScrollAndRecalculateWidth()) {
             HorizontalScrollView hv = (HorizontalScrollView) findViewById(R.id.scroll_note_sheet_view);

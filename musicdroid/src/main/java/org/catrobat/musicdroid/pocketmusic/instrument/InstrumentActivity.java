@@ -117,6 +117,8 @@ public abstract class InstrumentActivity extends Activity {
 
     private void onActionDeleteMidi() {
         track = new Track(track.getKey(), track.getInstrument());
+        tickThread.setTickBasedOnTrack(track);
+        doAfterDeleteMidi();
 
         Toast.makeText(getBaseContext(), R.string.action_delete_midi_success, Toast.LENGTH_LONG).show();
     }
@@ -142,6 +144,8 @@ public abstract class InstrumentActivity extends Activity {
                     Project project = converter.convertMidiFileToProject(midiFile);
 
                     track = project.getTrack(0);
+                    tickThread.setTickBasedOnTrack(track);
+                    doAfterImportMidi();
 
                     Toast.makeText(getBaseContext(), R.string.action_import_midi_success,
                             Toast.LENGTH_LONG).show();
@@ -212,4 +216,8 @@ public abstract class InstrumentActivity extends Activity {
     }
 
     protected abstract void doAfterAddNoteEvent(NoteEvent noteEvent);
+
+    protected abstract void doAfterDeleteMidi();
+
+    protected abstract void doAfterImportMidi();
 }
