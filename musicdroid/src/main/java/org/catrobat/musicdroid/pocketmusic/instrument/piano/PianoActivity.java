@@ -69,17 +69,16 @@ public class PianoActivity extends InstrumentActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void doAfterAddNoteEvent(NoteEvent noteEvent) {
+        noteSheetViewFragment.redraw(getTrack());
+    }
+
+    @Override
+    protected void doAfterUndoMidi() {
         noteSheetViewFragment.redraw(getTrack());
     }
 

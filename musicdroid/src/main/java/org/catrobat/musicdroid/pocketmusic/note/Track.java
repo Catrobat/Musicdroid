@@ -49,6 +49,22 @@ public class Track implements Serializable {
         this.lastTick = 0;
     }
 
+    public Track(Track track) {
+        this.events = new HashMap<Long, List<NoteEvent>>();
+        this.instrument = track.getInstrument();
+        this.key = track.getKey();
+        this.lastTick = track.getLastTick();
+
+        for (long tick : track.getSortedTicks()) {
+            List<NoteEvent> noteEventList = new LinkedList<NoteEvent>();
+            this.events.put(tick, noteEventList);
+
+            for (NoteEvent noteEvent : track.getNoteEventsForTick(tick)) {
+                noteEventList.add(new NoteEvent(noteEvent));
+            }
+        }
+    }
+
     public MusicalInstrument getInstrument() {
         return instrument;
     }

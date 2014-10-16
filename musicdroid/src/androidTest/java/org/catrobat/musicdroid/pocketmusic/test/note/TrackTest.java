@@ -133,4 +133,12 @@ public class TrackTest extends AndroidTestCase {
 
         assertEquals(tick, track.getLastTick());
     }
+
+    public void testCopyTrack() {
+        Track track = TrackTestDataFactory.createSimpleTrack();
+        Track copyTrack = new Track(track);
+
+        assertTrue(track != copyTrack);
+        assertTrue(track.equals(copyTrack));
+    }
 }

@@ -77,4 +77,12 @@ public class NoteEventTest extends AndroidTestCase {
 
 		assertEquals(expectedString, noteEvent.toString());
 	}
+
+    public void testCopyNoteEvent() {
+        NoteEvent noteEvent = NoteEventTestDataFactory.createNoteEvent();
+        NoteEvent copyNoteEvent = new NoteEvent(noteEvent);
+
+        assertTrue(noteEvent != copyNoteEvent);
+        assertTrue(noteEvent.equals(copyNoteEvent));
+    }
 }

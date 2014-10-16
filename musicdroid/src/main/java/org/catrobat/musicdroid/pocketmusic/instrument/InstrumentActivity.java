@@ -24,16 +24,12 @@ package org.catrobat.musicdroid.pocketmusic.instrument;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Environment;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
-import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.tempo.AbstractTickThread;
 import org.catrobat.musicdroid.pocketmusic.instrument.tempo.SimpleTickThread;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
@@ -41,14 +37,15 @@ import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.TrackMemento;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.IOError;
 import java.io.IOException;
+import java.util.Stack;
 
 public abstract class InstrumentActivity extends Activity {
 
@@ -57,6 +54,7 @@ public abstract class InstrumentActivity extends Activity {
     private AbstractTickThread tickThread;
     private Track track;
     private String[] midiFileList;
+    private Stack<TrackMemento> mementoStack;
 
     public InstrumentActivity(MusicalKey key, MusicalInstrument instrument) {
         editTextMidiExportNameDialogPrompt = null;
@@ -65,6 +63,7 @@ public abstract class InstrumentActivity extends Activity {
         track = new Track(key, instrument);
 
         midiFileList = null;
+        mementoStack = new Stack<TrackMemento>();
     }
 
     public Track getTrack() {
@@ -72,6 +71,10 @@ public abstract class InstrumentActivity extends Activity {
     }
 
     public void addNoteEvent(NoteEvent noteEvent) {
+        if (false == noteEvent.isNoteOn()) {
+            mementoStack.add(new TrackMemento(track));
+        }
+
         track.addNoteEvent(tickThread.getNextTick(noteEvent), noteEvent);
         doAfterAddNoteEvent(noteEvent);
     }
@@ -80,8 +83,13 @@ public abstract class InstrumentActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_export_midi) {
+        if (id == R.id.action_settings) {
+            return true;
+        } else if (id == R.id.action_export_midi) {
             onActionExportMidi();
+            return true;
+        } else if (id == R.id.action_undo_midi) {
+            onActionUndoMidi();
             return true;
         } else if (id == R.id.action_import_midi) {
             onActionImportMidi();
@@ -94,11 +102,19 @@ public abstract class InstrumentActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    protected void onActionExportMidi() {
+    private void onActionExportMidi() {
         exportMidiFileByUserInput();
     }
 
-    protected void onActionImportMidi() {
+    private void onActionUndoMidi() {
+        if (false == mementoStack.empty()) {
+            track = mementoStack.pop().getTrack();
+            tickThread.setTickBasedOnTrack(track);
+            doAfterUndoMidi();
+        }
+    }
+
+    private void onActionImportMidi() {
         if (ProjectToMidiConverter.MIDI_FOLDER.exists()) {
             FilenameFilter filter = new FilenameFilter() {
                 public boolean accept(File dir, String filename) {
@@ -214,6 +230,8 @@ public abstract class InstrumentActivity extends Activity {
     public EditText getEditTextMidiExportNameDialogPrompt() {
         return editTextMidiExportNameDialogPrompt;
     }
+
+    protected abstract void doAfterUndoMidi();
 
     protected abstract void doAfterAddNoteEvent(NoteEvent noteEvent);
 

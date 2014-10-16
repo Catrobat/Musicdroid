@@ -10,6 +10,11 @@ public class NoteEvent {
         this.noteOn = noteOn;
     }
 
+    public NoteEvent(NoteEvent noteEvent) {
+        this.noteName = noteEvent.getNoteName();
+        this.noteOn = noteEvent.isNoteOn();
+    }
+
     public NoteName getNoteName() {
         return noteName;
     }

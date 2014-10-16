@@ -48,4 +48,9 @@
         android:title="@string/action_delete_midi_title" />
     </menu>
     </item>
+    <item
+        android:id="@+id/action_undo_midi"
+        android:icon="@drawable/ic_action_undo"
+        android:showAsAction="always"
+        android:title="@string/action_undo_midi" />
 </menu >
