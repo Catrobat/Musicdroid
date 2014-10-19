@@ -23,18 +23,50 @@
 
 package org.catrobat.musicdroid.pocketmusic.note;
 
-/**
- * Created by Daniel on 16.10.2014.
- */
-public class TrackMemento {
+import java.util.Stack;
 
-    private Track track;
+public class TrackMementoStack {
 
-    public TrackMemento(Track track) {
-        this.track = new Track(track);
+    private class TrackMemento {
+
+        private Track track;
+
+        public TrackMemento(Track track) {
+            this.track = new Track(track);
+        }
+
+        public Track getTrack() {
+            return track;
+        }
     }
 
-    public Track getTrack() {
-        return track;
+    private Stack<TrackMemento> mementoStack;
+    private TrackMemento preparedMemento;
+
+    public TrackMementoStack() {
+        mementoStack = new Stack<TrackMemento>();
+        preparedMemento = null;
+    }
+
+    public void prepareMemento(Track track) {
+        preparedMemento = new TrackMemento(track);
+    }
+
+    public void pushPreparedMemento() {
+        if (null != preparedMemento) {
+            mementoStack.push(preparedMemento);
+        }
+    }
+
+    public Track popMementoAsTrack() {
+        if (isEmpty()) {
+            return null;
+        }
+
+        return mementoStack.pop().getTrack();
+    }
+
+    public boolean isEmpty() {
+        return mementoStack.isEmpty();
     }
 }

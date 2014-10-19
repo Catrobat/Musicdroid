@@ -42,6 +42,8 @@ import java.io.IOException;
 
 public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoActivity> {
 
+    private static final int MENU_BUTTON_ID = 1;
+
     private PianoActivity pianoActivity;
     private Solo solo;
 
@@ -117,7 +119,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         String buttonName = "C";
 
         solo.clickOnButton(buttonName);
-        solo.pressMenuItem(1);
+        solo.pressMenuItem(MENU_BUTTON_ID);
         solo.clickOnMenuItem(pianoActivity.getString(R.string.action_export_midi_title));
         solo.waitForDialogToOpen();
         solo.clearEditText(pianoActivity.getEditTextMidiExportNameDialogPrompt());
@@ -137,7 +139,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     }
 
     private void importMidi(String filename) {
-        solo.pressMenuItem(1);
+        solo.pressMenuItem(MENU_BUTTON_ID);
         solo.clickOnMenuItem(pianoActivity.getString(R.string.action_import_midi_title));
         solo.waitForDialogToOpen();
         solo.clickOnText(filename);
@@ -157,12 +159,23 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         String buttonName = "C";
 
         solo.clickOnButton(buttonName);
-        solo.pressMenuItem(1);
+        solo.pressMenuItem(MENU_BUTTON_ID);
         solo.clickOnMenuItem(pianoActivity.getString(R.string.action_delete_midi_title));
         solo.waitForText(pianoActivity.getString(R.string.action_delete_midi_success));
 
         Track newTrack = getActivity().getTrack();
 
         assertEquals(0, newTrack.size());
+    }
+
+    public void testUndo() {
+        int expectedTrackSize = 0;
+        String buttonName = "C";
+
+        solo.clickOnButton(buttonName);
+        // TODO fw ist 0 wirklich die richtige ID?
+        solo.pressMenuItem(0);
+
+        assertEquals(expectedTrackSize, pianoActivity.getTrack().size());
     }
 }

@@ -37,7 +37,7 @@ import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
-import org.catrobat.musicdroid.pocketmusic.note.TrackMemento;
+import org.catrobat.musicdroid.pocketmusic.note.TrackMementoStack;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
@@ -45,7 +45,6 @@ import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.Stack;
 
 public abstract class InstrumentActivity extends Activity {
 
@@ -54,7 +53,7 @@ public abstract class InstrumentActivity extends Activity {
     private AbstractTickThread tickThread;
     private Track track;
     private String[] midiFileList;
-    private Stack<TrackMemento> mementoStack;
+    private TrackMementoStack mementoStack;
 
     public InstrumentActivity(MusicalKey key, MusicalInstrument instrument) {
         editTextMidiExportNameDialogPrompt = null;
@@ -63,7 +62,7 @@ public abstract class InstrumentActivity extends Activity {
         track = new Track(key, instrument);
 
         midiFileList = null;
-        mementoStack = new Stack<TrackMemento>();
+        mementoStack = new TrackMementoStack();
     }
 
     public Track getTrack() {
@@ -71,8 +70,10 @@ public abstract class InstrumentActivity extends Activity {
     }
 
     public void addNoteEvent(NoteEvent noteEvent) {
-        if (false == noteEvent.isNoteOn()) {
-            mementoStack.add(new TrackMemento(track));
+        if (noteEvent.isNoteOn()) {
+            mementoStack.prepareMemento(track);
+        } else {
+            mementoStack.pushPreparedMemento();
         }
 
         track.addNoteEvent(tickThread.getNextTick(noteEvent), noteEvent);
@@ -107,8 +108,8 @@ public abstract class InstrumentActivity extends Activity {
     }
 
     private void onActionUndoMidi() {
-        if (false == mementoStack.empty()) {
-            track = mementoStack.pop().getTrack();
+        if (false == mementoStack.isEmpty()) {
+            track = mementoStack.popMementoAsTrack();
             tickThread.setTickBasedOnTrack(track);
             doAfterUndoMidi();
         }
