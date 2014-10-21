@@ -74,25 +74,21 @@ public class NoteDrawer {
 
     private void drawHelpLines() {
         float topEndOfNoteLines = noteSheetCanvas.getYPositionOfCenterLine() -
-                noteSheetCanvas.getDistanceBetweenLines() * noteSheetCanvas.NUMBER_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
+                noteSheetCanvas.getDistanceBetweenLines() * noteSheetCanvas.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
         float bottomEndOfNoteLines = noteSheetCanvas.getYPositionOfCenterLine() +
-                noteSheetCanvas.getDistanceBetweenLines() * noteSheetCanvas.NUMBER_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
+                noteSheetCanvas.getDistanceBetweenLines() * noteSheetCanvas.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
 
         float topEndOfHelpLines = notePositionInformation.getTopOfSymbol() + noteSheetCanvas.getDistanceBetweenLines()/2;
         float bottomEndOfHelpLines = notePositionInformation.getBottomOfSymbol() - noteSheetCanvas.getDistanceBetweenLines()/2;
 
         int lengthOfHelpLine = ((int) notePositionInformation.getRightSideOfSymbol() - (int) notePositionInformation.getLeftSideOfSymbol()) / 3;
-        Paint paint = new Paint();
-        paint.setColor(Color.BLACK);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(4);
 
         while(topEndOfHelpLines <= topEndOfNoteLines) {
             int startX = (int) (notePositionInformation.getLeftSideOfSymbol() - lengthOfHelpLine);
             int stopX = (int) (notePositionInformation.getRightSideOfSymbol() + lengthOfHelpLine);
             int startY = (int) topEndOfNoteLines;
             int stopY = startY;
-            noteSheetCanvas.drawLine(startX, startY, stopX, stopY, paint);
+            noteSheetCanvas.drawLine(startX, startY, stopX, stopY);
 
             topEndOfNoteLines -= noteSheetCanvas.getDistanceBetweenLines();
         }
@@ -102,7 +98,7 @@ public class NoteDrawer {
             int stopX = (int) (notePositionInformation.getRightSideOfSymbol() + lengthOfHelpLine);
             int startY = (int) bottomEndOfNoteLines;
             int stopY = startY;
-            noteSheetCanvas.drawLine(startX, startY, stopX, stopY, paint);
+            noteSheetCanvas.drawLine(startX, startY, stopX, stopY);
 
             bottomEndOfNoteLines += noteSheetCanvas.getDistanceBetweenLines();
         }

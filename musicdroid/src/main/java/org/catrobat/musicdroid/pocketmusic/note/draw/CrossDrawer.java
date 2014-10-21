@@ -37,12 +37,6 @@ public final class CrossDrawer {
 	public static void drawCross(PianoNoteSheetCanvas noteSheetCanvas, int xPosition, int yPosition, Resources resources) {
 		int crossHeight = 2 * noteSheetCanvas.getDistanceBetweenLines();
 
-		Bitmap crossPicture = BitmapFactory.decodeResource(resources, R.drawable.cross);
-		int xStartPositionForCrosses = xPosition;
-
-		Rect rect = PictureTools.calculateProportionalPictureContourRect(crossPicture, crossHeight,
-				xStartPositionForCrosses, yPosition);
-
-		noteSheetCanvas.drawBitmap(crossPicture, null, rect, null);
+		noteSheetCanvas.drawBitmap(resources, R.drawable.cross, crossHeight, xPosition, yPosition);
 	}
 }

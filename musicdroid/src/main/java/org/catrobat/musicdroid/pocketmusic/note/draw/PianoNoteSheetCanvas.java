@@ -24,11 +24,8 @@
 package org.catrobat.musicdroid.pocketmusic.note.draw;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.graphics.Rect;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
@@ -36,7 +33,8 @@ import org.catrobat.musicdroid.pocketmusic.note.Track;
 
 public class PianoNoteSheetCanvas extends NoteSheetCanvas {
 
-    private static final int HEIGHT_OF_KEY_IN_LINE_SPACES = 6;
+    public static final int HEIGHT_OF_KEY_IN_LINE_SPACES = 6;
+    public static final int HEIGHT_OF_TACT_UNIT_IN_LINE_SPACES = 4;
 
     private TrackDrawer trackDrawer;
     private Resources resources;
@@ -45,13 +43,13 @@ public class PianoNoteSheetCanvas extends NoteSheetCanvas {
     private final int widthForOneSymbol;
     private final int widthForOneSmallSymbol;
 
-    public PianoNoteSheetCanvas(Resources res, Canvas canvas, Track track) {
+    public PianoNoteSheetCanvas(Resources resources, Canvas canvas, Track track) {
         super(canvas);
         this.trackDrawer = new TrackDrawer();
 
-        this.resources = res;
+        this.resources = resources;
         this.track = track;
-        this.widthForOneSymbol = 3 * getDistanceBetweenLines();
+        this.widthForOneSymbol = 3 * distanceBetweenLines;
         this.widthForOneSmallSymbol = widthForOneSymbol / 4;
     }
 
@@ -88,36 +86,19 @@ public class PianoNoteSheetCanvas extends NoteSheetCanvas {
     }
 
 	private void drawKey() {
-		Bitmap keyPicture;
-		MusicalKey key = track.getKey();
-
-		if (key == MusicalKey.VIOLIN) {
-			keyPicture = BitmapFactory.decodeResource(resources, R.drawable.violine);
-		} else {
-			throw new UnsupportedOperationException();
+		if (track.getKey() != MusicalKey.VIOLIN) {
+            throw new UnsupportedOperationException();
 		}
 
 		int keyPictureHeight = distanceBetweenLines * HEIGHT_OF_KEY_IN_LINE_SPACES;
 
-		Rect rect = PictureTools.calculateProportionalPictureContourRect(keyPicture, keyPictureHeight,
-				startXPositionForNextElement, yPositionOfCenterLine);
-
-        drawBitmap(keyPicture, null, rect, null);
-		startXPositionForNextElement = rect.right;
+        startXPositionForNextElement = drawBitmap(resources, R.drawable.violine, keyPictureHeight, startXPositionForNextElement, yPositionOfCenterLine).right;
 	}
 
 	private void drawTactUnit() {
-		Bitmap tactPicture;
+		int tactPictureHeight = distanceBetweenLines * HEIGHT_OF_TACT_UNIT_IN_LINE_SPACES;
 
-		tactPicture = BitmapFactory.decodeResource(resources, R.drawable.tact_3_4);
-
-		int tactPictureHeight = distanceBetweenLines * 4;
-
-		Rect rect = PictureTools.calculateProportionalPictureContourRect(tactPicture, tactPictureHeight,
-				startXPositionForNextElement, yPositionOfCenterLine);
-
-        drawBitmap(tactPicture, null, rect, null);
-        startXPositionForNextElement = rect.right;
+        startXPositionForNextElement = drawBitmap(resources, R.drawable.tact_3_4, tactPictureHeight, startXPositionForNextElement, yPositionOfCenterLine).right;
     }
 
     private void drawTrack() {

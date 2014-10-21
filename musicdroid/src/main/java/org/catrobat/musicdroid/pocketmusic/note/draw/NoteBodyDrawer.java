@@ -47,23 +47,12 @@ public final class NoteBodyDrawer {
 		int noteWidth = noteHeight * 130 / 100;
 
 		Point centerPointOfSpaceForNote = noteSheetCanvas.getCenterPointForNextSymbol();
-
 		List<RectF> noteSurroundingRects = new LinkedList<RectF>();
-
-		Paint paint = new Paint();
-		paint.setColor(Color.BLACK);
-
 		NoteName prevNoteName = null;
 
 		for (NoteName noteName : noteSymbol.getNoteNamesSorted()) {
 
 			NoteLength noteLength = noteSymbol.getNoteLength(noteName);
-			if (noteLength.isFilled()) {
-				paint.setStyle(Paint.Style.FILL);
-			} else {
-				paint.setStyle(Paint.Style.STROKE);
-				paint.setStrokeWidth(4);
-			}
 			Point centerPointOfActualNote = new Point(centerPointOfSpaceForNote);
 			centerPointOfActualNote.y += NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName)
 					* noteHeight;
@@ -90,7 +79,7 @@ public final class NoteBodyDrawer {
 			RectF rect = new RectF(left, top, right, bottom);
 
 			noteSurroundingRects.add(rect);
-			noteSheetCanvas.drawOval(rect, paint);
+			noteSheetCanvas.drawOval(rect);
 
 			prevNoteName = noteName;
 		}

@@ -57,11 +57,7 @@ public final class NoteStemDrawer {
             endPointOfNoteStem.y = (int) notePositionInformation.getBottomOfSymbol() + stemLength;
         }
 
-		Paint paint = new Paint();
-		paint.setColor(Color.BLACK);
-		paint.setStrokeWidth(4);
-
 		noteSheetCanvas.drawLine(startPointOfNoteStem.x, startPointOfNoteStem.y, endPointOfNoteStem.x,
-                endPointOfNoteStem.y, paint);
+                endPointOfNoteStem.y);
 	}
 }
