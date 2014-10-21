@@ -25,42 +25,23 @@ package org.catrobat.musicdroid.pocketmusic.note.draw;
 import android.content.res.Resources;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.BoundNoteSymbol;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 
 
 public class SymbolDrawer {
 
-	private NoteSheetCanvas noteSheetCanvas;
-	private MusicalKey key;
-    private Resources resources;
 	private NoteDrawer noteDrawer;
-	private BreakDrawer breakDrawer;
 
 	public SymbolDrawer(PianoNoteSheetCanvas noteSheetCanvas, Resources resources, MusicalKey key) {
-		this.noteSheetCanvas = noteSheetCanvas;
-		this.key = key;
-		this.resources = resources;
 		this.noteDrawer = new NoteDrawer(noteSheetCanvas, key, resources);
-		this.breakDrawer = new BreakDrawer(noteSheetCanvas, resources);
 	}
 
 	public void drawSymbol(Symbol symbol) {
-		if (symbol instanceof BreakSymbol) {
-			breakDrawer.drawBreak((BreakSymbol) symbol);
-		} else if (symbol instanceof NoteSymbol) {
+		if (symbol instanceof NoteSymbol) {
 			noteDrawer.drawNoteSymbol((NoteSymbol) symbol);
-		} else if (symbol instanceof BoundNoteSymbol) {
-			drawBoundNoteSymbol((BoundNoteSymbol) symbol, noteSheetCanvas, resources);
 		} else {
 			throw new IllegalArgumentException();
 		}
 	}
-
-	private void drawBoundNoteSymbol(BoundNoteSymbol symbol, NoteSheetCanvas noteSheetCanvas, Resources resources) {
-		// TODO das Dream Team Eli und Flo :D
-	}
-
 }

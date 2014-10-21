@@ -25,19 +25,18 @@ package org.catrobat.musicdroid.pocketmusic.test.instrument.tempo;
 
 import android.test.AndroidTestCase;
 
-import org.catrobat.musicdroid.pocketmusic.instrument.tempo.SimpleTickThread;
+import org.catrobat.musicdroid.pocketmusic.instrument.tempo.SimpleTickProvider;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.test.note.NoteEventTestDataFactory;
-import org.catrobat.musicdroid.pocketmusic.test.note.TrackTest;
 import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
 
-public class SimpleTickThreadTest extends AndroidTestCase {
+public class SimpleTickProviderTest extends AndroidTestCase {
 
     public void testGetNextTick1() {
         long expected = 0;
 
-        SimpleTickThread clock = new SimpleTickThread();
+        SimpleTickProvider clock = new SimpleTickProvider();
         long actual = clock.getNextTick(NoteEventTestDataFactory.createNoteEvent(true));
 
         assertEquals(expected, actual);
@@ -46,7 +45,7 @@ public class SimpleTickThreadTest extends AndroidTestCase {
     public void testGetNextTick2() {
         long expected = 0;
 
-        SimpleTickThread clock = new SimpleTickThread();
+        SimpleTickProvider clock = new SimpleTickProvider();
         clock.getNextTick(NoteEventTestDataFactory.createNoteEvent(true));
         long actual = clock.getNextTick(NoteEventTestDataFactory.createNoteEvent(true));
 
@@ -56,7 +55,7 @@ public class SimpleTickThreadTest extends AndroidTestCase {
     public void testGetNextTick3() {
         long expected = NoteLength.QUARTER.getTickDuration();
 
-        SimpleTickThread clock = new SimpleTickThread();
+        SimpleTickProvider clock = new SimpleTickProvider();
         clock.getNextTick(NoteEventTestDataFactory.createNoteEvent(true));
         long actual = clock.getNextTick(NoteEventTestDataFactory.createNoteEvent(false));
 
@@ -66,7 +65,7 @@ public class SimpleTickThreadTest extends AndroidTestCase {
     public void testGetNextTick4() {
         long expected = NoteLength.QUARTER.getTickDuration();
 
-        SimpleTickThread clock = new SimpleTickThread();
+        SimpleTickProvider clock = new SimpleTickProvider();
         clock.getNextTick(NoteEventTestDataFactory.createNoteEvent(true));
         clock.getNextTick(NoteEventTestDataFactory.createNoteEvent(true));
         clock.getNextTick(NoteEventTestDataFactory.createNoteEvent(false));
@@ -76,7 +75,7 @@ public class SimpleTickThreadTest extends AndroidTestCase {
     }
 
     public void testSetTickBasedOnTrack() {
-        SimpleTickThread clock = new SimpleTickThread();
+        SimpleTickProvider clock = new SimpleTickProvider();
         Track track = TrackTestDataFactory.createTrack();
 
         clock.setTickBasedOnTrack(track);

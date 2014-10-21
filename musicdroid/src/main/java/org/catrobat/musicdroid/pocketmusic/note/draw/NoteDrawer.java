@@ -49,9 +49,7 @@ public class NoteDrawer {
         this.noteSymbol = symbol;
         drawCross();
         drawBody();
-        //drawDot();
         drawStem();
-        //drawFlag();
         drawHelpLines();
     }
 
@@ -90,7 +88,6 @@ public class NoteDrawer {
         paint.setStrokeWidth(4);
 
         while(topEndOfHelpLines <= topEndOfNoteLines) {
-
             int startX = (int) (notePositionInformation.getLeftSideOfSymbol() - lengthOfHelpLine);
             int stopX = (int) (notePositionInformation.getRightSideOfSymbol() + lengthOfHelpLine);
             int startY = (int) topEndOfNoteLines;
@@ -123,39 +120,4 @@ public class NoteDrawer {
         NoteStemDrawer.drawStem(noteSheetCanvas, NoteLength.QUARTER, this.notePositionInformation,
                 isStemUpdirected);
     }
-
-	public void drawNoteSymbol2(NoteSymbol symbol) {
-		boolean isStemUpdirected = symbol.isStemUp(key);
-
-		/*
-		List<RectF> noteSurroundingRects = NoteBodyDrawer.drawBody(noteSheetCanvas, symbol, isStemUpdirected, key);
-		drawHelpLines(noteSheetCanvas, noteSurroundingRects, symbol, key);
-
-		Point startPointOfNoteStem = new Point();
-		Point endPointOfNoteStem = new Point();
-
-		if (!isStemUpdirected) {
-			startPointOfNoteStem.y = (int) Math
-					.round((noteSurroundingRects.get(0).bottom + noteSurroundingRects.get(0).top) / 2.0);
-			endPointOfNoteStem.y = (int) Math
-					.round((noteSurroundingRects.get(noteSurroundingRects.size() - 1).bottom + noteSurroundingRects
-							.get(noteSurroundingRects.size() - 1).top) / 2.0);
-		} else {
-			startPointOfNoteStem.y = (int) Math
-					.round((noteSurroundingRects.get(noteSurroundingRects.size() - 1).bottom + noteSurroundingRects
-							.get(noteSurroundingRects.size() - 1).top) / 2.0);
-			endPointOfNoteStem.y = (int) Math
-					.round((noteSurroundingRects.get(0).bottom + noteSurroundingRects.get(0).top) / 2.0);
-		}
-
-		if (!isStemUpdirected) {
-			startPointOfNoteStem.x = (int) noteSurroundingRects.get(0).right;
-			endPointOfNoteStem.x = (int) noteSurroundingRects.get(0).right;
-		} else {
-
-			startPointOfNoteStem.x = (int) noteSurroundingRects.get(0).left;
-			endPointOfNoteStem.x = (int) noteSurroundingRects.get(0).left;
-		}
-	*/
-	}
 }

@@ -21,43 +21,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.uitest.instrument.piano;
+package org.catrobat.musicdroid.pocketmusic.instrument.tempo;
 
-import android.test.ActivityInstrumentationTestCase2;
+import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
+import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 
-import com.robotium.solo.Solo;
+public class SimpleTickProvider extends AbstractTickProvider {
 
-import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
+    private static final NoteLength DEFAULT_NOTE_LENGTH = NoteLength.QUARTER;
 
-public class PianoKeyUiTest extends ActivityInstrumentationTestCase2<PianoActivity> {
+    private boolean lastIsNoteOn;
 
-    private PianoActivity pianoActivity;
-    private Solo solo;
-
-    public PianoKeyUiTest(){
-        super(PianoActivity.class);
+    public SimpleTickProvider() {
+        lastIsNoteOn = true;
     }
 
     @Override
-    protected void setUp() {
-        pianoActivity  = getActivity();
-        solo = new Solo(getInstrumentation(), getActivity());
-    }
-
-    @Override
-    protected void tearDown() {
-        solo.finishOpenedActivities();
-    }
-
-    // TODO:if notesheetview is implemented, refactor testcase
-    public void testPianoKeys(){
-        solo.waitForActivity(PianoActivity.class);
-        int numOfButtons = 12;
-        int counter;
-
-        for (counter = 0; counter < numOfButtons; counter++) {
-            solo.clickOnButton(counter);
+    public long getNextTick(NoteEvent noteEvent) {
+        if (lastIsNoteOn && (false == noteEvent.isNoteOn())){
+            tick += DEFAULT_NOTE_LENGTH.getTickDuration();
         }
-        assertEquals(counter, numOfButtons);
+
+        lastIsNoteOn = noteEvent.isNoteOn();
+
+        return tick;
     }
 }

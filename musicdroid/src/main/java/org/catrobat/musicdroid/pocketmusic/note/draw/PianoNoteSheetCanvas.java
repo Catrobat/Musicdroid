@@ -84,7 +84,6 @@ public class PianoNoteSheetCanvas extends NoteSheetCanvas {
     protected void drawSheetElements() {
         drawKey();
         drawTactUnit();
-        drawBeats();
         drawTrack();
     }
 
@@ -103,14 +102,13 @@ public class PianoNoteSheetCanvas extends NoteSheetCanvas {
 		Rect rect = PictureTools.calculateProportionalPictureContourRect(keyPicture, keyPictureHeight,
 				startXPositionForNextElement, yPositionOfCenterLine);
 
-		canvas.drawBitmap(keyPicture, null, rect, null);
+        drawBitmap(keyPicture, null, rect, null);
 		startXPositionForNextElement = rect.right;
 	}
 
 	private void drawTactUnit() {
 		Bitmap tactPicture;
 
-		// TODO: Tact has to be checked here
 		tactPicture = BitmapFactory.decodeResource(resources, R.drawable.tact_3_4);
 
 		int tactPictureHeight = distanceBetweenLines * 4;
@@ -118,12 +116,8 @@ public class PianoNoteSheetCanvas extends NoteSheetCanvas {
 		Rect rect = PictureTools.calculateProportionalPictureContourRect(tactPicture, tactPictureHeight,
 				startXPositionForNextElement, yPositionOfCenterLine);
 
-		canvas.drawBitmap(tactPicture, null, rect, null);
+        drawBitmap(tactPicture, null, rect, null);
         startXPositionForNextElement = rect.right;
-    }
-
-    private void drawBeats() {
-        // TODO
     }
 
     private void drawTrack() {

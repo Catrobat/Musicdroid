@@ -61,7 +61,6 @@ public  class PianoViewFragment extends Fragment {
         int j = 0;
         for(int i = 0; i < whiteButtons.size(); i++){
             whiteButtons.get(i).setOnTouchListener(setOnTouchPianoKey(noteNames[j]));
-            // TODO: works only for the specific octave, do for all // in Octave.java - noteNames Array
             if(i == 2)
                 j+=1;
             else
@@ -155,18 +154,10 @@ public  class PianoViewFragment extends Fragment {
             public boolean onTouch(View view, MotionEvent event) {
 
                 if (isDownActionEvent(event)) {
-                    Log.d("t1", noteName.toString());
-
-                    // TODO: animation for clicking
                     view.setX(view.getX()+5);
-
                     addKeyPress(new NoteEvent(noteName, true));
-
                 } else if (isUpActionEvent(event)) {
-
-                    // TODO: animation for clicking
                     view.setX(view.getX()-5);
-
                     addKeyPress(new NoteEvent(noteName, false));
                 }
 

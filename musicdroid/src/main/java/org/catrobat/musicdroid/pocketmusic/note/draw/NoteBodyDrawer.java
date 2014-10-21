@@ -92,10 +92,6 @@ public final class NoteBodyDrawer {
 			noteSurroundingRects.add(rect);
 			noteSheetCanvas.drawOval(rect, paint);
 
-			if (noteLength.hasDot()) {
-				DotDrawer.drawDotOnRightSideOfRect(rect, noteSheetCanvas);
-			}
-
 			prevNoteName = noteName;
 		}
 

@@ -65,20 +65,6 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         solo.finishOpenedActivities();
     }
 
-    // TODO:if notesheetview is implemented, refactor testcase
-    public void testPianoKeys(){
-        solo.waitForActivity(PianoActivity.class);
-        int numOfButtons = 12;
-        int counter;
-        for (counter = 0; counter < numOfButtons; counter++) {
-            solo.clickOnButton(counter);
-        }
-
-        //int actualTrackSize = pianoActivity.getTrack().size();
-
-        assertEquals(counter, numOfButtons);
-    }
-
     public void testExportMidi1() {
         String filename = "music";
         boolean saveFile = true;
@@ -173,7 +159,6 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         String buttonName = "C";
 
         solo.clickOnButton(buttonName);
-        // TODO fw ist 0 wirklich die richtige ID?
         solo.pressMenuItem(0);
 
         assertEquals(expectedTrackSize, pianoActivity.getTrack().size());

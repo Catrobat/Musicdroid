@@ -26,11 +26,11 @@ package org.catrobat.musicdroid.pocketmusic.instrument.tempo;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 
-public abstract class AbstractTickThread {
+public abstract class AbstractTickProvider {
 
     protected long tick;
 
-    public AbstractTickThread() {
+    public AbstractTickProvider() {
         tick = 0;
     }
 

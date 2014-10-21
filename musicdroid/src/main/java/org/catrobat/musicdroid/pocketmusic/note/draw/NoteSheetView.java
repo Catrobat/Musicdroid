@@ -43,7 +43,7 @@ public class NoteSheetView extends View {
 
 	public NoteSheetView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ELECTRIC_PIANO_1); // TODO fw aus Settings auslesen
+		track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ELECTRIC_PIANO_1);
         widthBeforeResize = getWidth();
 	}
 

@@ -21,29 +21,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.instrument.tempo;
+package org.catrobat.musicdroid.pocketmusic.uitest.note.draw;
 
-import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
-import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 
-public class SimpleTickThread extends AbstractTickThread {
+/**
+ * Created by Daniel on 21.10.2014.
+ */
+public class CanvasMock extends Canvas {
 
-    private static final NoteLength DEFAULT_NOTE_LENGTH = NoteLength.QUARTER;
-
-    private boolean lastIsNoteOn;
-
-    public SimpleTickThread() {
-        lastIsNoteOn = true;
+    public int getHeight() {
+        return 0;
     }
 
-    @Override
-    public long getNextTick(NoteEvent noteEvent) {
-        if (lastIsNoteOn && (false == noteEvent.isNoteOn())){
-            tick += DEFAULT_NOTE_LENGTH.getTickDuration();
-        }
+    public void drawLine(float startX, float startY, float stopX, float stopY, Paint paint) {
 
-        lastIsNoteOn = noteEvent.isNoteOn();
+    }
 
-        return tick;
+    public void drawRect(Rect r, Paint paint) {
+
+    }
+
+    public void drawOval(RectF oval, Paint paint) {
+
+    }
+
+    public void drawBitmap(Bitmap bitmap, Rect src, Rect dst, Paint paint) {
+
     }
 }

@@ -30,8 +30,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
-import org.catrobat.musicdroid.pocketmusic.instrument.tempo.AbstractTickThread;
-import org.catrobat.musicdroid.pocketmusic.instrument.tempo.SimpleTickThread;
+import org.catrobat.musicdroid.pocketmusic.instrument.tempo.AbstractTickProvider;
+import org.catrobat.musicdroid.pocketmusic.instrument.tempo.SimpleTickProvider;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
@@ -50,7 +50,7 @@ public abstract class InstrumentActivity extends Activity {
 
     private EditText editTextMidiExportNameDialogPrompt;
 
-    private AbstractTickThread tickThread;
+    private AbstractTickProvider tickThread;
     private Track track;
     private String[] midiFileList;
     private TrackMementoStack mementoStack;
@@ -58,7 +58,7 @@ public abstract class InstrumentActivity extends Activity {
     public InstrumentActivity(MusicalKey key, MusicalInstrument instrument) {
         editTextMidiExportNameDialogPrompt = null;
 
-        tickThread = new SimpleTickThread();
+        tickThread = new SimpleTickProvider();
         track = new Track(key, instrument);
 
         midiFileList = null;
