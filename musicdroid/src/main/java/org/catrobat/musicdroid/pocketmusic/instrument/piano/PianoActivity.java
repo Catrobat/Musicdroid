@@ -52,13 +52,17 @@ public class PianoActivity extends InstrumentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_piano);
-        if (savedInstanceState == null) {
+        noteSheetViewFragment = new NoteSheetViewFragment();
+        pianoViewFragment = new PianoViewFragment();
 
-            noteSheetViewFragment = new NoteSheetViewFragment();
+        if(savedInstanceState != null) {
+            getFragmentManager().beginTransaction().replace(R.id.container, noteSheetViewFragment).commit();
+            getFragmentManager().beginTransaction().replace(R.id.container, pianoViewFragment).commit();
+        }else{
             getFragmentManager().beginTransaction().add(R.id.container, noteSheetViewFragment).commit();
-            pianoViewFragment = new PianoViewFragment();
             getFragmentManager().beginTransaction().add(R.id.container, pianoViewFragment).commit();
         }
+
     }
 
     @Override

@@ -46,9 +46,9 @@ public  class NoteSheetViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_notesheetview, container, false);
-
-        rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,getDisplayHeight()/2));
+        rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getDisplayHeight() / 2));
         noteSheetView = (NoteSheetView) rootView.findViewById(R.id.note_sheet_view);
+
         return rootView;
     }
 
@@ -59,6 +59,7 @@ public  class NoteSheetViewFragment extends Fragment {
         int[] widthAndHeight = new int[2];
         widthAndHeight[0] = size.x;
         widthAndHeight[1] = size.y;
+
         return widthAndHeight;
     }
 
