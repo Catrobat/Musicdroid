@@ -83,6 +83,7 @@ public class NoteDrawer {
 
         int lengthOfHelpLine = ((int) notePositionInformation.getRightSideOfSymbol() - (int) notePositionInformation.getLeftSideOfSymbol()) / 3;
 
+        topEndOfNoteLines -= noteSheetCanvas.getDistanceBetweenLines();
         while(topEndOfHelpLines <= topEndOfNoteLines) {
             int startX = (int) (notePositionInformation.getLeftSideOfSymbol() - lengthOfHelpLine);
             int stopX = (int) (notePositionInformation.getRightSideOfSymbol() + lengthOfHelpLine);
@@ -93,6 +94,7 @@ public class NoteDrawer {
             topEndOfNoteLines -= noteSheetCanvas.getDistanceBetweenLines();
         }
 
+        bottomEndOfNoteLines += noteSheetCanvas.getDistanceBetweenLines();
         while(bottomEndOfHelpLines >= bottomEndOfNoteLines) {
             int startX = (int) (notePositionInformation.getLeftSideOfSymbol() - lengthOfHelpLine);
             int stopX = (int) (notePositionInformation.getRightSideOfSymbol() + lengthOfHelpLine);

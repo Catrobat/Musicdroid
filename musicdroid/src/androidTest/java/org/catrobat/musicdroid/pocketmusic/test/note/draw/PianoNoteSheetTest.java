@@ -45,6 +45,7 @@ public class PianoNoteSheetTest extends AndroidTestCase {
     private int startXPositionForNextElement;
 
     public void test1() {
+        int expectedDrawnElementsCount = 10;
         startXPositionForNextElement = NoteSheetCanvas.NOTE_SHEET_PADDING;
         CanvasMock canvas = CanvasTestDataFactory.createCanvasMock();
         Track track = TrackTestDataFactory.createTrack();
@@ -52,11 +53,23 @@ public class PianoNoteSheetTest extends AndroidTestCase {
 
         noteSheetCanvas.draw();
 
-        assertCanvas(noteSheetCanvas, canvas);
+        assertCanvas(noteSheetCanvas, canvas, expectedDrawnElementsCount);
     }
 
-    private void assertCanvas(PianoNoteSheetCanvas noteSheetCanvas, CanvasMock canvas) {
-        Queue<String> drawnElements = canvas.getDrawnElements();
+    public void test2() {
+        int expectedDrawnElementsCount = 10 + 3 + 2 + 2 + 3 + 2;
+        startXPositionForNextElement = NoteSheetCanvas.NOTE_SHEET_PADDING;
+        CanvasMock canvas = CanvasTestDataFactory.createCanvasMock();
+        Track track = TrackTestDataFactory.createSimpleTrack();
+        PianoNoteSheetCanvas noteSheetCanvas = PianoNoteSheetCanvasTestDataFactory.createPianoNoteSheetCanvas(getContext(), canvas, track);
+
+        noteSheetCanvas.draw();
+
+        assertCanvas(noteSheetCanvas, canvas, expectedDrawnElementsCount);
+    }
+
+    private void assertCanvas(PianoNoteSheetCanvas noteSheetCanvas, CanvasMock canvas, int expectedElementCount) {
+        assertEquals(expectedElementCount, canvas.getDrawnElements().size());
 
         assertCanvasLines(noteSheetCanvas, canvas);
         assertCanvasLineBars(noteSheetCanvas, canvas);
@@ -133,4 +146,5 @@ public class PianoNoteSheetTest extends AndroidTestCase {
 
         startXPositionForNextElement = rect.right;
     }
+
 }
