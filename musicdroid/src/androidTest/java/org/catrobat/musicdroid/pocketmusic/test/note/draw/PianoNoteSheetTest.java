@@ -25,8 +25,11 @@ package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.test.AndroidTestCase;
+
+import com.robotium.solo.Solo;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
@@ -43,38 +46,29 @@ import java.util.Queue;
 public class PianoNoteSheetTest extends AndroidTestCase {
 
     private int startXPositionForNextElement;
+    private CanvasMock canvas;
+    private PianoNoteSheetCanvasMock noteSheetCanvas;
 
-    public void test1() {
-        int expectedDrawnElementsCount = 10;
+    @Override
+    protected void setUp() {
         startXPositionForNextElement = NoteSheetCanvas.NOTE_SHEET_PADDING;
-        CanvasMock canvas = CanvasTestDataFactory.createCanvasMock();
+        canvas = CanvasTestDataFactory.createCanvasMock();
         Track track = TrackTestDataFactory.createTrack();
-        PianoNoteSheetCanvas noteSheetCanvas = PianoNoteSheetCanvasTestDataFactory.createPianoNoteSheetCanvas(getContext(), canvas, track);
+        noteSheetCanvas = PianoNoteSheetCanvasTestDataFactory.createPianoNoteSheetCanvas(getContext(), canvas, track);
 
         noteSheetCanvas.draw();
-
-        assertCanvas(noteSheetCanvas, canvas, expectedDrawnElementsCount);
     }
 
-    public void test2() {
-        int expectedDrawnElementsCount = 10 + 3 + 2 + 2 + 3 + 2;
-        startXPositionForNextElement = NoteSheetCanvas.NOTE_SHEET_PADDING;
-        CanvasMock canvas = CanvasTestDataFactory.createCanvasMock();
-        Track track = TrackTestDataFactory.createSimpleTrack();
-        PianoNoteSheetCanvas noteSheetCanvas = PianoNoteSheetCanvasTestDataFactory.createPianoNoteSheetCanvas(getContext(), canvas, track);
-
-        noteSheetCanvas.draw();
-
-        assertCanvas(noteSheetCanvas, canvas, expectedDrawnElementsCount);
+    public void testDraw() {
+        assertCanvas(noteSheetCanvas, canvas);
     }
 
-    private void assertCanvas(PianoNoteSheetCanvas noteSheetCanvas, CanvasMock canvas, int expectedElementCount) {
-        assertEquals(expectedElementCount, canvas.getDrawnElements().size());
-
+    private void assertCanvas(PianoNoteSheetCanvasMock noteSheetCanvas, CanvasMock canvas) {
         assertCanvasLines(noteSheetCanvas, canvas);
         assertCanvasLineBars(noteSheetCanvas, canvas);
         assertCanvasKey(noteSheetCanvas, canvas);
         assertCanvasTactUnit(noteSheetCanvas, canvas);
+        assertTrue((canvas.getDrawnElements().isEmpty()));
     }
 
     private void assertCanvasLines(PianoNoteSheetCanvas noteSheetCanvas, CanvasMock canvas) {
@@ -94,7 +88,7 @@ public class PianoNoteSheetTest extends AndroidTestCase {
         }
     }
 
-    private void assertCanvasLineBars(PianoNoteSheetCanvas noteSheetCanvas, CanvasMock canvas) {
+    private void assertCanvasLineBars(PianoNoteSheetCanvasMock noteSheetCanvas, CanvasMock canvas) {
         int yPositionOfBarTop = noteSheetCanvas.getYPositionOfBarTop();
         int yPositionOfBarBottom = noteSheetCanvas.getYPositionOfBarBottom();
         int endXPositionForDrawingElements = noteSheetCanvas.getEndXPositionForDrawingElements();
@@ -113,7 +107,7 @@ public class PianoNoteSheetTest extends AndroidTestCase {
 
         assertEquals(expectedLine, actualLine);
 
-        startXPositionForNextElement += NoteSheetCanvas.THIN_BAR_WIDTH;
+        startXPositionForNextElement += NoteSheetCanvas.BOLD_BAR_WIDTH;
 
         expectedLine = CanvasMock.createString(endXPositionForDrawingElements - NoteSheetCanvas.BOLD_BAR_WIDTH, yPositionOfBarTop, endXPositionForDrawingElements, yPositionOfBarBottom);
         actualLine = drawnElements.poll();
@@ -147,4 +141,17 @@ public class PianoNoteSheetTest extends AndroidTestCase {
         startXPositionForNextElement = rect.right;
     }
 
+    public void testGetCenterPointForNextSmallSymbol() {
+        Point expectedPoint = new Point(noteSheetCanvas.getWidthForDrawingTrack() + noteSheetCanvas.getWidthForOneSmallSymbol() / 2, noteSheetCanvas.getYPositionOfCenterLine());
+        Point actualPoint = noteSheetCanvas.getCenterPointForNextSmallSymbol();
+
+        assertEquals(expectedPoint, actualPoint);
+    }
+
+    public void testGetCenterPointForNextSymbol() {
+        Point expectedPoint = new Point(noteSheetCanvas.getWidthForDrawingTrack() + noteSheetCanvas.getWidthForOneSymbol() / 2, noteSheetCanvas.getYPositionOfCenterLine());
+        Point actualPoint = noteSheetCanvas.getCenterPointForNextSymbol();
+
+        assertEquals(expectedPoint, actualPoint);
+    }
 }
