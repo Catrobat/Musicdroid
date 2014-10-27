@@ -23,18 +23,15 @@
 
 package org.catrobat.musicdroid.pocketmusic.uitest.instrument.piano;
 
-import android.os.Environment;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.robotium.solo.Solo;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
-import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
-import org.catrobat.musicdroid.pocketmusic.test.note.ProjectTestDataFactory;
 import org.catrobat.musicdroid.pocketmusic.test.note.midi.ProjectToMidiConverterTestDataFactory;
 
 import java.io.File;
@@ -42,7 +39,8 @@ import java.io.IOException;
 
 public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoActivity> {
 
-    private static final int MENU_BUTTON_ID = 1;
+    private static final int OVERFLOW_MENU_BUTTON_ID = 1;
+    private static final int UNDO_MENU_BUTTON_ID = 0;
 
     private PianoActivity pianoActivity;
     private Solo solo;
@@ -105,7 +103,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         String buttonName = "C";
 
         solo.clickOnButton(buttonName);
-        solo.pressMenuItem(MENU_BUTTON_ID);
+        solo.pressMenuItem(OVERFLOW_MENU_BUTTON_ID, 2);
         solo.clickOnMenuItem(pianoActivity.getString(R.string.action_export_midi_title));
         solo.waitForDialogToOpen();
         solo.clearEditText(pianoActivity.getEditTextMidiExportNameDialogPrompt());
@@ -125,7 +123,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     }
 
     private void importMidi(String filename) {
-        solo.pressMenuItem(MENU_BUTTON_ID);
+        solo.pressMenuItem(OVERFLOW_MENU_BUTTON_ID,2);
         solo.clickOnMenuItem(pianoActivity.getString(R.string.action_import_midi_title));
         solo.waitForDialogToOpen();
         solo.clickOnText(filename);
@@ -145,7 +143,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         String buttonName = "C";
 
         solo.clickOnButton(buttonName);
-        solo.pressMenuItem(MENU_BUTTON_ID);
+        solo.pressMenuItem(OVERFLOW_MENU_BUTTON_ID,2);
         solo.clickOnMenuItem(pianoActivity.getString(R.string.action_delete_midi_title));
         solo.waitForText(pianoActivity.getString(R.string.action_delete_midi_success));
 
@@ -159,7 +157,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         String buttonName = "C";
 
         solo.clickOnButton(buttonName);
-        solo.pressMenuItem(0);
+        solo.pressMenuItem(UNDO_MENU_BUTTON_ID,2);
 
         assertEquals(expectedTrackSize, pianoActivity.getTrack().size());
     }
