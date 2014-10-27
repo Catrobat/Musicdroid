@@ -39,9 +39,6 @@ import java.io.IOException;
 
 public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoActivity> {
 
-    private static final int OVERFLOW_MENU_BUTTON_ID = 1;
-    private static final int UNDO_MENU_BUTTON_ID = 0;
-
     private PianoActivity pianoActivity;
     private Solo solo;
 
@@ -103,7 +100,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         String buttonName = "C";
 
         solo.clickOnButton(buttonName);
-        solo.pressMenuItem(OVERFLOW_MENU_BUTTON_ID, 2);
+        solo.clickOnActionBarItem(R.id.action_settings);
         solo.clickOnMenuItem(pianoActivity.getString(R.string.action_export_midi_title));
         solo.waitForDialogToOpen();
         solo.clearEditText(pianoActivity.getEditTextMidiExportNameDialogPrompt());
@@ -123,7 +120,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     }
 
     private void importMidi(String filename) {
-        solo.pressMenuItem(OVERFLOW_MENU_BUTTON_ID,2);
+        solo.clickOnActionBarItem(R.id.action_settings);
         solo.clickOnMenuItem(pianoActivity.getString(R.string.action_import_midi_title));
         solo.waitForDialogToOpen();
         solo.clickOnText(filename);
@@ -143,7 +140,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         String buttonName = "C";
 
         solo.clickOnButton(buttonName);
-        solo.pressMenuItem(OVERFLOW_MENU_BUTTON_ID,2);
+        solo.clickOnActionBarItem(R.id.action_settings);
         solo.clickOnMenuItem(pianoActivity.getString(R.string.action_delete_midi_title));
         solo.waitForText(pianoActivity.getString(R.string.action_delete_midi_success));
 
@@ -157,7 +154,8 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         String buttonName = "C";
 
         solo.clickOnButton(buttonName);
-        solo.pressMenuItem(UNDO_MENU_BUTTON_ID,2);
+        solo.clickOnActionBarItem(R.id.action_undo_midi);
+
 
         assertEquals(expectedTrackSize, pianoActivity.getTrack().size());
     }
