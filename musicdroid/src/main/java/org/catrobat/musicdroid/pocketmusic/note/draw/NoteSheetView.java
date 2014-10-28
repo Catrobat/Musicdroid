@@ -25,7 +25,7 @@ package org.catrobat.musicdroid.pocketmusic.note.draw;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.view.Display;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -67,15 +67,19 @@ public class NoteSheetView extends View {
     }
 
     private void remeasureDisplayForDrawing() {
-        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-        Display d = wm.getDefaultDisplay();
+        DisplayMetrics diplayMetrics = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        windowManager.getDefaultDisplay().getMetrics(diplayMetrics);
+
+        int screenWidth = diplayMetrics.widthPixels;
+        int screenHeight = diplayMetrics.heightPixels;
 
         if(noteSheetCanvas == null) {
-            setMeasuredDimension(d.getWidth(), d.getHeight() / 2); //TODO: Replace deprecated methods
+            setMeasuredDimension(screenWidth, screenHeight / 2);
         } else {
             int trackWidth = noteSheetCanvas.getWidthForDrawingTrack();
-            if (trackWidth < d.getWidth()) {
-                setMeasuredDimension(d.getWidth(), getHeight());
+            if (trackWidth < screenWidth) {
+                setMeasuredDimension(screenWidth, getHeight());
             } else {
                 setMeasuredDimension(trackWidth, getHeight());
             }

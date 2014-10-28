@@ -91,6 +91,10 @@ public abstract class NoteSheetCanvas {
         return lineHeight - 1;
     }
 
+    public int getWidthForDrawingTrack() {
+        return startXPositionForNextElement;
+    }
+
     public int getDistanceBetweenLines() {
         return distanceBetweenLines;
     }
@@ -99,15 +103,9 @@ public abstract class NoteSheetCanvas {
         return yPositionOfCenterLine;
     }
 
-    public int getEndXPositionForDrawingElements() { return endXPositionForDrawingElements; }
-
-    public int getYPositionOfBarTop() { return yPositionOfBarTop; }
-
-    public int getYPositionOfBarBottom() { return yPositionOfBarBottom; }
-
     public void draw() {
         drawLines();
-        drawLineBars();
+        drawBars();
         drawSheetElements();
     }
 
@@ -119,30 +117,18 @@ public abstract class NoteSheetCanvas {
         }
     }
 
-    private void drawLineBars() {
-        drawFrontBars();
-        drawEndBar();
+    private void drawBars() {
+        drawBar(startXPositionForNextElement, BOLD_BAR_WIDTH);
+        startXPositionForNextElement += 2 * BOLD_BAR_WIDTH;
+
+        drawBar(startXPositionForNextElement, THIN_BAR_WIDTH);
+        startXPositionForNextElement += BOLD_BAR_WIDTH;
+
+        drawBar(endXPositionForDrawingElements - BOLD_BAR_WIDTH, BOLD_BAR_WIDTH);
     }
 
-    private void drawFrontBars() {
-        drawBoldBar(startXPositionForNextElement);
-        drawThinBar(startXPositionForNextElement + 2 * BOLD_BAR_WIDTH);
-    }
-
-    private void drawEndBar() {
-        drawBoldBar(endXPositionForDrawingElements - BOLD_BAR_WIDTH);
-    }
-
-    private void drawThinBar(int startXPositionBar) {
-        int endXPositionBar = startXPositionBar + THIN_BAR_WIDTH;
-        Rect boldBar = new Rect(startXPositionBar, yPositionOfBarTop, endXPositionBar, yPositionOfBarBottom);
-
-        canvas.drawRect(boldBar, paint);
-        startXPositionForNextElement = endXPositionBar;
-    }
-
-    private void drawBoldBar(int startXPositionBar) {
-        int endXPositionBar = startXPositionBar + BOLD_BAR_WIDTH;
+    private void drawBar(int startXPositionBar, int barWidth) {
+        int endXPositionBar = startXPositionBar + barWidth;
         Rect boldBar = new Rect(startXPositionBar, yPositionOfBarTop, endXPositionBar, yPositionOfBarBottom);
 
         canvas.drawRect(boldBar, paint);

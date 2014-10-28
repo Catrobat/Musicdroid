@@ -36,34 +36,26 @@ public class PianoNoteSheetCanvas extends NoteSheetCanvas {
     public static final int HEIGHT_OF_KEY_IN_LINE_SPACES = 6;
     public static final int HEIGHT_OF_TACT_UNIT_IN_LINE_SPACES = 4;
 
+    protected final int widthForOneSymbol;
+    protected final int widthForOneSmallSymbol;
+
     private TrackDrawer trackDrawer;
     private Resources resources;
     private Track track;
 
-    private final int widthForOneSymbol;
-    private final int widthForOneSmallSymbol;
-
     public PianoNoteSheetCanvas(Resources resources, Canvas canvas, Track track) {
         super(canvas);
-        this.trackDrawer = new TrackDrawer();
 
-        this.resources = resources;
-        this.track = track;
         this.widthForOneSymbol = 3 * distanceBetweenLines;
         this.widthForOneSmallSymbol = widthForOneSymbol / 4;
-    }
 
-    public int getWidthForDrawingTrack() {
-        return startXPositionForNextElement;
+        this.trackDrawer = new TrackDrawer();
+        this.resources = resources;
+        this.track = track;
     }
 
     private Point getCenterPointForNextSymbol(int symbolWidth) {
-        Point centerPoint = new Point();
-
-        int x = startXPositionForNextElement + symbolWidth / 2;
-        int y = getYPositionOfCenterLine();
-
-        centerPoint.set(x, y);
+        Point centerPoint = new Point(startXPositionForNextElement + symbolWidth / 2, getYPositionOfCenterLine());
 
         startXPositionForNextElement += symbolWidth;
 
