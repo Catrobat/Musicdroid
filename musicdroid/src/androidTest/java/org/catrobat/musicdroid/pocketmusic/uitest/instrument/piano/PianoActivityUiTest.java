@@ -39,6 +39,8 @@ import java.io.IOException;
 
 public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoActivity> {
 
+    private static final String PIANO_BUTTON = "C";
+
     private PianoActivity pianoActivity;
     private Solo solo;
 
@@ -97,9 +99,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     }
 
     private void exportMidi(String filename, boolean clickOnSaveButton) {
-        String buttonName = "C";
-
-        solo.clickOnButton(buttonName);
+        solo.clickOnButton(PIANO_BUTTON);
         solo.clickOnActionBarItem(R.id.action_settings);
         solo.clickOnMenuItem(pianoActivity.getString(R.string.action_export_midi_title));
         solo.waitForDialogToOpen();
@@ -137,9 +137,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     }
 
     public void testClear() {
-        String buttonName = "C";
-
-        solo.clickOnButton(buttonName);
+        solo.clickOnButton(PIANO_BUTTON);
         solo.clickOnActionBarItem(R.id.action_settings);
         solo.clickOnMenuItem(pianoActivity.getString(R.string.action_delete_midi_title));
         solo.waitForText(pianoActivity.getString(R.string.action_delete_midi_success));
@@ -151,12 +149,24 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
     public void testUndo() {
         int expectedTrackSize = 0;
-        String buttonName = "C";
 
-        solo.clickOnButton(buttonName);
+        solo.clickOnButton(PIANO_BUTTON);
         solo.clickOnActionBarItem(R.id.action_undo_midi);
 
 
         assertEquals(expectedTrackSize, pianoActivity.getTrack().size());
+    }
+
+    public void testRotate() {
+        int expectedTrackSize = 4;
+
+        solo.clickOnButton(PIANO_BUTTON);
+        solo.setActivityOrientation(Solo.LANDSCAPE);
+        getInstrumentation().waitForIdleSync();
+        solo.clickOnButton(PIANO_BUTTON);
+
+        int actualTrackSize = pianoActivity.getTrack().size();
+
+        assertEquals(expectedTrackSize, actualTrackSize);
     }
 }
