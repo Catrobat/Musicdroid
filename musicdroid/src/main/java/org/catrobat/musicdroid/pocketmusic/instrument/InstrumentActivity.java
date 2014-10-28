@@ -25,7 +25,6 @@ package org.catrobat.musicdroid.pocketmusic.instrument;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -48,8 +47,6 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 
 public abstract class InstrumentActivity extends Activity {
-
-    private static final String SAVED_INSTANCE_TRACK = "SavedTrack";
 
     private EditText editTextMidiExportNameDialogPrompt;
 
@@ -104,23 +101,6 @@ public abstract class InstrumentActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if ((null != savedInstanceState) && savedInstanceState.containsKey(SAVED_INSTANCE_TRACK)) {
-            track = (Track) savedInstanceState.getSerializable(SAVED_INSTANCE_TRACK);
-            tickThread.setTickBasedOnTrack(track);
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-
-        savedInstanceState.putSerializable(SAVED_INSTANCE_TRACK, track);
     }
 
     private void onActionExportMidi() {
