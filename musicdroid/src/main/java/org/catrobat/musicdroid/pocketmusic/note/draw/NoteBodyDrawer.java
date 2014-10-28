@@ -51,7 +51,6 @@ public final class NoteBodyDrawer {
 		NoteName prevNoteName = null;
 
 		for (NoteName noteName : noteSymbol.getNoteNamesSorted()) {
-
 			NoteLength noteLength = noteSymbol.getNoteLength(noteName);
 			Point centerPointOfActualNote = new Point(centerPointOfSpaceForNote);
 			centerPointOfActualNote.y += NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName)

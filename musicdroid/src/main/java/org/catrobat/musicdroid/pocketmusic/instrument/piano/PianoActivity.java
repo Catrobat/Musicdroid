@@ -58,11 +58,17 @@ public class PianoActivity extends InstrumentActivity {
         if(savedInstanceState != null) {
             getFragmentManager().beginTransaction().replace(R.id.container, noteSheetViewFragment).commit();
             getFragmentManager().beginTransaction().replace(R.id.container, pianoViewFragment).commit();
-        }else{
+        }else {
             getFragmentManager().beginTransaction().add(R.id.container, noteSheetViewFragment).commit();
             getFragmentManager().beginTransaction().add(R.id.container, pianoViewFragment).commit();
         }
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        noteSheetViewFragment.redraw(getTrack());
     }
 
     @Override

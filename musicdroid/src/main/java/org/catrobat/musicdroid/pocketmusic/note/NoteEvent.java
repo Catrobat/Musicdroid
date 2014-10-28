@@ -1,6 +1,8 @@
 package org.catrobat.musicdroid.pocketmusic.note;
 
-public class NoteEvent {
+import java.io.Serializable;
+
+public class NoteEvent implements Serializable {
 
     private NoteName noteName;
     private boolean noteOn;
