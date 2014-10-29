@@ -73,8 +73,7 @@ public abstract class InstrumentActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         if ((null != savedInstanceState) && savedInstanceState.containsKey(SAVED_INSTANCE_TRACK)) {
-            track = (Track) savedInstanceState.getSerializable(SAVED_INSTANCE_TRACK);
-            tickThread.setTickBasedOnTrack(track);
+            setTrack((Track) savedInstanceState.getSerializable(SAVED_INSTANCE_TRACK));
         }
     }
 
@@ -85,15 +84,18 @@ public abstract class InstrumentActivity extends Activity {
         savedInstanceState.putSerializable(SAVED_INSTANCE_TRACK, track);
     }
 
+    private void setTrack(Track track) {
+        this.track = track;
+        tickThread.setTickBasedOnTrack(track);
+    }
+
     public Track getTrack() {
         return track;
     }
 
     public void addNoteEvent(NoteEvent noteEvent) {
         if (noteEvent.isNoteOn()) {
-            mementoStack.prepareMemento(track);
-        } else {
-            mementoStack.pushPreparedMemento();
+            mementoStack.pushMemento(track);
         }
 
         track.addNoteEvent(tickThread.getNextTick(noteEvent), noteEvent);
@@ -127,8 +129,7 @@ public abstract class InstrumentActivity extends Activity {
 
     private void onActionUndoMidi() {
         if (false == mementoStack.isEmpty()) {
-            track = mementoStack.popMementoAsTrack();
-            tickThread.setTickBasedOnTrack(track);
+            setTrack(mementoStack.popMementoAsTrack());
             doAfterUndoMidi();
         }
     }
@@ -151,8 +152,7 @@ public abstract class InstrumentActivity extends Activity {
     }
 
     private void onActionDeleteMidi() {
-        track = new Track(track.getKey(), track.getInstrument());
-        tickThread.setTickBasedOnTrack(track);
+        setTrack(new Track(track.getKey(), track.getInstrument()));
         doAfterDeleteMidi();
 
         Toast.makeText(getBaseContext(), R.string.action_delete_midi_success, Toast.LENGTH_LONG).show();
@@ -178,8 +178,7 @@ public abstract class InstrumentActivity extends Activity {
                 try {
                     Project project = converter.convertMidiFileToProject(midiFile);
 
-                    track = project.getTrack(0);
-                    tickThread.setTickBasedOnTrack(track);
+                    setTrack(project.getTrack(0));
                     doAfterImportMidi();
 
                     Toast.makeText(getBaseContext(), R.string.action_import_midi_success,

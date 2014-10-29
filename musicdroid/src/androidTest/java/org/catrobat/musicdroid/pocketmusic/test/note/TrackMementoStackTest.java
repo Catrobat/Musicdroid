@@ -33,20 +33,11 @@ import org.catrobat.musicdroid.pocketmusic.note.TrackMementoStack;
  */
 public class TrackMementoStackTest extends AndroidTestCase {
 
-    public void testPushPreparedMemento1() {
-        TrackMementoStack mementoStack = new TrackMementoStack();
-
-        mementoStack.pushPreparedMemento();
-
-        assertTrue(mementoStack.isEmpty());
-    }
-
-    public void testPushPreparedMemento2() {
+    public void testPushMemento() {
         TrackMementoStack mementoStack = new TrackMementoStack();
 
         Track track = TrackTestDataFactory.createSimpleTrack();
-        mementoStack.prepareMemento(track);
-        mementoStack.pushPreparedMemento();
+        mementoStack.pushMemento(track);
 
         assertFalse(mementoStack.isEmpty());
     }
@@ -63,34 +54,16 @@ public class TrackMementoStackTest extends AndroidTestCase {
         TrackMementoStack mementoStack = new TrackMementoStack();
 
         Track expectedTrack = TrackTestDataFactory.createSimpleTrack();
-        mementoStack.prepareMemento(expectedTrack);
-        mementoStack.pushPreparedMemento();
+        mementoStack.pushMemento(expectedTrack);
         Track actualTrack = mementoStack.popMementoAsTrack();
 
         assertTrue(expectedTrack != actualTrack);
         assertTrue(expectedTrack.equals(actualTrack));
     }
 
-    public void testIsEmpty1() {
+    public void testIsEmpty() {
         TrackMementoStack mementoStack = new TrackMementoStack();
 
         assertTrue(mementoStack.isEmpty());
-    }
-
-    public void testIsEmpty2() {
-        TrackMementoStack mementoStack = new TrackMementoStack();
-
-        mementoStack.prepareMemento(TrackTestDataFactory.createSimpleTrack());
-
-        assertTrue(mementoStack.isEmpty());
-    }
-
-    public void testIsEmpty3() {
-        TrackMementoStack mementoStack = new TrackMementoStack();
-
-        mementoStack.prepareMemento(TrackTestDataFactory.createSimpleTrack());
-        mementoStack.pushPreparedMemento();
-
-        assertFalse(mementoStack.isEmpty());
     }
 }

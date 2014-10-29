@@ -41,21 +41,14 @@ public class TrackMementoStack {
     }
 
     private Stack<TrackMemento> mementoStack;
-    private TrackMemento preparedMemento;
 
     public TrackMementoStack() {
         mementoStack = new Stack<TrackMemento>();
-        preparedMemento = null;
     }
 
-    public void prepareMemento(Track track) {
-        preparedMemento = new TrackMemento(track);
-    }
-
-    public void pushPreparedMemento() {
-        if (null != preparedMemento) {
-            mementoStack.push(preparedMemento);
-        }
+    public void pushMemento(Track track) {
+        TrackMemento memento = new TrackMemento(track);
+        mementoStack.push(memento);
     }
 
     public Track popMementoAsTrack() {
