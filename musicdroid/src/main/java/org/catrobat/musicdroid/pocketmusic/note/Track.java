@@ -30,9 +30,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-/**
- * Created by Andrej on 23.06.2014.
- */
 public class Track implements Serializable {
 
     private static final long serialVersionUID = 7483021689872527955L;

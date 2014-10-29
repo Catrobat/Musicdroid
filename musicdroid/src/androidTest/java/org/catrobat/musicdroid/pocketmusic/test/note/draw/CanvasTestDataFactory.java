@@ -23,8 +23,6 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
-import android.graphics.Canvas;
-
 /**
  * Created by Daniel on 21.10.2014.
  */

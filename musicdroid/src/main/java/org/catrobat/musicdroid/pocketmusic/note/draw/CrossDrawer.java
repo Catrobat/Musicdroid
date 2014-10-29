@@ -23,9 +23,6 @@
 package org.catrobat.musicdroid.pocketmusic.note.draw;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Rect;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 

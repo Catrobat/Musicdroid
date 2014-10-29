@@ -29,8 +29,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.test.AndroidTestCase;
 
-import com.robotium.solo.Solo;
-
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;

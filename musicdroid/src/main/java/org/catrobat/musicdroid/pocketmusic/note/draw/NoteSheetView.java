@@ -67,12 +67,12 @@ public class NoteSheetView extends View {
     }
 
     private void remeasureDisplayForDrawing() {
-        DisplayMetrics diplayMetrics = new DisplayMetrics();
+        DisplayMetrics displayMetrics = new DisplayMetrics();
         WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-        windowManager.getDefaultDisplay().getMetrics(diplayMetrics);
+        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
 
-        int screenWidth = diplayMetrics.widthPixels;
-        int screenHeight = diplayMetrics.heightPixels;
+        int screenWidth = displayMetrics.widthPixels;
+        int screenHeight = displayMetrics.heightPixels;
 
         if(noteSheetCanvas == null) {
             setMeasuredDimension(screenWidth, screenHeight / 2);

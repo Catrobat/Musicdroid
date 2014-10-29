@@ -100,8 +100,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
     private void exportMidi(String filename, boolean clickOnSaveButton) {
         solo.clickOnButton(PIANO_BUTTON);
-        solo.clickOnActionBarItem(R.id.action_settings);
-        solo.clickOnMenuItem(pianoActivity.getString(R.string.action_export_midi_title));
+        solo.clickOnActionBarItem(R.id.action_export_midi);
         solo.waitForDialogToOpen();
         solo.clearEditText(pianoActivity.getEditTextMidiExportNameDialogPrompt());
         solo.enterText(pianoActivity.getEditTextMidiExportNameDialogPrompt(), filename);
@@ -120,8 +119,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     }
 
     private void importMidi(String filename) {
-        solo.clickOnActionBarItem(R.id.action_settings);
-        solo.clickOnMenuItem(pianoActivity.getString(R.string.action_import_midi_title));
+        solo.clickOnActionBarItem(R.id.action_import_midi);
         solo.waitForDialogToOpen();
         solo.clickOnText(filename);
         solo.waitForText(pianoActivity.getString(R.string.action_import_midi_success));
@@ -130,7 +128,6 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     public void testImportMidi1() throws IOException, MidiException {
         boolean expectedFileExists = true;
         String filename = "testFile";
-
         ProjectToMidiConverterTestDataFactory.writeTestProject(filename);
         assertFileExists(filename, expectedFileExists);
         importMidi(filename);
@@ -138,8 +135,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
     public void testClear() {
         solo.clickOnButton(PIANO_BUTTON);
-        solo.clickOnActionBarItem(R.id.action_settings);
-        solo.clickOnMenuItem(pianoActivity.getString(R.string.action_delete_midi_title));
+        solo.clickOnActionBarItem(R.id.action_clear_midi);
         solo.waitForText(pianoActivity.getString(R.string.action_delete_midi_success));
 
         Track newTrack = getActivity().getTrack();
@@ -152,7 +148,6 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
         solo.clickOnButton(PIANO_BUTTON);
         solo.clickOnActionBarItem(R.id.action_undo_midi);
-
 
         assertEquals(expectedTrackSize, pianoActivity.getTrack().size());
     }

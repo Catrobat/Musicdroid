@@ -27,7 +27,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 
 import org.catrobat.musicdroid.pocketmusic.note.Track;
-import org.catrobat.musicdroid.pocketmusic.note.draw.PianoNoteSheetCanvas;
 
 /**
  * Created by Daniel on 21.10.2014.

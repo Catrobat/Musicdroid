@@ -22,8 +22,8 @@
  */
 package org.catrobat.musicdroid.pocketmusic.test.note;
 
-import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 
 public class ProjectTestDataFactory {

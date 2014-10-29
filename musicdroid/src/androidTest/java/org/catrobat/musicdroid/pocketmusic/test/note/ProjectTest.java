@@ -24,8 +24,8 @@ package org.catrobat.musicdroid.pocketmusic.test.note;
 
 import android.test.AndroidTestCase;
 
-import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 
 public class ProjectTest extends AndroidTestCase {

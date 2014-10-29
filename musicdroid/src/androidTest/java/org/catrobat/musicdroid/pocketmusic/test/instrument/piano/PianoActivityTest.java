@@ -30,9 +30,6 @@ import android.widget.Button;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoViewFragment;
 
-/**
- * Created by Andrej on 10.07.2014.
- */
 public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoActivity> {
 
     private static final int MIN_WIDTH = 240;

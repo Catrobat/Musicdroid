@@ -24,33 +24,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".PianoActivity" >
-    <item
-        android:id="@+id/action_settings"
-		android:icon="@drawable/icon_menu_overflow"
-        android:orderInCategory="1"
-        android:showAsAction="always"
-        android:title="@string/action_settings" >
-    <menu>
-      <item
-        android:id="@+id/action_export_midi"
-        android:icon="@drawable/ic_action_save"
-        android:showAsAction="never"
-        android:title="@string/action_export_midi_title" />
       <item
         android:id="@+id/action_import_midi"
         android:icon="@drawable/ic_action_read"
         android:showAsAction="never"
         android:title="@string/action_import_midi_title" />
       <item
-        android:id="@+id/action_delete_midi"
+        android:id="@+id/action_clear_midi"
         android:icon="@drawable/ic_action_discard"
         android:showAsAction="never"
         android:title="@string/action_delete_midi_title" />
-    </menu>
-    </item>
     <item
         android:id="@+id/action_undo_midi"
         android:icon="@drawable/ic_action_undo"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom"
         android:title="@string/action_undo_midi" />
+    <item
+        android:id="@+id/action_export_midi"
+        android:icon="@drawable/ic_action_save"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_export_midi_title" />
 </menu >

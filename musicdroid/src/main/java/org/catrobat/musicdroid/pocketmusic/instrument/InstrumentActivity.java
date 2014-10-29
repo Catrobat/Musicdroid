@@ -104,9 +104,7 @@ public abstract class InstrumentActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.action_export_midi) {
+        if (id == R.id.action_export_midi) {
             onActionExportMidi();
             return true;
         } else if (id == R.id.action_undo_midi) {
@@ -115,7 +113,7 @@ public abstract class InstrumentActivity extends Activity {
         } else if (id == R.id.action_import_midi) {
             onActionImportMidi();
             return true;
-        } else if (id == R.id.action_delete_midi) {
+        } else if (id == R.id.action_clear_midi) {
             onActionDeleteMidi();
             return true;
         }

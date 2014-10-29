@@ -23,8 +23,6 @@
 package org.catrobat.musicdroid.pocketmusic.note.draw;
 
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.Paint;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;

@@ -22,8 +22,6 @@
  */
 package org.catrobat.musicdroid.pocketmusic.note.draw;
 
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
 

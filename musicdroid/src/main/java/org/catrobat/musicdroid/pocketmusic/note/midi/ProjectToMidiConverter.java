@@ -32,9 +32,9 @@ import com.leff.midi.event.meta.Tempo;
 import com.leff.midi.event.meta.Text;
 import com.leff.midi.event.meta.TimeSignature;
 
-import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 
 import java.io.File;

@@ -31,8 +31,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
-import org.catrobat.musicdroid.pocketmusic.R;
-
 /**
  * @author musicdroid
  */

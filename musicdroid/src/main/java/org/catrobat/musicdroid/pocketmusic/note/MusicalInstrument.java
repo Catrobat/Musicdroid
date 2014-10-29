@@ -23,9 +23,6 @@
 
 package org.catrobat.musicdroid.pocketmusic.note;
 
-/**
- * Created by Andrej on 23.06.2014.
- */
 public enum MusicalInstrument {
     ACOUSTIC_GRAND_PIANO(0), BRIGHT_ACOUSTIC_PIANO(1), ELECTRIC_GRAND_PIANO(2), HONKY_TONK_PIANO(3), ELECTRIC_PIANO_1(4), ELECTRIC_PIANO_2(
             5), HARPSICHORD(6), CLAVI(7), CELESTA(8), GLOCKENSPIEL(9), MUSIC_BOX(10), VIBRAPHONE(11), MARIMBA(12), XYLOPHONE(

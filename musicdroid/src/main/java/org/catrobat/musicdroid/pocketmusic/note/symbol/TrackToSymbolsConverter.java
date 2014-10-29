@@ -24,8 +24,8 @@ package org.catrobat.musicdroid.pocketmusic.note.symbol;
 
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 
 public class TrackToSymbolsConverter {
 
