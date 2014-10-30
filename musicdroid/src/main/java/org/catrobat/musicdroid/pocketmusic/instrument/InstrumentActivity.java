@@ -40,6 +40,7 @@ import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.TrackMementoStack;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 
@@ -54,6 +55,8 @@ public abstract class InstrumentActivity extends Activity {
 
     private EditText editTextMidiExportNameDialogPrompt;
 
+    private MidiPlayer midiPlayer;
+
     private AbstractTickProvider tickThread;
     private Track track;
     private String[] midiFileList;
@@ -61,6 +64,8 @@ public abstract class InstrumentActivity extends Activity {
 
     public InstrumentActivity(MusicalKey key, MusicalInstrument instrument) {
         editTextMidiExportNameDialogPrompt = null;
+
+        midiPlayer = new MidiPlayer();
 
         tickThread = new SimpleTickProvider();
         track = new Track(key, instrument);
@@ -99,6 +104,8 @@ public abstract class InstrumentActivity extends Activity {
     public void addNoteEvent(NoteEvent noteEvent) {
         if (noteEvent.isNoteOn()) {
             mementoStack.pushMemento(track);
+
+            midiPlayer.play(noteEvent, this);
         }
 
         track.addNoteEvent(tickThread.getNextTick(noteEvent), noteEvent);
