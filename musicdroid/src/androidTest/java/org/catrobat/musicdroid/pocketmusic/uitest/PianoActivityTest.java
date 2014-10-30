@@ -26,7 +26,7 @@ package org.catrobat.musicdroid.pocketmusic.uitest;
 
 import android.test.UiThreadTest;
 
-import org.catrobat.musicdroid.pocketmusic.PianoActivity;
+import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 
 public class PianoActivityTest extends BaseActivityInstrumentationTestCase2<PianoActivity> {
     public PianoActivityTest() {

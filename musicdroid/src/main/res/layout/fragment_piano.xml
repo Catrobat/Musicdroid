@@ -25,15 +25,97 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
     tools:context=".PianoActivity$PlaceholderFragment" >
 
-    <TextView
+    <Button
+        android:id="@+id/oct_button_01_white"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/note_name_simple_c" />
+
+    <Button
+        android:id="@+id/oct_button_02_white"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/oct_button_01_white"
+        android:layout_toEndOf="@+id/oct_button_01_white"
+        android:text="@string/note_name_simple_d" />
+
+    <Button
+        android:id="@+id/oct_button_03_white"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/oct_button_02_white"
+        android:layout_toEndOf="@+id/oct_button_02_white"
+        android:text="@string/note_name_simple_e" />
+
+    <Button
+        android:id="@+id/oct_button_04_white"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/oct_button_03_white"
+        android:layout_toEndOf="@+id/oct_button_03_white"
+        android:text="@string/note_name_simple_f" />
+    <Button
+        android:id="@+id/oct_button_05_white"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/oct_button_04_white"
+        android:layout_toEndOf="@+id/oct_button_04_white"
+        android:text="@string/note_name_simple_g" />
+    <Button
+        android:id="@+id/oct_button_06_white"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/oct_button_05_white"
+        android:layout_toEndOf="@+id/oct_button_05_white"
+        android:text="@string/note_name_simple_a" />
+    <Button
+        android:id="@+id/oct_button_07_white"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/oct_button_06_white"
+        android:layout_toEndOf="@+id/oct_button_06_white"
+        android:text="@string/note_name_simple_h" />
+
+    <Button
+        android:id="@+id/oct_button_01_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:text="@string/note_name_simple_cis" />
 
-</RelativeLayout >
+    <Button
+        android:id="@+id/oct_button_02_black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/note_name_simple_dis" />
+
+    <Button
+        android:id="@+id/oct_button_03_black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="" />
+
+    <Button
+        android:id="@+id/oct_button_04_black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/note_name_simple_fis" />
+
+    <Button
+        android:id="@+id/oct_button_05_black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/note_name_simple_gis" />
+
+    <Button
+        android:id="@+id/oct_button_06_black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/note_name_simple_ais" />
+
+    </RelativeLayout >
+
