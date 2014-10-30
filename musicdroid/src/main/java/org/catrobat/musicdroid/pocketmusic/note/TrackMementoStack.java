@@ -23,11 +23,14 @@
 
 package org.catrobat.musicdroid.pocketmusic.note;
 
+import java.io.Serializable;
 import java.util.Stack;
 
-public class TrackMementoStack {
+public class TrackMementoStack implements Serializable {
 
-    private class TrackMemento {
+    private class TrackMemento implements Serializable {
+
+        private static final long serialVersionUID = 7126768840934053008L;
 
         private Track track;
 
@@ -39,6 +42,8 @@ public class TrackMementoStack {
             return track;
         }
     }
+
+    private static final long serialVersionUID = 7481421611372527768L;
 
     private Stack<TrackMemento> mementoStack;
 

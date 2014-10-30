@@ -50,6 +50,7 @@ import java.io.IOException;
 public abstract class InstrumentActivity extends Activity {
 
     private static final String SAVED_INSTANCE_TRACK = "SavedTrack";
+    private static final String SAVED_INSTANCE_MEMENTO = "SavedMemento";
 
     private EditText editTextMidiExportNameDialogPrompt;
 
@@ -72,8 +73,9 @@ public abstract class InstrumentActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if ((null != savedInstanceState) && savedInstanceState.containsKey(SAVED_INSTANCE_TRACK)) {
+        if ((null != savedInstanceState) && savedInstanceState.containsKey(SAVED_INSTANCE_TRACK) && savedInstanceState.containsKey(SAVED_INSTANCE_MEMENTO)) {
             setTrack((Track) savedInstanceState.getSerializable(SAVED_INSTANCE_TRACK));
+            mementoStack = (TrackMementoStack) savedInstanceState.getSerializable(SAVED_INSTANCE_MEMENTO);
         }
     }
 
@@ -82,6 +84,7 @@ public abstract class InstrumentActivity extends Activity {
         super.onSaveInstanceState(savedInstanceState);
 
         savedInstanceState.putSerializable(SAVED_INSTANCE_TRACK, track);
+        savedInstanceState.putSerializable(SAVED_INSTANCE_MEMENTO, mementoStack);
     }
 
     private void setTrack(Track track) {

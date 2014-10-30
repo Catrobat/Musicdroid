@@ -156,9 +156,31 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         int expectedTrackSize = 4;
 
         solo.clickOnButton(PIANO_BUTTON);
-        solo.setActivityOrientation(Solo.LANDSCAPE);
-        getInstrumentation().waitForIdleSync();
+        pianoActivity = rotateAndReturnActivity(Solo.LANDSCAPE);
         solo.clickOnButton(PIANO_BUTTON);
+
+        int actualTrackSize = pianoActivity.getTrack().size();
+
+        assertEquals(expectedTrackSize, actualTrackSize);
+    }
+
+    private PianoActivity rotateAndReturnActivity(int orientation) {
+        solo.setActivityOrientation(orientation);
+        getInstrumentation().waitForIdleSync();
+
+        return (PianoActivity) solo.getCurrentActivity();
+    }
+
+    public void testRotateAndUndo() {
+        int expectedTrackSize = 0;
+
+        solo.clickOnButton(PIANO_BUTTON);
+        pianoActivity = rotateAndReturnActivity(Solo.LANDSCAPE);
+        solo.clickOnButton(PIANO_BUTTON);
+        pianoActivity = rotateAndReturnActivity(Solo.PORTRAIT);
+
+        solo.clickOnActionBarItem(R.id.action_undo_midi);
+        solo.clickOnActionBarItem(R.id.action_undo_midi);
 
         int actualTrackSize = pianoActivity.getTrack().size();
 
