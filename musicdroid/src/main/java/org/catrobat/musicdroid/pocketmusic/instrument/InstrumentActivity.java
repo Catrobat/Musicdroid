@@ -105,7 +105,7 @@ public abstract class InstrumentActivity extends Activity {
         if (noteEvent.isNoteOn()) {
             mementoStack.pushMemento(track);
 
-            midiPlayer.play(noteEvent, this);
+            midiPlayer.play(noteEvent.getNoteName(), this);
         }
 
         track.addNoteEvent(tickThread.getNextTick(noteEvent), noteEvent);

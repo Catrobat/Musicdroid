@@ -27,46 +27,56 @@ import android.app.Activity;
 import android.media.MediaPlayer;
 
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
+import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-/**
- * Created by Daniel on 30.10.2014.
- */
 public class MidiPlayer {
 
     private static final String R_RAW = "raw";
 
-    private MediaPlayer player;
-    private Queue<NoteEvent> playList;
+    protected Queue<NoteName> playQueue;
+    protected MediaPlayer player;
 
     public MidiPlayer() {
-        playList = new LinkedList<NoteEvent>();
+        playQueue = new LinkedList<NoteName>();
     }
 
-    public void play(NoteEvent noteEvent, Activity activity) {
+    public void play(NoteName noteName, Activity activity) {
         if ((null == player) || (false == player.isPlaying())) {
-            createPlayer(activity, noteEvent);
+            createAndStartPlayer(activity, noteName);
         } else {
-            playList.add(noteEvent);
+            playQueue.add(noteName);
         }
     }
 
-    private void createPlayer(final Activity activity, final NoteEvent noteEvent) {
-        int id = activity.getResources().getIdentifier(noteEvent.getNoteName().toString().toLowerCase(), R_RAW, activity.getPackageName());
+    private void createAndStartPlayer(final Activity activity, final NoteName noteName) {
+        int midiFileId = getMidiResourceId(activity, noteName);
 
-        player = MediaPlayer.create(activity, id);
+        player = createPlayer(activity, midiFileId);
 
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                if (false == playList.isEmpty()) {
-                    createPlayer(activity, playList.poll());
-                }
+                restartPlayerThroughPlayQueue(activity);
             }
         });
 
         player.start();
+    }
+
+    protected void restartPlayerThroughPlayQueue(Activity activity) {
+        if (false == playQueue.isEmpty()) {
+            createAndStartPlayer(activity, playQueue.poll());
+        }
+    }
+
+    protected int getMidiResourceId(final Activity activity, final NoteName noteName) {
+        return activity.getResources().getIdentifier(noteName.toString().toLowerCase(), R_RAW, activity.getPackageName());
+    }
+
+    protected MediaPlayer createPlayer(Activity activity, int midiFileId) {
+        return MediaPlayer.create(activity, midiFileId);
     }
 }
