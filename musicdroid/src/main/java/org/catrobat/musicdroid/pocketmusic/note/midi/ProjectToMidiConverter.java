@@ -58,6 +58,7 @@ public class ProjectToMidiConverter {
 		usedChannels = new ArrayList<MusicalInstrument>();
 	}
 
+    // TODO fw add tests for folder checking
 	public void writeProjectAsMidi(Project project, String filename) throws IOException, MidiException {
 		MidiFile midi = convertProject(project);
 
@@ -73,6 +74,12 @@ public class ProjectToMidiConverter {
 
 		midi.writeToFile(file);
 	}
+
+    public void writeProjectAsMidi(Project project, File file) throws IOException, MidiException {
+        MidiFile midi = convertProject(project);
+
+        midi.writeToFile(file);
+    }
 
 	private MidiFile convertProject(Project project) throws MidiException {
         for (int i = 0; i < project.size(); i++) {

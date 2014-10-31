@@ -29,6 +29,7 @@ import android.media.MediaPlayer;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
 
+import java.io.File;
 import java.util.Queue;
 
 public class MidiPlayerMock extends MidiPlayer {
@@ -46,12 +47,16 @@ public class MidiPlayerMock extends MidiPlayer {
     }
 
     @Override
-    public void restartPlayerThroughPlayQueue(Activity activity) {
-        super.restartPlayerThroughPlayQueue(activity);
+     protected MediaPlayer createPlayer(Activity activity, int midiFileId) {
+        return new MediaPlayerMock();
+    }
+
+    public void onPlayNoteCompletionCallback(final Activity activity) {
+        super.restartPlayerThroughQueue(activity);
     }
 
     @Override
-    protected MediaPlayer createPlayer(Activity activity, int midiFileId) {
+    protected MediaPlayer createPlayer(Activity activity, File file) {
         return new MediaPlayerMock();
     }
 

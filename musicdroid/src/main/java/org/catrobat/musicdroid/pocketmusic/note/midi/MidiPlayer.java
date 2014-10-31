@@ -25,15 +25,20 @@ package org.catrobat.musicdroid.pocketmusic.note.midi;
 
 import android.app.Activity;
 import android.media.MediaPlayer;
+import android.net.Uri;
 
-import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
+import org.catrobat.musicdroid.pocketmusic.note.Track;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class MidiPlayer {
 
+    private static final String TEMP_PLAY_FILE_NAME = "tmp_play.midi";
     private static final String R_RAW = "raw";
 
     protected Queue<NoteName> playQueue;
@@ -43,7 +48,7 @@ public class MidiPlayer {
         playQueue = new LinkedList<NoteName>();
     }
 
-    public void play(NoteName noteName, Activity activity) {
+    public void playNote(Activity activity, NoteName noteName) {
         if ((null == player) || (false == player.isPlaying())) {
             createAndStartPlayer(activity, noteName);
         } else {
@@ -51,32 +56,58 @@ public class MidiPlayer {
         }
     }
 
+    // TODO fw add test
+    public void playTrack(Activity activity, Track track, int beatsPerMinute) throws IOException, MidiException {
+        final File fileToPlay = new File(activity.getApplicationContext().getCacheDir(), TEMP_PLAY_FILE_NAME);
+        Project project = new Project(beatsPerMinute);
+        project.addTrack(track);
+        ProjectToMidiConverter converter = new ProjectToMidiConverter();
+        converter.writeProjectAsMidi(project, fileToPlay);
+
+        player = createPlayer(activity, fileToPlay);
+        player.start();
+    }
+
     private void createAndStartPlayer(final Activity activity, final NoteName noteName) {
         int midiFileId = getMidiResourceId(activity, noteName);
 
         player = createPlayer(activity, midiFileId);
-
-        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                restartPlayerThroughPlayQueue(activity);
-            }
-        });
-
         player.start();
-    }
-
-    protected void restartPlayerThroughPlayQueue(Activity activity) {
-        if (false == playQueue.isEmpty()) {
-            createAndStartPlayer(activity, playQueue.poll());
-        }
     }
 
     protected int getMidiResourceId(final Activity activity, final NoteName noteName) {
         return activity.getResources().getIdentifier(noteName.toString().toLowerCase(), R_RAW, activity.getPackageName());
     }
 
-    protected MediaPlayer createPlayer(Activity activity, int midiFileId) {
-        return MediaPlayer.create(activity, midiFileId);
+    protected MediaPlayer createPlayer(final Activity activity, int midiFileId) {
+        MediaPlayer player = MediaPlayer.create(activity, midiFileId);
+
+        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                restartPlayerThroughQueue(activity);
+            }
+        });
+
+        return player;
+    }
+
+    protected void restartPlayerThroughQueue(final Activity activity) {
+        if (false == playQueue.isEmpty()) {
+            createAndStartPlayer(activity, playQueue.poll());
+        }
+    }
+
+    protected MediaPlayer createPlayer(Activity activity, final File fileToPlay) {
+        MediaPlayer player = MediaPlayer.create(activity, Uri.parse(fileToPlay.getAbsolutePath()));
+
+        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                fileToPlay.delete();
+            }
+        });
+
+        return player;
     }
 }

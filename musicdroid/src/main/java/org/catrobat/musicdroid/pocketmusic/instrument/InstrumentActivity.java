@@ -105,7 +105,7 @@ public abstract class InstrumentActivity extends Activity {
         if (noteEvent.isNoteOn()) {
             mementoStack.pushMemento(track);
 
-            midiPlayer.play(noteEvent.getNoteName(), this);
+            midiPlayer.playNote(this, noteEvent.getNoteName());
         }
 
         track.addNoteEvent(tickThread.getNextTick(noteEvent), noteEvent);
@@ -127,6 +127,9 @@ public abstract class InstrumentActivity extends Activity {
             return true;
         } else if (id == R.id.action_clear_midi) {
             onActionDeleteMidi();
+            return true;
+        } else if (id == R.id.action_play_midi) {
+            onActionPlayMidi();
             return true;
         }
 
@@ -166,6 +169,15 @@ public abstract class InstrumentActivity extends Activity {
         doAfterDeleteMidi();
 
         Toast.makeText(getBaseContext(), R.string.action_delete_midi_success, Toast.LENGTH_LONG).show();
+    }
+
+    private void onActionPlayMidi() {
+        // TODO fw block actions while playing?
+        try {
+            midiPlayer.playTrack(this, track, Project.DEFAULT_BEATS_PER_MINUTE);
+        } catch (Exception e) {
+            Toast.makeText(getBaseContext(), R.string.action_play_midi_error, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void removeMidiExtension() {

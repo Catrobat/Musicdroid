@@ -31,24 +31,26 @@ import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 
 public class MidiPlayerTest extends AndroidTestCase {
 
+    private NoteName noteName;
     private MidiPlayerMock player;
     private Activity activity;
 
     @Override
     protected void setUp() {
+        noteName = NoteName.C4;
         player = MidiPlayerTestDataFactory.createMidiPlayer();
-        activity = null;
+        activity = new Activity();
     }
 
-    public void testPlay1() {
-        player.play(NoteName.C4, activity);
+    public void testPlayNote1() {
+        player.playNote(activity, noteName);
 
         assertTrue(player.isPlaying());
     }
 
-    public void testPlay2() {
-        player.play(NoteName.C4, activity);
-        player.play(NoteName.D4, activity);
+    public void testPlayNote2() {
+        player.playNote(activity, noteName);
+        player.playNote(activity, noteName);
 
         int expectedQueueSize = 1;
         int actualQueueSize = player.getPlayQueue().size();
@@ -56,10 +58,10 @@ public class MidiPlayerTest extends AndroidTestCase {
         assertEquals(expectedQueueSize, actualQueueSize);
     }
 
-    public void testPlay3() {
-        player.play(NoteName.C4, activity);
+    public void testPlayNote3() {
+        player.playNote(activity, noteName);
         player.stop();
-        player.play(NoteName.D4, activity);
+        player.playNote(activity, noteName);
 
         int expectedQueueSize = 0;
         int actualQueueSize = player.getPlayQueue().size();
@@ -68,9 +70,9 @@ public class MidiPlayerTest extends AndroidTestCase {
         assertTrue(player.isPlaying());
     }
 
-    public void testPlay4() {
-        player.play(NoteName.C4, activity);
-        player.restartPlayerThroughPlayQueue(activity);
+    public void testPlayNote4() {
+        player.playNote(activity, noteName);
+        player.onPlayNoteCompletionCallback(activity);
 
         int expectedQueueSize = 0;
         int actualQueueSize = player.getPlayQueue().size();
