@@ -35,25 +35,27 @@ import java.io.IOException;
 
 public class MidiToProjectConverterTest extends AndroidTestCase {
 
-    // TODO fw refactor
-	public void testConvertMidi() throws MidiException, IOException {
-        String fileName = "TestMidi";
-        String midiFileAbsolutePath = ProjectToMidiConverter.MIDI_FOLDER + File.separator + fileName + ProjectToMidiConverter.MIDI_FILE_EXTENSION;
+    private static final String FILE_NAME = "MidiToProjectConverterTest.midi";
+    private File file;
 
+    @Override
+    protected void setUp() {
+        file = new File(ProjectToMidiConverter.MIDI_FOLDER + File.separator + FILE_NAME + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
+    }
+
+    @Override
+    protected void tearDown() {
+        file.delete();
+    }
+
+	public void testConvertMidi() throws MidiException, IOException {
 		ProjectToMidiConverter projectConverter = new ProjectToMidiConverter();
 		MidiToProjectConverter midiConverter = new MidiToProjectConverter();
 		Project expectedProject = ProjectTestDataFactory.createProjectWithSemiComplexTracks();
 
-        try {
-            projectConverter.writeProjectAsMidi(expectedProject, fileName);
-            Project actualProject = midiConverter.convertMidiFileToProject(new File(midiFileAbsolutePath));
+        projectConverter.writeProjectAsMidi(expectedProject, FILE_NAME);
+        Project actualProject = midiConverter.convertMidiFileToProject(file);
 
-            assertEquals(expectedProject, actualProject);
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            File file = new File(midiFileAbsolutePath);
-            file.delete();
-        }
+        assertEquals(expectedProject, actualProject);
 	}
 }

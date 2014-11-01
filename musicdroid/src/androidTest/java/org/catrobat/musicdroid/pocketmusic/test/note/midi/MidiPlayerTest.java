@@ -27,6 +27,12 @@ import android.app.Activity;
 import android.test.AndroidTestCase;
 
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
+import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
+import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
+
+import java.io.IOException;
 
 
 public class MidiPlayerTest extends AndroidTestCase {
@@ -78,6 +84,13 @@ public class MidiPlayerTest extends AndroidTestCase {
         int actualQueueSize = player.getPlayQueue().size();
 
         assertEquals(expectedQueueSize, actualQueueSize);
+        assertTrue(player.isPlaying());
+    }
+
+    public void testPlayAll() throws IOException, MidiException {
+        Track track = TrackTestDataFactory.createSimpleTrack();
+        player.playTrack(activity, track, Project.DEFAULT_BEATS_PER_MINUTE);
+
         assertTrue(player.isPlaying());
     }
 }

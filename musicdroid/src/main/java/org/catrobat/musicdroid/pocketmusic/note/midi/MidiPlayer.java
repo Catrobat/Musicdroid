@@ -56,16 +56,21 @@ public class MidiPlayer {
         }
     }
 
-    // TODO fw add test
     public void playTrack(Activity activity, Track track, int beatsPerMinute) throws IOException, MidiException {
-        final File fileToPlay = new File(activity.getApplicationContext().getCacheDir(), TEMP_PLAY_FILE_NAME);
+        File tempPlayFile = createTempPlayFile(activity, track, beatsPerMinute);
+
+        player = createPlayer(activity, tempPlayFile);
+        player.start();
+    }
+
+    protected File createTempPlayFile(Activity activity, Track track, int beatsPerMinute) throws IOException, MidiException {
+        File tempPlayFile = new File(activity.getApplicationContext().getCacheDir(), TEMP_PLAY_FILE_NAME);
         Project project = new Project(beatsPerMinute);
         project.addTrack(track);
         ProjectToMidiConverter converter = new ProjectToMidiConverter();
-        converter.writeProjectAsMidi(project, fileToPlay);
+        converter.writeProjectAsMidi(project, tempPlayFile);
 
-        player = createPlayer(activity, fileToPlay);
-        player.start();
+        return tempPlayFile;
     }
 
     private void createAndStartPlayer(final Activity activity, final NoteName noteName) {
@@ -98,13 +103,13 @@ public class MidiPlayer {
         }
     }
 
-    protected MediaPlayer createPlayer(Activity activity, final File fileToPlay) {
-        MediaPlayer player = MediaPlayer.create(activity, Uri.parse(fileToPlay.getAbsolutePath()));
+    protected MediaPlayer createPlayer(Activity activity, final File tempPlayFile) {
+        MediaPlayer player = MediaPlayer.create(activity, Uri.parse(tempPlayFile.getAbsolutePath()));
 
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                fileToPlay.delete();
+                tempPlayFile.delete();
             }
         });
 

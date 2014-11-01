@@ -57,8 +57,7 @@ public class ProjectToMidiConverter {
 		eventConverter = new NoteEventToMidiEventConverter();
 		usedChannels = new ArrayList<MusicalInstrument>();
 	}
-
-    // TODO fw add tests for folder checking
+    
 	public void writeProjectAsMidi(Project project, String filename) throws IOException, MidiException {
 		MidiFile midi = convertProject(project);
 
