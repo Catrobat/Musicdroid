@@ -65,7 +65,7 @@ public abstract class InstrumentActivity extends Activity {
     public InstrumentActivity(MusicalKey key, MusicalInstrument instrument) {
         editTextMidiExportNameDialogPrompt = null;
 
-        midiPlayer = new MidiPlayer();
+        midiPlayer = MidiPlayer.getInstance();
 
         tickThread = new SimpleTickProvider();
         track = new Track(key, instrument);

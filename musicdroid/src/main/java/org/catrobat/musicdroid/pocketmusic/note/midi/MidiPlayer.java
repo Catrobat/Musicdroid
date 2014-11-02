@@ -41,11 +41,21 @@ public class MidiPlayer {
     private static final String TEMP_PLAY_FILE_NAME = "tmp_play.midi";
     private static final String R_RAW = "raw";
 
-    protected Queue<NoteName> playQueue;
-    protected MediaPlayer player;
+    private static MidiPlayer instance;
 
-    public MidiPlayer() {
+    protected MediaPlayer player;
+    protected Queue<NoteName> playQueue;
+
+    private MidiPlayer() {
         playQueue = new LinkedList<NoteName>();
+    }
+
+    public static MidiPlayer getInstance() {
+        if (null == instance) {
+            instance = new MidiPlayer();
+        }
+
+        return instance;
     }
 
     public void playNote(Activity activity, NoteName noteName) {
