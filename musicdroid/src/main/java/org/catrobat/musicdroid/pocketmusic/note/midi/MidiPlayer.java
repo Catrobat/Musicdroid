@@ -46,7 +46,7 @@ public class MidiPlayer {
     protected MediaPlayer player;
     protected Queue<NoteName> playQueue;
 
-    private MidiPlayer() {
+    protected MidiPlayer() {
         playQueue = new LinkedList<NoteName>();
     }
 
