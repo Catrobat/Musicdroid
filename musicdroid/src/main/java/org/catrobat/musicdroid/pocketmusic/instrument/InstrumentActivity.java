@@ -40,6 +40,7 @@ import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.TrackMementoStack;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 
@@ -54,13 +55,19 @@ public abstract class InstrumentActivity extends Activity {
 
     private EditText editTextMidiExportNameDialogPrompt;
 
+    private MidiPlayer midiPlayer;
+
     private AbstractTickProvider tickThread;
     private Track track;
     private String[] midiFileList;
     private TrackMementoStack mementoStack;
 
+    private AlertDialog playAllDialog;
+
     public InstrumentActivity(MusicalKey key, MusicalInstrument instrument) {
         editTextMidiExportNameDialogPrompt = null;
+
+        midiPlayer = MidiPlayer.getInstance();
 
         tickThread = new SimpleTickProvider();
         track = new Track(key, instrument);
@@ -99,6 +106,8 @@ public abstract class InstrumentActivity extends Activity {
     public void addNoteEvent(NoteEvent noteEvent) {
         if (noteEvent.isNoteOn()) {
             mementoStack.pushMemento(track);
+
+            midiPlayer.playNote(this, noteEvent.getNoteName());
         }
 
         track.addNoteEvent(tickThread.getNextTick(noteEvent), noteEvent);
@@ -120,6 +129,9 @@ public abstract class InstrumentActivity extends Activity {
             return true;
         } else if (id == R.id.action_clear_midi) {
             onActionDeleteMidi();
+            return true;
+        } else if (id == R.id.action_play_midi) {
+            onActionPlayMidi();
             return true;
         }
 
@@ -159,6 +171,37 @@ public abstract class InstrumentActivity extends Activity {
         doAfterDeleteMidi();
 
         Toast.makeText(getBaseContext(), R.string.action_delete_midi_success, Toast.LENGTH_LONG).show();
+    }
+
+    private void onActionPlayMidi() {
+        if (track.empty()) {
+            return;
+        }
+
+        try {
+            midiPlayer.playTrack(this, track, Project.DEFAULT_BEATS_PER_MINUTE);
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setMessage(R.string.action_play_midi_dialog_titler)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.action_play_midi_dialog_stop,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    midiPlayer.stop();
+                                }
+                            }
+                    );
+
+            playAllDialog = alertDialogBuilder.create();
+            playAllDialog.show();
+        } catch (Exception e) {
+            Toast.makeText(getBaseContext(), R.string.action_play_midi_error, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void dismissPlayAllDialog() {
+        playAllDialog.dismiss();
     }
 
     private void removeMidiExtension() {
@@ -203,8 +246,8 @@ public abstract class InstrumentActivity extends Activity {
         editTextMidiExportNameDialogPrompt = new EditText(this);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setTitle(getString(R.string.action_export_dialog_title))
-                .setMessage(getString(R.string.action_export_dialog_message))
+        alertDialogBuilder.setTitle(R.string.action_export_dialog_title)
+                .setMessage(R.string.action_export_dialog_message)
                 .setView(editTextMidiExportNameDialogPrompt)
                 .setCancelable(false)
                 .setPositiveButton(R.string.action_export_dialog_positive_button,

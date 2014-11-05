@@ -25,6 +25,10 @@
     <string name="app_name">Musicdroid</string>
     <string name="action_settings">Settings</string>
     <string name="action_undo_midi">Undo</string>
+    <string name="action_play_midi">Play</string>
+    <string name="action_play_midi_error">Could not start playing</string>
+    <string name="action_play_midi_dialog_titler">Playing...</string>
+    <string name="action_play_midi_dialog_stop">Stop</string>
 
     <string name="action_export_midi_title">Save Project</string>
     <string name="action_export_midi_success">Save successful!</string>
@@ -34,7 +38,6 @@
     <string name="action_export_dialog_negative_button" >Cancel</string >
     <string name="action_export_dialog_title" >Save Project</string >
     <string name="action_export_dialog_message" >Please enter a Project name:</string >
-    <!-- <string name="action_export_dialog_wrong_file_name" >This Project name is not allowed!</string > -->
 
     <string name="action_import_midi_title">Open Project</string>
     <string name="action_import_midi_validation_error">The given Project was not created with Musicdroid</string>

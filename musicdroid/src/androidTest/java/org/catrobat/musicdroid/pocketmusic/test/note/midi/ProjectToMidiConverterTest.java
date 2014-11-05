@@ -20,27 +20,27 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.musicdroid.pocketmusic.test.note.midi;
 
 import android.test.AndroidTestCase;
 
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
-import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.test.note.ProjectTestDataFactory;
 
 import java.io.File;
 import java.io.IOException;
 
-public class MidiToProjectConverterTest extends AndroidTestCase {
+public class ProjectToMidiConverterTest extends AndroidTestCase {
 
-    private static final String FILE_NAME = "MidiToProjectConverterTest.midi";
+    private static final String FILE_NAME = "ProjectToMidiConverterTest.midi";
     private File file;
 
     @Override
     protected void setUp() {
-        file = new File(ProjectToMidiConverter.MIDI_FOLDER + File.separator + FILE_NAME + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
+        file = new File(getContext().getCacheDir(), FILE_NAME);
     }
 
     @Override
@@ -48,14 +48,12 @@ public class MidiToProjectConverterTest extends AndroidTestCase {
         file.delete();
     }
 
-	public void testConvertMidi() throws MidiException, IOException {
-		ProjectToMidiConverter projectConverter = new ProjectToMidiConverter();
-		MidiToProjectConverter midiConverter = new MidiToProjectConverter();
-		Project expectedProject = ProjectTestDataFactory.createProjectWithSemiComplexTracks();
+    public void testWriteProjectAsMidi() throws IOException, MidiException {
+        Project project = ProjectTestDataFactory.createProject();
+        ProjectToMidiConverter converter = new ProjectToMidiConverter();
 
-        projectConverter.writeProjectAsMidi(expectedProject, FILE_NAME);
-        Project actualProject = midiConverter.convertMidiFileToProject(file);
+        converter.writeProjectAsMidi(project, file);
 
-        assertEquals(expectedProject, actualProject);
-	}
+        assertTrue(file.exists());
+    }
 }
