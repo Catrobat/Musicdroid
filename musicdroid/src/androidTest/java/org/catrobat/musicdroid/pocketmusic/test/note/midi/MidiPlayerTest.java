@@ -23,13 +23,14 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.midi;
 
-import android.app.Activity;
 import android.test.AndroidTestCase;
 
+import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
+import org.catrobat.musicdroid.pocketmusic.test.instrument.InstrumentActivityTestDataFactory;
 import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
 
 import java.io.IOException;
@@ -39,13 +40,13 @@ public class MidiPlayerTest extends AndroidTestCase {
 
     private NoteName noteName;
     private MidiPlayerMock player;
-    private Activity activity;
+    private InstrumentActivity activity;
 
     @Override
     protected void setUp() {
         noteName = NoteName.C4;
         player = MidiPlayerTestDataFactory.createMidiPlayer();
-        activity = new Activity();
+        activity = InstrumentActivityTestDataFactory.createInstrumentActivity();
     }
 
     public void testPlayNote1() {

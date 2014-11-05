@@ -62,6 +62,8 @@ public abstract class InstrumentActivity extends Activity {
     private String[] midiFileList;
     private TrackMementoStack mementoStack;
 
+    private AlertDialog playAllDialog;
+
     public InstrumentActivity(MusicalKey key, MusicalInstrument instrument) {
         editTextMidiExportNameDialogPrompt = null;
 
@@ -172,12 +174,34 @@ public abstract class InstrumentActivity extends Activity {
     }
 
     private void onActionPlayMidi() {
-        // TODO fw block actions while playing?
+        if (track.empty()) {
+            return;
+        }
+
         try {
             midiPlayer.playTrack(this, track, Project.DEFAULT_BEATS_PER_MINUTE);
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setMessage(R.string.action_play_midi_dialog_titler)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.action_play_midi_dialog_stop,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    midiPlayer.stop();
+                                }
+                            }
+                    );
+
+            playAllDialog = alertDialogBuilder.create();
+            playAllDialog.show();
         } catch (Exception e) {
             Toast.makeText(getBaseContext(), R.string.action_play_midi_error, Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void dismissPlayAllDialog() {
+        playAllDialog.dismiss();
     }
 
     private void removeMidiExtension() {
@@ -222,8 +246,8 @@ public abstract class InstrumentActivity extends Activity {
         editTextMidiExportNameDialogPrompt = new EditText(this);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setTitle(getString(R.string.action_export_dialog_title))
-                .setMessage(getString(R.string.action_export_dialog_message))
+        alertDialogBuilder.setTitle(R.string.action_export_dialog_title)
+                .setMessage(R.string.action_export_dialog_message)
                 .setView(editTextMidiExportNameDialogPrompt)
                 .setCancelable(false)
                 .setPositiveButton(R.string.action_export_dialog_positive_button,

@@ -27,6 +27,7 @@ import android.app.Activity;
 import android.media.MediaPlayer;
 import android.net.Uri;
 
+import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
@@ -58,15 +59,23 @@ public class MidiPlayer {
         return instance;
     }
 
+    public void stop() {
+        if (null != player) {
+            player.stop();
+        }
+    }
+
     public void playNote(Activity activity, NoteName noteName) {
-        if ((null == player) || (false == player.isPlaying())) {
+        if ((null == player) || (false == player.isPlaying() && playQueue.isEmpty()) ) {
             createAndStartPlayer(activity, noteName);
         } else {
             playQueue.add(noteName);
         }
     }
 
-    public void playTrack(Activity activity, Track track, int beatsPerMinute) throws IOException, MidiException {
+    public void playTrack(InstrumentActivity activity, Track track, int beatsPerMinute) throws IOException, MidiException {
+        playQueue.clear();
+
         File tempPlayFile = createTempPlayFile(activity, track, beatsPerMinute);
 
         player = createPlayer(activity, tempPlayFile);
@@ -113,13 +122,14 @@ public class MidiPlayer {
         }
     }
 
-    protected MediaPlayer createPlayer(Activity activity, final File tempPlayFile) {
+    protected MediaPlayer createPlayer(final InstrumentActivity activity, final File tempPlayFile) {
         MediaPlayer player = MediaPlayer.create(activity, Uri.parse(tempPlayFile.getAbsolutePath()));
 
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 tempPlayFile.delete();
+                activity.dismissPlayAllDialog();
             }
         });
 

@@ -141,4 +141,19 @@ public class TrackTest extends AndroidTestCase {
         assertTrue(track != copyTrack);
         assertTrue(track.equals(copyTrack));
     }
+
+    public void testEmpty1() {
+        Track track = TrackTestDataFactory.createTrack();
+
+        assertTrue(track.empty());
+    }
+
+    public void testEmpty2() {
+        Track track = TrackTestDataFactory.createTrack();
+        long tick = 0;
+
+        track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent());
+
+        assertFalse(track.empty());
+    }
 }

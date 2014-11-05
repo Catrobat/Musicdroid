@@ -27,6 +27,8 @@
     <string name="action_undo_midi">Undo</string>
     <string name="action_play_midi">Play</string>
     <string name="action_play_midi_error">Could not start playing</string>
+    <string name="action_play_midi_dialog_titler">Playing...</string>
+    <string name="action_play_midi_dialog_stop">Stop</string>
 
     <string name="action_export_midi_title">Save Project</string>
     <string name="action_export_midi_success">Save successful!</string>
