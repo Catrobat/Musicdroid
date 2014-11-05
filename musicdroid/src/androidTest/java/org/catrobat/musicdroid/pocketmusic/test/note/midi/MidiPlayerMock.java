@@ -26,6 +26,7 @@ package org.catrobat.musicdroid.pocketmusic.test.note.midi;
 import android.app.Activity;
 import android.media.MediaPlayer;
 
+import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
@@ -63,7 +64,7 @@ public class MidiPlayerMock extends MidiPlayer {
     }
 
     @Override
-    protected MediaPlayer createPlayer(Activity activity, File file) {
+    protected MediaPlayer createPlayer(InstrumentActivity activity, File file) {
         return new MediaPlayerMock();
     }
 
