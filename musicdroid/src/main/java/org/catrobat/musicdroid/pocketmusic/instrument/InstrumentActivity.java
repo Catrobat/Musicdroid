@@ -178,6 +178,7 @@ public abstract class InstrumentActivity extends Activity {
         Toast.makeText(getBaseContext(), R.string.action_delete_midi_success, Toast.LENGTH_LONG).show();
     }
 
+    // TODO fw add tests
     private void onActionPlayMidi() {
         if (track.empty()) {
             return;
