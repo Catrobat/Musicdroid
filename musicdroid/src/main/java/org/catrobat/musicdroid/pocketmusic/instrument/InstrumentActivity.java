@@ -25,6 +25,8 @@ package org.catrobat.musicdroid.pocketmusic.instrument;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -178,6 +180,8 @@ public abstract class InstrumentActivity extends Activity {
             return;
         }
 
+        lockScreenOrientation();
+
         try {
             midiPlayer.playTrack(this, track, Project.DEFAULT_BEATS_PER_MINUTE);
 
@@ -189,6 +193,7 @@ public abstract class InstrumentActivity extends Activity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     midiPlayer.stop();
+                                    unlockScreenOrientation();
                                 }
                             }
                     );
@@ -200,8 +205,23 @@ public abstract class InstrumentActivity extends Activity {
         }
     }
 
+    private void lockScreenOrientation() {
+        int orientation = getResources().getConfiguration().orientation;
+
+        if (Configuration.ORIENTATION_PORTRAIT == orientation) {
+            setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else if (Configuration.ORIENTATION_LANDSCAPE == orientation) {
+            setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+    }
+
+    private void unlockScreenOrientation() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+    }
+
     public void dismissPlayAllDialog() {
         playAllDialog.dismiss();
+        unlockScreenOrientation();
     }
 
     private void removeMidiExtension() {
