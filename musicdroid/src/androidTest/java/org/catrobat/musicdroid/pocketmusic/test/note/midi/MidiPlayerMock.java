@@ -33,7 +33,6 @@ import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Queue;
 
 public class MidiPlayerMock extends MidiPlayer {
 

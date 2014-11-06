@@ -39,6 +39,7 @@ import java.io.IOException;
 public class MidiPlayerTest extends AndroidTestCase {
 
     private static final File CACHE_DIR = new File("");
+
     private static final int MIDI_RESOURCE_ID = 0;
 
     private MidiPlayerMock player;
@@ -152,5 +153,26 @@ public class MidiPlayerTest extends AndroidTestCase {
 
     private void assertPlayTrack(boolean expectedIsPlaying) {
         assertEquals(expectedIsPlaying, player.isPlaying());
+    }
+
+    private class FileMock extends File {
+
+        private boolean isDeleted;
+
+        public FileMock() {
+            super("");
+            isDeleted = false;
+        }
+
+        public boolean isDeleted() {
+            return isDeleted;
+        }
+
+        @Override
+        public boolean delete() {
+            isDeleted = true;
+
+            return isDeleted;
+        }
     }
 }
