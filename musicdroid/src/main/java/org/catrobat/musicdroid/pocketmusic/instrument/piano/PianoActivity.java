@@ -83,22 +83,7 @@ public class PianoActivity extends InstrumentActivity {
     }
 
     @Override
-    protected void doAfterAddNoteEvent(NoteEvent noteEvent) {
-        noteSheetViewFragment.redraw(getTrack());
-    }
-
-    @Override
-    protected void doAfterUndoMidi() {
-        noteSheetViewFragment.redraw(getTrack());
-    }
-
-    @Override
-    protected void doAfterDeleteMidi() {
-        noteSheetViewFragment.redraw(getTrack());
-    }
-
-    @Override
-    protected void doAfterImportMidi() {
+    protected void redraw() {
         noteSheetViewFragment.redraw(getTrack());
     }
 

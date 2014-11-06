@@ -33,9 +33,14 @@ import org.catrobat.musicdroid.pocketmusic.note.TrackMementoStack;
  */
 public class TrackMementoStackTest extends AndroidTestCase {
 
-    public void testPushMemento() {
-        TrackMementoStack mementoStack = new TrackMementoStack();
+    private TrackMementoStack mementoStack;
 
+    @Override
+    protected void setUp() {
+        mementoStack = new TrackMementoStack();
+    }
+
+    public void testPushMemento() {
         Track track = TrackTestDataFactory.createSimpleTrack();
         mementoStack.pushMemento(track);
 
@@ -43,16 +48,12 @@ public class TrackMementoStackTest extends AndroidTestCase {
     }
 
     public void testPopMementoAsTrack1() {
-        TrackMementoStack mementoStack = new TrackMementoStack();
-
         Track track = mementoStack.popMementoAsTrack();
 
         assertNull(track);
     }
 
     public void testPopMementoAsTrack2() {
-        TrackMementoStack mementoStack = new TrackMementoStack();
-
         Track expectedTrack = TrackTestDataFactory.createSimpleTrack();
         mementoStack.pushMemento(expectedTrack);
         Track actualTrack = mementoStack.popMementoAsTrack();
@@ -62,8 +63,16 @@ public class TrackMementoStackTest extends AndroidTestCase {
     }
 
     public void testIsEmpty() {
-        TrackMementoStack mementoStack = new TrackMementoStack();
-
         assertTrue(mementoStack.isEmpty());
+    }
+
+    public void testClear() {
+        mementoStack.pushMemento(TrackTestDataFactory.createTrack());
+        mementoStack.clear();
+
+        int expectedStackSize = 0;
+        int actualStackSize = mementoStack.size();
+
+        assertEquals(expectedStackSize, actualStackSize);
     }
 }

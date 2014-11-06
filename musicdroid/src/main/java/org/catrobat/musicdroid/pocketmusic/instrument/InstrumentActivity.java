@@ -113,7 +113,7 @@ public abstract class InstrumentActivity extends Activity {
         }
 
         track.addNoteEvent(tickThread.getNextTick(noteEvent), noteEvent);
-        doAfterAddNoteEvent(noteEvent);
+        redraw();
     }
 
     @Override
@@ -147,7 +147,7 @@ public abstract class InstrumentActivity extends Activity {
     private void onActionUndoMidi() {
         if (false == mementoStack.isEmpty()) {
             setTrack(mementoStack.popMementoAsTrack());
-            doAfterUndoMidi();
+            redraw();
         }
     }
 
@@ -170,7 +170,8 @@ public abstract class InstrumentActivity extends Activity {
 
     private void onActionDeleteMidi() {
         setTrack(new Track(track.getKey(), track.getInstrument()));
-        doAfterDeleteMidi();
+        mementoStack.clear();
+        redraw();
 
         Toast.makeText(getBaseContext(), R.string.action_delete_midi_success, Toast.LENGTH_LONG).show();
     }
@@ -245,10 +246,11 @@ public abstract class InstrumentActivity extends Activity {
                     Project project = converter.convertMidiFileToProject(midiFile);
 
                     setTrack(project.getTrack(0));
-                    doAfterImportMidi();
+                    redraw();
 
                     Toast.makeText(getBaseContext(), R.string.action_import_midi_success,
                             Toast.LENGTH_LONG).show();
+                    mementoStack.clear();
                 } catch (MidiException e) {
                     Toast.makeText(getBaseContext(), R.string.action_import_midi_validation_error,
                             Toast.LENGTH_LONG).show();
@@ -315,11 +317,5 @@ public abstract class InstrumentActivity extends Activity {
         return editTextMidiExportNameDialogPrompt;
     }
 
-    protected abstract void doAfterUndoMidi();
-
-    protected abstract void doAfterAddNoteEvent(NoteEvent noteEvent);
-
-    protected abstract void doAfterDeleteMidi();
-
-    protected abstract void doAfterImportMidi();
+    protected abstract void redraw();
 }
