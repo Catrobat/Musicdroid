@@ -225,6 +225,7 @@ public abstract class InstrumentActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
     }
 
+    // TODO fw add tests
     public void dismissPlayAllDialog() {
         playAllDialog.dismiss();
         unlockScreenOrientation();
