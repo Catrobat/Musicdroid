@@ -21,19 +21,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.test.instrument;
+package org.catrobat.musicdroid.pocketmusic.test.note.midi;
 
-import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
-import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
+import java.io.File;
 
 /**
- * Created by Elli on 05.11.14.
+ * Created by Elli on 06.11.14.
  */
-public class InstrumentActivityTestDataFactory {
+public class FileMock extends File {
 
-    private InstrumentActivityTestDataFactory() {}
+    private boolean isDeleted;
 
-    public static InstrumentActivityMock createInstrumentActivity() {
-        return new InstrumentActivityMock();
+    public FileMock() {
+        super("");
+        isDeleted = false;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    @Override
+    public boolean delete() {
+        isDeleted = true;
+
+        return isDeleted;
     }
 }

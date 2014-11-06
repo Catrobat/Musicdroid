@@ -24,16 +24,32 @@
 package org.catrobat.musicdroid.pocketmusic.test.instrument;
 
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
-import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
+import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
+import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 
 /**
- * Created by Elli on 05.11.14.
+ * Created by Elli on 06.11.14.
  */
-public class InstrumentActivityTestDataFactory {
+public class InstrumentActivityMock extends InstrumentActivity {
 
-    private InstrumentActivityTestDataFactory() {}
+    private boolean dismissed;
 
-    public static InstrumentActivityMock createInstrumentActivity() {
-        return new InstrumentActivityMock();
+    public InstrumentActivityMock() {
+        super(MusicalKey.VIOLIN, MusicalInstrument.ACCORDION);
+        dismissed = false;
+    }
+
+    public boolean isDismissed() {
+        return dismissed;
+    }
+
+    @Override
+    public void dismissPlayAllDialog() {
+        dismissed = true;
+    }
+
+    @Override
+    protected void redraw() {
+
     }
 }

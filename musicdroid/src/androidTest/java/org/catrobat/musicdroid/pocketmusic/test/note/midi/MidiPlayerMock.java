@@ -23,11 +23,10 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.midi;
 
-import android.app.Activity;
 import android.media.MediaPlayer;
+import android.net.Uri;
 
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
-import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
@@ -38,39 +37,41 @@ import java.util.Queue;
 
 public class MidiPlayerMock extends MidiPlayer {
 
-    public Queue<NoteName> getPlayQueue() {
-        return playQueue;
+    public int getPlayQueueSize() {
+        return playQueue.size();
     }
 
     public boolean isPlaying() {
         return player.isPlaying();
     }
 
-    public void stop() {
-        player.stop();
+    public void setPlaying(boolean isPlaying) {
+        ((MediaPlayerMock) player).setPlaying(isPlaying);
     }
 
     @Override
-     protected MediaPlayer createPlayer(Activity activity, int midiFileId) {
-        return new MediaPlayerMock();
-    }
-
-    public void onPlayNoteCompletionCallback(final Activity activity) {
-        super.restartPlayerThroughQueue(activity);
-    }
-
-    protected File createTempPlayFile(Activity activity, Track track, int beatsPerMinute) throws IOException, MidiException {
-        return new File("");
-    }
+    protected void writeTempPlayFile(File tempPlayFile, Track track, int beatsPerMinute) throws IOException, MidiException {}
 
     @Override
-    protected MediaPlayer createPlayer(InstrumentActivity activity, File file) {
+    protected MediaPlayer createPlayer(final InstrumentActivity activity, final int midiFileId) {
         return new MediaPlayerMock();
     }
 
     @Override
-    protected int getMidiResourceId(final Activity activity, final NoteName noteName) {
-        return 1;
+    public void onPlayNoteComplete(final InstrumentActivity activity) {
+        setPlaying(false);
+        super.onPlayNoteComplete(activity);
+    }
+
+    @Override
+    protected MediaPlayer createPlayer(final InstrumentActivity activity, final Uri uri) {
+        return new MediaPlayerMock();
+    }
+
+    @Override
+    public void onPlayTrackComplete(final InstrumentActivity activity, final File tempPlayFile) {
+        setPlaying(false);
+        super.onPlayTrackComplete(activity, tempPlayFile);
     }
 
     private class MediaPlayerMock extends MediaPlayer {
@@ -94,6 +95,10 @@ public class MidiPlayerMock extends MidiPlayer {
         @Override
         public boolean isPlaying() {
             return isPlaying;
+        }
+
+        public void setPlaying(boolean isPlaying) {
+            this.isPlaying = isPlaying;
         }
     }
 }

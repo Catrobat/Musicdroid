@@ -25,73 +25,132 @@ package org.catrobat.musicdroid.pocketmusic.test.note.midi;
 
 import android.test.AndroidTestCase;
 
-import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
-import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
+import org.catrobat.musicdroid.pocketmusic.test.instrument.InstrumentActivityMock;
 import org.catrobat.musicdroid.pocketmusic.test.instrument.InstrumentActivityTestDataFactory;
 import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
 
+import java.io.File;
 import java.io.IOException;
 
 
 public class MidiPlayerTest extends AndroidTestCase {
 
-    private NoteName noteName;
+    private static final File CACHE_DIR = new File("");
+    private static final int MIDI_RESOURCE_ID = 0;
+
     private MidiPlayerMock player;
-    private InstrumentActivity activity;
+    private InstrumentActivityMock activity;
 
     @Override
     protected void setUp() {
-        noteName = NoteName.C4;
         player = MidiPlayerTestDataFactory.createMidiPlayer();
         activity = InstrumentActivityTestDataFactory.createInstrumentActivity();
     }
 
-    public void testPlayNote1() {
-        player.playNote(activity, noteName);
+    public void testStop() {
+        player.playNote(activity, MIDI_RESOURCE_ID);
+        player.stop();
 
-        assertTrue(player.isPlaying());
+        assertPlayNote(0, false);
+    }
+
+    public void testPlayNote1() {
+        player.playNote(activity, MIDI_RESOURCE_ID);
+
+        assertPlayNote(0, true);
     }
 
     public void testPlayNote2() {
-        player.playNote(activity, noteName);
-        player.playNote(activity, noteName);
+        player.playNote(activity, MIDI_RESOURCE_ID);
+        player.setPlaying(false);
 
-        int expectedQueueSize = 1;
-        int actualQueueSize = player.getPlayQueue().size();
-
-        assertEquals(expectedQueueSize, actualQueueSize);
+        assertPlayNote(0, false);
     }
 
     public void testPlayNote3() {
-        player.playNote(activity, noteName);
-        player.stop();
-        player.playNote(activity, noteName);
+        player.playNote(activity, MIDI_RESOURCE_ID);
+        player.playNote(activity, MIDI_RESOURCE_ID);
 
-        int expectedQueueSize = 0;
-        int actualQueueSize = player.getPlayQueue().size();
-
-        assertEquals(expectedQueueSize, actualQueueSize);
-        assertTrue(player.isPlaying());
+        assertPlayNote(1, true);
     }
 
     public void testPlayNote4() {
-        player.playNote(activity, noteName);
-        player.onPlayNoteCompletionCallback(activity);
+        player.playNote(activity, MIDI_RESOURCE_ID);
+        player.setPlaying(false);
+        player.playNote(activity, MIDI_RESOURCE_ID);
 
-        int expectedQueueSize = 0;
-        int actualQueueSize = player.getPlayQueue().size();
-
-        assertEquals(expectedQueueSize, actualQueueSize);
-        assertTrue(player.isPlaying());
+        assertPlayNote(0, true);
     }
 
-    public void testPlayAll() throws IOException, MidiException {
-        Track track = TrackTestDataFactory.createSimpleTrack();
-        player.playTrack(activity, track, Project.DEFAULT_BEATS_PER_MINUTE);
+    public void testPlayNote5() {
+        player.playNote(activity, MIDI_RESOURCE_ID);
+        player.playNote(activity, MIDI_RESOURCE_ID);
+        player.setPlaying(false);
+        player.playNote(activity, MIDI_RESOURCE_ID);
 
-        assertTrue(player.isPlaying());
+        assertPlayNote(2, false);
+    }
+
+    public void testPlayNote6() {
+        player.playNote(activity, MIDI_RESOURCE_ID);
+        player.onPlayNoteComplete(activity);
+
+        assertPlayNote(0, false);
+    }
+
+    public void testPlayNote7() {
+        player.playNote(activity, MIDI_RESOURCE_ID);
+        player.playNote(activity, MIDI_RESOURCE_ID);
+        player.onPlayNoteComplete(activity);
+
+        assertPlayNote(0, true);
+    }
+
+    public void testPlayNote8() {
+        player.playNote(activity, MIDI_RESOURCE_ID);
+        player.playNote(activity, MIDI_RESOURCE_ID);
+        player.playNote(activity, MIDI_RESOURCE_ID);
+        player.onPlayNoteComplete(activity);
+
+        assertPlayNote(1, true);
+    }
+
+    public void testPlayNote9() {
+        player.playNote(activity, MIDI_RESOURCE_ID);
+        player.setPlaying(false);
+        player.onPlayNoteComplete(activity);
+
+        assertPlayNote(0, false);
+    }
+
+    private void assertPlayNote(int expectedQueueSize, boolean expectedIsPlaying) {
+        assertEquals(expectedQueueSize, player.getPlayQueueSize());
+        assertEquals(expectedIsPlaying, player.isPlaying());
+    }
+
+    public void testPlayTrack1() throws IOException, MidiException {
+        Track track = TrackTestDataFactory.createSimpleTrack();
+        player.playTrack(activity, CACHE_DIR, track, Project.DEFAULT_BEATS_PER_MINUTE);
+
+        assertEquals(0, player.getPlayQueueSize());
+        assertPlayTrack(true);
+    }
+
+    public void testPlayTrack2() throws IOException, MidiException {
+        Track track = TrackTestDataFactory.createSimpleTrack();
+        FileMock tempFileToPlay = new FileMock();
+        player.playTrack(activity, CACHE_DIR, track, Project.DEFAULT_BEATS_PER_MINUTE);
+        player.onPlayTrackComplete(activity, tempFileToPlay);
+
+        assertTrue(tempFileToPlay.isDeleted());
+        assertTrue(activity.isDismissed());
+        assertPlayTrack(player.isPlaying());
+    }
+
+    private void assertPlayTrack(boolean expectedIsPlaying) {
+        assertEquals(expectedIsPlaying, player.isPlaying());
     }
 }

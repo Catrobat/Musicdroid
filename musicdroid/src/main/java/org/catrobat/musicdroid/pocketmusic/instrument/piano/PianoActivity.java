@@ -82,6 +82,7 @@ public class PianoActivity extends InstrumentActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // TODO fw add test for this?!
     @Override
     protected void redraw() {
         noteSheetViewFragment.redraw(getTrack());

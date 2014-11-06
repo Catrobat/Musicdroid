@@ -52,6 +52,7 @@ import java.io.IOException;
 
 public abstract class InstrumentActivity extends Activity {
 
+    private static final String R_RAW = "raw";
     private static final String SAVED_INSTANCE_TRACK = "SavedTrack";
     private static final String SAVED_INSTANCE_MEMENTO = "SavedMemento";
 
@@ -109,7 +110,8 @@ public abstract class InstrumentActivity extends Activity {
         if (noteEvent.isNoteOn()) {
             mementoStack.pushMemento(track);
 
-            midiPlayer.playNote(this, noteEvent.getNoteName());
+            int midiResourceId = getResources().getIdentifier(noteEvent.getNoteName().toString().toLowerCase(), R_RAW, getPackageName());
+            midiPlayer.playNote(this, midiResourceId);
         }
 
         track.addNoteEvent(tickThread.getNextTick(noteEvent), noteEvent);
@@ -184,7 +186,7 @@ public abstract class InstrumentActivity extends Activity {
         lockScreenOrientation();
 
         try {
-            midiPlayer.playTrack(this, track, Project.DEFAULT_BEATS_PER_MINUTE);
+            midiPlayer.playTrack(this, getCacheDir(), track, Project.DEFAULT_BEATS_PER_MINUTE);
 
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder.setMessage(R.string.action_play_midi_dialog_titler)
@@ -203,9 +205,11 @@ public abstract class InstrumentActivity extends Activity {
             playAllDialog.show();
         } catch (Exception e) {
             Toast.makeText(getBaseContext(), R.string.action_play_midi_error, Toast.LENGTH_LONG).show();
+            unlockScreenOrientation();
         }
     }
 
+    // TODO fw add tests for this and all methods which use it
     private void lockScreenOrientation() {
         int orientation = getResources().getConfiguration().orientation;
 
@@ -216,6 +220,7 @@ public abstract class InstrumentActivity extends Activity {
         }
     }
 
+    // TODO fw add tests for this and all methods which use it
     private void unlockScreenOrientation() {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
     }
