@@ -25,6 +25,8 @@ package org.catrobat.musicdroid.pocketmusic.instrument;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -40,6 +42,7 @@ import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.TrackMementoStack;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 
@@ -49,18 +52,25 @@ import java.io.IOException;
 
 public abstract class InstrumentActivity extends Activity {
 
+    private static final String R_RAW = "raw";
     private static final String SAVED_INSTANCE_TRACK = "SavedTrack";
     private static final String SAVED_INSTANCE_MEMENTO = "SavedMemento";
 
     private EditText editTextMidiExportNameDialogPrompt;
+
+    private MidiPlayer midiPlayer;
 
     private AbstractTickProvider tickThread;
     private Track track;
     private String[] midiFileList;
     private TrackMementoStack mementoStack;
 
+    private AlertDialog playAllDialog;
+
     public InstrumentActivity(MusicalKey key, MusicalInstrument instrument) {
         editTextMidiExportNameDialogPrompt = null;
+
+        midiPlayer = MidiPlayer.getInstance();
 
         tickThread = new SimpleTickProvider();
         track = new Track(key, instrument);
@@ -96,13 +106,20 @@ public abstract class InstrumentActivity extends Activity {
         return track;
     }
 
+    public MidiPlayer getMidiPlayer() {
+        return midiPlayer;
+    }
+
     public void addNoteEvent(NoteEvent noteEvent) {
         if (noteEvent.isNoteOn()) {
             mementoStack.pushMemento(track);
+
+            int midiResourceId = getResources().getIdentifier(noteEvent.getNoteName().toString().toLowerCase(), R_RAW, getPackageName());
+            midiPlayer.playNote(this, midiResourceId);
         }
 
         track.addNoteEvent(tickThread.getNextTick(noteEvent), noteEvent);
-        doAfterAddNoteEvent(noteEvent);
+        redraw();
     }
 
     @Override
@@ -121,6 +138,9 @@ public abstract class InstrumentActivity extends Activity {
         } else if (id == R.id.action_clear_midi) {
             onActionDeleteMidi();
             return true;
+        } else if (id == R.id.action_play_midi) {
+            onActionPlayMidi();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -133,7 +153,7 @@ public abstract class InstrumentActivity extends Activity {
     private void onActionUndoMidi() {
         if (false == mementoStack.isEmpty()) {
             setTrack(mementoStack.popMementoAsTrack());
-            doAfterUndoMidi();
+            redraw();
         }
     }
 
@@ -156,9 +176,54 @@ public abstract class InstrumentActivity extends Activity {
 
     private void onActionDeleteMidi() {
         setTrack(new Track(track.getKey(), track.getInstrument()));
-        doAfterDeleteMidi();
+        mementoStack.clear();
+        redraw();
 
         Toast.makeText(getBaseContext(), R.string.action_delete_midi_success, Toast.LENGTH_LONG).show();
+    }
+
+    private void onActionPlayMidi() {
+        if (track.empty()) {
+            return;
+        }
+
+        lockScreenOrientation();
+
+        try {
+            midiPlayer.playTrack(this, getCacheDir(), track, Project.DEFAULT_BEATS_PER_MINUTE);
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setMessage(R.string.action_play_midi_dialog_titler)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.action_play_midi_dialog_stop,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    midiPlayer.stop();
+                                    unlockScreenOrientation();
+                                }
+                            }
+                    );
+
+            playAllDialog = alertDialogBuilder.create();
+            playAllDialog.show();
+        } catch (Exception e) {
+            Toast.makeText(getBaseContext(), R.string.action_play_midi_error, Toast.LENGTH_LONG).show();
+            unlockScreenOrientation();
+        }
+    }
+
+    private void lockScreenOrientation() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
+    }
+
+    private void unlockScreenOrientation() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+    }
+
+    public void dismissPlayAllDialog() {
+        playAllDialog.dismiss();
+        unlockScreenOrientation();
     }
 
     private void removeMidiExtension() {
@@ -182,10 +247,11 @@ public abstract class InstrumentActivity extends Activity {
                     Project project = converter.convertMidiFileToProject(midiFile);
 
                     setTrack(project.getTrack(0));
-                    doAfterImportMidi();
+                    redraw();
 
                     Toast.makeText(getBaseContext(), R.string.action_import_midi_success,
                             Toast.LENGTH_LONG).show();
+                    mementoStack.clear();
                 } catch (MidiException e) {
                     Toast.makeText(getBaseContext(), R.string.action_import_midi_validation_error,
                             Toast.LENGTH_LONG).show();
@@ -203,8 +269,8 @@ public abstract class InstrumentActivity extends Activity {
         editTextMidiExportNameDialogPrompt = new EditText(this);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setTitle(getString(R.string.action_export_dialog_title))
-                .setMessage(getString(R.string.action_export_dialog_message))
+        alertDialogBuilder.setTitle(R.string.action_export_dialog_title)
+                .setMessage(R.string.action_export_dialog_message)
                 .setView(editTextMidiExportNameDialogPrompt)
                 .setCancelable(false)
                 .setPositiveButton(R.string.action_export_dialog_positive_button,
@@ -252,11 +318,5 @@ public abstract class InstrumentActivity extends Activity {
         return editTextMidiExportNameDialogPrompt;
     }
 
-    protected abstract void doAfterUndoMidi();
-
-    protected abstract void doAfterAddNoteEvent(NoteEvent noteEvent);
-
-    protected abstract void doAfterDeleteMidi();
-
-    protected abstract void doAfterImportMidi();
+    protected abstract void redraw();
 }

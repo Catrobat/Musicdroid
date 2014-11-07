@@ -64,6 +64,14 @@ public class TrackMementoStack implements Serializable {
         return mementoStack.pop().getTrack();
     }
 
+    public void clear() {
+        mementoStack.clear();
+    }
+
+    public int size() {
+        return mementoStack.size();
+    }
+
     public boolean isEmpty() {
         return mementoStack.isEmpty();
     }

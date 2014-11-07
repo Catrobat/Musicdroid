@@ -55,10 +55,10 @@ public class PianoActivity extends InstrumentActivity {
         noteSheetViewFragment = new NoteSheetViewFragment();
         pianoViewFragment = new PianoViewFragment();
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             getFragmentManager().beginTransaction().replace(R.id.container, noteSheetViewFragment).commit();
             getFragmentManager().beginTransaction().replace(R.id.container, pianoViewFragment).commit();
-        }else{
+        } else {
             getFragmentManager().beginTransaction().add(R.id.container, noteSheetViewFragment).commit();
             getFragmentManager().beginTransaction().add(R.id.container, pianoViewFragment).commit();
         }
@@ -82,23 +82,9 @@ public class PianoActivity extends InstrumentActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // TODO fw add test for this?!
     @Override
-    protected void doAfterAddNoteEvent(NoteEvent noteEvent) {
-        noteSheetViewFragment.redraw(getTrack());
-    }
-
-    @Override
-    protected void doAfterUndoMidi() {
-        noteSheetViewFragment.redraw(getTrack());
-    }
-
-    @Override
-    protected void doAfterDeleteMidi() {
-        noteSheetViewFragment.redraw(getTrack());
-    }
-
-    @Override
-    protected void doAfterImportMidi() {
+    protected void redraw() {
         noteSheetViewFragment.redraw(getTrack());
     }
 

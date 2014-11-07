@@ -109,6 +109,10 @@ public class Track implements Serializable {
         return lastTick;
     }
 
+    public boolean empty() {
+        return (0 == size());
+    }
+
     @Override
     public boolean equals(Object obj) {
         if ((obj == null) || !(obj instanceof Track)) {

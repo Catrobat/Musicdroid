@@ -40,6 +40,11 @@
         android:showAsAction="ifRoom"
         android:title="@string/action_undo_midi" />
     <item
+        android:id="@+id/action_play_midi"
+        android:icon="@drawable/ic_action_play"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_play_midi" />
+    <item
         android:id="@+id/action_export_midi"
         android:icon="@drawable/ic_action_save"
         android:showAsAction="ifRoom"
