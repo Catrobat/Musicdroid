@@ -84,7 +84,7 @@ public class MidiPlayer {
         File tempPlayFile = new File(cacheDirectory, TEMP_PLAY_FILE_NAME);
         writeTempPlayFile(tempPlayFile, track, beatsPerMinute);
 
-        player = createPlayerWithOnCompletionListener(activity, tempPlayFile);
+        player = createTrackPlayerWithOnCompletionListener(activity, tempPlayFile);
         player.start();
     }
 
@@ -96,12 +96,12 @@ public class MidiPlayer {
     }
 
     private void createAndStartPlayer(final InstrumentActivity activity, final int midiResourceId) {
-        player = createPlayerWithOnCompletionListener(activity, midiResourceId);
+        player = createNotePlayerWithOnCompletionListener(activity, midiResourceId);
         player.start();
     }
 
-    private MediaPlayer createPlayerWithOnCompletionListener(final InstrumentActivity activity, final int midiFileId) {
-        MediaPlayer player = createPlayer(activity, midiFileId);
+    private MediaPlayer createNotePlayerWithOnCompletionListener(final InstrumentActivity activity, final int midiResourceId) {
+        MediaPlayer player = createNotePlayer(activity, midiResourceId);
 
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
@@ -113,8 +113,8 @@ public class MidiPlayer {
         return player;
     }
 
-    protected MediaPlayer createPlayer(final InstrumentActivity activity, final int midiFileId) {
-        return MediaPlayer.create(activity, midiFileId);
+    protected MediaPlayer createNotePlayer(final InstrumentActivity activity, final int midiResourceId) {
+        return MediaPlayer.create(activity, midiResourceId);
     }
 
     protected void onPlayNoteComplete(final InstrumentActivity activity) {
@@ -123,8 +123,8 @@ public class MidiPlayer {
         }
     }
 
-    private MediaPlayer createPlayerWithOnCompletionListener(final InstrumentActivity activity, final File tempPlayFile) {
-        MediaPlayer player = createPlayer(activity, Uri.parse(tempPlayFile.getAbsolutePath()));
+    private MediaPlayer createTrackPlayerWithOnCompletionListener(final InstrumentActivity activity, final File tempPlayFile) {
+        MediaPlayer player = createTrackPlayer(activity, Uri.parse(tempPlayFile.getAbsolutePath()));
 
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
@@ -141,7 +141,7 @@ public class MidiPlayer {
         activity.dismissPlayAllDialog();
     }
 
-    protected MediaPlayer createPlayer(final InstrumentActivity activity, final Uri uri) {
+    protected MediaPlayer createTrackPlayer(final InstrumentActivity activity, final Uri uri) {
         return MediaPlayer.create(activity, uri);
     }
 }

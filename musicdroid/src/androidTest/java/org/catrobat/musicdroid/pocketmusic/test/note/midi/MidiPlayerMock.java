@@ -48,7 +48,7 @@ public class MidiPlayerMock extends MidiPlayer {
     protected void writeTempPlayFile(File tempPlayFile, Track track, int beatsPerMinute) throws IOException, MidiException {}
 
     @Override
-    protected MediaPlayer createPlayer(final InstrumentActivity activity, final int midiFileId) {
+    protected MediaPlayer createNotePlayer(final InstrumentActivity activity, final int midiFileId) {
         return new MediaPlayerMock();
     }
 
@@ -59,7 +59,7 @@ public class MidiPlayerMock extends MidiPlayer {
     }
 
     @Override
-    protected MediaPlayer createPlayer(final InstrumentActivity activity, final Uri uri) {
+    protected MediaPlayer createTrackPlayer(final InstrumentActivity activity, final Uri uri) {
         return new MediaPlayerMock();
     }
 
