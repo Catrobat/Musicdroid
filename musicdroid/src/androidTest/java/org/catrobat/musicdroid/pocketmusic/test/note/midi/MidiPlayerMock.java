@@ -40,10 +40,6 @@ public class MidiPlayerMock extends MidiPlayer {
         return playQueue.size();
     }
 
-    public boolean isPlaying() {
-        return player.isPlaying();
-    }
-
     public void setPlaying(boolean isPlaying) {
         ((MediaPlayerMock) player).setPlaying(isPlaying);
     }

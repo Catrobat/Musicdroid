@@ -56,8 +56,12 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
     @Override
     protected void tearDown() {
-        for(File file: ProjectToMidiConverter.MIDI_FOLDER.listFiles())
-            file.delete();
+        if (ProjectToMidiConverter.MIDI_FOLDER.isDirectory()) {
+            for(File file: ProjectToMidiConverter.MIDI_FOLDER.listFiles())
+                file.delete();
+        }
+
+        pianoActivity.getMidiPlayer().stop();
 
         solo.finishOpenedActivities();
     }
@@ -156,7 +160,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         int expectedTrackSize = 4;
 
         solo.clickOnButton(PIANO_BUTTON);
-        pianoActivity = rotateAndReturnActivity(Solo.LANDSCAPE);
+        rotateAndReturnActivity(Solo.LANDSCAPE);
         solo.clickOnButton(PIANO_BUTTON);
 
         int actualTrackSize = pianoActivity.getTrack().size();
@@ -164,20 +168,20 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         assertEquals(expectedTrackSize, actualTrackSize);
     }
 
-    private PianoActivity rotateAndReturnActivity(int orientation) {
+    private void rotateAndReturnActivity(int orientation) {
         solo.setActivityOrientation(orientation);
         getInstrumentation().waitForIdleSync();
 
-        return (PianoActivity) solo.getCurrentActivity();
+        pianoActivity = (PianoActivity) solo.getCurrentActivity();
     }
 
     public void testRotateAndUndo() {
         int expectedTrackSize = 0;
 
         solo.clickOnButton(PIANO_BUTTON);
-        pianoActivity = rotateAndReturnActivity(Solo.LANDSCAPE);
+        rotateAndReturnActivity(Solo.LANDSCAPE);
         solo.clickOnButton(PIANO_BUTTON);
-        pianoActivity = rotateAndReturnActivity(Solo.PORTRAIT);
+        rotateAndReturnActivity(Solo.PORTRAIT);
 
         solo.clickOnActionBarItem(R.id.action_undo_midi);
         solo.clickOnActionBarItem(R.id.action_undo_midi);
@@ -185,5 +189,46 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         int actualTrackSize = pianoActivity.getTrack().size();
 
         assertEquals(expectedTrackSize, actualTrackSize);
+    }
+
+    public void testPlayMidi1() {
+        clickSomePianoButtonsForLargeTrack();
+        solo.clickOnActionBarItem(R.id.action_play_midi);
+        solo.waitForDialogToOpen();
+
+        assertTrue(pianoActivity.getMidiPlayer().isPlaying());
+    }
+
+    private void clickSomePianoButtonsForLargeTrack() {
+        int numberOfNotes = 5;
+
+        for (int i = 0; i < numberOfNotes; i++) {
+            solo.clickOnButton(PIANO_BUTTON);
+        }
+    }
+
+    public void testPlayMidi2() {
+        clickSomePianoButtonsForLargeTrack();
+        solo.clickOnActionBarItem(R.id.action_play_midi);
+        solo.waitForDialogToOpen();
+        solo.clickOnButton(pianoActivity.getString(R.string.action_play_midi_dialog_stop));
+        solo.waitForDialogToClose();
+
+        assertFalse(pianoActivity.getMidiPlayer().isPlaying());
+    }
+
+    public void testPlayMidi3() {
+        solo.clickOnActionBarItem(R.id.action_play_midi);
+
+        assertFalse(pianoActivity.getMidiPlayer().isPlaying());
+    }
+
+    public void testPlayMidi4() throws InterruptedException {
+        solo.clickOnButton(PIANO_BUTTON);
+        solo.clickOnActionBarItem(R.id.action_play_midi);
+        solo.waitForDialogToOpen();
+        solo.waitForDialogToClose();
+
+        assertFalse(pianoActivity.getMidiPlayer().isPlaying());
     }
 }

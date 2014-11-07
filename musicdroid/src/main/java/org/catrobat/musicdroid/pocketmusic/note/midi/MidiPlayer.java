@@ -56,8 +56,16 @@ public class MidiPlayer {
         return instance;
     }
 
+    public boolean isPlaying() {
+        if (player != null) {
+            return player.isPlaying();
+        }
+
+        return false;
+    }
+
     public void stop() {
-        if (null != player) {
+        if ((null != player) && player.isPlaying()) {
             player.stop();
         }
     }

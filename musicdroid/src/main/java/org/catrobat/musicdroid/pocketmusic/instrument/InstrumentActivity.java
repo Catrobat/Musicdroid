@@ -106,6 +106,10 @@ public abstract class InstrumentActivity extends Activity {
         return track;
     }
 
+    public MidiPlayer getMidiPlayer() {
+        return midiPlayer;
+    }
+
     public void addNoteEvent(NoteEvent noteEvent) {
         if (noteEvent.isNoteOn()) {
             mementoStack.pushMemento(track);
@@ -178,7 +182,6 @@ public abstract class InstrumentActivity extends Activity {
         Toast.makeText(getBaseContext(), R.string.action_delete_midi_success, Toast.LENGTH_LONG).show();
     }
 
-    // TODO fw add tests
     private void onActionPlayMidi() {
         if (track.empty()) {
             return;
@@ -210,23 +213,14 @@ public abstract class InstrumentActivity extends Activity {
         }
     }
 
-    // TODO fw add tests for this and all methods which use it
     private void lockScreenOrientation() {
-        int orientation = getResources().getConfiguration().orientation;
-
-        if (Configuration.ORIENTATION_PORTRAIT == orientation) {
-            setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        } else if (Configuration.ORIENTATION_LANDSCAPE == orientation) {
-            setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
     }
 
-    // TODO fw add tests for this and all methods which use it
     private void unlockScreenOrientation() {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
     }
 
-    // TODO fw add tests
     public void dismissPlayAllDialog() {
         playAllDialog.dismiss();
         unlockScreenOrientation();
