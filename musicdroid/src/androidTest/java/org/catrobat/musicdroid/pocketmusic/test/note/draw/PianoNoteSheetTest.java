@@ -79,7 +79,7 @@ public class PianoNoteSheetTest extends AndroidTestCase {
         int stopX = canvas.getWidth() - NoteSheetCanvas.NOTE_SHEET_PADDING;
 
         for (int yPositionLine = yPositionTopLine; yPositionLine <= yPositionBottomLine; yPositionLine += distanceBetweenLines) {
-            String expectedLine = CanvasMock.createString(startX, yPositionLine, stopX, yPositionLine);
+            String expectedLine = CanvasMock.createString(CanvasMock.DRAW_LINE, startX, yPositionLine, stopX, yPositionLine);
             String actualLine = drawnElements.poll();
 
             assertEquals(expectedLine, actualLine);
@@ -93,21 +93,21 @@ public class PianoNoteSheetTest extends AndroidTestCase {
 
         Queue<String> drawnElements = canvas.getDrawnElements();
 
-        String expectedLine = CanvasMock.createString(startXPositionForNextElement, yPositionOfBarTop, startXPositionForNextElement + NoteSheetCanvas.BOLD_BAR_WIDTH, yPositionOfBarBottom);
+        String expectedLine = CanvasMock.createString(CanvasMock.DRAW_RECT, startXPositionForNextElement, yPositionOfBarTop, startXPositionForNextElement + NoteSheetCanvas.BOLD_BAR_WIDTH, yPositionOfBarBottom);
         String actualLine = drawnElements.poll();
 
         assertEquals(expectedLine, actualLine);
 
         startXPositionForNextElement += 2 * NoteSheetCanvas.BOLD_BAR_WIDTH;
 
-        expectedLine = CanvasMock.createString(startXPositionForNextElement, yPositionOfBarTop, startXPositionForNextElement + NoteSheetCanvas.THIN_BAR_WIDTH, yPositionOfBarBottom);
+        expectedLine = CanvasMock.createString(CanvasMock.DRAW_RECT, startXPositionForNextElement, yPositionOfBarTop, startXPositionForNextElement + NoteSheetCanvas.THIN_BAR_WIDTH, yPositionOfBarBottom);
         actualLine = drawnElements.poll();
 
         assertEquals(expectedLine, actualLine);
 
         startXPositionForNextElement += NoteSheetCanvas.BOLD_BAR_WIDTH;
 
-        expectedLine = CanvasMock.createString(endXPositionForDrawingElements - NoteSheetCanvas.BOLD_BAR_WIDTH, yPositionOfBarTop, endXPositionForDrawingElements, yPositionOfBarBottom);
+        expectedLine = CanvasMock.createString(CanvasMock.DRAW_RECT, endXPositionForDrawingElements - NoteSheetCanvas.BOLD_BAR_WIDTH, yPositionOfBarTop, endXPositionForDrawingElements, yPositionOfBarBottom);
         actualLine = drawnElements.poll();
 
         assertEquals(expectedLine, actualLine);
@@ -131,7 +131,7 @@ public class PianoNoteSheetTest extends AndroidTestCase {
         Rect rect = PictureTools.calculateProportionalPictureContourRect(bitmap, bitmapHeight,
                 xPosition, yPosition);
 
-        String expectedLine = CanvasMock.createString(rect.left, rect.top, rect.right, rect.bottom);
+        String expectedLine = CanvasMock.createString(CanvasMock.DRAW_BITMAP, rect.left, rect.top, rect.right, rect.bottom);
         String actualLine = canvas.getDrawnElements().poll();
 
         assertEquals(expectedLine, actualLine);
