@@ -21,16 +21,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.test.note.draw;
+package org.catrobat.musicdroid.pocketmusic.note.draw;
 
-/**
- * Created by Daniel on 21.10.2014.
- */
-public class CanvasTestDataFactory {
+public class NoteSheetDrawPosition {
 
-    private CanvasTestDataFactory() {}
+    private int startXPositionForNextElement;
+    private int endXPositionForDrawingElements;
 
-    public static CanvasMock createCanvasMock() {
-        return new CanvasMock();
+    public NoteSheetDrawPosition(int startXPositionForNextElement, int endXPositionForDrawingElements) {
+        this.startXPositionForNextElement = startXPositionForNextElement;
+        this.endXPositionForDrawingElements = endXPositionForDrawingElements;
+    }
+
+    public int getStartXPositionForNextElement() {
+        return startXPositionForNextElement;
+    }
+
+    public void setStartXPositionForNextElement(int startXPositionForNextElement) {
+        this.startXPositionForNextElement = startXPositionForNextElement;
+    }
+
+    public void increasesStartXPositionForNextElement(int offset) {
+        startXPositionForNextElement += offset;
+    }
+
+    public int getEndXPositionForDrawingElements() {
+        return endXPositionForDrawingElements;
     }
 }

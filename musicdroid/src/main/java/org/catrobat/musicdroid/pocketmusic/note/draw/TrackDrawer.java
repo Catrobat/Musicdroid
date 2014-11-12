@@ -23,17 +23,26 @@
 package org.catrobat.musicdroid.pocketmusic.note.draw;
 
 import android.content.res.Resources;
+import android.graphics.Paint;
 
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
 
-
 public class TrackDrawer {
 
-	public void drawTrack(Track track, PianoNoteSheetCanvas noteSheetCanvas, Resources resources) {
+    private Track track;
+
+    private SymbolDrawer symbolDrawer;
+
+    public TrackDrawer(NoteSheetCanvas canvas, Paint paint, Resources resources, Track track, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
+        this.track = track;
+
+        symbolDrawer = new NoteDrawer(canvas, paint, resources, track.getKey(), drawPosition, distanceBetweenLines);
+    }
+
+	public void drawTrack() {
 		TrackToSymbolsConverter converter = new TrackToSymbolsConverter();
-		SymbolDrawer symbolDrawer = new SymbolDrawer(noteSheetCanvas, resources, track.getKey());
 
 		for (Symbol symbol : converter.convertTrack(track)) {
 			symbolDrawer.drawSymbol(symbol);
