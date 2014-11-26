@@ -21,9 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
-
+apply from: '../gradle/quality.gradle'
 
 android {
     compileSdkVersion 19
