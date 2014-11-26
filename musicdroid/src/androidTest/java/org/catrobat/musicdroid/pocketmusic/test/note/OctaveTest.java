@@ -41,7 +41,8 @@ public class OctaveTest extends AndroidTestCase {
 				NoteName.A1S, NoteName.B1};
 		Octave octave = Octave.createContraOctave();
 		
-		assertTrue(Arrays.equals(noteNames, octave.getNoteNames()));
+		assertTrue("The created octave has to include all notes",
+                Arrays.equals(noteNames, octave.getNoteNames()));
 	}
 	
 	public void testCreateCustomOctave1() {
@@ -55,7 +56,8 @@ public class OctaveTest extends AndroidTestCase {
 				NoteName.C2S, NoteName.D2};
 		Octave octave = Octave.createCustomOctave(startNoteName);
 		
-		assertTrue(Arrays.equals(noteNames, octave.getNoteNames()));
+		assertTrue("The created octave has to include all notes starting with the given note",
+                Arrays.equals(noteNames, octave.getNoteNames()));
 	}
 	
 	public void testCreateCustomOctave2() {
@@ -64,6 +66,7 @@ public class OctaveTest extends AndroidTestCase {
 				NoteName.C8};
 		Octave octave = Octave.createCustomOctave(startNoteName);
 		
-		assertTrue(Arrays.equals(noteNames, octave.getNoteNames()));
+		assertTrue("The array starting with C8 has only to include this one note",
+                Arrays.equals(noteNames, octave.getNoteNames()));
 	}
 }

@@ -66,7 +66,7 @@ public class PianoNoteSheetTest extends AndroidTestCase {
         assertCanvasLineBars(noteSheetCanvas, canvas);
         assertCanvasKey(noteSheetCanvas, canvas);
         assertCanvasTactUnit(noteSheetCanvas, canvas);
-        assertTrue((canvas.getDrawnElements().isEmpty()));
+        assertTrue("The drawn elements have to be empty", (canvas.getDrawnElements().isEmpty()));
     }
 
     private void assertCanvasLines(PianoNoteSheetCanvas noteSheetCanvas, CanvasMock canvas) {
@@ -82,7 +82,8 @@ public class PianoNoteSheetTest extends AndroidTestCase {
             String expectedLine = CanvasMock.createString(startX, yPositionLine, stopX, yPositionLine);
             String actualLine = drawnElements.poll();
 
-            assertEquals(expectedLine, actualLine);
+            assertEquals("The drawn line should be at the expected position",
+                    expectedLine, actualLine);
         }
     }
 
@@ -96,21 +97,21 @@ public class PianoNoteSheetTest extends AndroidTestCase {
         String expectedLine = CanvasMock.createString(startXPositionForNextElement, yPositionOfBarTop, startXPositionForNextElement + NoteSheetCanvas.BOLD_BAR_WIDTH, yPositionOfBarBottom);
         String actualLine = drawnElements.poll();
 
-        assertEquals(expectedLine, actualLine);
+        assertEquals("The drawn line should be at the expected position", expectedLine, actualLine);
 
         startXPositionForNextElement += 2 * NoteSheetCanvas.BOLD_BAR_WIDTH;
 
         expectedLine = CanvasMock.createString(startXPositionForNextElement, yPositionOfBarTop, startXPositionForNextElement + NoteSheetCanvas.THIN_BAR_WIDTH, yPositionOfBarBottom);
         actualLine = drawnElements.poll();
 
-        assertEquals(expectedLine, actualLine);
+        assertEquals("The drawn line should be at the expected position", expectedLine, actualLine);
 
         startXPositionForNextElement += NoteSheetCanvas.BOLD_BAR_WIDTH;
 
         expectedLine = CanvasMock.createString(endXPositionForDrawingElements - NoteSheetCanvas.BOLD_BAR_WIDTH, yPositionOfBarTop, endXPositionForDrawingElements, yPositionOfBarBottom);
         actualLine = drawnElements.poll();
 
-        assertEquals(expectedLine, actualLine);
+        assertEquals("The drawn line should be at the expected position", expectedLine, actualLine);
     }
 
     private void assertCanvasKey(PianoNoteSheetCanvas noteSheetCanvas, CanvasMock canvas) {
@@ -134,7 +135,7 @@ public class PianoNoteSheetTest extends AndroidTestCase {
         String expectedLine = CanvasMock.createString(rect.left, rect.top, rect.right, rect.bottom);
         String actualLine = canvas.getDrawnElements().poll();
 
-        assertEquals(expectedLine, actualLine);
+        assertEquals("The drawn line should be at the expected position", expectedLine, actualLine);
 
         startXPositionForNextElement = rect.right;
     }
@@ -143,13 +144,15 @@ public class PianoNoteSheetTest extends AndroidTestCase {
         Point expectedPoint = new Point(noteSheetCanvas.getWidthForDrawingTrack() + noteSheetCanvas.getWidthForOneSmallSymbol() / 2, noteSheetCanvas.getYPositionOfCenterLine());
         Point actualPoint = noteSheetCanvas.getCenterPointForNextSmallSymbol();
 
-        assertEquals(expectedPoint, actualPoint);
+        assertEquals("The center point of doesn't match the expected one.",
+                expectedPoint, actualPoint);
     }
 
     public void testGetCenterPointForNextSymbol() {
         Point expectedPoint = new Point(noteSheetCanvas.getWidthForDrawingTrack() + noteSheetCanvas.getWidthForOneSymbol() / 2, noteSheetCanvas.getYPositionOfCenterLine());
         Point actualPoint = noteSheetCanvas.getCenterPointForNextSymbol();
 
-        assertEquals(expectedPoint, actualPoint);
+        assertEquals("The center point of doesn't match the expected one.",
+                expectedPoint, actualPoint);
     }
 }

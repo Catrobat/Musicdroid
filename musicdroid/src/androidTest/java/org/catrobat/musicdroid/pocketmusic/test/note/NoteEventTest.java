@@ -33,14 +33,16 @@ public class NoteEventTest extends AndroidTestCase {
 		NoteEvent noteEvent1 = NoteEventTestDataFactory.createNoteEvent();
 		NoteEvent noteEvent2 = NoteEventTestDataFactory.createNoteEvent();
 
-        assertTrue(noteEvent1.equals(noteEvent2));
+        assertTrue("Two new created objects have to be equal",
+                noteEvent1.equals(noteEvent2));
 	}
 
 	public void testEquals2() {
 		NoteEvent noteEvent1 = NoteEventTestDataFactory.createNoteEvent(NoteName.C1);
 		NoteEvent noteEvent2 = NoteEventTestDataFactory.createNoteEvent(NoteName.C2);
 
-        assertFalse(noteEvent1.equals(noteEvent2));
+        assertFalse("Two notes with different note names mustn't be equal",
+                noteEvent1.equals(noteEvent2));
 	}
 
 	public void testEquals3() {
@@ -48,26 +50,27 @@ public class NoteEventTest extends AndroidTestCase {
 		NoteEvent noteEvent1 = NoteEventTestDataFactory.createNoteEvent(noteName, true);
 		NoteEvent noteEvent2 = NoteEventTestDataFactory.createNoteEvent(noteName, false);
 
-        assertFalse(noteEvent1.equals(noteEvent2));
+        assertFalse("Note on and note off events must not be equal",
+                noteEvent1.equals(noteEvent2));
 	}
 
 	public void testEquals4() {
 		NoteEvent noteEvent1 = NoteEventTestDataFactory.createNoteEvent(NoteName.C1, true);
 		NoteEvent noteEvent2 = NoteEventTestDataFactory.createNoteEvent(NoteName.C2, false);
 
-        assertFalse(noteEvent1.equals(noteEvent2));
+        assertFalse("The two notes must not be equal", noteEvent1.equals(noteEvent2));
 	}
 
 	public void testEquals5() {
 		NoteEvent noteEvent = NoteEventTestDataFactory.createNoteEvent();
 
-        assertFalse(noteEvent.equals(null));
+        assertFalse("The new created note event must not be null", noteEvent.equals(null));
 	}
 
 	public void testEquals6() {
 		NoteEvent noteEvent = NoteEventTestDataFactory.createNoteEvent();
 
-        assertFalse(noteEvent.equals(""));
+        assertFalse("The new created note event must not be empty", noteEvent.equals(""));
 	}
 
 	public void testToString() {
@@ -75,14 +78,17 @@ public class NoteEventTest extends AndroidTestCase {
 		String expectedString = "[NoteEvent] noteName= " + noteEvent.getNoteName() +
                 " noteOn=" + noteEvent.isNoteOn();
 
-		assertEquals(expectedString, noteEvent.toString());
+		assertEquals("The to String method doesn't match the expected string",
+                expectedString, noteEvent.toString());
 	}
 
     public void testCopyNoteEvent() {
         NoteEvent noteEvent = NoteEventTestDataFactory.createNoteEvent();
         NoteEvent copyNoteEvent = new NoteEvent(noteEvent);
 
-        assertTrue(noteEvent != copyNoteEvent);
-        assertTrue(noteEvent.equals(copyNoteEvent));
+        assertTrue("The object have not been copied - they have the same reference",
+                noteEvent != copyNoteEvent);
+        assertTrue("The copied object has not been copied correctly",
+                noteEvent.equals(copyNoteEvent));
     }
 }

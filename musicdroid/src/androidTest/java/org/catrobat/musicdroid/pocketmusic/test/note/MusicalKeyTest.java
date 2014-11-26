@@ -30,10 +30,12 @@ import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 public class MusicalKeyTest extends AndroidTestCase {
 
     public void testGetNoteNameOnMiddleLine1() {
-        assertEquals(NoteName.B4, MusicalKey.VIOLIN.getNoteNameOnMiddleLine());
+        assertEquals("The note on the middle line was expected to be B4",
+                NoteName.B4, MusicalKey.VIOLIN.getNoteNameOnMiddleLine());
     }
 
     public void testGetNoteNameOnMiddleLine2() {
-        assertEquals(NoteName.D3, MusicalKey.BASS.getNoteNameOnMiddleLine());
+        assertEquals("The note on the middle line was expected to be D3",
+                NoteName.D3, MusicalKey.BASS.getNoteNameOnMiddleLine());
     }
 }

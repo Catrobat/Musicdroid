@@ -28,113 +28,120 @@ import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 
 public class NoteLengthTest extends AndroidTestCase {
 
-	public void testCalculateDuration1() {
-		long expected = 384 / 48 * 60;
-		long actual = NoteLength.QUARTER.getTickDuration();
+    public void testCalculateDuration1() {
+        long expected = 384 / 48 * 60;
+        long actual = NoteLength.QUARTER.getTickDuration();
 
-		assertEquals(expected, actual);
-	}
+        assertEquals("The note length of a Quarter-Tick-Duration doesn't match the expected " +
+                        "duration", expected, actual
+        );
+    }
 
-	public void testGetNoteLengthFromTick1() {
-		NoteLength expectedNoteLength = NoteLength.WHOLE_DOT;
-		long duration = expectedNoteLength.getTickDuration();
+    public void testGetNoteLengthFromTick1() {
+        NoteLength expectedNoteLength = NoteLength.WHOLE_DOT;
+        long duration = expectedNoteLength.getTickDuration();
 
-		NoteLength actualNoteLength = NoteLength.getNoteLengthFromTickDuration(duration);
+        NoteLength actualNoteLength = NoteLength.getNoteLengthFromTickDuration(duration);
 
-		assertEquals(expectedNoteLength, actualNoteLength);
-	}
+        assertEquals("The duration was expected to be a whole with dot",
+                expectedNoteLength, actualNoteLength);
+    }
 
-	public void testGetNoteLengthFromTick2() {
-		NoteLength expectedNoteLength = NoteLength.WHOLE_DOT;
-		long duration = expectedNoteLength.getTickDuration();
-		duration += 1;
+    public void testGetNoteLengthFromTick2() {
+        NoteLength expectedNoteLength = NoteLength.WHOLE_DOT;
+        long duration = expectedNoteLength.getTickDuration();
+        duration += 1;
 
-		NoteLength actualNoteLength = NoteLength.getNoteLengthFromTickDuration(duration);
+        NoteLength actualNoteLength = NoteLength.getNoteLengthFromTickDuration(duration);
 
-		assertEquals(expectedNoteLength, actualNoteLength);
-	}
+        assertEquals("The duration was expected to be a whole with dot",
+                expectedNoteLength, actualNoteLength);
+    }
 
-	public void testGetNoteLengthFromTick3() {
-		NoteLength expectedNoteLength = NoteLength.QUARTER;
-		long duration = NoteLength.QUARTER_DOT.getTickDuration();
-		duration -= 1;
+    public void testGetNoteLengthFromTick3() {
+        NoteLength expectedNoteLength = NoteLength.QUARTER;
+        long duration = NoteLength.QUARTER_DOT.getTickDuration();
+        duration -= 1;
 
-		NoteLength actualNoteLength = NoteLength.getNoteLengthFromTickDuration(duration);
+        NoteLength actualNoteLength = NoteLength.getNoteLengthFromTickDuration(duration);
 
-		assertEquals(expectedNoteLength, actualNoteLength);
-	}
+        assertEquals("The duration was expected to be a quarter",
+                expectedNoteLength, actualNoteLength);
+    }
 
-	public void testGetNoteLengthFromTick4() {
-		NoteLength expectedNoteLength = NoteLength.QUARTER;
-		long duration = expectedNoteLength.getTickDuration();
-		duration += 1;
+    public void testGetNoteLengthFromTick4() {
+        NoteLength expectedNoteLength = NoteLength.QUARTER;
+        long duration = expectedNoteLength.getTickDuration();
+        duration += 1;
 
-		NoteLength actualNoteLength = NoteLength.getNoteLengthFromTickDuration(duration);
+        NoteLength actualNoteLength = NoteLength.getNoteLengthFromTickDuration(duration);
 
-		assertEquals(expectedNoteLength, actualNoteLength);
-	}
+        assertEquals("The duration was expected to be a quarter",
+                expectedNoteLength, actualNoteLength);
+    }
 
-	public void testHasStem1() {
-		assertFalse(NoteLength.WHOLE.hasStem());
-	}
+    public void testHasStem1() {
+        assertFalse("A whole note should not have a stem", NoteLength.WHOLE.hasStem());
+    }
 
-	public void testHasStem2() {
-		assertFalse(NoteLength.WHOLE_DOT.hasStem());
-	}
+    public void testHasStem2() {
+        assertFalse("A whole note with dot should not have a stem", NoteLength.WHOLE_DOT.hasStem());
+    }
 
-	public void testHasStem3() {
-		assertTrue(NoteLength.QUARTER.hasStem());
-	}
+    public void testHasStem3() {
+        assertTrue("A quarter note has to have a stem", NoteLength.QUARTER.hasStem());
+    }
 
-	public void testHasDot1() {
-		assertFalse(NoteLength.QUARTER.hasDot());
-	}
+    public void testHasDot1() {
+        assertFalse("A quarter note has no dot", NoteLength.QUARTER.hasDot());
+    }
 
-	public void testHasDot2() {
-		assertTrue(NoteLength.WHOLE_DOT.hasDot());
-	}
+    public void testHasDot2() {
+        assertTrue("A whole note with dot has to have a dot", NoteLength.WHOLE_DOT.hasDot());
+    }
 
-	public void testHasDot3() {
-		assertTrue(NoteLength.HALF_DOT.hasDot());
-	}
+    public void testHasDot3() {
+        assertTrue("A half note with dot should have a dot", NoteLength.HALF_DOT.hasDot());
+    }
 
-	public void testHasDot4() {
-		assertTrue(NoteLength.QUARTER_DOT.hasDot());
-	}
+    public void testHasDot4() {
+        assertTrue("A quarter note with dot has to have a dot", NoteLength.QUARTER_DOT.hasDot());
+    }
 
-	public void testHasDot5() {
-		assertTrue(NoteLength.EIGHT_DOT.hasDot());
-	}
+    public void testHasDot5() {
+        assertTrue("A eight note with dot has to have a dot", NoteLength.EIGHT_DOT.hasDot());
+    }
 
-	public void testHasFlag1() {
-		assertFalse(NoteLength.QUARTER.hasFlag());
-	}
+    public void testHasFlag1() {
+        assertFalse("A quarter note doesn't have a flag", NoteLength.QUARTER.hasFlag());
+    }
 
-	public void testHasFlag2() {
-		assertTrue(NoteLength.EIGHT.hasFlag());
-	}
+    public void testHasFlag2() {
+        assertTrue("A eight note has to have a flag", NoteLength.EIGHT.hasFlag());
+    }
 
-	public void testHasFlag3() {
-		assertTrue(NoteLength.EIGHT_DOT.hasFlag());
-	}
+    public void testHasFlag3() {
+        assertTrue("A eight dot note has to have a flag", NoteLength.EIGHT_DOT.hasFlag());
+    }
 
-	public void testHasFlag4() {
-		assertTrue(NoteLength.SIXTEENTH.hasFlag());
-	}
+    public void testHasFlag4() {
+        assertTrue("A sixteenth note has to have a flag", NoteLength.SIXTEENTH.hasFlag());
+    }
 
-	public void testGetAmountOfFlags1() {
-		assertEquals(2, NoteLength.SIXTEENTH.getAmountOfFlags());
-	}
+    public void testGetAmountOfFlags1() {
+        assertEquals("A sixteenth note has to have 2 flags",
+                2, NoteLength.SIXTEENTH.getAmountOfFlags());
+    }
 
-	public void testGetAmountOfFlags2() {
-		assertEquals(1, NoteLength.EIGHT.getAmountOfFlags());
-	}
+    public void testGetAmountOfFlags2() {
+        assertEquals("A eight note has to have 1 flag", 1, NoteLength.EIGHT.getAmountOfFlags());
+    }
 
-	public void testGetAmountOfFlags3() {
-		assertEquals(1, NoteLength.EIGHT_DOT.getAmountOfFlags());
-	}
+    public void testGetAmountOfFlags3() {
+        assertEquals("A eight note has to have 1 flag", 1, NoteLength.EIGHT_DOT.getAmountOfFlags());
+    }
 
-	public void testGetAmountOfFlags4() {
-		assertEquals(0, NoteLength.QUARTER.getAmountOfFlags());
-	}
+    public void testGetAmountOfFlags4() {
+        assertEquals("A quarter note has to have no flag", 0, NoteLength.QUARTER.getAmountOfFlags());
+    }
 }

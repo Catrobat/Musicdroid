@@ -120,7 +120,8 @@ public class NoteNameTest extends AndroidTestCase {
 		NoteName noteName2 = NoteName.C1S;
 		int expectedDistance = 1;
 
-		assertEquals(expectedDistance, NoteName.calculateDistanceCountingNoneSignedNotesOnly(noteName1, noteName2));
+		assertEquals("The expected distance was 1", expectedDistance,
+                NoteName.calculateDistanceCountingNoneSignedNotesOnly(noteName1, noteName2));
 	}
 
 	public void testCalculateDistanceCountingNoneSignedNotesOnly2() {
@@ -128,7 +129,8 @@ public class NoteNameTest extends AndroidTestCase {
 		NoteName noteName2 = NoteName.C1S;
 		int expectedDistance = 0;
 
-		assertEquals(expectedDistance, NoteName.calculateDistanceCountingNoneSignedNotesOnly(noteName1, noteName2));
+		assertEquals("The expected distance was 0", expectedDistance,
+                NoteName.calculateDistanceCountingNoneSignedNotesOnly(noteName1, noteName2));
 	}
 
 	public void testCalculateDistanceCountingNoneSignedNotesOnly3() {
@@ -136,7 +138,8 @@ public class NoteNameTest extends AndroidTestCase {
 		NoteName noteName2 = NoteName.B3;
 		int expectedDistance = -5;
 
-		assertEquals(expectedDistance, NoteName.calculateDistanceCountingNoneSignedNotesOnly(noteName1, noteName2));
+		assertEquals("The expected distance was -5", expectedDistance,
+                NoteName.calculateDistanceCountingNoneSignedNotesOnly(noteName1, noteName2));
 	}
 
 	public void testCalculateDistanceToMiddleLineCountingSignedNotesOnly1() {
@@ -144,7 +147,8 @@ public class NoteNameTest extends AndroidTestCase {
         MusicalKey key = MusicalKey.VIOLIN;
 		int expectedDistance = 0;
 
-		assertEquals(expectedDistance, NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName));
+		assertEquals("The expected distance was 0", expectedDistance,
+                NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName));
 	}
 
 	public void testCalculateDistanceToMiddleLineCountingSignedNotesOnly2() {
@@ -152,7 +156,8 @@ public class NoteNameTest extends AndroidTestCase {
 		MusicalKey key = MusicalKey.VIOLIN;
 		int expectedDistance = -1;
 
-		assertEquals(expectedDistance, NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName));
+		assertEquals("The expected distance was -1", expectedDistance,
+                NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName));
 	}
 
 	public void testCalculateDistanceToMiddleLineCountingSignedNotesOnly3() {
@@ -160,6 +165,7 @@ public class NoteNameTest extends AndroidTestCase {
         MusicalKey key = MusicalKey.VIOLIN;
 		int expectedDistance = 1;
 
-		assertEquals(expectedDistance, NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName));
+		assertEquals("The expected distance was 1", expectedDistance,
+                NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName));
 	}
 }

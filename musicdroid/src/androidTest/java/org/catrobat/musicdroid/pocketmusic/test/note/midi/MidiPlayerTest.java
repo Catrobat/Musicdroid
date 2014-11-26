@@ -128,15 +128,16 @@ public class MidiPlayerTest extends AndroidTestCase {
     }
 
     private void assertPlayNote(int expectedQueueSize, boolean expectedIsPlaying) {
-        assertEquals(expectedQueueSize, player.getPlayQueueSize());
-        assertEquals(expectedIsPlaying, player.isPlaying());
+        assertEquals("The queue size is not as expected",
+                expectedQueueSize, player.getPlayQueueSize());
+        assertEquals("The player is not playing as expected", expectedIsPlaying, player.isPlaying());
     }
 
     public void testPlayTrack1() throws IOException, MidiException {
         Track track = TrackTestDataFactory.createSimpleTrack();
         player.playTrack(activity, CACHE_DIR, track, Project.DEFAULT_BEATS_PER_MINUTE);
 
-        assertEquals(0, player.getPlayQueueSize());
+        assertEquals("The size of the queue should be 0", 0, player.getPlayQueueSize());
         assertPlayTrack(true);
     }
 
@@ -146,13 +147,14 @@ public class MidiPlayerTest extends AndroidTestCase {
         player.playTrack(activity, CACHE_DIR, track, Project.DEFAULT_BEATS_PER_MINUTE);
         player.onPlayTrackComplete(activity, tempFileToPlay);
 
-        assertTrue(tempFileToPlay.isDeleted());
-        assertTrue(activity.isDismissed());
+        assertTrue("THe file should be deleted", tempFileToPlay.isDeleted());
+        assertTrue("The activity should be dismissed", activity.isDismissed());
         assertPlayTrack(player.isPlaying());
     }
 
     private void assertPlayTrack(boolean expectedIsPlaying) {
-        assertEquals(expectedIsPlaying, player.isPlaying());
+        assertEquals("The player should play or not play - as expected",
+                expectedIsPlaying, player.isPlaying());
     }
 
     private class FileMock extends File {
