@@ -66,7 +66,7 @@ public class TrackMementoStackTest extends AndroidTestCase {
     }
 
     public void testIsEmpty() {
-        assertTrue(mementoStack.isEmpty());
+        assertTrue("The stack has to be empty after initialization", mementoStack.isEmpty());
     }
 
     public void testClear() {

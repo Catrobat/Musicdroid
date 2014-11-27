@@ -101,7 +101,8 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     private void assertFileExists(String filename, boolean expectedExistResult) {
         File file = new File(ProjectToMidiConverter.MIDI_FOLDER, filename + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
 
-        assertEquals(expectedExistResult, file.exists());
+        assertEquals("The expected result of file.exists wasn't reached",
+                expectedExistResult, file.exists());
     }
 
     private void exportMidi(String filename, boolean clickOnSaveButton) {
@@ -146,7 +147,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
         Track newTrack = getActivity().getTrack();
 
-        assertEquals(0, newTrack.size());
+        assertEquals("After the clear process the track has to be empty", 0, newTrack.size());
     }
 
     public void testUndo() {
@@ -155,7 +156,8 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         solo.clickOnButton(PIANO_BUTTON);
         solo.clickOnActionBarItem(R.id.action_undo_midi);
 
-        assertEquals(expectedTrackSize, pianoActivity.getTrack().size());
+        assertEquals("After playing and then removing of one note the track has to have the size 0",
+                expectedTrackSize, pianoActivity.getTrack().size());
     }
 
     public void testRotate() {
@@ -167,7 +169,8 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
         int actualTrackSize = pianoActivity.getTrack().size();
 
-        assertEquals(expectedTrackSize, actualTrackSize);
+        assertEquals("The size of the track has been expected to be 4 after rotating the phone " +
+                "and playing 2 notes", expectedTrackSize, actualTrackSize);
     }
 
     private void rotateAndReturnActivity(int orientation) {
@@ -190,7 +193,8 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
         int actualTrackSize = pianoActivity.getTrack().size();
 
-        assertEquals(expectedTrackSize, actualTrackSize);
+        assertEquals("The size of the track has to be 0 after removing more often than playing",
+                expectedTrackSize, actualTrackSize);
     }
 
     public void testPlayMidi1() {
@@ -198,7 +202,8 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         solo.clickOnActionBarItem(R.id.action_play_midi);
         solo.waitForDialogToOpen();
 
-        assertTrue(pianoActivity.getMidiPlayer().isPlaying());
+        assertTrue("After clicking the play button the midi-player should be playing",
+                pianoActivity.getMidiPlayer().isPlaying());
     }
 
     private void clickSomePianoButtonsForLargeTrack() {
@@ -232,13 +237,15 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         solo.clickOnButton(pianoActivity.getString(R.string.action_play_midi_dialog_stop));
         solo.waitForDialogToClose();
 
-        assertFalse(pianoActivity.getMidiPlayer().isPlaying());
+        assertFalse("After clicking on stop the midi player should not be playing any more",
+                pianoActivity.getMidiPlayer().isPlaying());
     }
 
     public void testPlayMidi3() {
         solo.clickOnActionBarItem(R.id.action_play_midi);
 
-        assertFalse(pianoActivity.getMidiPlayer().isPlaying());
+        assertFalse("The midi player should not be playing if the track is empty",
+                pianoActivity.getMidiPlayer().isPlaying());
     }
 
     public void testPlayMidi4() throws InterruptedException {
@@ -247,22 +254,26 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         solo.waitForDialogToOpen();
         solo.waitForDialogToClose();
 
-        assertFalse(pianoActivity.getMidiPlayer().isPlaying());
+        assertFalse("The dialog should be open only when the player is playing",
+                pianoActivity.getMidiPlayer().isPlaying());
     }
 
     public void testPlayMidi5() throws InterruptedException {
 
         solo.setActivityOrientation(Solo.PORTRAIT);
         clickSomePianoButtonsFastForLargeTrack();
-        assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
+        assertTrue("After adding notes the play queue has to have a size >0",
+                pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
 
         solo.setActivityOrientation(Solo.LANDSCAPE);
         clickSomePianoButtonsFastForLargeTrack();
-        assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
+        assertTrue("After adding notes the play queue has to have a size >0",
+                pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
 
         solo.setActivityOrientation(Solo.PORTRAIT);
         clickSomePianoButtonsFastForLargeTrack();
-        assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
+        assertTrue("After adding notes the play queue has to have a size >0",
+                pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
 
     }
 
@@ -270,14 +281,17 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
         solo.setActivityOrientation(Solo.PORTRAIT);
         clickSomePianoButtonsFastForLargeTrack();
-        assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
+        assertTrue("After adding notes the play queue has to have a size >0",
+                pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
 
         solo.setActivityOrientation(Solo.LANDSCAPE);
         clickSomePianoButtonsFastForLargeTrack();
-        assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
+        assertTrue("After adding notes the play queue has to have a size >0",
+                pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
 
         solo.goBack();
-        assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() == 0);
+        assertTrue("After going back the queue should have the size 0",
+                pianoActivity.getMidiPlayer().getPlayQueue().size() == 0);
 
 
     }

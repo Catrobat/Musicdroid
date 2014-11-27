@@ -54,6 +54,6 @@ public class ProjectToMidiConverterTest extends AndroidTestCase {
 
         converter.writeProjectAsMidi(project, file);
 
-        assertTrue(file.exists());
+        assertTrue("The file doesn't exist", file.exists());
     }
 }
