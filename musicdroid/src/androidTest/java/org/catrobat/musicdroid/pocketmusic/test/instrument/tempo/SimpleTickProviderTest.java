@@ -39,7 +39,7 @@ public class SimpleTickProviderTest extends AndroidTestCase {
         SimpleTickProvider clock = new SimpleTickProvider();
         long actual = clock.getNextTick(NoteEventTestDataFactory.createNoteEvent(true));
 
-        assertEquals(expected, actual);
+        assertEquals("The next tick was expected to be 0", expected, actual);
     }
 
     public void testGetNextTick2() {
@@ -49,7 +49,7 @@ public class SimpleTickProviderTest extends AndroidTestCase {
         clock.getNextTick(NoteEventTestDataFactory.createNoteEvent(true));
         long actual = clock.getNextTick(NoteEventTestDataFactory.createNoteEvent(true));
 
-        assertEquals(expected, actual);
+        assertEquals("The actual tick was expected to be 0", expected, actual);
     }
 
     public void testGetNextTick3() {
@@ -59,7 +59,7 @@ public class SimpleTickProviderTest extends AndroidTestCase {
         clock.getNextTick(NoteEventTestDataFactory.createNoteEvent(true));
         long actual = clock.getNextTick(NoteEventTestDataFactory.createNoteEvent(false));
 
-        assertEquals(expected, actual);
+        assertEquals("The expected tick was a Quarter-Tick-Duration", expected, actual);
     }
 
     public void testGetNextTick4() {
@@ -71,7 +71,7 @@ public class SimpleTickProviderTest extends AndroidTestCase {
         clock.getNextTick(NoteEventTestDataFactory.createNoteEvent(false));
         long actual = clock.getNextTick(NoteEventTestDataFactory.createNoteEvent(false));
 
-        assertEquals(expected, actual);
+        assertEquals("The expected tick was a Quarter-Tick-Duration", expected, actual);
     }
 
     public void testSetTickBasedOnTrack() {
@@ -80,6 +80,7 @@ public class SimpleTickProviderTest extends AndroidTestCase {
 
         clock.setTickBasedOnTrack(track);
 
-        assertEquals(track.getLastTick(), clock.getCurrentTick());
+        assertEquals("Te current tick has to be equal to the last tick",
+                track.getLastTick(), clock.getCurrentTick());
     }
 }

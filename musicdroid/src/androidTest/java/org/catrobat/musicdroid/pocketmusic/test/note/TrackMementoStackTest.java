@@ -44,13 +44,14 @@ public class TrackMementoStackTest extends AndroidTestCase {
         Track track = TrackTestDataFactory.createSimpleTrack();
         mementoStack.pushMemento(track);
 
-        assertFalse(mementoStack.isEmpty());
+        assertFalse("The memento stack has not to be empty after pushing a track",
+                mementoStack.isEmpty());
     }
 
     public void testPopMementoAsTrack1() {
         Track track = mementoStack.popMementoAsTrack();
 
-        assertNull(track);
+        assertNull("Pop of an empty stack must return null", track);
     }
 
     public void testPopMementoAsTrack2() {
@@ -58,12 +59,14 @@ public class TrackMementoStackTest extends AndroidTestCase {
         mementoStack.pushMemento(expectedTrack);
         Track actualTrack = mementoStack.popMementoAsTrack();
 
-        assertTrue(expectedTrack != actualTrack);
-        assertTrue(expectedTrack.equals(actualTrack));
+        assertTrue("The objects have not to be the same after push and pop of memento stack",
+                expectedTrack != actualTrack);
+        assertTrue("The objects have to be equal after push and pop from memento stack",
+                expectedTrack.equals(actualTrack));
     }
 
     public void testIsEmpty() {
-        assertTrue(mementoStack.isEmpty());
+        assertTrue("The stack has to be empty after initialization", mementoStack.isEmpty());
     }
 
     public void testClear() {
@@ -73,6 +76,6 @@ public class TrackMementoStackTest extends AndroidTestCase {
         int expectedStackSize = 0;
         int actualStackSize = mementoStack.size();
 
-        assertEquals(expectedStackSize, actualStackSize);
+        assertEquals("The expected size is 0", expectedStackSize, actualStackSize);
     }
 }

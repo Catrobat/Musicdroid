@@ -54,13 +54,17 @@ public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoAct
 
     //---------------------------- FRAGMENT TESTS --------------------------------------------------
     public void testGetDisplayWidth() {
-        assertTrue(pianoViewFragment.getDisplayWidth() > MIN_WIDTH);
-        assertTrue(pianoViewFragment.getDisplayWidth() < MAX_WIDTH);
+        assertTrue("The display width has to be larger than the min value",
+                pianoViewFragment.getDisplayWidth() > MIN_WIDTH);
+        assertTrue("The display width has to be smaller than the max value",
+                pianoViewFragment.getDisplayWidth() < MAX_WIDTH);
     }
 
     public void testGetDisplayHeight() {
-        assertTrue(pianoViewFragment.getDisplayHeight() > MIN_HEIGHT);
-        assertTrue(pianoViewFragment.getDisplayHeight() < MAX_HEIGHT);
+        assertTrue("The display height has to be larger than the min value",
+                pianoViewFragment.getDisplayHeight() > MIN_HEIGHT);
+        assertTrue("The display height has to be smaller than the max value",
+                pianoViewFragment.getDisplayHeight() < MAX_HEIGHT);
     }
 
     @UiThreadTest
@@ -78,15 +82,21 @@ public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoAct
         int buttonWidth = pianoViewFragment.getDisplayWidth() / (keysPerOctave + keyWidthScaleFactor);
 
         for(int i = 0 ; i < pianoViewFragment.getBlackButtonCount(); i++)
-            assertEquals(pianoViewFragment.getBlackButtonAtIndex(i).getWidth(), buttonWidth);
+            assertEquals("The width of the black button doesn't match",
+                    pianoViewFragment.getBlackButtonAtIndex(i).getWidth(), buttonWidth);
         for(int i = 0 ; i < pianoViewFragment.getWhiteButtonCount(); i++)
-            assertEquals(pianoViewFragment.getWhiteButtonAtIndex(i).getWidth(), buttonWidth);
+            assertEquals("The width of the white button doesn't match",
+                    pianoViewFragment.getWhiteButtonAtIndex(i).getWidth(), buttonWidth);
 
-        assertEquals((buttonWidth / 2), pianoViewFragment.getBlackButtonAtIndex(0).getLeft());
-        assertEquals((buttonWidth / 2 * 3), pianoViewFragment.getBlackButtonAtIndex(1).getLeft());
+        assertEquals("The first black button is not on the right position",
+                (buttonWidth / 2), pianoViewFragment.getBlackButtonAtIndex(0).getLeft());
+        assertEquals("The second black button is not on the right position",
+                (buttonWidth / 2 * 3), pianoViewFragment.getBlackButtonAtIndex(1).getLeft());
 
-        assertEquals(0 , pianoViewFragment.getWhiteButtonAtIndex(0).getLeft());
-        assertEquals(buttonWidth, pianoViewFragment.getWhiteButtonAtIndex(1).getLeft());
+        assertEquals("The first white button is not on the right position",
+                0 , pianoViewFragment.getWhiteButtonAtIndex(0).getLeft());
+        assertEquals("The second white button is not on the right position",
+                buttonWidth, pianoViewFragment.getWhiteButtonAtIndex(1).getLeft());
     }
 
     @UiThreadTest
@@ -117,7 +127,8 @@ public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoAct
         Button button = pianoViewFragment.getBlackButtonAtIndex(index);
 
         if (button != null) {
-            assertEquals(button.getVisibility(), Button.INVISIBLE);
+            assertEquals("The black button should be invisible",
+                    button.getVisibility(), Button.INVISIBLE);
         }
     }
 
@@ -134,7 +145,8 @@ public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoAct
 
             actualVisibility = pianoViewFragment.getBlackButtonAtIndex(i).getVisibility();
 
-            assertEquals(expectedVisibility, actualVisibility);
+            assertEquals("The visibility of the black button is not as expected",
+                    expectedVisibility, actualVisibility);
         }
     }
 }

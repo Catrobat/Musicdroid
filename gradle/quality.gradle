@@ -52,7 +52,7 @@ task pmd(type: Pmd) {
     ruleSetFiles = files("${project.rootDir}/config/quality/pmd/pmd-ruleset.xml")
     ignoreFailures = false
     ruleSets = ['java-android', 'java-braces', 'java-empty', 'java-sunsecure', 'java-unusedcode', 'java-basic',
-                'java-strings', 'java-unnecessary']
+                'java-strings', 'java-unnecessary', 'java-junit']
 
     source 'src'
     include '**/*.java'
