@@ -58,27 +58,27 @@ public class MidiPlayerTest extends AndroidTestCase {
         assertPlayNote(0, false);
     }
 
-    public void testPlayNote1() {
+    public void testPlayNoteSingle() {
         player.playNote(activity, MIDI_RESOURCE_ID);
 
         assertPlayNote(0, true);
     }
 
-    public void testPlayNote2() {
+    public void testPlayNoteSingleNotPlaying() {
         player.playNote(activity, MIDI_RESOURCE_ID);
         player.setPlaying(false);
 
         assertPlayNote(0, false);
     }
 
-    public void testPlayNote3() {
+    public void testPlayNoteQueue() {
         player.playNote(activity, MIDI_RESOURCE_ID);
         player.playNote(activity, MIDI_RESOURCE_ID);
 
         assertPlayNote(1, true);
     }
 
-    public void testPlayNote4() {
+    public void testPlayNoteQueueWithStop1() {
         player.playNote(activity, MIDI_RESOURCE_ID);
         player.setPlaying(false);
         player.playNote(activity, MIDI_RESOURCE_ID);
@@ -86,7 +86,7 @@ public class MidiPlayerTest extends AndroidTestCase {
         assertPlayNote(0, true);
     }
 
-    public void testPlayNote5() {
+    public void testPlayNoteQueueWithStop2() {
         player.playNote(activity, MIDI_RESOURCE_ID);
         player.playNote(activity, MIDI_RESOURCE_ID);
         player.setPlaying(false);
@@ -95,14 +95,14 @@ public class MidiPlayerTest extends AndroidTestCase {
         assertPlayNote(2, false);
     }
 
-    public void testPlayNote6() {
+    public void testPlayNoteCompleteEvent1() {
         player.playNote(activity, MIDI_RESOURCE_ID);
         player.onPlayNoteComplete(activity);
 
         assertPlayNote(0, false);
     }
 
-    public void testPlayNote7() {
+    public void testPlayNoteCompleteEvent2() {
         player.playNote(activity, MIDI_RESOURCE_ID);
         player.playNote(activity, MIDI_RESOURCE_ID);
         player.onPlayNoteComplete(activity);
@@ -110,7 +110,7 @@ public class MidiPlayerTest extends AndroidTestCase {
         assertPlayNote(0, true);
     }
 
-    public void testPlayNote8() {
+    public void testPlayNoteCompleteEvent3() {
         player.playNote(activity, MIDI_RESOURCE_ID);
         player.playNote(activity, MIDI_RESOURCE_ID);
         player.playNote(activity, MIDI_RESOURCE_ID);
@@ -119,7 +119,7 @@ public class MidiPlayerTest extends AndroidTestCase {
         assertPlayNote(1, true);
     }
 
-    public void testPlayNote9() {
+    public void testPlayNoteCompleteEvent4() {
         player.playNote(activity, MIDI_RESOURCE_ID);
         player.setPlaying(false);
         player.onPlayNoteComplete(activity);
@@ -140,7 +140,7 @@ public class MidiPlayerTest extends AndroidTestCase {
         assertPlayTrack(true);
     }
 
-    public void testPlayTrack2() throws IOException, MidiException {
+    public void testPlayTrackCompleteEvent() throws IOException, MidiException {
         Track track = TrackTestDataFactory.createSimpleTrack();
         FileMock tempFileToPlay = new FileMock();
         player.playTrack(activity, CACHE_DIR, track, Project.DEFAULT_BEATS_PER_MINUTE);

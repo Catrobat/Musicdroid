@@ -28,13 +28,13 @@ import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 
 public class MusicalInstrumentTest extends AndroidTestCase {
 
-	public void testGetInstrumentFromProgram() {
+	public void testGetInstrumentFromProgram1() {
         MusicalInstrument expectedInstrument = MusicalInstrument.GUNSHOT;
 
 		assertGetInstrumentFromProgram(expectedInstrument.getProgram(), expectedInstrument);
 	}
 
-	public void testGetInstrumentFromProgram4() {
+	public void testGetInstrumentFromProgram2() {
 		int invalidProgram = 128;
 
 		assertGetInstrumentFromProgram(invalidProgram, MusicalInstrument.ACOUSTIC_GRAND_PIANO);

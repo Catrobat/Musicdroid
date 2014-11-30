@@ -33,7 +33,7 @@ import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
 
 public class SimpleTickProviderTest extends AndroidTestCase {
 
-    public void testGetNextTick1() {
+    public void testGetNextTickThroughStartNoteEvent() {
         long expected = 0;
 
         SimpleTickProvider clock = new SimpleTickProvider();
@@ -42,7 +42,7 @@ public class SimpleTickProviderTest extends AndroidTestCase {
         assertEquals(expected, actual);
     }
 
-    public void testGetNextTick2() {
+    public void testGetNextTickThroughTwoStartNoteEvents() {
         long expected = 0;
 
         SimpleTickProvider clock = new SimpleTickProvider();
@@ -52,7 +52,7 @@ public class SimpleTickProviderTest extends AndroidTestCase {
         assertEquals(expected, actual);
     }
 
-    public void testGetNextTick3() {
+    public void testGetNextTickThroughEndNoteEvent() {
         long expected = NoteLength.QUARTER.getTickDuration();
 
         SimpleTickProvider clock = new SimpleTickProvider();
@@ -62,7 +62,7 @@ public class SimpleTickProviderTest extends AndroidTestCase {
         assertEquals(expected, actual);
     }
 
-    public void testGetNextTick4() {
+    public void testGetNextTickThroughTwoEndNoteEvents() {
         long expected = NoteLength.QUARTER.getTickDuration();
 
         SimpleTickProvider clock = new SimpleTickProvider();
