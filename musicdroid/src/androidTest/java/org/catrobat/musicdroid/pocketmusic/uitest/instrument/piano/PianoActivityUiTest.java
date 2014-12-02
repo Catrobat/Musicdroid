@@ -294,4 +294,19 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
         assertEquals(expectedTrackCount, actualTrackCount);
     }
+    public void testMaxTrackSizeTextView() {
+        int buttonPressCount = 6;
+
+        if(buttonPressCount > InstrumentActivity.MAX_TRACK_SIZE_IN_SYMBOLS)
+            buttonPressCount = 2;
+
+        for (int i = 0; i < buttonPressCount; i++) {
+            solo.clickOnButton(PIANO_BUTTON);
+        }
+
+        String expectedTextViewText = buttonPressCount + " / " + InstrumentActivity.MAX_TRACK_SIZE_IN_SYMBOLS;
+        String actualTextViewText = pianoActivity.getNoteSheetViewFragment().getTrackSizeTextViewText();
+
+        assertEquals(expectedTextViewText, actualTextViewText);
+    }
 }
