@@ -48,7 +48,7 @@ public class MidiToProjectConverterTest extends AndroidTestCase {
         file.delete();
     }
 
-	public void testConvertMidi() throws MidiException, IOException {
+	public void testConvertToMidiToProject() throws MidiException, IOException {
 		ProjectToMidiConverter projectConverter = new ProjectToMidiConverter();
 		MidiToProjectConverter midiConverter = new MidiToProjectConverter();
 		Project expectedProject = ProjectTestDataFactory.createProjectWithSemiComplexTracks();

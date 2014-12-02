@@ -90,6 +90,24 @@ public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoAct
     }
 
     @UiThreadTest
+    public void testButtonVisibilityPianoLayout() {
+        int expectedVisibility = 0;
+        int actualVisibility = 0;
+
+        for (int i = 0; i < pianoViewFragment.getBlackButtonCount(); i++) {
+            if (i == PianoViewFragment.DEFAULT_INACTIVE_BLACK_KEY) {
+                expectedVisibility = Button.INVISIBLE;
+            } else {
+                expectedVisibility = Button.VISIBLE;
+            }
+
+            actualVisibility = pianoViewFragment.getBlackButtonAtIndex(i).getVisibility();
+
+            assertEquals(expectedVisibility, actualVisibility);
+        }
+    }
+
+    @UiThreadTest
     public void testDisableBlackKey1(){
         disableKeyAndAssertVisibility(1);
     }
@@ -110,31 +128,12 @@ public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoAct
     }
 
     private void disableKeyAndAssertVisibility(int index) {
-        assertButtonVisibilityPianoLayout();
-
         pianoViewFragment.setBlackKeyInvisibilityAtIndex(index);
 
         Button button = pianoViewFragment.getBlackButtonAtIndex(index);
 
         if (button != null) {
             assertEquals(button.getVisibility(), Button.INVISIBLE);
-        }
-    }
-
-    private void assertButtonVisibilityPianoLayout() {
-        int expectedVisibility = 0;
-        int actualVisibility = 0;
-
-        for (int i = 0; i < pianoViewFragment.getBlackButtonCount(); i++) {
-            if (i == PianoViewFragment.DEFAULT_INACTIVE_BLACK_KEY) {
-                expectedVisibility = Button.INVISIBLE;
-            } else {
-                expectedVisibility = Button.VISIBLE;
-            }
-
-            actualVisibility = pianoViewFragment.getBlackButtonAtIndex(i).getVisibility();
-
-            assertEquals(expectedVisibility, actualVisibility);
         }
     }
 }
