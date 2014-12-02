@@ -281,7 +281,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     }
 
     public void testClickOnButtonMaxTrackSize() {
-        int buttonPressCount = InstrumentActivity.MAX_TRACK_SIZE / 2;
+        int buttonPressCount = InstrumentActivity.MAX_TRACK_SIZE_IN_SYMBOLS;
 
         for (int i = 0; i < buttonPressCount; i++) {
             solo.clickOnButton(PIANO_BUTTON);
@@ -289,7 +289,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
         solo.clickOnButton(PIANO_BUTTON);
 
-        int expectedTrackCount = InstrumentActivity.MAX_TRACK_SIZE;
+        int expectedTrackCount = InstrumentActivity.MAX_TRACK_SIZE_IN_NOTE_EVENTS;
         int actualTrackCount = pianoActivity.getTrack().size();
 
         assertEquals(expectedTrackCount, actualTrackCount);
