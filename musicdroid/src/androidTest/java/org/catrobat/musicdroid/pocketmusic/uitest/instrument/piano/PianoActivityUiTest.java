@@ -28,6 +28,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import com.robotium.solo.Solo;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
@@ -208,6 +209,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
             solo.clickOnButton(PIANO_BUTTON);
         }
     }
+
     private void clickSomePianoButtonsFastForLargeTrack() {
 
         int threadCount = 3;
@@ -276,5 +278,20 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
         solo.goBack();
         assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() == 0);
+    }
+
+    public void testClickOnButtonMaxTrackSize() {
+        int buttonPressCount = InstrumentActivity.MAX_TRACK_SIZE / 2;
+
+        for (int i = 0; i < buttonPressCount; i++) {
+            solo.clickOnButton(PIANO_BUTTON);
+        }
+
+        solo.clickOnButton(PIANO_BUTTON);
+
+        int expectedTrackCount = InstrumentActivity.MAX_TRACK_SIZE;
+        int actualTrackCount = pianoActivity.getTrack().size();
+
+        assertEquals(expectedTrackCount, actualTrackCount);
     }
 }

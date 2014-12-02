@@ -51,6 +51,8 @@ import java.io.IOException;
 
 public abstract class InstrumentActivity extends Activity {
 
+    public static final int MAX_TRACK_SIZE = 60 * 2;
+
     private static final String R_RAW = "raw";
     private static final String SAVED_INSTANCE_TRACK = "SavedTrack";
     private static final String SAVED_INSTANCE_MEMENTO = "SavedMemento";
@@ -110,6 +112,10 @@ public abstract class InstrumentActivity extends Activity {
     }
 
     public void addNoteEvent(NoteEvent noteEvent) {
+        if (track.size() >= MAX_TRACK_SIZE) {
+            return;
+        }
+
         if (noteEvent.isNoteOn()) {
             mementoStack.pushMemento(track);
 
