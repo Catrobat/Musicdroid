@@ -40,10 +40,8 @@ public class NoteSheetDrawer {
     public static final int NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS = 2;
 
     public static final int BOLD_BAR_WIDTH = 5;
-    public static final int THIN_BAR_WIDTH = 2;
 
     public static final int HEIGHT_OF_KEY_IN_LINE_SPACES = 6;
-    public static final int HEIGHT_OF_TACT_UNIT_IN_LINE_SPACES = 4;
 
     private NoteSheetCanvas canvas;
     private Resources resources;
@@ -94,7 +92,6 @@ public class NoteSheetDrawer {
         drawLines();
         drawBars();
         drawKey();
-        drawTactUnit();
         drawTrack();
     }
 
@@ -107,9 +104,6 @@ public class NoteSheetDrawer {
     private void drawBars() {
         drawBar(drawPosition.getStartXPositionForNextElement(), BOLD_BAR_WIDTH);
         drawPosition.increasesStartXPositionForNextElement(2 * BOLD_BAR_WIDTH);
-
-        drawBar(drawPosition.getStartXPositionForNextElement(), THIN_BAR_WIDTH);
-        drawPosition.increasesStartXPositionForNextElement(BOLD_BAR_WIDTH);
 
         drawBar(drawPosition.getEndXPositionForDrawingElements() - BOLD_BAR_WIDTH, BOLD_BAR_WIDTH);
     }
@@ -129,12 +123,6 @@ public class NoteSheetDrawer {
         int keyPictureHeight = distanceBetweenLines * HEIGHT_OF_KEY_IN_LINE_SPACES;
 
         drawPosition.setStartXPositionForNextElement(canvas.drawBitmap(resources, R.drawable.violine, keyPictureHeight, drawPosition.getStartXPositionForNextElement(), canvas.getHeightHalf()).right);
-    }
-
-    private void drawTactUnit() {
-        int tactPictureHeight = distanceBetweenLines * HEIGHT_OF_TACT_UNIT_IN_LINE_SPACES;
-
-        drawPosition.setStartXPositionForNextElement(canvas.drawBitmap(resources, R.drawable.tact_3_4, tactPictureHeight, drawPosition.getStartXPositionForNextElement(), canvas.getHeightHalf()).right);
     }
 
     private void drawTrack() {
