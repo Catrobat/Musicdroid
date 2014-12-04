@@ -68,7 +68,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         solo.finishOpenedActivities();
     }
 
-    public void testExportMidi1() {
+    public void testExportMidi() {
         String filename = "music";
         boolean saveFile = true;
         boolean expectedFileExists = true;
@@ -78,17 +78,17 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         assertFileExists(filename, expectedFileExists);
     }
 
-    public void testExportMidi2() {
-        String filename = "";
+    public void testExportMidiInvalidName() {
+        String invalidFilename = "";
         boolean saveFile = true;
         boolean expectedFileExists = false;
 
-        exportMidi(filename, saveFile);
+        exportMidi(invalidFilename, saveFile);
 
-        assertFileExists(filename, expectedFileExists);
+        assertFileExists(invalidFilename, expectedFileExists);
     }
 
-    public void testExportMidi3() {
+    public void testExportMidiCancel() {
         String filename = "music";
         boolean saveFile = false;
         boolean expectedFileExists = false;
@@ -131,7 +131,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         solo.waitForText(pianoActivity.getString(R.string.action_import_midi_success));
     }
 
-    public void testImportMidi1() throws IOException, MidiException {
+    public void testImportMidi() throws IOException, MidiException {
         boolean expectedFileExists = true;
         String filename = "testFile";
         ProjectToMidiConverterTestDataFactory.writeTestProject(filename);
@@ -158,7 +158,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         assertEquals(expectedTrackSize, pianoActivity.getTrack().size());
     }
 
-    public void testRotate() {
+    public void testRotateWithSymbolsDrawn() {
         int expectedTrackSize = 4;
 
         solo.clickOnButton(PIANO_BUTTON);
@@ -193,7 +193,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         assertEquals(expectedTrackSize, actualTrackSize);
     }
 
-    public void testPlayMidi1() {
+    public void testPlayMidi() {
         clickSomePianoButtonsForLargeTrack();
         solo.clickOnActionBarItem(R.id.action_play_midi);
         solo.waitForDialogToOpen();
@@ -225,7 +225,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
     }
 
-    public void testPlayMidi2() {
+    public void testPlayMidiStop() {
         clickSomePianoButtonsForLargeTrack();
         solo.clickOnActionBarItem(R.id.action_play_midi);
         solo.waitForDialogToOpen();
@@ -235,13 +235,13 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         assertFalse(pianoActivity.getMidiPlayer().isPlaying());
     }
 
-    public void testPlayMidi3() {
+    public void testPlayMidiEmptyTrack() {
         solo.clickOnActionBarItem(R.id.action_play_midi);
 
         assertFalse(pianoActivity.getMidiPlayer().isPlaying());
     }
 
-    public void testPlayMidi4() throws InterruptedException {
+    public void testPlayMidiFinishedPlaying() throws InterruptedException {
         solo.clickOnButton(PIANO_BUTTON);
         solo.clickOnActionBarItem(R.id.action_play_midi);
         solo.waitForDialogToOpen();
@@ -250,8 +250,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         assertFalse(pianoActivity.getMidiPlayer().isPlaying());
     }
 
-    public void testPlayMidi5() throws InterruptedException {
-
+    public void testPlayMidiWhileRotating() throws InterruptedException {
         solo.setActivityOrientation(Solo.PORTRAIT);
         clickSomePianoButtonsFastForLargeTrack();
         assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
@@ -266,8 +265,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
     }
 
-    public void testPlayMidi6() throws InterruptedException {
-
+    public void testPlayMidiBackButtonPress() throws InterruptedException {
         solo.setActivityOrientation(Solo.PORTRAIT);
         clickSomePianoButtonsFastForLargeTrack();
         assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
@@ -278,7 +276,5 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
         solo.goBack();
         assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() == 0);
-
-
     }
 }
