@@ -97,6 +97,13 @@ public abstract class InstrumentActivity extends Activity {
         savedInstanceState.putSerializable(SAVED_INSTANCE_MEMENTO, mementoStack);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        midiPlayer.stop();
+    }
+
     private void setTrack(Track track) {
         this.track = track;
         tickThread.setTickBasedOnTrack(track);

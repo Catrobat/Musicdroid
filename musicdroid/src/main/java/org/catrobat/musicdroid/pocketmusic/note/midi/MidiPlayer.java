@@ -68,18 +68,26 @@ public class MidiPlayer {
         if ((null != player) && player.isPlaying()) {
             player.stop();
         }
+
+        synchronized (playQueue) {
+            playQueue.clear();
+        }
     }
 
     public void playNote(InstrumentActivity activity, int midiResourceId) {
-        if ((null == player) || (false == player.isPlaying() && playQueue.isEmpty()) ) {
-            createAndStartPlayer(activity, midiResourceId);
-        } else {
-            playQueue.add(midiResourceId);
+        synchronized (playQueue) {
+            if ((null == player) || (false == player.isPlaying() && playQueue.isEmpty())) {
+                createAndStartPlayer(activity, midiResourceId);
+            } else {
+                playQueue.add(midiResourceId);
+            }
         }
     }
 
     public void playTrack(InstrumentActivity activity, File cacheDirectory, Track track, int beatsPerMinute) throws IOException, MidiException {
-        playQueue.clear();
+        synchronized (playQueue) {
+            playQueue.clear();
+        }
 
         File tempPlayFile = new File(cacheDirectory, TEMP_PLAY_FILE_NAME);
         writeTempPlayFile(tempPlayFile, track, beatsPerMinute);
@@ -118,8 +126,10 @@ public class MidiPlayer {
     }
 
     protected void onPlayNoteComplete(final InstrumentActivity activity) {
-        if (false == playQueue.isEmpty()) {
-            createAndStartPlayer(activity, playQueue.poll());
+        synchronized (playQueue) {
+            if (false == playQueue.isEmpty()) {
+                createAndStartPlayer(activity, playQueue.poll());
+            }
         }
     }
 

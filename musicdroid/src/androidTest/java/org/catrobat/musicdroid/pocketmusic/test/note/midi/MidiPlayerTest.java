@@ -50,8 +50,17 @@ public class MidiPlayerTest extends AndroidTestCase {
         activity = new InstrumentActivityMock();
     }
 
-    public void testStop() {
+    public void testStop1() {
         player.playNote(activity, MIDI_RESOURCE_ID);
+        player.stop();
+
+        assertPlayNote(0, false);
+    }
+
+    public void testStop2() {
+        player.playNote(activity, MIDI_RESOURCE_ID);
+        player.playNote(activity, MIDI_RESOURCE_ID);
+
         player.stop();
 
         assertPlayNote(0, false);
