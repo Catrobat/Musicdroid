@@ -30,8 +30,10 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetView;
 
@@ -41,6 +43,7 @@ public  class NoteSheetViewFragment extends Fragment {
     public static int Y_POS = 1;
 
     private NoteSheetView noteSheetView;
+    private TextView trackSizeTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,6 +53,7 @@ public  class NoteSheetViewFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_notesheetview, container, false);
         rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getDisplayHeight() / 2));
         noteSheetView = (NoteSheetView) rootView.findViewById(R.id.note_sheet_view);
+        trackSizeTextView = (TextView) rootView.findViewById(R.id.track_size_text_view);
 
         return rootView;
     }
@@ -67,8 +71,11 @@ public  class NoteSheetViewFragment extends Fragment {
 
     public void redraw(Track track) {
         noteSheetView.redraw(track);
+        trackSizeTextView.setText(track.size()/2 +" / " + InstrumentActivity.MAX_TRACK_SIZE_IN_SYMBOLS);
     }
-
+    public String getTrackSizeTextViewText(){
+        return trackSizeTextView.getText().toString();
+    }
     public int getDisplayWidth() {
         return initializeDisplay()[X_POS];
     }
