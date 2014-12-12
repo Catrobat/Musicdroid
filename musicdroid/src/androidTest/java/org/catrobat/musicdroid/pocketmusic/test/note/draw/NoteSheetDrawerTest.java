@@ -1,0 +1,90 @@
+/*
+ * Musicdroid: An on-device music generator for Android
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package org.catrobat.musicdroid.pocketmusic.test.note.draw;
+
+import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
+import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
+import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
+
+public class NoteSheetDrawerTest extends AbstractDrawerTest {
+
+    private NoteSheetDrawerMock noteSheetDrawer;
+    private NoteSheetDrawPosition drawPosition;
+
+    @Override
+    protected void setUp() {
+        super.setUp();
+
+        Track track = TrackTestDataFactory.createTrack();
+        noteSheetDrawer = new NoteSheetDrawerMock(noteSheetCanvas, getContext().getResources(), track);
+        drawPosition = new NoteSheetDrawPosition(NoteSheetDrawer.NOTE_SHEET_PADDING, canvas.getWidth() - NoteSheetDrawer.NOTE_SHEET_PADDING);
+    }
+
+    public void testCalculateDistanceBetweenLines() {
+        int expectedLineHeight = canvas.getHeight() / NoteSheetDrawer.POSSIBLE_LINE_SPACES_ON_SCREEN;
+
+        if (expectedLineHeight % 2 != 0) {
+            expectedLineHeight -= 1;
+        }
+
+        int actualLineHeight = noteSheetDrawer.getDistanceBetweenLines();
+
+        assertEquals(expectedLineHeight, actualLineHeight);
+    }
+
+    public void testDrawLines() {
+        noteSheetDrawer.drawLines();
+
+        for (int i = noteSheetDrawer.getYPositionOfBarTop(); i <= noteSheetDrawer.getYPositionOfBarBottom(); i += noteSheetDrawer.getDistanceBetweenLines()) {
+            assertLine(canvas.getDrawnElements(), drawPosition.getStartXPositionForNextElement(), i, drawPosition.getEndXPositionForDrawingElements(), i);
+        }
+    }
+
+    public void testDrawBars() {
+        noteSheetDrawer.drawBars();
+
+        assertBar(canvas.getDrawnElements(), drawPosition.getStartXPositionForNextElement(), noteSheetDrawer.getYPositionOfBarTop(), drawPosition.getStartXPositionForNextElement() + NoteSheetDrawer.BOLD_BAR_WIDTH, noteSheetDrawer.getYPositionOfBarBottom());
+        assertBar(canvas.getDrawnElements(), drawPosition.getEndXPositionForDrawingElements() - NoteSheetDrawer.BOLD_BAR_WIDTH, noteSheetDrawer.getYPositionOfBarTop(), drawPosition.getEndXPositionForDrawingElements(), noteSheetDrawer.getYPositionOfBarBottom());
+    }
+
+    public void testDrawKey() {
+        noteSheetDrawer.drawKey();
+
+        int expectedHeight = noteSheetDrawer.getDistanceBetweenLines() * NoteSheetDrawer.HEIGHT_OF_KEY_IN_LINE_SPACES;
+
+        assertBitmap(canvas.getDrawnElements(), R.drawable.violine, expectedHeight, drawPosition.getStartXPositionForNextElement(), noteSheetCanvas.getHeightHalf());
+    }
+
+    public void testDrawNoteSheet() {
+        noteSheetDrawer.drawNoteSheet();
+
+        int amountOfLines = 5;
+        int amountOfBitmaps = 3;
+        int expectedElementsCount = amountOfLines + amountOfBitmaps;
+
+        assertEquals(expectedElementsCount, canvas.getDrawnElements().size());
+    }
+}

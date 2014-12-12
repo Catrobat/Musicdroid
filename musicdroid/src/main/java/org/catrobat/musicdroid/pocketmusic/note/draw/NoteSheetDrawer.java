@@ -49,9 +49,9 @@ public class NoteSheetDrawer {
 
     private Paint paint;
     private NoteSheetDrawPosition drawPosition;
-    private int distanceBetweenLines;
-    private int yPositionOfBarTop;
-    private int yPositionOfBarBottom;
+    protected int distanceBetweenLines;
+    protected int yPositionOfBarTop;
+    protected int yPositionOfBarBottom;
 
     public NoteSheetDrawer(NoteSheetCanvas canvas, Resources resources, Track track) {
         this.canvas = canvas;
@@ -95,34 +95,35 @@ public class NoteSheetDrawer {
         drawTrack();
     }
 
-    private void drawLines() {
+    protected void drawLines() {
         for (int startYPositionOfLine = yPositionOfBarTop; startYPositionOfLine <= yPositionOfBarBottom; startYPositionOfLine += distanceBetweenLines) {
             canvas.drawLine(drawPosition.getStartXPositionForNextElement(), startYPositionOfLine, drawPosition.getEndXPositionForDrawingElements(), startYPositionOfLine, paint);
         }
     }
 
-    private void drawBars() {
-        drawBar(drawPosition.getStartXPositionForNextElement(), BOLD_BAR_WIDTH);
+    protected void drawBars() {
+        drawBar(drawPosition.getStartXPositionForNextElement());
         drawPosition.increasesStartXPositionForNextElement(2 * BOLD_BAR_WIDTH);
 
-        drawBar(drawPosition.getEndXPositionForDrawingElements() - BOLD_BAR_WIDTH, BOLD_BAR_WIDTH);
+        drawBar(drawPosition.getEndXPositionForDrawingElements() - BOLD_BAR_WIDTH);
     }
 
-    private void drawBar(int startXPositionBar, int barWidth) {
-        int endXPositionBar = startXPositionBar + barWidth;
+    private void drawBar(int startXPositionBar) {
+        int endXPositionBar = startXPositionBar + BOLD_BAR_WIDTH;
         Rect boldBar = new Rect(startXPositionBar, yPositionOfBarTop, endXPositionBar, yPositionOfBarBottom);
 
         canvas.drawRect(boldBar, paint);
     }
 
-    private void drawKey() {
+    protected void drawKey() {
         if (track.getKey() != MusicalKey.VIOLIN) {
             throw new UnsupportedOperationException();
         }
 
         int keyPictureHeight = distanceBetweenLines * HEIGHT_OF_KEY_IN_LINE_SPACES;
 
-        drawPosition.setStartXPositionForNextElement(canvas.drawBitmap(resources, R.drawable.violine, keyPictureHeight, drawPosition.getStartXPositionForNextElement(), canvas.getHeightHalf()).right);
+        Rect rect = canvas.drawBitmap(resources, R.drawable.violine, keyPictureHeight, drawPosition.getStartXPositionForNextElement(), canvas.getHeightHalf());
+        drawPosition.setStartXPositionForNextElement(rect.right);
     }
 
     private void drawTrack() {

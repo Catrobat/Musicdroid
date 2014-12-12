@@ -23,11 +23,31 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
-public class NoteSheetCanvasTestDataFactory {
+import android.content.res.Resources;
 
-    private NoteSheetCanvasTestDataFactory() {}
+import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
+import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
 
-    public static NoteSheetCanvasMock createPianoNoteSheetCanvas(CanvasMock canvas) {
-        return new NoteSheetCanvasMock(canvas);
+public class NoteSheetDrawerMock extends NoteSheetDrawer {
+
+    public NoteSheetDrawerMock(NoteSheetCanvas canvas, Resources resources, Track track) {
+        super(canvas, resources, track);
     }
+
+    public int getDistanceBetweenLines() {
+        return distanceBetweenLines;
+    }
+
+    public int getYPositionOfBarTop() { return yPositionOfBarTop; }
+
+    public int getYPositionOfBarBottom() { return yPositionOfBarBottom; }
+
+    public void drawLines() {
+        super.drawLines();
+    }
+
+    public void drawBars() { super.drawBars(); }
+
+    public void drawKey() { super.drawKey(); }
 }
