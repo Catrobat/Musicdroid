@@ -28,7 +28,6 @@ import org.catrobat.musicdroid.pocketmusic.note.draw.NoteCrossDrawer;
 
 public class NoteCrossDrawerTest extends AbstractDrawerTest {
 
-    private static final int DISTANCE_BETWEEN_LINES = 100;
     private static final int X_POSITION = 42;
     private static final int Y_POSITION = 50;
 
@@ -44,6 +43,6 @@ public class NoteCrossDrawerTest extends AbstractDrawerTest {
 
         crossDrawer.drawCross(X_POSITION, Y_POSITION);
 
-        assertBitmap(canvas.getDrawnElements(), R.drawable.cross, expectedBitmapHeight, X_POSITION, Y_POSITION);
+        assertCanvasElementQueueBitmap(R.drawable.cross, expectedBitmapHeight, X_POSITION, Y_POSITION);
     }
 }

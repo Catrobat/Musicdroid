@@ -33,6 +33,11 @@ import java.util.Queue;
 
 public abstract class AbstractDrawerTest extends AndroidTestCase {
 
+    public static final int DISTANCE_BETWEEN_LINES = 100;
+    public static final int NUMBER_OF_LINES_ON_SHEET = 5;
+    public static final int NUMBER_OF_BITMAPS_ON_SHEET = 2;
+    public static final int NUMBER_OF_BASIC_ELEMENTS_ON_SHEET = NUMBER_OF_LINES_ON_SHEET + NUMBER_OF_BITMAPS_ON_SHEET;
+
     protected CanvasMock canvas;
     protected NoteSheetCanvasMock noteSheetCanvas;
 
@@ -42,24 +47,24 @@ public abstract class AbstractDrawerTest extends AndroidTestCase {
         noteSheetCanvas = new NoteSheetCanvasMock(canvas);
     }
 
-    protected void assertBitmap(Queue<String> drawnElements, int bitmapId, int bitmapHeight, int xPosition, int yPosition) {
+    protected void assertCanvasElementQueueBitmap(int bitmapId, int bitmapHeight, int xPosition, int yPosition) {
         Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), bitmapId);
 
         Rect rect = noteSheetCanvas.calculateProportionalRect(bitmap, bitmapHeight, xPosition, yPosition);
 
         String expectedLine = CanvasMock.createString(CanvasMock.DRAW_BITMAP, rect.left, rect.top, rect.right, rect.bottom);
-        assertEquals(expectedLine, drawnElements.poll());
+        assertEquals(expectedLine, canvas.getDrawnElements().poll());
     }
 
-    protected void assertLine(Queue<String> drawnElements, float startX, float startY, float stopX, float stopY) {
-        String expectedLine = CanvasMock.createString(CanvasMock.DRAW_LINE, (int) startX, (int) startY, (int) stopX, (int) stopY);
+    protected void assertCanvasElementQueueLine(int startX, int startY, int stopX, int stopY) {
+        String expectedLine = CanvasMock.createString(CanvasMock.DRAW_LINE, startX, startY, stopX, stopY);
 
-        assertEquals(expectedLine, drawnElements.poll());
+        assertEquals(expectedLine, canvas.getDrawnElements().poll());
     }
 
-    protected void assertBar(Queue<String> drawnElements, int startX, int startY, int stopX, int stopY) {
+    protected void assertCanvasElementQueueBar(int startX, int startY, int stopX, int stopY) {
         String expectedLine = CanvasMock.createString(CanvasMock.DRAW_RECT, startX, startY, stopX, stopY);
 
-        assertEquals(expectedLine, drawnElements.poll());
+        assertEquals(expectedLine, canvas.getDrawnElements().poll());
     }
 }
