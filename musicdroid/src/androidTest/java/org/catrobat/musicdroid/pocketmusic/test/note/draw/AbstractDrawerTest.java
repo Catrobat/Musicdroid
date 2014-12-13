@@ -26,6 +26,7 @@ package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.test.AndroidTestCase;
 
@@ -45,12 +46,14 @@ public abstract class AbstractDrawerTest extends AndroidTestCase {
     public static final int NUMBER_OF_BITMAPS_ON_SHEET = 1;
     public static final int NUMBER_OF_BASIC_ELEMENTS_ON_SHEET = NUMBER_OF_LINES_ON_SHEET + NUMBER_OF_BARS_ON_SHEET + NUMBER_OF_BITMAPS_ON_SHEET;
 
+    protected Paint paint;
     protected CanvasMock canvas;
     protected NoteSheetCanvasMock noteSheetCanvas;
     protected NoteSheetDrawPosition drawPosition;
 
     @Override
     protected void setUp() {
+        paint = new Paint();
         canvas = new CanvasMock();
         noteSheetCanvas = new NoteSheetCanvasMock(canvas);
         drawPosition = new NoteSheetDrawPosition(START_X_POSITION, END_X_POSITION);

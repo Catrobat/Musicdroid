@@ -46,7 +46,6 @@ public class TrackDrawerTest extends AbstractDrawerTest {
     protected void setUp() {
         super.setUp();
 
-        Paint paint = new Paint();
         track = TrackTestDataFactory.createSimpleTrack();
         trackDrawer = new TrackDrawer(noteSheetCanvas, paint, getContext().getResources(), track, drawPosition, DISTANCE_BETWEEN_LINES);
     }
