@@ -34,6 +34,7 @@ public class NoteSheetCanvasMock extends NoteSheetCanvas {
         super(canvas);
     }
 
+    @Override
     public Rect calculateProportionalRect(Bitmap originalPicture, int height, int startXPosition, int yCenterPosition) {
         return super.calculateProportionalRect(originalPicture, height, startXPosition, yCenterPosition);
     }

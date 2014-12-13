@@ -39,12 +39,12 @@ public class NoteDrawer extends SymbolDrawer {
     private NotePositionInformation notePositionInformation;
     private NoteSymbol noteSymbol;
 
-	public NoteDrawer(NoteSheetCanvas canvas, Paint paint, Resources resources, MusicalKey key, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
-        super(canvas, paint, resources, key, drawPosition, distanceBetweenLines);
+	public NoteDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, Resources resources, MusicalKey key, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
+        super(noteSheetCanvas, paint, resources, key, drawPosition, distanceBetweenLines);
 
-        noteCrossDrawer = new NoteCrossDrawer(canvas, resources, distanceBetweenLines);
-        noteStemDrawer = new NoteStemDrawer(canvas, paint, distanceBetweenLines);
-        noteBodyDrawer = new NoteBodyDrawer(this, canvas, paint, key, distanceBetweenLines);
+        noteCrossDrawer = new NoteCrossDrawer(noteSheetCanvas, resources, distanceBetweenLines);
+        noteStemDrawer = new NoteStemDrawer(noteSheetCanvas, paint, distanceBetweenLines);
+        noteBodyDrawer = new NoteBodyDrawer(this, noteSheetCanvas, paint, key, distanceBetweenLines);
 	}
 
     public void drawSymbol(Symbol symbol) {
@@ -69,7 +69,7 @@ public class NoteDrawer extends SymbolDrawer {
                 }
 
                 int distanceFromCrossToMiddleLine = NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName);
-                int yPositionForCross = canvas.getHeightHalf() + distanceFromCrossToMiddleLine * distanceBetweenLines / 2;
+                int yPositionForCross = noteSheetCanvas.getHeightHalf() + distanceFromCrossToMiddleLine * distanceBetweenLines / 2;
 
                 noteCrossDrawer.drawCross(xPositionForCrosses, yPositionForCross);
             }
@@ -77,9 +77,9 @@ public class NoteDrawer extends SymbolDrawer {
     }
 
     private void drawHelpLines() {
-        float topEndOfNoteLines = canvas.getHeightHalf() -
+        float topEndOfNoteLines = noteSheetCanvas.getHeightHalf() -
                 distanceBetweenLines * NoteSheetDrawer.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
-        float bottomEndOfNoteLines = canvas.getHeightHalf() +
+        float bottomEndOfNoteLines = noteSheetCanvas.getHeightHalf() +
                 distanceBetweenLines * NoteSheetDrawer.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
 
         float topEndOfHelpLines = notePositionInformation.getTopOfSymbol() + distanceBetweenLines / 2;
@@ -93,7 +93,7 @@ public class NoteDrawer extends SymbolDrawer {
             int stopX = (int) (notePositionInformation.getRightSideOfSymbol() + lengthOfHelpLine);
             int startY = (int) topEndOfNoteLines;
             int stopY = startY;
-            canvas.drawLine(startX, startY, stopX, stopY, paint);
+            noteSheetCanvas.drawLine(startX, startY, stopX, stopY, paint);
 
             topEndOfNoteLines -= distanceBetweenLines;
         }
@@ -104,7 +104,7 @@ public class NoteDrawer extends SymbolDrawer {
             int stopX = (int) (notePositionInformation.getRightSideOfSymbol() + lengthOfHelpLine);
             int startY = (int) bottomEndOfNoteLines;
             int stopY = startY;
-            canvas.drawLine(startX, startY, stopX, stopY, paint);
+            noteSheetCanvas.drawLine(startX, startY, stopX, stopY, paint);
 
             bottomEndOfNoteLines += distanceBetweenLines;
         }

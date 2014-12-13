@@ -32,7 +32,6 @@ import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
 public class NoteSheetDrawerTest extends AbstractDrawerTest {
 
     private NoteSheetDrawerMock noteSheetDrawer;
-    private NoteSheetDrawPosition drawPosition;
 
     @Override
     protected void setUp() {

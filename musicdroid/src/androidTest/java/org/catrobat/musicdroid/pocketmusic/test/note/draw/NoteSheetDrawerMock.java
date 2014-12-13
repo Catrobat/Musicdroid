@@ -43,11 +43,14 @@ public class NoteSheetDrawerMock extends NoteSheetDrawer {
 
     public int getYPositionOfBarBottom() { return yPositionOfBarBottom; }
 
+    @Override
     public void drawLines() {
         super.drawLines();
     }
 
+    @Override
     public void drawBars() { super.drawBars(); }
 
+    @Override
     public void drawKey() { super.drawKey(); }
 }

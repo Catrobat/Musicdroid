@@ -25,34 +25,70 @@ package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
 import android.graphics.Paint;
 
+import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
+import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
 import org.catrobat.musicdroid.pocketmusic.note.draw.TrackDrawer;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
 import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
+
+import java.util.List;
 
 public class TrackDrawerTest extends AbstractDrawerTest {
 
     private Track track;
-    private NoteSheetDrawPosition drawPosition;
     private TrackDrawer trackDrawer;
 
     @Override
     protected void setUp() {
         super.setUp();
 
-        Paint paint = new Paint(); // TODO
+        Paint paint = new Paint();
         track = TrackTestDataFactory.createSimpleTrack();
-        drawPosition = new NoteSheetDrawPosition(100, 100); // TODO
         trackDrawer = new TrackDrawer(noteSheetCanvas, paint, getContext().getResources(), track, drawPosition, DISTANCE_BETWEEN_LINES);
     }
 
     public void testDrawTrack() {
-        TrackToSymbolsConverter converter = new TrackToSymbolsConverter();
-        int expectedElementCount = converter.convertTrack(track).size() + NUMBER_OF_BASIC_ELEMENTS_ON_SHEET;
+        int expectedElementCount = getSymbolCountFromTrack(track);
 
         trackDrawer.drawTrack();
 
         assertEquals(expectedElementCount, canvas.getDrawnElements().size());
+    }
+
+    private int getSymbolCountFromTrack(Track track) {
+        TrackToSymbolsConverter converter = new TrackToSymbolsConverter();
+        List<Symbol> symbols = converter.convertTrack(track);
+        int distanceWhenHelpLinesStart = 5;
+
+        int count = symbols.size();
+
+        for (Symbol symbol : symbols) {
+            if (symbol instanceof NoteSymbol) {
+                NoteSymbol noteSymbol = (NoteSymbol) symbol;
+
+                for (NoteName noteName : noteSymbol.getNoteNamesSorted()) {
+                    int distance = Math.abs(NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(track.getKey(), noteName));
+
+                    if (distance > distanceWhenHelpLinesStart) {
+                        count += distance - distanceWhenHelpLinesStart;
+                    }
+                }
+
+                for (NoteName noteName : noteSymbol.getNoteNamesSorted()) {
+                    NoteLength noteLength = noteSymbol.getNoteLength(noteName);
+
+                    if (noteLength.hasStem()) {
+                        count++;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return count;
     }
 }

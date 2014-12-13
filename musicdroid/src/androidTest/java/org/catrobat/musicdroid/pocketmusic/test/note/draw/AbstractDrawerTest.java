@@ -29,22 +29,31 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.test.AndroidTestCase;
 
+import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
+
 import java.util.Queue;
 
 public abstract class AbstractDrawerTest extends AndroidTestCase {
 
+    public static final int START_X_POSITION = 50;
+    public static final int END_X_POSITION = 500;
+
     public static final int DISTANCE_BETWEEN_LINES = 100;
+
     public static final int NUMBER_OF_LINES_ON_SHEET = 5;
-    public static final int NUMBER_OF_BITMAPS_ON_SHEET = 2;
-    public static final int NUMBER_OF_BASIC_ELEMENTS_ON_SHEET = NUMBER_OF_LINES_ON_SHEET + NUMBER_OF_BITMAPS_ON_SHEET;
+    public static final int NUMBER_OF_BARS_ON_SHEET = 2;
+    public static final int NUMBER_OF_BITMAPS_ON_SHEET = 1;
+    public static final int NUMBER_OF_BASIC_ELEMENTS_ON_SHEET = NUMBER_OF_LINES_ON_SHEET + NUMBER_OF_BARS_ON_SHEET + NUMBER_OF_BITMAPS_ON_SHEET;
 
     protected CanvasMock canvas;
     protected NoteSheetCanvasMock noteSheetCanvas;
+    protected NoteSheetDrawPosition drawPosition;
 
     @Override
     protected void setUp() {
         canvas = new CanvasMock();
         noteSheetCanvas = new NoteSheetCanvasMock(canvas);
+        drawPosition = new NoteSheetDrawPosition(START_X_POSITION, END_X_POSITION);
     }
 
     protected void assertCanvasElementQueueBitmap(int bitmapId, int bitmapHeight, int xPosition, int yPosition) {

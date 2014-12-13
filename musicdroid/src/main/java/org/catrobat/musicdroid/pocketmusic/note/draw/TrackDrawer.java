@@ -35,10 +35,10 @@ public class TrackDrawer {
 
     private SymbolDrawer symbolDrawer;
 
-    public TrackDrawer(NoteSheetCanvas canvas, Paint paint, Resources resources, Track track, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
+    public TrackDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, Resources resources, Track track, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
         this.track = track;
 
-        symbolDrawer = new NoteDrawer(canvas, paint, resources, track.getKey(), drawPosition, distanceBetweenLines);
+        symbolDrawer = new NoteDrawer(noteSheetCanvas, paint, resources, track.getKey(), drawPosition, distanceBetweenLines);
     }
 
 	public void drawTrack() {

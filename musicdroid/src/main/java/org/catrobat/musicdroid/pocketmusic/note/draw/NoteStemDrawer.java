@@ -29,12 +29,12 @@ public class NoteStemDrawer {
 
 	private static final double LENGTH_OF_STEM_IN_NOTE_LINE_DISTANCES = 2.5;
 
-    private NoteSheetCanvas canvas;
+    private NoteSheetCanvas noteSheetCanvas;
     private Paint paint;
     private int distanceBetweenLines;
 
-	public NoteStemDrawer(NoteSheetCanvas canvas, Paint paint, int distanceBetweenLines) {
-        this.canvas = canvas;
+	public NoteStemDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, int distanceBetweenLines) {
+        this.noteSheetCanvas = noteSheetCanvas;
         this.paint = paint;
         this.distanceBetweenLines = distanceBetweenLines;
 	}
@@ -60,7 +60,7 @@ public class NoteStemDrawer {
             endPointOfNoteStem.y = (int) notePositionInformation.getBottomOfSymbol() + stemLength;
         }
 
-		canvas.drawLine(startPointOfNoteStem.x, startPointOfNoteStem.y, endPointOfNoteStem.x,
+		noteSheetCanvas.drawLine(startPointOfNoteStem.x, startPointOfNoteStem.y, endPointOfNoteStem.x,
                 endPointOfNoteStem.y, paint);
 	}
 }

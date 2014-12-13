@@ -35,6 +35,8 @@ public class NoteCrossDrawerTest extends AbstractDrawerTest {
 
     @Override
     protected void setUp() {
+        super.setUp();
+
         crossDrawer = new NoteCrossDrawer(noteSheetCanvas, getContext().getResources(), DISTANCE_BETWEEN_LINES);
     }
 
