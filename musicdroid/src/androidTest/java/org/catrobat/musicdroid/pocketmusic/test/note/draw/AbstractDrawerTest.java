@@ -68,7 +68,7 @@ public abstract class AbstractDrawerTest extends AndroidTestCase {
         assertEquals(expectedLine, canvas.getDrawnElements().poll());
     }
 
-    protected void assertCanvasElementQueueLine(int startX, int startY, int stopX, int stopY) {
+    protected void assertCanvasElementQueueLine(float startX, float startY, float stopX, float stopY) {
         String expectedLine = CanvasMock.createString(CanvasMock.DRAW_LINE, startX, startY, stopX, stopY);
 
         assertEquals(expectedLine, canvas.getDrawnElements().poll());

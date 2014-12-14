@@ -64,22 +64,22 @@ public class CanvasMock extends Canvas {
 
     @Override
     public void drawLine(float startX, float startY, float stopX, float stopY, Paint paint) {
-        drawnElements.add(createString(DRAW_LINE, (int) startX, (int) startY, (int) stopX, (int) stopY));
+        drawnElements.add(createString(DRAW_LINE, startX, startY, stopX, stopY));
     }
 
     @Override
     public void drawRect(Rect r, Paint paint) {
-        drawnElements.add(createString(DRAW_RECT, (int) r.left, (int) r.top, (int) r.right, (int) r.bottom));
+        drawnElements.add(createString(DRAW_RECT, r.left, r.top, r.right, r.bottom));
     }
 
     @Override
     public void drawOval(RectF oval, Paint paint) {
-        drawnElements.add(createString(DRAW_OVAL, (int) oval.left, (int) oval.top, (int) oval.right, (int) oval.bottom));
+        drawnElements.add(createString(DRAW_OVAL, oval.left, oval.top, oval.right, oval.bottom));
     }
 
     @Override
     public void drawBitmap(Bitmap bitmap, Rect src, Rect dst, Paint paint) {
-        drawnElements.add(createString(DRAW_BITMAP, (int) dst.left, (int) dst.top, (int) dst.right, (int) dst.bottom));
+        drawnElements.add(createString(DRAW_BITMAP, dst.left, dst.top, dst.right, dst.bottom));
     }
 
     public static String createString(String methodName, Object... objects) {
