@@ -26,7 +26,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -57,15 +56,15 @@ public abstract class InstrumentActivity extends Activity {
     private static final String SAVED_INSTANCE_MEMENTO = "SavedMemento";
 
     private EditText editTextMidiExportNameDialogPrompt;
-
     private MidiPlayer midiPlayer;
-
     private AbstractTickProvider tickThread;
     private Track track;
-    private String[] midiFileList;
     private TrackMementoStack mementoStack;
-
     private AlertDialog playAllDialog;
+
+    private String[] midiFileList;
+    private boolean activityInFocus = false;
+
 
     public InstrumentActivity(MusicalKey key, MusicalInstrument instrument) {
         editTextMidiExportNameDialogPrompt = null;
@@ -334,6 +333,22 @@ public abstract class InstrumentActivity extends Activity {
 
     public EditText getEditTextMidiExportNameDialogPrompt() {
         return editTextMidiExportNameDialogPrompt;
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        activityInFocus = hasFocus;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (!activityInFocus) {
+            midiPlayer.stop();
+            midiPlayer.clearPlayQueue();
+        }
     }
 
     protected abstract void redraw();

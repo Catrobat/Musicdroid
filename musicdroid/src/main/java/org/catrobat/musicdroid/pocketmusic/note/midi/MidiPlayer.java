@@ -74,6 +74,10 @@ public class MidiPlayer {
         }
     }
 
+    public void clearPlayQueue() {
+        playQueue.clear();
+    }
+
     public void playNote(InstrumentActivity activity, int midiResourceId) {
         synchronized (playQueue) {
             if ((null == player) || (false == player.isPlaying() && playQueue.isEmpty())) {
@@ -82,6 +86,7 @@ public class MidiPlayer {
                 playQueue.add(midiResourceId);
             }
         }
+
     }
 
     public void playTrack(InstrumentActivity activity, File cacheDirectory, Track track, int beatsPerMinute) throws IOException, MidiException {
@@ -153,5 +158,9 @@ public class MidiPlayer {
 
     protected MediaPlayer createTrackPlayer(final InstrumentActivity activity, final Uri uri) {
         return MediaPlayer.create(activity, uri);
+    }
+
+    public Queue<Integer> getPlayQueue(){
+        return playQueue;
     }
 }
