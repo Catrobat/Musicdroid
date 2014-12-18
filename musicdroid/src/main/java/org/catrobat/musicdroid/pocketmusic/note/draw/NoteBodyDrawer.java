@@ -35,6 +35,8 @@ import java.util.List;
 
 public final class NoteBodyDrawer {
 
+    public static final int NOTE_WIDTH_SCALE = 130 / 100;
+
     private SymbolDrawer symbolDrawer;
     private NoteSheetCanvas noteSheetCanvas;
     private Paint paint;
@@ -49,11 +51,11 @@ public final class NoteBodyDrawer {
         this.distanceBetweenLines = distanceBetweenLines;
 	}
 
-	public NotePositionInformation drawBody(NoteSymbol noteSymbol, boolean isStemUpdirected) {
-
-		int lineHeight = distanceBetweenLines;
+	public NotePositionInformation drawBody(NoteSymbol noteSymbol) {
+		boolean isStemUpdirected = noteSymbol.isStemUp(key);
+        int lineHeight = distanceBetweenLines;
 		int noteHeight = lineHeight / 2;
-		int noteWidth = noteHeight * 130 / 100;
+		int noteWidth = noteHeight * NOTE_WIDTH_SCALE;
 
 		Point centerPointOfSpaceForNote = symbolDrawer.getCenterPointForNextSymbol();
 		List<RectF> noteSurroundingRects = new LinkedList<RectF>();

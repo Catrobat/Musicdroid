@@ -111,7 +111,7 @@ public class NoteDrawer extends SymbolDrawer {
     }
 
     private void drawBody() {
-        this.notePositionInformation = noteBodyDrawer.drawBody(noteSymbol, noteSymbol.isStemUp(key));
+        this.notePositionInformation = noteBodyDrawer.drawBody(noteSymbol);
     }
 
     private void drawStem() {

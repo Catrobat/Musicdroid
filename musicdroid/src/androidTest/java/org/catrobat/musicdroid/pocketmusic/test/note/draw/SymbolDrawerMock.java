@@ -33,34 +33,31 @@ import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
 import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolDrawer;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 
-public class SymbolDrawerTest extends AbstractDrawerTest {
+public class SymbolDrawerMock extends SymbolDrawer {
 
-    private NoteSheetDrawPosition drawPosition;
-    private SymbolDrawerMock symbolDrawer;
+    public SymbolDrawerMock(NoteSheetCanvas canvas, Paint paint, Resources resources, MusicalKey key, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
+        super(canvas, paint, resources, key, drawPosition, distanceBetweenLines);
+    }
+
+    public int getWidthForOneSymbol() {
+        return widthForOneSymbol;
+    }
+
+    public int getWidthForOneSmallSymbol() {
+        return widthForOneSmallSymbol;
+    }
 
     @Override
-    protected void setUp() {
-        super.setUp();
-
-        drawPosition = new NoteSheetDrawPosition(START_X_POSITION, END_X_POSITION);
-        symbolDrawer = new SymbolDrawerMock(noteSheetCanvas, paint, getContext().getResources(), MusicalKey.VIOLIN, drawPosition,DISTANCE_BETWEEN_LINES);
+    public Point getCenterPointForNextSymbol() {
+        return super.getCenterPointForNextSymbol();
     }
 
-    public void testGetCenterPointForNextSymbol() {
-        Point expectedPoint = new Point(calculateStartX(symbolDrawer.getWidthForOneSymbol()), noteSheetCanvas.getHeightHalf());
-        Point actualPoint = symbolDrawer.getCenterPointForNextSymbol();
-
-        assertEquals(expectedPoint, actualPoint);
+    @Override
+    public Point getCenterPointForNextSmallSymbol() {
+        return super.getCenterPointForNextSmallSymbol();
     }
 
-    public void testGetCenterPointForNextSmallSymbol() {
-        Point expectedPoint = new Point(calculateStartX(symbolDrawer.getWidthForOneSmallSymbol()), noteSheetCanvas.getHeightHalf());
-        Point actualPoint = symbolDrawer.getCenterPointForNextSmallSymbol();
-
-        assertEquals(expectedPoint, actualPoint);
-    }
-
-    private int calculateStartX(int symbolWidth) {
-        return drawPosition.getStartXPositionForNextElement() + (symbolWidth / 2);
+    @Override
+    public void drawSymbol(Symbol symbol) {
     }
 }
