@@ -63,4 +63,12 @@ public class NoteDrawerMock extends NoteDrawer {
     public Point getCenterPointForNextSmallSymbol() {
         return super.getCenterPointForNextSmallSymbol();
     }
+
+    public Point getCenterPointForNextSmallSymbolNoDrawPositionChange() {
+        Point point = super.getCenterPointForNextSmallSymbol();
+
+        drawPosition.setStartXPositionForNextElement(drawPosition.getStartXPositionForNextElement() - widthForOneSmallSymbol);
+
+        return point;
+    }
 }

@@ -27,6 +27,7 @@ import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
+import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 import org.catrobat.musicdroid.pocketmusic.test.note.NoteSymbolTestDataFactory;
 
@@ -46,7 +47,7 @@ public class NoteDrawerTest extends AbstractDrawerTest {
     public void testDrawCross() {
         NoteName noteName = NoteName.C4S;
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(noteName);
-        int xPositionForCross = noteDrawer.getCenterPointForNextSmallSymbol().x;
+        int xPositionForCross = noteDrawer.getCenterPointForNextSmallSymbolNoDrawPositionChange().x;
         int crossHeight = 2 * DISTANCE_BETWEEN_LINES;
         int yPositionForCross = noteSheetCanvas.getHeightHalf() + NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName) * DISTANCE_BETWEEN_LINES / 2;
 
@@ -57,6 +58,7 @@ public class NoteDrawerTest extends AbstractDrawerTest {
 
     public void testDrawBody() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol();
+
         noteDrawer.drawBody(noteSymbol);
 
         assertCanvasElementQueueSize(noteSymbol.size());
@@ -64,14 +66,17 @@ public class NoteDrawerTest extends AbstractDrawerTest {
 
     public void testDrawStem() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER);
+
+        noteDrawer.drawBody(noteSymbol);
         noteDrawer.drawStem(noteSymbol);
 
-        int expectedElementsCount = 1;
+        int expectedElementsCount = 2;
         assertCanvasElementQueueSize(expectedElementsCount);
     }
 
     public void testDrawHelpLines() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteName.C4);
+
         noteDrawer.drawBody(noteSymbol);
         noteDrawer.drawHelpLines();
 

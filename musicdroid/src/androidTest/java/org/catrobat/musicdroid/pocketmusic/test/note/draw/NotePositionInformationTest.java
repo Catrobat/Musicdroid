@@ -69,7 +69,7 @@ public class NotePositionInformationTest extends AndroidTestCase {
         NotePositionInformation positionInformation1 = NotePositionInformationTestDataFactory.createNotePositionInformation();
         NotePositionInformation positionInformation2 = NotePositionInformationTestDataFactory.createNotePositionInformation();
 
-        assertFalse(positionInformation1.equals(positionInformation2));
+        assertTrue(positionInformation1.equals(positionInformation2));
     }
 
     public void testEquals2() {

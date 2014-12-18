@@ -67,8 +67,7 @@ public class NoteDrawer extends SymbolDrawer {
                     xPositionForCrosses = getCenterPointForNextSmallSymbol().x;
                 }
 
-                int distanceFromCrossToMiddleLine = NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName);
-                int yPositionForCross = noteSheetCanvas.getHeightHalf() + distanceFromCrossToMiddleLine * distanceBetweenLines / 2;
+                int yPositionForCross = noteSheetCanvas.getHeightHalf() + NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName) * distanceBetweenLines / 2;
 
                 noteCrossDrawer.drawCross(xPositionForCrosses, yPositionForCross);
             }
