@@ -37,7 +37,6 @@ public class NoteDrawer extends SymbolDrawer {
     private NoteBodyDrawer noteBodyDrawer;
 
     private NotePositionInformation notePositionInformation;
-    private NoteSymbol noteSymbol;
 
 	public NoteDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, Resources resources, MusicalKey key, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
         super(noteSheetCanvas, paint, resources, key, drawPosition, distanceBetweenLines);
@@ -52,14 +51,14 @@ public class NoteDrawer extends SymbolDrawer {
             return;
         }
 
-        this.noteSymbol = (NoteSymbol) symbol;
-        drawCross();
-        drawBody();
-        drawStem();
+        NoteSymbol noteSymbol = (NoteSymbol) symbol;
+        drawCross(noteSymbol);
+        drawBody(noteSymbol);
+        drawStem(noteSymbol);
         drawHelpLines();
     }
 
-    private void drawCross() {
+    protected void drawCross(NoteSymbol noteSymbol) {
         Integer xPositionForCrosses = null;
 
         for (NoteName noteName : noteSymbol.getNoteNamesSorted()) {
@@ -76,7 +75,15 @@ public class NoteDrawer extends SymbolDrawer {
         }
     }
 
-    private void drawHelpLines() {
+    protected void drawBody(NoteSymbol noteSymbol) {
+        this.notePositionInformation = noteBodyDrawer.drawBody(noteSymbol);
+    }
+
+    protected void drawStem(NoteSymbol noteSymbol) {
+        noteStemDrawer.drawStem(notePositionInformation, noteSymbol.isStemUp(key));
+    }
+
+    protected void drawHelpLines() {
         float topEndOfNoteLines = noteSheetCanvas.getHeightHalf() -
                 distanceBetweenLines * NoteSheetDrawer.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
         float bottomEndOfNoteLines = noteSheetCanvas.getHeightHalf() +
@@ -108,13 +115,5 @@ public class NoteDrawer extends SymbolDrawer {
 
             bottomEndOfNoteLines += distanceBetweenLines;
         }
-    }
-
-    private void drawBody() {
-        this.notePositionInformation = noteBodyDrawer.drawBody(noteSymbol);
-    }
-
-    private void drawStem() {
-        noteStemDrawer.drawStem(notePositionInformation, noteSymbol.isStemUp(key));
     }
 }

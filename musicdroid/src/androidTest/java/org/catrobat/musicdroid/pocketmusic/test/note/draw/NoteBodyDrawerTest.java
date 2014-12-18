@@ -47,7 +47,7 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
     protected void setUp() {
         super.setUp();
 
-        noteSymbol = NoteSymbolTestDataFactory.createSimpleNoteSymbol();
+        noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol();
     }
 
     private void customSetUp(MusicalKey key) {

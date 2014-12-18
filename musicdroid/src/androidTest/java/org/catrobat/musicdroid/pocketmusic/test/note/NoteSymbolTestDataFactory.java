@@ -31,11 +31,29 @@ public class NoteSymbolTestDataFactory {
 
     private NoteSymbolTestDataFactory() {}
 
-    public static NoteSymbol createSimpleNoteSymbol() {
+    public static NoteSymbol createNoteSymbol() {
         NoteSymbol noteSymbol = new NoteSymbol();
 
         noteSymbol.addNote(NoteName.C4, NoteLength.QUARTER);
         noteSymbol.addNote(NoteName.E4, NoteLength.QUARTER);
+
+        return noteSymbol;
+    }
+
+    public static NoteSymbol createNoteSymbol(NoteName... noteNames) {
+        return createNoteSymbol(NoteLength.QUARTER, noteNames);
+    }
+
+    public static NoteSymbol createNoteSymbol(NoteLength noteLength) {
+        return createNoteSymbol(noteLength, NoteName.C4);
+    }
+
+    public static NoteSymbol createNoteSymbol(NoteLength noteLength, NoteName... noteNames) {
+        NoteSymbol noteSymbol = new NoteSymbol();
+
+        for (NoteName noteName : noteNames) {
+            noteSymbol.addNote(noteName, noteLength);
+        }
 
         return noteSymbol;
     }

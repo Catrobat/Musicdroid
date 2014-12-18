@@ -80,6 +80,6 @@ public class NoteSheetDrawerTest extends AbstractDrawerTest {
     public void testDrawNoteSheet() {
         noteSheetDrawer.drawNoteSheet();
 
-        assertEquals(NUMBER_OF_BASIC_ELEMENTS_ON_SHEET, canvas.getDrawnElements().size());
+        assertCanvasElementQueueSize(NUMBER_OF_BASIC_ELEMENTS_ON_SHEET);
     }
 }

@@ -59,6 +59,10 @@ public abstract class AbstractDrawerTest extends AndroidTestCase {
         drawPosition = new NoteSheetDrawPosition(START_X_POSITION, END_X_POSITION);
     }
 
+    protected void assertCanvasElementQueueSize(int expectedSize) {
+        assertEquals(expectedSize, canvas.getDrawnElements().size());
+    }
+
     protected void assertCanvasElementQueueBitmap(int bitmapId, int bitmapHeight, int xPosition, int yPosition) {
         Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), bitmapId);
 
