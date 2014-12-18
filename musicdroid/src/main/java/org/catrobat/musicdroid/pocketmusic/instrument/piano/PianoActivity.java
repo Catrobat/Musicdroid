@@ -52,6 +52,9 @@ public class PianoActivity extends InstrumentActivity {
         return noteSheetViewFragment;
     }
 
+    public String getTrackSizeString(){
+        return noteSheetViewFragment.getTrackSizeTextViewText();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
