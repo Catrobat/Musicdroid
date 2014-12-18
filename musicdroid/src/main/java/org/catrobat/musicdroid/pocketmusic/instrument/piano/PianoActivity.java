@@ -47,6 +47,14 @@ public class PianoActivity extends InstrumentActivity {
         return pianoViewFragment;
     }
 
+    public NoteSheetViewFragment getNoteSheetViewFragment() {
+        return noteSheetViewFragment;
+    }
+
+    public String getTrackSizeString(){
+        return noteSheetViewFragment.getTrackSizeTextViewText();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,8 +74,8 @@ public class PianoActivity extends InstrumentActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         noteSheetViewFragment.redraw(getTrack());
+
     }
 
     @Override
@@ -86,6 +94,7 @@ public class PianoActivity extends InstrumentActivity {
     protected void redraw() {
         noteSheetViewFragment.redraw(getTrack());
     }
+
 
     public void scrollNoteSheet() {
         if (noteSheetViewFragment.checkForScrollAndRecalculateWidth()) {
