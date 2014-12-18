@@ -35,7 +35,6 @@ import android.widget.TextView;
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
-import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetView;
 
 public  class NoteSheetViewFragment extends Fragment {
 

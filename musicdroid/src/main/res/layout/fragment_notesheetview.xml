@@ -31,12 +31,12 @@
         android:layout_height="wrap_content"
         android:id="@+id/scroll_note_sheet_view">
 
-        <org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:id ="@+id/note_sheet_view">
-        </org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetView >
+        <org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:id ="@+id/note_sheet_view">
+        </org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetView >
 
     </HorizontalScrollView >
 

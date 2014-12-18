@@ -40,6 +40,11 @@ public class CanvasMock extends Canvas {
     public static final int HEIGHT = 1000;
     public static final int WIDTH = 1000;
 
+    public static final String DRAW_LINE = "drawLine";
+    public static final String DRAW_RECT = "drawRect";
+    public static final String DRAW_OVAL = "drawOval";
+    public static final String DRAW_BITMAP = "drawBitmap";
+
     private Queue<String> drawnElements;
 
     public CanvasMock() {
@@ -59,29 +64,29 @@ public class CanvasMock extends Canvas {
 
     @Override
     public void drawLine(float startX, float startY, float stopX, float stopY, Paint paint) {
-        drawnElements.add(createString((int) startX, (int) startY, (int) stopX, (int) stopY));
+        drawnElements.add(createString(DRAW_LINE, (int) startX, (int) startY, (int) stopX, (int) stopY));
     }
 
     @Override
     public void drawRect(Rect r, Paint paint) {
-        drawnElements.add(createString((int) r.left, (int) r.top, (int) r.right, (int) r.bottom));
+        drawnElements.add(createString(DRAW_RECT, (int) r.left, (int) r.top, (int) r.right, (int) r.bottom));
     }
 
     @Override
     public void drawOval(RectF oval, Paint paint) {
-        drawnElements.add(createString((int) oval.left, (int) oval.top, (int) oval.right, (int) oval.bottom));
+        drawnElements.add(createString(DRAW_OVAL, (int) oval.left, (int) oval.top, (int) oval.right, (int) oval.bottom));
     }
 
     @Override
     public void drawBitmap(Bitmap bitmap, Rect src, Rect dst, Paint paint) {
-        drawnElements.add(createString((int) dst.left, (int) dst.top, (int) dst.right, (int) dst.bottom));
+        drawnElements.add(createString(DRAW_BITMAP, (int) dst.left, (int) dst.top, (int) dst.right, (int) dst.bottom));
     }
 
-    public static String createString(Object... objects) {
-        String result = "";
+    public static String createString(String methodName, Object... objects) {
+        String result = methodName;
 
         for (Object object : objects) {
-            result = result + object + " ";
+            result = result + " " + object;
         }
 
         return result;

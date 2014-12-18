@@ -100,6 +100,20 @@ public abstract class InstrumentActivity extends Activity {
         savedInstanceState.putSerializable(SAVED_INSTANCE_MEMENTO, mementoStack);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        midiPlayer.stop();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        dismissPlayAllDialog();
+    }
+
     private void setTrack(Track track) {
         this.track = track;
         tickThread.setTickBasedOnTrack(track);
@@ -132,6 +146,8 @@ public abstract class InstrumentActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
+        midiPlayer.stop();
 
         if (id == R.id.action_export_midi) {
             onActionExportMidi();
@@ -229,8 +245,10 @@ public abstract class InstrumentActivity extends Activity {
     }
 
     public void dismissPlayAllDialog() {
-        playAllDialog.dismiss();
-        unlockScreenOrientation();
+        if ((null != playAllDialog) && playAllDialog.isShowing()) {
+            playAllDialog.dismiss();
+            unlockScreenOrientation();
+        }
     }
 
     private void removeMidiExtension() {

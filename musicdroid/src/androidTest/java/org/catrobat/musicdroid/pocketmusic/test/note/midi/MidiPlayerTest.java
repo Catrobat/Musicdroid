@@ -29,7 +29,6 @@ import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.test.instrument.InstrumentActivityMock;
-import org.catrobat.musicdroid.pocketmusic.test.instrument.InstrumentActivityTestDataFactory;
 import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
 
 import java.io.File;
@@ -47,18 +46,27 @@ public class MidiPlayerTest extends AndroidTestCase {
 
     @Override
     protected void setUp() {
-        player = MidiPlayerTestDataFactory.createMidiPlayer();
-        activity = InstrumentActivityTestDataFactory.createInstrumentActivity();
+        player = new MidiPlayerMock();
+        activity = new InstrumentActivityMock();
     }
 
-    public void testStop() {
+    public void testStop1() {
         player.playNote(activity, MIDI_RESOURCE_ID);
         player.stop();
 
         assertPlayNote(0, false);
     }
 
-    public void testPlayNoteSingle() {
+    public void testStop2() {
+        player.playNote(activity, MIDI_RESOURCE_ID);
+        player.playNote(activity, MIDI_RESOURCE_ID);
+
+        player.stop();
+
+        assertPlayNote(0, false);
+    }
+
+    public void testPlayNote() {
         player.playNote(activity, MIDI_RESOURCE_ID);
 
         assertPlayNote(0, true);
