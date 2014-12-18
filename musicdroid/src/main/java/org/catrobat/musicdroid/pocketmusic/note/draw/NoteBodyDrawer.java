@@ -22,11 +22,11 @@
  */
 package org.catrobat.musicdroid.pocketmusic.note.draw;
 
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
-import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 
@@ -34,23 +34,32 @@ import java.util.LinkedList;
 import java.util.List;
 
 public final class NoteBodyDrawer {
-	private NoteBodyDrawer() {
+
+    private SymbolDrawer symbolDrawer;
+    private NoteSheetCanvas canvas;
+    private Paint paint;
+    private MusicalKey key;
+    private int distanceBetweenLines;
+
+	public NoteBodyDrawer(SymbolDrawer symbolDrawer, NoteSheetCanvas canvas, Paint paint, MusicalKey key, int distanceBetweenLines) {
+        this.symbolDrawer = symbolDrawer;
+        this.canvas = canvas;
+        this.paint = paint;
+        this.key = key;
+        this.distanceBetweenLines = distanceBetweenLines;
 	}
 
-	public static NotePositionInformation drawBody(PianoNoteSheetCanvas noteSheetCanvas, NoteSymbol noteSymbol,
-			boolean isStemUpdirected, MusicalKey key) {
+	public NotePositionInformation drawBody(NoteSymbol noteSymbol, boolean isStemUpdirected) {
 
-		int lineHeight =  noteSheetCanvas.getDistanceBetweenLines();
+		int lineHeight = distanceBetweenLines;
 		int noteHeight = lineHeight / 2;
 		int noteWidth = noteHeight * 130 / 100;
 
-		Point centerPointOfSpaceForNote = noteSheetCanvas.getCenterPointForNextSymbol();
+		Point centerPointOfSpaceForNote = symbolDrawer.getCenterPointForNextSymbol();
 		List<RectF> noteSurroundingRects = new LinkedList<RectF>();
 		NoteName prevNoteName = null;
 
 		for (NoteName noteName : noteSymbol.getNoteNamesSorted()) {
-
-			NoteLength noteLength = noteSymbol.getNoteLength(noteName);
 			Point centerPointOfActualNote = new Point(centerPointOfSpaceForNote);
 			centerPointOfActualNote.y += NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName)
 					* noteHeight;
@@ -77,7 +86,7 @@ public final class NoteBodyDrawer {
 			RectF rect = new RectF(left, top, right, bottom);
 
 			noteSurroundingRects.add(rect);
-			noteSheetCanvas.drawOval(rect);
+			canvas.drawOval(rect, paint);
 
 			prevNoteName = noteName;
 		}

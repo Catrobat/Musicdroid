@@ -23,28 +23,36 @@
 package org.catrobat.musicdroid.pocketmusic.note.draw;
 
 import android.content.res.Resources;
+import android.graphics.Paint;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
-import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 
-public class NoteDrawer {
+public class NoteDrawer extends SymbolDrawer {
 
-	private PianoNoteSheetCanvas noteSheetCanvas;
-	private Resources resources;
-	private MusicalKey key;
+    private NoteCrossDrawer noteCrossDrawer;
+    private NoteStemDrawer noteStemDrawer;
+    private NoteBodyDrawer noteBodyDrawer;
+
     private NotePositionInformation notePositionInformation;
     private NoteSymbol noteSymbol;
 
-	public NoteDrawer(PianoNoteSheetCanvas noteSheetCanvas, MusicalKey key, Resources resources) {
-		this.noteSheetCanvas = noteSheetCanvas;
-		this.resources = resources;
-		this.key = key;
+	public NoteDrawer(NoteSheetCanvas canvas, Paint paint, Resources resources, MusicalKey key, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
+        super(canvas, paint, resources, key, drawPosition, distanceBetweenLines);
+
+        noteCrossDrawer = new NoteCrossDrawer(canvas, resources, distanceBetweenLines);
+        noteStemDrawer = new NoteStemDrawer(canvas, paint, distanceBetweenLines);
+        noteBodyDrawer = new NoteBodyDrawer(this, canvas, paint, key, distanceBetweenLines);
 	}
 
-    public void drawNoteSymbol(NoteSymbol symbol) {
-        this.noteSymbol = symbol;
+    public void drawSymbol(Symbol symbol) {
+        if (false == (symbol instanceof  NoteSymbol)) {
+            return;
+        }
+
+        this.noteSymbol = (NoteSymbol) symbol;
         drawCross();
         drawBody();
         drawStem();
@@ -57,63 +65,56 @@ public class NoteDrawer {
         for (NoteName noteName : noteSymbol.getNoteNamesSorted()) {
             if (noteName.isSigned()) {
                 if (xPositionForCrosses == null) {
-                    xPositionForCrosses = noteSheetCanvas.getCenterPointForNextSmallSymbol().x;
+                    xPositionForCrosses = getCenterPointForNextSmallSymbol().x;
                 }
 
                 int distanceFromCrossToMiddleLine = NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName);
-                int yPositionForCross = noteSheetCanvas.getYPositionOfCenterLine() + distanceFromCrossToMiddleLine * noteSheetCanvas.getDistanceBetweenLines()
-                        / 2;
+                int yPositionForCross = canvas.getHeightHalf() + distanceFromCrossToMiddleLine * distanceBetweenLines / 2;
 
-                CrossDrawer.drawCross(noteSheetCanvas, xPositionForCrosses,
-                        yPositionForCross, resources);
+                noteCrossDrawer.drawCross(xPositionForCrosses, yPositionForCross);
             }
         }
     }
 
     private void drawHelpLines() {
-        float topEndOfNoteLines = noteSheetCanvas.getYPositionOfCenterLine() -
-                noteSheetCanvas.getDistanceBetweenLines() * noteSheetCanvas.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
-        float bottomEndOfNoteLines = noteSheetCanvas.getYPositionOfCenterLine() +
-                noteSheetCanvas.getDistanceBetweenLines() * noteSheetCanvas.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
+        float topEndOfNoteLines = canvas.getHeightHalf() -
+                distanceBetweenLines * NoteSheetDrawer.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
+        float bottomEndOfNoteLines = canvas.getHeightHalf() +
+                distanceBetweenLines * NoteSheetDrawer.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
 
-        float topEndOfHelpLines = notePositionInformation.getTopOfSymbol() + noteSheetCanvas.getDistanceBetweenLines()/2;
-        float bottomEndOfHelpLines = notePositionInformation.getBottomOfSymbol() - noteSheetCanvas.getDistanceBetweenLines()/2;
+        float topEndOfHelpLines = notePositionInformation.getTopOfSymbol() + distanceBetweenLines / 2;
+        float bottomEndOfHelpLines = notePositionInformation.getBottomOfSymbol() - distanceBetweenLines / 2;
 
         int lengthOfHelpLine = ((int) notePositionInformation.getRightSideOfSymbol() - (int) notePositionInformation.getLeftSideOfSymbol()) / 3;
 
-        topEndOfNoteLines -= noteSheetCanvas.getDistanceBetweenLines();
+        topEndOfNoteLines -= distanceBetweenLines;
         while(topEndOfHelpLines <= topEndOfNoteLines) {
             int startX = (int) (notePositionInformation.getLeftSideOfSymbol() - lengthOfHelpLine);
             int stopX = (int) (notePositionInformation.getRightSideOfSymbol() + lengthOfHelpLine);
             int startY = (int) topEndOfNoteLines;
             int stopY = startY;
-            noteSheetCanvas.drawLine(startX, startY, stopX, stopY);
+            canvas.drawLine(startX, startY, stopX, stopY, paint);
 
-            topEndOfNoteLines -= noteSheetCanvas.getDistanceBetweenLines();
+            topEndOfNoteLines -= distanceBetweenLines;
         }
 
-        bottomEndOfNoteLines += noteSheetCanvas.getDistanceBetweenLines();
+        bottomEndOfNoteLines += distanceBetweenLines;
         while(bottomEndOfHelpLines >= bottomEndOfNoteLines) {
             int startX = (int) (notePositionInformation.getLeftSideOfSymbol() - lengthOfHelpLine);
             int stopX = (int) (notePositionInformation.getRightSideOfSymbol() + lengthOfHelpLine);
             int startY = (int) bottomEndOfNoteLines;
             int stopY = startY;
-            noteSheetCanvas.drawLine(startX, startY, stopX, stopY);
+            canvas.drawLine(startX, startY, stopX, stopY, paint);
 
-            bottomEndOfNoteLines += noteSheetCanvas.getDistanceBetweenLines();
+            bottomEndOfNoteLines += distanceBetweenLines;
         }
     }
 
     private void drawBody() {
-        boolean isStemUpdirected = noteSymbol.isStemUp(key);
-
-        this.notePositionInformation = NoteBodyDrawer.drawBody(noteSheetCanvas, noteSymbol, isStemUpdirected, key);
+        this.notePositionInformation = noteBodyDrawer.drawBody(noteSymbol, noteSymbol.isStemUp(key));
     }
 
     private void drawStem() {
-        boolean isStemUpdirected = noteSymbol.isStemUp(key);
-
-        NoteStemDrawer.drawStem(noteSheetCanvas, NoteLength.QUARTER, this.notePositionInformation,
-                isStemUpdirected);
+        noteStemDrawer.drawStem(notePositionInformation, noteSymbol.isStemUp(key));
     }
 }

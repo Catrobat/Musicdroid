@@ -23,28 +23,18 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
-import android.content.res.Resources;
-import android.graphics.Canvas;
+import android.graphics.Bitmap;
+import android.graphics.Rect;
 
-import org.catrobat.musicdroid.pocketmusic.note.Track;
-import org.catrobat.musicdroid.pocketmusic.note.draw.PianoNoteSheetCanvas;
+import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 
-/**
- * Created by Florian on 23.10.2014.
- */
-public class PianoNoteSheetCanvasMock extends PianoNoteSheetCanvas {
+public class NoteSheetCanvasMock extends NoteSheetCanvas {
 
-    public PianoNoteSheetCanvasMock(Resources resources, Canvas canvas, Track track) {
-        super(resources, canvas, track);
+    public NoteSheetCanvasMock(CanvasMock canvas) {
+        super(canvas);
     }
 
-    public int getEndXPositionForDrawingElements() { return endXPositionForDrawingElements; }
-
-    public int getYPositionOfBarTop() { return yPositionOfBarTop; }
-
-    public int getYPositionOfBarBottom() { return yPositionOfBarBottom; }
-
-    public int getWidthForOneSymbol() { return widthForOneSymbol; }
-
-    public int getWidthForOneSmallSymbol() { return widthForOneSmallSymbol; }
+    public Rect calculateProportionalRect(Bitmap originalPicture, int height, int startXPosition, int yCenterPosition) {
+        return super.calculateProportionalRect(originalPicture, height, startXPosition, yCenterPosition);
+    }
 }

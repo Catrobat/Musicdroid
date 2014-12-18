@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.musicdroid.pocketmusic.note.draw;
+package org.catrobat.musicdroid.pocketmusic.instrument.noteSheet;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -33,16 +33,20 @@ import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
+import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
 
 public class NoteSheetView extends View {
 
 	private Track track;
 
-	private PianoNoteSheetCanvas noteSheetCanvas;
+	private NoteSheetCanvas noteSheetCanvas;
+    private NoteSheetDrawer noteSheetDrawer;
     private int widthBeforeResize;
 
 	public NoteSheetView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+
 		track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ELECTRIC_PIANO_1);
         widthBeforeResize = getWidth();
 	}
@@ -74,10 +78,10 @@ public class NoteSheetView extends View {
         int screenWidth = displayMetrics.widthPixels;
         int screenHeight = displayMetrics.heightPixels;
 
-        if(noteSheetCanvas == null) {
+        if(noteSheetDrawer == null) {
             setMeasuredDimension(screenWidth, screenHeight / 2);
         } else {
-            int trackWidth = noteSheetCanvas.getWidthForDrawingTrack();
+            int trackWidth = noteSheetDrawer.getWidthForDrawingTrack();
             if (trackWidth < screenWidth) {
                 setMeasuredDimension(screenWidth, getHeight());
             } else {
@@ -89,9 +93,10 @@ public class NoteSheetView extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		noteSheetCanvas = new PianoNoteSheetCanvas(getResources(), canvas, track);
+		noteSheetCanvas = new NoteSheetCanvas(canvas);
         requestLayout();
-        noteSheetCanvas.draw();
+        noteSheetDrawer = new NoteSheetDrawer(noteSheetCanvas, getResources(), track);
+        noteSheetDrawer.drawNoteSheet();
         ((PianoActivity) getContext()).scrollNoteSheet();
 	}
 
