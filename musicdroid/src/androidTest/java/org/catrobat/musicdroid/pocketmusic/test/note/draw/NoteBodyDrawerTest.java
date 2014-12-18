@@ -30,6 +30,7 @@ import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteBodyDrawer;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NotePositionInformation;
+import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 import org.catrobat.musicdroid.pocketmusic.test.note.NoteSymbolTestDataFactory;
 
@@ -73,6 +74,7 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
     }
 
     private void assertCanvasElementQueueNoteBody(NoteSymbol noteSymbol, NotePositionInformation actualPositionInformation) {
+        symbolDrawer.setNoteSheetDrawPosition(new NoteSheetDrawPosition(START_X_POSITION, END_X_POSITION));
         boolean isStemUpdirected = noteSymbol.isStemUp(key);
         int lineHeight = distanceBetweenLines;
         int noteHeight = lineHeight / 2;

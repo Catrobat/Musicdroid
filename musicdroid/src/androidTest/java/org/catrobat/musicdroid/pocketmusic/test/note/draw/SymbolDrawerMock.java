@@ -60,4 +60,8 @@ public class SymbolDrawerMock extends SymbolDrawer {
     @Override
     public void drawSymbol(Symbol symbol) {
     }
+
+    public void setNoteSheetDrawPosition(NoteSheetDrawPosition noteSheetDrawPosition) {
+        this.drawPosition = noteSheetDrawPosition;
+    }
 }
