@@ -75,7 +75,9 @@ public class MidiPlayer {
     }
 
     public void clearPlayQueue() {
-        playQueue.clear();
+        synchronized (playQueue) {
+            playQueue.clear();
+        }
     }
 
     public void playNote(InstrumentActivity activity, int midiResourceId) {
