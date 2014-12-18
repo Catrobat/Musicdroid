@@ -49,13 +49,13 @@ public class NoteStemDrawerTest extends AbstractDrawerTest {
     protected void setUp() {
         super.setUp();
 
-        noteStemDrawer = new NoteStemDrawer(noteSheetCanvas, paint, DISTANCE_BETWEEN_LINES);
+        noteStemDrawer = new NoteStemDrawer(noteSheetCanvas, paint, distanceBetweenLines);
         List<RectF> rects = new LinkedList<RectF>();
         rects.add(new RectF(RECT_LEFT, RECT_TOP, RECT_RIGHT, RECT_BOTTOM));
         notePositionInformation = new NotePositionInformation(rects);
 
-        distanceBetweenLinesHalf = DISTANCE_BETWEEN_LINES / 2;
-        stemLength = (int) (Math.round(NoteStemDrawer.LENGTH_OF_STEM_IN_NOTE_LINE_DISTANCES * DISTANCE_BETWEEN_LINES));
+        distanceBetweenLinesHalf = distanceBetweenLines / 2;
+        stemLength = (int) (Math.round(NoteStemDrawer.LENGTH_OF_STEM_IN_NOTE_LINE_DISTANCES * distanceBetweenLines));
     }
 
     public void testDrawStemUpDirected() {

@@ -99,4 +99,14 @@ public class NoteSymbol implements Symbol {
 
 		return distance > 0;
 	}
+
+    public boolean hasStem() {
+        for (NoteLength noteLength : notes.values()) {
+            if (noteLength.hasStem()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

@@ -29,6 +29,7 @@ import android.graphics.Point;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteDrawer;
+import org.catrobat.musicdroid.pocketmusic.note.draw.NotePositionInformation;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
@@ -62,6 +63,10 @@ public class NoteDrawerMock extends NoteDrawer {
     @Override
     public Point getCenterPointForNextSmallSymbol() {
         return super.getCenterPointForNextSmallSymbol();
+    }
+
+    public NotePositionInformation getNotePositionInformation() {
+        return notePositionInformation;
     }
 
     public Point getCenterPointForNextSmallSymbolNoDrawPositionChange() {

@@ -52,8 +52,8 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
 
     private void customSetUp(MusicalKey key) {
         this.key = key;
-        symbolDrawer = new SymbolDrawerMock(noteSheetCanvas, paint, getContext().getResources(), key, drawPosition,DISTANCE_BETWEEN_LINES);
-        noteBodyDrawer = new NoteBodyDrawer(symbolDrawer, noteSheetCanvas, paint, key, DISTANCE_BETWEEN_LINES);
+        symbolDrawer = new SymbolDrawerMock(noteSheetCanvas, paint, getContext().getResources(), key, drawPosition, distanceBetweenLines);
+        noteBodyDrawer = new NoteBodyDrawer(symbolDrawer, noteSheetCanvas, paint, key, distanceBetweenLines);
     }
 
     public void testDrawBodySimple1() {
@@ -74,7 +74,7 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
 
     private void assertCanvasElementQueueNoteBody(NoteSymbol noteSymbol, NotePositionInformation actualPositionInformation) {
         boolean isStemUpdirected = noteSymbol.isStemUp(key);
-        int lineHeight = DISTANCE_BETWEEN_LINES;
+        int lineHeight = distanceBetweenLines;
         int noteHeight = lineHeight / 2;
         int noteWidth = noteHeight * NoteBodyDrawer.NOTE_WIDTH_SCALE;
 

@@ -36,7 +36,7 @@ public class NoteDrawer extends SymbolDrawer {
     private NoteStemDrawer noteStemDrawer;
     private NoteBodyDrawer noteBodyDrawer;
 
-    private NotePositionInformation notePositionInformation;
+    protected NotePositionInformation notePositionInformation;
 
 	public NoteDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, Resources resources, MusicalKey key, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
         super(noteSheetCanvas, paint, resources, key, drawPosition, distanceBetweenLines);
@@ -75,11 +75,13 @@ public class NoteDrawer extends SymbolDrawer {
     }
 
     protected void drawBody(NoteSymbol noteSymbol) {
-        this.notePositionInformation = noteBodyDrawer.drawBody(noteSymbol);
+        notePositionInformation = noteBodyDrawer.drawBody(noteSymbol);
     }
 
     protected void drawStem(NoteSymbol noteSymbol) {
-        noteStemDrawer.drawStem(notePositionInformation, noteSymbol.isStemUp(key));
+        if (noteSymbol.hasStem()) {
+            noteStemDrawer.drawStem(notePositionInformation, noteSymbol.isStemUp(key));
+        }
     }
 
     protected void drawHelpLines() {

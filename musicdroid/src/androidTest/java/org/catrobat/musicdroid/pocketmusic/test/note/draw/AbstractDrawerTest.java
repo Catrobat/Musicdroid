@@ -39,13 +39,14 @@ public abstract class AbstractDrawerTest extends AndroidTestCase {
     public static final int START_X_POSITION = 50;
     public static final int END_X_POSITION = 500;
 
-    public static final int DISTANCE_BETWEEN_LINES = 100;
-
     public static final int NUMBER_OF_LINES_ON_SHEET = 5;
     public static final int NUMBER_OF_BARS_ON_SHEET = 2;
     public static final int NUMBER_OF_BITMAPS_ON_SHEET = 1;
     public static final int NUMBER_OF_BASIC_ELEMENTS_ON_SHEET = NUMBER_OF_LINES_ON_SHEET + NUMBER_OF_BARS_ON_SHEET + NUMBER_OF_BITMAPS_ON_SHEET;
 
+    private static final int DISTANCE_BETWEEN_LINES = 100;
+
+    protected int distanceBetweenLines;
     protected Paint paint;
     protected CanvasMock canvas;
     protected NoteSheetCanvasMock noteSheetCanvas;
@@ -53,6 +54,7 @@ public abstract class AbstractDrawerTest extends AndroidTestCase {
 
     @Override
     protected void setUp() {
+        distanceBetweenLines = DISTANCE_BETWEEN_LINES;
         paint = new Paint();
         canvas = new CanvasMock();
         noteSheetCanvas = new NoteSheetCanvasMock(canvas);

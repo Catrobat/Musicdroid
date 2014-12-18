@@ -37,11 +37,11 @@ public class NoteCrossDrawerTest extends AbstractDrawerTest {
     protected void setUp() {
         super.setUp();
 
-        crossDrawer = new NoteCrossDrawer(noteSheetCanvas, getContext().getResources(), DISTANCE_BETWEEN_LINES);
+        crossDrawer = new NoteCrossDrawer(noteSheetCanvas, getContext().getResources(), distanceBetweenLines);
     }
 
     public void testDrawCross() {
-        int expectedBitmapHeight = 2 * DISTANCE_BETWEEN_LINES;
+        int expectedBitmapHeight = 2 * distanceBetweenLines;
 
         crossDrawer.drawCross(X_POSITION, Y_POSITION);
 
