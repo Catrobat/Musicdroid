@@ -35,41 +35,59 @@ public class NotePositionInformationTest extends AndroidTestCase {
 
     public void testCalculatePoints1() {
         RectF rect = new RectF(0, 100, 200, 0);
-        List<RectF> rects = new LinkedList<RectF>();
-        rects.add(rect);
-        NotePositionInformation information = new NotePositionInformation(rects);
+        NotePositionInformation positionInformation = NotePositionInformationTestDataFactory.createNotePositionInformation(rect);
 
-        assertEquals(rect.left, information.getLeftSideOfSymbol());
-        assertEquals(rect.top, information.getTopOfSymbol());
-        assertEquals(rect.right, information.getRightSideOfSymbol());
-        assertEquals(rect.bottom, information.getBottomOfSymbol());
+        assertEquals(rect.left, positionInformation.getLeftSideOfSymbol());
+        assertEquals(rect.top, positionInformation.getTopOfSymbol());
+        assertEquals(rect.right, positionInformation.getRightSideOfSymbol());
+        assertEquals(rect.bottom, positionInformation.getBottomOfSymbol());
     }
 
     public void testCalculatePoints2() {
         RectF rectLeftSide = new RectF(0, 100, 200, 0);
         RectF rectRightSide = new RectF(1000, 100, 200, 1000);
-        List<RectF> rects = new LinkedList<RectF>();
-        rects.add(rectLeftSide);
-        rects.add(rectRightSide);
-        NotePositionInformation information = new NotePositionInformation(rects);
+        NotePositionInformation positionInformation = NotePositionInformationTestDataFactory.createNotePositionInformation(rectLeftSide, rectRightSide);
 
-        assertEquals(rectLeftSide.left, information.getLeftSideOfSymbol());
-        assertEquals(rectRightSide.top, information.getTopOfSymbol());
-        assertEquals(rectLeftSide.right, information.getRightSideOfSymbol());
-        assertEquals(rectRightSide.bottom, information.getBottomOfSymbol());
+        assertEquals(rectLeftSide.left, positionInformation.getLeftSideOfSymbol());
+        assertEquals(rectRightSide.top, positionInformation.getTopOfSymbol());
+        assertEquals(rectLeftSide.right, positionInformation.getRightSideOfSymbol());
+        assertEquals(rectRightSide.bottom, positionInformation.getBottomOfSymbol());
     }
 
     public void testCalculatePoints3() {
         RectF rectBottom = new RectF(0, 1100, 1200, 0);
         RectF rectTop = new RectF(0, 100, 200, 0);
-        List<RectF> rects = new LinkedList<RectF>();
-        rects.add(rectBottom);
-        rects.add(rectTop);
-        NotePositionInformation information = new NotePositionInformation(rects);
+        NotePositionInformation positionInformation = NotePositionInformationTestDataFactory.createNotePositionInformation(rectBottom, rectTop);
 
-        assertEquals(rectBottom.left, information.getLeftSideOfSymbol());
-        assertEquals(rectTop.top, information.getTopOfSymbol());
-        assertEquals(rectBottom.right, information.getRightSideOfSymbol());
-        assertEquals(rectBottom.bottom, information.getBottomOfSymbol());
+        assertEquals(rectBottom.left, positionInformation.getLeftSideOfSymbol());
+        assertEquals(rectTop.top, positionInformation.getTopOfSymbol());
+        assertEquals(rectBottom.right, positionInformation.getRightSideOfSymbol());
+        assertEquals(rectBottom.bottom, positionInformation.getBottomOfSymbol());
+    }
+
+    public void testEquals1() {
+        NotePositionInformation positionInformation1 = NotePositionInformationTestDataFactory.createNotePositionInformation();
+        NotePositionInformation positionInformation2 = NotePositionInformationTestDataFactory.createNotePositionInformation();
+
+        assertFalse(positionInformation1.equals(positionInformation2));
+    }
+
+    public void testEquals2() {
+        NotePositionInformation positionInformation1 = NotePositionInformationTestDataFactory.createNotePositionInformation(new RectF(0, 100, 200, 0));
+        NotePositionInformation positionInformation2 = NotePositionInformationTestDataFactory.createNotePositionInformation(new RectF(1, 101, 201, 1));
+
+        assertFalse(positionInformation1.equals(positionInformation2));
+    }
+
+    public void testEquals3() {
+        NotePositionInformation positionInformation = NotePositionInformationTestDataFactory.createNotePositionInformation();
+
+        assertFalse(positionInformation.equals(null));
+    }
+
+    public void testEquals4() {
+        NotePositionInformation positionInformation = NotePositionInformationTestDataFactory.createNotePositionInformation();
+
+        assertFalse(positionInformation.equals(""));
     }
 }

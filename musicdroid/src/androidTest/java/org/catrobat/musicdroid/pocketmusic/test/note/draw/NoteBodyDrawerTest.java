@@ -114,6 +114,8 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
             prevNoteName = noteName;
         }
 
-        // TODO equals info
+        NotePositionInformation expectedPositionInformation = new NotePositionInformation(noteSurroundingRects);
+
+        assertEquals(expectedPositionInformation, actualPositionInformation);
     }
 }

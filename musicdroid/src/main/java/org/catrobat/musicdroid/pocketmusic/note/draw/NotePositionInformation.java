@@ -79,4 +79,22 @@ public class NotePositionInformation {
     public float getBottomOfSymbol() {
         return  this.rightBottomPoint.y;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if ((obj == null) || !(obj instanceof NotePositionInformation)) {
+            return false;
+        }
+
+        NotePositionInformation positionInformation = (NotePositionInformation) obj;
+
+        if ((positionInformation.getLeftSideOfSymbol() == getLeftSideOfSymbol()) &&
+                (positionInformation.getTopOfSymbol() == getTopOfSymbol()) &&
+                (positionInformation.getRightSideOfSymbol() == getRightSideOfSymbol()) &&
+                (positionInformation.getBottomOfSymbol() == getBottomOfSymbol())) {
+            return true;
+        }
+
+        return false;
+    }
 }
