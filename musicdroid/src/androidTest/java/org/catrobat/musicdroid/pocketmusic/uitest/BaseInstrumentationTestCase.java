@@ -25,7 +25,7 @@ package org.catrobat.musicdroid.pocketmusic.uitest;
 
 import android.test.InstrumentationTestCase;
 
-public class BaseInstrumentationTestCase extends InstrumentationTestCase {
+public abstract class BaseInstrumentationTestCase extends InstrumentationTestCase {
 
     @Override
     protected void setUp() {

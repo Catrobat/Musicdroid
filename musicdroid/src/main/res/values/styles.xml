@@ -25,7 +25,8 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo" >
-        <!-- Customize your theme here. -->
+        <item name="android:windowEnableSplitTouch">false</item>
+        <item name="android:splitMotionEvents">false</item>
     </style >
 
 </resources >

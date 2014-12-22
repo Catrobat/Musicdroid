@@ -25,13 +25,16 @@
     package="org.catrobat.musicdroid.pocketmusic"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SET_DEBUG_APP"></uses-permission>
+	
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="org.catrobat.musicdroid.pocketmusic.PianoActivity"
+            android:name=".instrument.piano.PianoActivity"
             android:label="@string/app_name" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
