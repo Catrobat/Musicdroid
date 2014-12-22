@@ -22,10 +22,12 @@
  */
 package org.catrobat.musicdroid.pocketmusic.instrument;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -48,6 +50,7 @@ import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.Locale;
 
 public abstract class InstrumentActivity extends Activity {
 
@@ -135,7 +138,7 @@ public abstract class InstrumentActivity extends Activity {
         if (noteEvent.isNoteOn()) {
             mementoStack.pushMemento(track);
 
-            int midiResourceId = getResources().getIdentifier(noteEvent.getNoteName().toString().toLowerCase(), R_RAW, getPackageName());
+            int midiResourceId = getResources().getIdentifier(noteEvent.getNoteName().toString().toLowerCase(Locale.getDefault()), R_RAW, getPackageName());
             midiPlayer.playNote(this, midiResourceId);
         }
 
@@ -216,7 +219,7 @@ public abstract class InstrumentActivity extends Activity {
             midiPlayer.playTrack(this, getCacheDir(), track, Project.DEFAULT_BEATS_PER_MINUTE);
 
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-            alertDialogBuilder.setMessage(R.string.action_play_midi_dialog_titler)
+            alertDialogBuilder.setMessage(R.string.action_play_midi_dialog_title)
                     .setCancelable(false)
                     .setPositiveButton(R.string.action_play_midi_dialog_stop,
                             new DialogInterface.OnClickListener() {
@@ -236,6 +239,7 @@ public abstract class InstrumentActivity extends Activity {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     private void lockScreenOrientation() {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
     }
