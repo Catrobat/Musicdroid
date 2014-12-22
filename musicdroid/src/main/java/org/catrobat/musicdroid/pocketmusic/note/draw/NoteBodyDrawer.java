@@ -35,25 +35,27 @@ import java.util.List;
 
 public final class NoteBodyDrawer {
 
+    public static final int NOTE_WIDTH_SCALE = 130 / 100;
+
     private SymbolDrawer symbolDrawer;
-    private NoteSheetCanvas canvas;
+    private NoteSheetCanvas noteSheetCanvas;
     private Paint paint;
     private MusicalKey key;
     private int distanceBetweenLines;
 
-	public NoteBodyDrawer(SymbolDrawer symbolDrawer, NoteSheetCanvas canvas, Paint paint, MusicalKey key, int distanceBetweenLines) {
+	public NoteBodyDrawer(SymbolDrawer symbolDrawer, NoteSheetCanvas noteSheetCanvas, Paint paint, MusicalKey key, int distanceBetweenLines) {
         this.symbolDrawer = symbolDrawer;
-        this.canvas = canvas;
+        this.noteSheetCanvas = noteSheetCanvas;
         this.paint = paint;
         this.key = key;
         this.distanceBetweenLines = distanceBetweenLines;
 	}
 
-	public NotePositionInformation drawBody(NoteSymbol noteSymbol, boolean isStemUpdirected) {
-
-		int lineHeight = distanceBetweenLines;
+	public NotePositionInformation drawBody(NoteSymbol noteSymbol) {
+		boolean isStemUpdirected = noteSymbol.isStemUp(key);
+        int lineHeight = distanceBetweenLines;
 		int noteHeight = lineHeight / 2;
-		int noteWidth = noteHeight * 130 / 100;
+		int noteWidth = noteHeight * NOTE_WIDTH_SCALE;
 
 		Point centerPointOfSpaceForNote = symbolDrawer.getCenterPointForNextSymbol();
 		List<RectF> noteSurroundingRects = new LinkedList<RectF>();
@@ -86,7 +88,7 @@ public final class NoteBodyDrawer {
 			RectF rect = new RectF(left, top, right, bottom);
 
 			noteSurroundingRects.add(rect);
-			canvas.drawOval(rect, paint);
+			noteSheetCanvas.drawOval(rect, paint);
 
 			prevNoteName = noteName;
 		}

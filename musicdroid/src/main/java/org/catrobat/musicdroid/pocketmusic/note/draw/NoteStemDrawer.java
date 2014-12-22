@@ -24,43 +24,41 @@ package org.catrobat.musicdroid.pocketmusic.note.draw;
 
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.PointF;
 
 public class NoteStemDrawer {
 
-	private static final double LENGTH_OF_STEM_IN_NOTE_LINE_DISTANCES = 2.5;
+	public static final double LENGTH_OF_STEM_IN_NOTE_LINE_DISTANCES = 2.5;
 
-    private NoteSheetCanvas canvas;
+    private NoteSheetCanvas noteSheetCanvas;
     private Paint paint;
-    private int distanceBetweenLines;
+    private int distanceBetweenLinesHalf;
+    private int stemLength;
 
-	public NoteStemDrawer(NoteSheetCanvas canvas, Paint paint, int distanceBetweenLines) {
-        this.canvas = canvas;
+	public NoteStemDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, int distanceBetweenLines) {
+        this.noteSheetCanvas = noteSheetCanvas;
         this.paint = paint;
-        this.distanceBetweenLines = distanceBetweenLines;
+        this.distanceBetweenLinesHalf = distanceBetweenLines / 2;
+        this.stemLength = (int) (Math.round(LENGTH_OF_STEM_IN_NOTE_LINE_DISTANCES * distanceBetweenLines));
 	}
 
 	public void drawStem(NotePositionInformation notePositionInformation, boolean isUpdirectedStem) {
-
-		int stemLength = (int) (Math.round(LENGTH_OF_STEM_IN_NOTE_LINE_DISTANCES * distanceBetweenLines));
-
-        int distanceBetweenLinesHalf = distanceBetweenLines / 2;
-
-		Point startPointOfNoteStem = new Point();
-        Point endPointOfNoteStem = new Point();
+		PointF startPointOfNoteStem = new PointF();
+        PointF endPointOfNoteStem = new PointF();
 
         if(isUpdirectedStem) {
-            startPointOfNoteStem.x = (int) notePositionInformation.getRightSideOfSymbol();
-            startPointOfNoteStem.y = (int) notePositionInformation.getBottomOfSymbol() - distanceBetweenLinesHalf;
-            endPointOfNoteStem.x = startPointOfNoteStem.x;
-            endPointOfNoteStem.y = (int) notePositionInformation.getTopOfSymbol() - stemLength;
+            startPointOfNoteStem.x = notePositionInformation.getRightSideOfSymbol();
+            startPointOfNoteStem.y = notePositionInformation.getBottomOfSymbol() - distanceBetweenLinesHalf;
+            endPointOfNoteStem.y = notePositionInformation.getTopOfSymbol() - stemLength;
         } else {
-            startPointOfNoteStem.x = (int) notePositionInformation.getLeftSideOfSymbol();
-            startPointOfNoteStem.y = (int) notePositionInformation.getTopOfSymbol() + distanceBetweenLinesHalf;
-            endPointOfNoteStem.x = startPointOfNoteStem.x;
-            endPointOfNoteStem.y = (int) notePositionInformation.getBottomOfSymbol() + stemLength;
+            startPointOfNoteStem.x = notePositionInformation.getLeftSideOfSymbol();
+            startPointOfNoteStem.y = notePositionInformation.getTopOfSymbol() + distanceBetweenLinesHalf;
+            endPointOfNoteStem.y = notePositionInformation.getBottomOfSymbol() + stemLength;
         }
 
-		canvas.drawLine(startPointOfNoteStem.x, startPointOfNoteStem.y, endPointOfNoteStem.x,
+        endPointOfNoteStem.x = startPointOfNoteStem.x;
+
+		noteSheetCanvas.drawLine(startPointOfNoteStem.x, startPointOfNoteStem.y, endPointOfNoteStem.x,
                 endPointOfNoteStem.y, paint);
 	}
 }

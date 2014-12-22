@@ -23,19 +23,28 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
-import android.graphics.Bitmap;
-import android.graphics.Rect;
+import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.note.draw.NoteCrossDrawer;
 
-import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
+public class NoteCrossDrawerTest extends AbstractDrawerTest {
 
-public class NoteSheetCanvasMock extends NoteSheetCanvas {
+    private static final int X_POSITION = 42;
+    private static final int Y_POSITION = 50;
 
-    public NoteSheetCanvasMock(CanvasMock canvas) {
-        super(canvas);
-    }
+    private NoteCrossDrawer crossDrawer;
 
     @Override
-    public Rect calculateProportionalRect(Bitmap originalPicture, int height, int startXPosition, int yCenterPosition) {
-        return super.calculateProportionalRect(originalPicture, height, startXPosition, yCenterPosition);
+    protected void setUp() {
+        super.setUp();
+
+        crossDrawer = new NoteCrossDrawer(noteSheetCanvas, getContext().getResources(), distanceBetweenLines);
+    }
+
+    public void testDrawCross() {
+        int expectedBitmapHeight = 2 * distanceBetweenLines;
+
+        crossDrawer.drawCross(X_POSITION, Y_POSITION);
+
+        assertCanvasElementQueueBitmap(R.drawable.cross, expectedBitmapHeight, X_POSITION, Y_POSITION);
     }
 }

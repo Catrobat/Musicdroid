@@ -43,26 +43,26 @@ public class NoteSheetDrawer {
 
     public static final int HEIGHT_OF_KEY_IN_LINE_SPACES = 6;
 
-    private NoteSheetCanvas canvas;
+    private NoteSheetCanvas noteSheetCanvas;
     private Resources resources;
     private Track track;
 
     private Paint paint;
     private NoteSheetDrawPosition drawPosition;
-    private int distanceBetweenLines;
-    private int yPositionOfBarTop;
-    private int yPositionOfBarBottom;
+    protected int distanceBetweenLines;
+    protected int yPositionOfBarTop;
+    protected int yPositionOfBarBottom;
 
-    public NoteSheetDrawer(NoteSheetCanvas canvas, Resources resources, Track track) {
-        this.canvas = canvas;
+    public NoteSheetDrawer(NoteSheetCanvas noteSheetCanvas, Resources resources, Track track) {
+        this.noteSheetCanvas = noteSheetCanvas;
         this.resources = resources;
         this.track = track;
 
         paint = createPaint();
-        drawPosition = new NoteSheetDrawPosition(NOTE_SHEET_PADDING, canvas.getWidth() - NOTE_SHEET_PADDING);
+        drawPosition = new NoteSheetDrawPosition(NOTE_SHEET_PADDING, noteSheetCanvas.getWidth() - NOTE_SHEET_PADDING);
         distanceBetweenLines = calculateDistanceBetweenLines();
-        yPositionOfBarTop = canvas.getHeightHalf() - NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS * distanceBetweenLines;
-        yPositionOfBarBottom = canvas.getHeightHalf() + NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS * distanceBetweenLines;
+        yPositionOfBarTop = noteSheetCanvas.getHeightHalf() - NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS * distanceBetweenLines;
+        yPositionOfBarBottom = noteSheetCanvas.getHeightHalf() + NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS * distanceBetweenLines;
     }
 
     private Paint createPaint() {
@@ -76,7 +76,7 @@ public class NoteSheetDrawer {
     }
 
     private int calculateDistanceBetweenLines() {
-        int lineHeight = canvas.getHeight() / POSSIBLE_LINE_SPACES_ON_SCREEN;
+        int lineHeight = noteSheetCanvas.getHeight() / POSSIBLE_LINE_SPACES_ON_SCREEN;
 
         if(lineHeight % 2 == 0)
             return lineHeight;
@@ -95,38 +95,39 @@ public class NoteSheetDrawer {
         drawTrack();
     }
 
-    private void drawLines() {
+    protected void drawLines() {
         for (int startYPositionOfLine = yPositionOfBarTop; startYPositionOfLine <= yPositionOfBarBottom; startYPositionOfLine += distanceBetweenLines) {
-            canvas.drawLine(drawPosition.getStartXPositionForNextElement(), startYPositionOfLine, drawPosition.getEndXPositionForDrawingElements(), startYPositionOfLine, paint);
+            noteSheetCanvas.drawLine(drawPosition.getStartXPositionForNextElement(), startYPositionOfLine, drawPosition.getEndXPositionForDrawingElements(), startYPositionOfLine, paint);
         }
     }
 
-    private void drawBars() {
-        drawBar(drawPosition.getStartXPositionForNextElement(), BOLD_BAR_WIDTH);
+    protected void drawBars() {
+        drawBar(drawPosition.getStartXPositionForNextElement());
         drawPosition.increasesStartXPositionForNextElement(2 * BOLD_BAR_WIDTH);
 
-        drawBar(drawPosition.getEndXPositionForDrawingElements() - BOLD_BAR_WIDTH, BOLD_BAR_WIDTH);
+        drawBar(drawPosition.getEndXPositionForDrawingElements() - BOLD_BAR_WIDTH);
     }
 
-    private void drawBar(int startXPositionBar, int barWidth) {
-        int endXPositionBar = startXPositionBar + barWidth;
+    private void drawBar(int startXPositionBar) {
+        int endXPositionBar = startXPositionBar + BOLD_BAR_WIDTH;
         Rect boldBar = new Rect(startXPositionBar, yPositionOfBarTop, endXPositionBar, yPositionOfBarBottom);
 
-        canvas.drawRect(boldBar, paint);
+        noteSheetCanvas.drawRect(boldBar, paint);
     }
 
-    private void drawKey() {
+    protected void drawKey() {
         if (track.getKey() != MusicalKey.VIOLIN) {
             throw new UnsupportedOperationException();
         }
 
         int keyPictureHeight = distanceBetweenLines * HEIGHT_OF_KEY_IN_LINE_SPACES;
 
-        drawPosition.setStartXPositionForNextElement(canvas.drawBitmap(resources, R.drawable.violine, keyPictureHeight, drawPosition.getStartXPositionForNextElement(), canvas.getHeightHalf()).right);
+        Rect rect = noteSheetCanvas.drawBitmap(resources, R.drawable.violine, keyPictureHeight, drawPosition.getStartXPositionForNextElement(), noteSheetCanvas.getHeightHalf());
+        drawPosition.setStartXPositionForNextElement(rect.right);
     }
 
     private void drawTrack() {
-        TrackDrawer trackDrawer = new TrackDrawer(canvas, paint, resources, track, drawPosition, distanceBetweenLines);
+        TrackDrawer trackDrawer = new TrackDrawer(noteSheetCanvas, paint, resources, track, drawPosition, distanceBetweenLines);
         trackDrawer.drawTrack();
     }
 }

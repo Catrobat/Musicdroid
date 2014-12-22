@@ -28,12 +28,12 @@ import org.catrobat.musicdroid.pocketmusic.R;
 
 public class NoteCrossDrawer {
 
-    private NoteSheetCanvas canvas;
+    private NoteSheetCanvas noteSheetCanvas;
     private Resources resources;
     private int distanceBetweenLines;
 
-	public NoteCrossDrawer(NoteSheetCanvas canvas, Resources resources, int distanceBetweenLines) {
-        this.canvas = canvas;
+	public NoteCrossDrawer(NoteSheetCanvas noteSheetCanvas, Resources resources, int distanceBetweenLines) {
+        this.noteSheetCanvas = noteSheetCanvas;
         this.resources = resources;
         this.distanceBetweenLines = distanceBetweenLines;
 	}
@@ -41,6 +41,6 @@ public class NoteCrossDrawer {
 	public void drawCross(int xPosition, int yPosition) {
 		int crossHeight = 2 * distanceBetweenLines;
 
-        canvas.drawBitmap(resources, R.drawable.cross, crossHeight, xPosition, yPosition);
+        noteSheetCanvas.drawBitmap(resources, R.drawable.cross, crossHeight, xPosition, yPosition);
 	}
 }

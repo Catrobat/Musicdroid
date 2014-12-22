@@ -23,19 +23,25 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
-import android.graphics.Bitmap;
-import android.graphics.Rect;
+import android.graphics.RectF;
 
-import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
+import org.catrobat.musicdroid.pocketmusic.note.draw.NotePositionInformation;
 
-public class NoteSheetCanvasMock extends NoteSheetCanvas {
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
-    public NoteSheetCanvasMock(CanvasMock canvas) {
-        super(canvas);
+public class NotePositionInformationTestDataFactory {
+
+    private NotePositionInformationTestDataFactory() {}
+
+    public static NotePositionInformation createNotePositionInformation() {
+        return createNotePositionInformation(new RectF(0, 100, 200, 0));
     }
 
-    @Override
-    public Rect calculateProportionalRect(Bitmap originalPicture, int height, int startXPosition, int yCenterPosition) {
-        return super.calculateProportionalRect(originalPicture, height, startXPosition, yCenterPosition);
+    public static NotePositionInformation createNotePositionInformation(RectF... rects) {
+        NotePositionInformation positionInformation = new NotePositionInformation(Arrays.asList(rects));
+
+        return positionInformation;
     }
 }

@@ -54,7 +54,7 @@ public final class TrackTestDataFactory {
 		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.E4, true));
 
-		tick += NoteLength.QUARTER_DOT.getTickDuration();
+		tick += NoteLength.QUARTER.getTickDuration();
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.E4, false));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.F4, true));

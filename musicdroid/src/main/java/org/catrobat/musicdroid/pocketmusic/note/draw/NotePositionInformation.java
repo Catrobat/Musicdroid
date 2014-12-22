@@ -29,18 +29,16 @@ import android.graphics.RectF;
 import java.util.List;
 
 public class NotePositionInformation {
+
     private PointF leftUpperPoint;
     private PointF rightBottomPoint;
-    private List<RectF> rectList;
 
-    public NotePositionInformation(List<RectF> rectList) {
-        this.rectList = rectList;
-        calculatePoints();
+    public NotePositionInformation(List<RectF> rects) {
+        calculatePoints(rects);
     }
 
-    private void calculatePoints() {
-
-        for(RectF rect : rectList) {
+    private void calculatePoints(List<RectF> rects) {
+        for(RectF rect : rects) {
             if(leftUpperPoint == null) {
                 leftUpperPoint = new PointF(rect.left, rect.top);
             }
@@ -74,13 +72,29 @@ public class NotePositionInformation {
         return this.leftUpperPoint.y;
     }
 
-    public float getBottomOfSymbol() {
-        return  this.rightBottomPoint.y;
-    }
-
     public float getRightSideOfSymbol() {
         return this.rightBottomPoint.x;
     }
 
+    public float getBottomOfSymbol() {
+        return  this.rightBottomPoint.y;
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        if ((obj == null) || !(obj instanceof NotePositionInformation)) {
+            return false;
+        }
+
+        NotePositionInformation positionInformation = (NotePositionInformation) obj;
+
+        if ((positionInformation.getLeftSideOfSymbol() == getLeftSideOfSymbol()) &&
+                (positionInformation.getTopOfSymbol() == getTopOfSymbol()) &&
+                (positionInformation.getRightSideOfSymbol() == getRightSideOfSymbol()) &&
+                (positionInformation.getBottomOfSymbol() == getBottomOfSymbol())) {
+            return true;
+        }
+
+        return false;
+    }
 }
