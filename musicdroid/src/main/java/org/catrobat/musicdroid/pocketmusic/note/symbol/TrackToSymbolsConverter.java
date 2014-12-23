@@ -34,7 +34,7 @@ public class TrackToSymbolsConverter {
 		List<Symbol> symbols = new LinkedList<Symbol>();
 
 		for (long tick : track.getSortedTicks()) {
-			symbols.addAll(noteEventListConverter.convertNoteEventList(tick, track.getNoteEventsForTick(tick)));
+			symbols.addAll(noteEventListConverter.convertNoteEventList(tick, track.getNoteEventsForTick(tick), track.getBeatsPerMinute()));
 		}
 
 		return symbols;

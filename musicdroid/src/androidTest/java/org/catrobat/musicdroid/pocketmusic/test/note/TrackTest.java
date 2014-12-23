@@ -25,6 +25,7 @@ package org.catrobat.musicdroid.pocketmusic.test.note;
 import android.test.AndroidTestCase;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
+import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
@@ -92,18 +93,32 @@ public class TrackTest extends AndroidTestCase {
 
 	public void testEquals4() {
 		Track track1 = TrackTestDataFactory.createTrack(MusicalInstrument.ACCORDION);
-		Track track2 = TrackTestDataFactory.createTrack();
+		Track track2 = TrackTestDataFactory.createTrack(MusicalInstrument.ALTO_SAX);
 
 		assertFalse(track1.equals(track2));
 	}
 
-	public void testEquals5() {
+    public void testEquals5() {
+        Track track1 = TrackTestDataFactory.createTrack(MusicalKey.BASS);
+        Track track2 = TrackTestDataFactory.createTrack(MusicalKey.VIOLIN);
+
+        assertFalse(track1.equals(track2));
+    }
+
+    public void testEquals6() {
+        Track track1 = TrackTestDataFactory.createTrack(60);
+        Track track2 = TrackTestDataFactory.createTrack(100);
+
+        assertFalse(track1.equals(track2));
+    }
+
+	public void testEquals7() {
 		Track track = TrackTestDataFactory.createTrack();
 
 		assertFalse(track.equals(null));
 	}
 
-	public void testEquals6() {
+	public void testEquals8() {
 		Track track = TrackTestDataFactory.createTrack();
 
 		assertFalse(track.equals(""));
@@ -111,8 +126,10 @@ public class TrackTest extends AndroidTestCase {
 
 	public void testToString() {
 		Track track = TrackTestDataFactory.createTrack();
-		String expectedString = "[Track] instrument=" + MusicalInstrument.ACOUSTIC_GRAND_PIANO + " key=" + track.getKey() + " size="
-				+ track.size();
+		String expectedString = "[Track] instrument=" + MusicalInstrument.ACOUSTIC_GRAND_PIANO
+                + " key=" + track.getKey()
+                + " beatsPerMinute=" + track.getBeatsPerMinute()
+                + " size=" + track.size();
 
 		assertEquals(expectedString, track.toString());
 	}
@@ -128,7 +145,7 @@ public class TrackTest extends AndroidTestCase {
         long tick = 0;
 
         track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(true));
-        tick += NoteLength.QUARTER.getTickDuration();
+        tick += NoteLength.QUARTER.getTickDuration(track.getBeatsPerMinute());
         track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(false));
 
         assertEquals(tick, track.getLastTick());

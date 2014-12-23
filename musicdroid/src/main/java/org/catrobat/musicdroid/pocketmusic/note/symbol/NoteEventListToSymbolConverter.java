@@ -43,7 +43,7 @@ public class NoteEventListToSymbolConverter {
 		currentSymbol = null;
 	}
 
-	public List<Symbol> convertNoteEventList(long tick, List<NoteEvent> noteEvents) {
+	public List<Symbol> convertNoteEventList(long tick, List<NoteEvent> noteEvents, int beatsPerMinute) {
 		List<Symbol> symbols = new LinkedList<Symbol>();
 
 		for (NoteEvent noteEvent : noteEvents) {
@@ -51,7 +51,7 @@ public class NoteEventListToSymbolConverter {
 
 			if (noteEvent.isNoteOn()) {
 				if (lastTick != tick) {
-					NoteLength noteLength = NoteLength.getNoteLengthFromTickDuration(tick - lastTick);
+					NoteLength noteLength = NoteLength.getNoteLengthFromTickDuration(tick - lastTick, beatsPerMinute);
 					symbols.add(new BreakSymbol(noteLength));
 				}
 
@@ -62,7 +62,7 @@ public class NoteEventListToSymbolConverter {
 				openNotes.put(noteName, tick);
 			} else {
 				long lastTickForNote = openNotes.get(noteName);
-				NoteLength noteLength = NoteLength.getNoteLengthFromTickDuration(tick - lastTickForNote);
+				NoteLength noteLength = NoteLength.getNoteLengthFromTickDuration(tick - lastTickForNote, beatsPerMinute);
 
 				if (currentSymbol instanceof NoteSymbol) {
 					((NoteSymbol) currentSymbol).addNote(noteName, noteLength);

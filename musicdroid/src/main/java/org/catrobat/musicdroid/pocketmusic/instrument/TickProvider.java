@@ -21,30 +21,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.instrument.tempo;
+package org.catrobat.musicdroid.pocketmusic.instrument;
 
-import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
-import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
-import org.catrobat.musicdroid.pocketmusic.note.Project;
+public class TickProvider {
 
-public class SimpleTickProvider extends AbstractTickProvider {
+    private long tick;
+    private long startTimiMillis;
 
-    private static final NoteLength DEFAULT_NOTE_LENGTH = NoteLength.QUARTER;
-
-    private boolean lastIsNoteOn;
-
-    public SimpleTickProvider() {
-        lastIsNoteOn = true;
+    public TickProvider() {
+        tick = 0;
+        startTimiMillis = 0;
     }
 
-    @Override
-    public long getNextTick(NoteEvent noteEvent) {
-        if (lastIsNoteOn && (false == noteEvent.isNoteOn())){
-            tick += DEFAULT_NOTE_LENGTH.getTickDuration(Project.DEFAULT_BEATS_PER_MINUTE);
-        }
+    public void startCounting() {
+        startTimiMillis = System.currentTimeMillis();
+    }
 
-        lastIsNoteOn = noteEvent.isNoteOn();
+    public void stopCounting() {
+        long  difference = System.currentTimeMillis() - startTimiMillis;
+        tick += difference; // TODO auf 16tel runden
+    }
 
+    public long getTick() {
         return tick;
     }
 }

@@ -54,7 +54,6 @@ import java.util.Locale;
 
 public abstract class InstrumentActivity extends Activity {
 
-
     public static final int MAX_TRACK_SIZE_IN_SYMBOLS = 60;
     public static final int MAX_TRACK_SIZE_IN_NOTE_EVENTS = MAX_TRACK_SIZE_IN_SYMBOLS * 2;
 
@@ -65,6 +64,7 @@ public abstract class InstrumentActivity extends Activity {
     private EditText editTextMidiExportNameDialogPrompt;
     private MidiPlayer midiPlayer;
     private AbstractTickProvider tickThread;
+    private TickProvider tickProvider;
     private Track track;
     private TrackMementoStack mementoStack;
     private AlertDialog playAllDialog;
@@ -79,7 +79,8 @@ public abstract class InstrumentActivity extends Activity {
         midiPlayer = MidiPlayer.getInstance();
 
         tickThread = new SimpleTickProvider();
-        track = new Track(key, instrument);
+        tickProvider = new TickProvider();
+        track = new Track(key, instrument, Project.DEFAULT_BEATS_PER_MINUTE);
 
         midiFileList = null;
         mementoStack = new TrackMementoStack();
@@ -140,6 +141,9 @@ public abstract class InstrumentActivity extends Activity {
 
             int midiResourceId = getResources().getIdentifier(noteEvent.getNoteName().toString().toLowerCase(Locale.getDefault()), R_RAW, getPackageName());
             midiPlayer.playNote(this, midiResourceId);
+            tickProvider.startCounting();
+        } else {
+            tickProvider.stopCounting();
         }
 
         track.addNoteEvent(tickThread.getNextTick(noteEvent), noteEvent);
@@ -201,7 +205,7 @@ public abstract class InstrumentActivity extends Activity {
     }
 
     private void onActionDeleteMidi() {
-        setTrack(new Track(track.getKey(), track.getInstrument()));
+        setTrack(new Track(track.getKey(), track.getInstrument(), track.getBeatsPerMinute()));
         mementoStack.clear();
         redraw();
 

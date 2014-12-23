@@ -27,6 +27,7 @@ import android.test.AndroidTestCase;
 
 import org.catrobat.musicdroid.pocketmusic.instrument.tempo.SimpleTickProvider;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.test.note.NoteEventTestDataFactory;
 import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
@@ -53,7 +54,7 @@ public class SimpleTickProviderTest extends AndroidTestCase {
     }
 
     public void testGetNextTickThroughEndNoteEvent() {
-        long expected = NoteLength.QUARTER.getTickDuration();
+        long expected = NoteLength.QUARTER.getTickDuration(Project.DEFAULT_BEATS_PER_MINUTE);
 
         SimpleTickProvider clock = new SimpleTickProvider();
         clock.getNextTick(NoteEventTestDataFactory.createNoteEvent(true));
@@ -63,7 +64,7 @@ public class SimpleTickProviderTest extends AndroidTestCase {
     }
 
     public void testGetNextTickThroughTwoEndNoteEvents() {
-        long expected = NoteLength.QUARTER.getTickDuration();
+        long expected = NoteLength.QUARTER.getTickDuration(Project.DEFAULT_BEATS_PER_MINUTE);
 
         SimpleTickProvider clock = new SimpleTickProvider();
         clock.getNextTick(NoteEventTestDataFactory.createNoteEvent(true));

@@ -27,21 +27,21 @@ public enum NoteLength {
     WHOLE_DOT(4f + 2f), WHOLE(4f), HALF_DOT(2f + 1f), HALF(2f), QUARTER_DOT(1f + 1 / 2f),
     QUARTER(1f), EIGHT_DOT(1 / 2f + 1 / 4f), EIGHT(1 / 2f), SIXTEENTH(1 / 4f);
 
-    private static final long DEFAULT_DURATION = 384 / 48 * 60;
+    private static final long DEFAULT_TICK_DURATION_MODIFIER = 8;
     private static final NoteLength SMALLEST_NOTE_LENGTH = SIXTEENTH;
 
-    private long tickDuration;
+    private float length;
 
     private NoteLength(float length) {
-        this.tickDuration = Math.round(DEFAULT_DURATION * length);
+        this.length = length;
     }
 
-    public static NoteLength getNoteLengthFromTickDuration(long duration) {
+    public static NoteLength getNoteLengthFromTickDuration(long duration, int beatsPerMinute) {
         NoteLength noteLength = SMALLEST_NOTE_LENGTH;
         NoteLength[] allNoteLengths = NoteLength.values();
 
         for (int i = (allNoteLengths.length - 1); i >= 0; i--) {
-            long difference = duration - allNoteLengths[i].getTickDuration();
+            long difference = duration - allNoteLengths[i].getTickDuration(beatsPerMinute);
 
             if (difference < 0) {
                 break;
@@ -53,8 +53,8 @@ public enum NoteLength {
         return noteLength;
     }
 
-    public long getTickDuration() {
-        return tickDuration;
+    public long getTickDuration(int beatsPerMinute) {
+        return Math.round(beatsPerMinute * DEFAULT_TICK_DURATION_MODIFIER * length);
     }
 
     public boolean hasStem() {
