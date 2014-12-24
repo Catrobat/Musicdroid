@@ -25,20 +25,24 @@ package org.catrobat.musicdroid.pocketmusic.instrument;
 
 public class TickProvider {
 
-    private long tick;
-    private long startTimiMillis;
+    protected long tick;
+    protected long startTimiMillis;
 
-    public TickProvider() {
+    public TickProvider(int beatsPerMinute) {
         tick = 0;
         startTimiMillis = 0;
     }
 
+    protected long currentTimeMillis() {
+        return System.currentTimeMillis();
+    }
+
     public void startCounting() {
-        startTimiMillis = System.currentTimeMillis();
+        startTimiMillis = currentTimeMillis();
     }
 
     public void stopCounting() {
-        long  difference = System.currentTimeMillis() - startTimiMillis;
+        long  difference = currentTimeMillis() - startTimiMillis;
         tick += difference; // TODO auf 16tel runden
     }
 

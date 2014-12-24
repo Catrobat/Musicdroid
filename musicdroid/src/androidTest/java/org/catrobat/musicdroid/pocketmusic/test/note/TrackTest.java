@@ -145,7 +145,7 @@ public class TrackTest extends AndroidTestCase {
         long tick = 0;
 
         track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(true));
-        tick += NoteLength.QUARTER.getTickDuration(track.getBeatsPerMinute());
+        tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
         track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(false));
 
         assertEquals(tick, track.getLastTick());

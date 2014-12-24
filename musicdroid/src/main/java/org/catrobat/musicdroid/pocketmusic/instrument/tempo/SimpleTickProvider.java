@@ -40,7 +40,7 @@ public class SimpleTickProvider extends AbstractTickProvider {
     @Override
     public long getNextTick(NoteEvent noteEvent) {
         if (lastIsNoteOn && (false == noteEvent.isNoteOn())){
-            tick += DEFAULT_NOTE_LENGTH.getTickDuration(Project.DEFAULT_BEATS_PER_MINUTE);
+            tick += DEFAULT_NOTE_LENGTH.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
         }
 
         lastIsNoteOn = noteEvent.isNoteOn();

@@ -29,16 +29,37 @@ import org.catrobat.musicdroid.pocketmusic.note.Project;
 
 public class NoteLengthTest extends AndroidTestCase {
 
-	public void testCalculateDuration() {
-		long expected = 384 / 48 * Project.DEFAULT_BEATS_PER_MINUTE;
-		long actual = NoteLength.QUARTER.getTickDuration(Project.DEFAULT_BEATS_PER_MINUTE);
+	public void testToTicks1() {
+        long expectedTicks = 384 / 48 * Project.DEFAULT_BEATS_PER_MINUTE;
+        long actualTicks = NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
-		assertEquals(expected, actual);
-	}
+        assertEquals(expectedTicks, actualTicks);
+    }
+
+    public void testToTicks2() {
+        long expectedTicks = 384 / 48 * 2 * Project.DEFAULT_BEATS_PER_MINUTE;
+        long actualTicks = NoteLength.HALF.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+
+        assertEquals(expectedTicks, actualTicks);
+    }
+
+    public void testToMilliseconds1() {
+        long expectedMilliseconds = 1000;
+        long actualMilliseconds = NoteLength.QUARTER.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
+
+        assertEquals(expectedMilliseconds, actualMilliseconds);
+    }
+
+    public void testToMilliseconds2() {
+        long expectedMilliseconds = 2000;
+        long actualMilliseconds = NoteLength.HALF.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
+
+        assertEquals(expectedMilliseconds, actualMilliseconds);
+    }
 
 	public void testGetNoteLengthFromTick1() {
 		NoteLength expectedNoteLength = NoteLength.WHOLE_DOT;
-		long duration = expectedNoteLength.getTickDuration(Project.DEFAULT_BEATS_PER_MINUTE);
+		long duration = expectedNoteLength.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
 		NoteLength actualNoteLength = NoteLength.getNoteLengthFromTickDuration(duration, Project.DEFAULT_BEATS_PER_MINUTE);
 
@@ -47,7 +68,7 @@ public class NoteLengthTest extends AndroidTestCase {
 
 	public void testGetNoteLengthFromTick2() {
 		NoteLength expectedNoteLength = NoteLength.WHOLE_DOT;
-		long duration = expectedNoteLength.getTickDuration(Project.DEFAULT_BEATS_PER_MINUTE);
+		long duration = expectedNoteLength.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 		duration += 1;
 
 		NoteLength actualNoteLength = NoteLength.getNoteLengthFromTickDuration(duration, Project.DEFAULT_BEATS_PER_MINUTE);
@@ -57,7 +78,7 @@ public class NoteLengthTest extends AndroidTestCase {
 
 	public void testGetNoteLengthFromTick3() {
 		NoteLength expectedNoteLength = NoteLength.QUARTER;
-		long duration = NoteLength.QUARTER_DOT.getTickDuration(Project.DEFAULT_BEATS_PER_MINUTE);
+		long duration = NoteLength.QUARTER_DOT.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 		duration -= 1;
 
 		NoteLength actualNoteLength = NoteLength.getNoteLengthFromTickDuration(duration, Project.DEFAULT_BEATS_PER_MINUTE);
@@ -67,13 +88,49 @@ public class NoteLengthTest extends AndroidTestCase {
 
 	public void testGetNoteLengthFromTick4() {
 		NoteLength expectedNoteLength = NoteLength.QUARTER;
-		long duration = expectedNoteLength.getTickDuration(Project.DEFAULT_BEATS_PER_MINUTE);
+		long duration = expectedNoteLength.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 		duration += 1;
 
 		NoteLength actualNoteLength = NoteLength.getNoteLengthFromTickDuration(duration, Project.DEFAULT_BEATS_PER_MINUTE);
 
 		assertEquals(expectedNoteLength, actualNoteLength);
 	}
+
+    public void testGetNoteLengthFromMilliseconds1() {
+        NoteLength expectedNoteLength = NoteLength.QUARTER;
+        long millis = 1000;
+
+        NoteLength actualNoteLength = NoteLength.getNoteLengthFromMilliseconds(millis, Project.DEFAULT_BEATS_PER_MINUTE);
+
+        assertEquals(expectedNoteLength, actualNoteLength);
+    }
+
+    public void testGetNoteLengthFromMilliseconds2() {
+        NoteLength expectedNoteLength = NoteLength.EIGHT;
+        long millis = 510;
+
+        NoteLength actualNoteLength = NoteLength.getNoteLengthFromMilliseconds(millis, Project.DEFAULT_BEATS_PER_MINUTE);
+
+        assertEquals(expectedNoteLength, actualNoteLength);
+    }
+
+    public void testGetNoteLengthFromMilliseconds3() {
+        NoteLength expectedNoteLength = NoteLength.SIXTEENTH;
+        long millis = 1;
+
+        NoteLength actualNoteLength = NoteLength.getNoteLengthFromMilliseconds(millis, Project.DEFAULT_BEATS_PER_MINUTE);
+
+        assertEquals(expectedNoteLength, actualNoteLength);
+    }
+
+    public void testGetNoteLengthFromMilliseconds4() {
+        NoteLength expectedNoteLength = NoteLength.WHOLE_DOT;
+        long millis = 10000;
+
+        NoteLength actualNoteLength = NoteLength.getNoteLengthFromMilliseconds(millis, Project.DEFAULT_BEATS_PER_MINUTE);
+
+        assertEquals(expectedNoteLength, actualNoteLength);
+    }
 
 	public void testHasStem1() {
 		assertFalse(NoteLength.WHOLE.hasStem());

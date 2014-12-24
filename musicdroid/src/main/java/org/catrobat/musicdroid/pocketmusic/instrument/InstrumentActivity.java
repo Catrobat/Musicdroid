@@ -64,8 +64,8 @@ public abstract class InstrumentActivity extends Activity {
     private EditText editTextMidiExportNameDialogPrompt;
     private MidiPlayer midiPlayer;
     private AbstractTickProvider tickThread;
-    private TickProvider tickProvider;
     private Track track;
+    private TickProvider tickProvider;
     private TrackMementoStack mementoStack;
     private AlertDialog playAllDialog;
 
@@ -79,8 +79,8 @@ public abstract class InstrumentActivity extends Activity {
         midiPlayer = MidiPlayer.getInstance();
 
         tickThread = new SimpleTickProvider();
-        tickProvider = new TickProvider();
         track = new Track(key, instrument, Project.DEFAULT_BEATS_PER_MINUTE);
+        tickProvider = new TickProvider(track.getBeatsPerMinute());
 
         midiFileList = null;
         mementoStack = new TrackMementoStack();

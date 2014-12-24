@@ -54,7 +54,7 @@ public class SimpleTickProviderTest extends AndroidTestCase {
     }
 
     public void testGetNextTickThroughEndNoteEvent() {
-        long expected = NoteLength.QUARTER.getTickDuration(Project.DEFAULT_BEATS_PER_MINUTE);
+        long expected = NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
         SimpleTickProvider clock = new SimpleTickProvider();
         clock.getNextTick(NoteEventTestDataFactory.createNoteEvent(true));
@@ -64,7 +64,7 @@ public class SimpleTickProviderTest extends AndroidTestCase {
     }
 
     public void testGetNextTickThroughTwoEndNoteEvents() {
-        long expected = NoteLength.QUARTER.getTickDuration(Project.DEFAULT_BEATS_PER_MINUTE);
+        long expected = NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
         SimpleTickProvider clock = new SimpleTickProvider();
         clock.getNextTick(NoteEventTestDataFactory.createNoteEvent(true));

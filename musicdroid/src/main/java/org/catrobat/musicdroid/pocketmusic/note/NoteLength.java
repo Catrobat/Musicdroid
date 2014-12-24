@@ -23,12 +23,20 @@
 
 package org.catrobat.musicdroid.pocketmusic.note;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum NoteLength {
     WHOLE_DOT(4f + 2f), WHOLE(4f), HALF_DOT(2f + 1f), HALF(2f), QUARTER_DOT(1f + 1 / 2f),
     QUARTER(1f), EIGHT_DOT(1 / 2f + 1 / 4f), EIGHT(1 / 2f), SIXTEENTH(1 / 4f);
 
+    private static final NoteLengthMillisecondsHelper NOTE_LENGTH_MILLISECONDS_HELPER = new NoteLengthMillisecondsHelper();
+    private static final NoteLength[] SORTED_NOTE_LENGTHS = new NoteLength[] {SIXTEENTH, EIGHT, EIGHT_DOT, QUARTER, QUARTER_DOT, HALF, HALF_DOT, WHOLE, WHOLE_DOT};
     private static final long DEFAULT_TICK_DURATION_MODIFIER = 8;
     private static final NoteLength SMALLEST_NOTE_LENGTH = SIXTEENTH;
+
+    private static final int MINUTE_IN_SECONDS = 60;
+    private static final int SECOND_IN_MILLISECONDS = 1000;
 
     private float length;
 
@@ -41,7 +49,7 @@ public enum NoteLength {
         NoteLength[] allNoteLengths = NoteLength.values();
 
         for (int i = (allNoteLengths.length - 1); i >= 0; i--) {
-            long difference = duration - allNoteLengths[i].getTickDuration(beatsPerMinute);
+            long difference = duration - allNoteLengths[i].toTicks(beatsPerMinute);
 
             if (difference < 0) {
                 break;
@@ -53,8 +61,41 @@ public enum NoteLength {
         return noteLength;
     }
 
-    public long getTickDuration(int beatsPerMinute) {
+    public static NoteLength getNoteLengthFromMilliseconds(long millis, int beatsPerMinute) {
+        long[] calculatedMilliseconds = NOTE_LENGTH_MILLISECONDS_HELPER.getMilliseconds(beatsPerMinute);
+        long bottomLimit = calculatedMilliseconds[0];
+        int bottomIndex = 0;
+        long topLimit = calculatedMilliseconds[calculatedMilliseconds.length - 1];
+        int topIndex = 0;
+
+        for (int i = 0; i < calculatedMilliseconds.length; i++) {
+            long calculatedMillis = calculatedMilliseconds[i];
+            if (millis > calculatedMillis) {
+                bottomLimit = calculatedMillis;
+                bottomIndex = i;
+            } else {
+                topLimit = calculatedMillis;
+                topIndex = i;
+                break;
+            }
+        }
+
+        long distanceBottom = Math.abs(bottomLimit - millis);
+        long distanceTop = Math.abs(topLimit - millis);
+
+        if (distanceBottom > distanceTop) {
+            return SORTED_NOTE_LENGTHS[topIndex];
+        } else {
+            return SORTED_NOTE_LENGTHS[bottomIndex];
+        }
+    }
+
+    public long toTicks(int beatsPerMinute) {
         return Math.round(beatsPerMinute * DEFAULT_TICK_DURATION_MODIFIER * length);
+    }
+
+    public long toMilliseconds(int beatsPerMinute) {
+        return Math.round(beatsPerMinute / MINUTE_IN_SECONDS * length * SECOND_IN_MILLISECONDS);
     }
 
     public boolean hasStem() {
@@ -85,5 +126,33 @@ public enum NoteLength {
 
     public boolean isFilled() {
         return (this != WHOLE_DOT) && (this != WHOLE) && (this != HALF) && (this != HALF_DOT);
+    }
+
+    private static class NoteLengthMillisecondsHelper {
+
+        private Map<Integer, long[]> millisecondsCalculationMap;
+
+        public NoteLengthMillisecondsHelper() {
+            millisecondsCalculationMap = new HashMap<Integer, long[]>();
+        }
+
+        public long[] getMilliseconds(int beatsPerMinute) {
+            if (false == millisecondsCalculationMap.containsKey(beatsPerMinute)) {
+                millisecondsCalculationMap.put(beatsPerMinute, calculateMilliseconds(beatsPerMinute));
+            }
+
+            return millisecondsCalculationMap.get(beatsPerMinute);
+        }
+
+        private long[] calculateMilliseconds(int beatsPerMinute) {
+            long[] milliseconds = new long[SORTED_NOTE_LENGTHS.length];
+
+            for (int i = 0; i < milliseconds.length; i++) {
+                NoteLength noteLength = SORTED_NOTE_LENGTHS[i];
+                milliseconds[i] = noteLength.toMilliseconds(beatsPerMinute);
+            }
+
+            return milliseconds;
+        }
     }
 }
