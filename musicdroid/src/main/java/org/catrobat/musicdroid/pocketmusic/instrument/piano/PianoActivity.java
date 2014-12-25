@@ -47,10 +47,6 @@ public class PianoActivity extends InstrumentActivity {
         return pianoViewFragment;
     }
 
-    public NoteSheetViewFragment getNoteSheetViewFragment() {
-        return noteSheetViewFragment;
-    }
-
     public String getTrackSizeString(){
         return noteSheetViewFragment.getTrackSizeTextViewText();
     }

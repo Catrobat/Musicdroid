@@ -253,29 +253,29 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     public void testPlayMidiWhileRotating() throws InterruptedException {
         solo.setActivityOrientation(Solo.PORTRAIT);
         clickSomePianoButtonsFastForLargeTrack();
-        assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
+        assertTrue(pianoActivity.getMidiPlayer().getPlayQueueSize() > 0);
 
         solo.setActivityOrientation(Solo.LANDSCAPE);
         clickSomePianoButtonsFastForLargeTrack();
-        assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
+        assertTrue(pianoActivity.getMidiPlayer().getPlayQueueSize() > 0);
 
         solo.setActivityOrientation(Solo.PORTRAIT);
         clickSomePianoButtonsFastForLargeTrack();
-        assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
+        assertTrue(pianoActivity.getMidiPlayer().getPlayQueueSize() > 0);
 
     }
 
     public void testPlayMidiBackButtonPress() throws InterruptedException {
         solo.setActivityOrientation(Solo.PORTRAIT);
         clickSomePianoButtonsFastForLargeTrack();
-        assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
+        assertTrue(pianoActivity.getMidiPlayer().getPlayQueueSize() > 0);
 
         solo.setActivityOrientation(Solo.LANDSCAPE);
         clickSomePianoButtonsFastForLargeTrack();
-        assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
+        assertTrue(pianoActivity.getMidiPlayer().getPlayQueueSize() > 0);
 
         solo.goBack();
-        assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() == 0);
+        assertTrue(pianoActivity.getMidiPlayer().getPlayQueueSize() == 0);
     }
 
     public void testClickOnButtonMaxTrackSize() {

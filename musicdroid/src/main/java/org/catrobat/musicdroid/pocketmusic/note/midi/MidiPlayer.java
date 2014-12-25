@@ -162,7 +162,7 @@ public class MidiPlayer {
         return MediaPlayer.create(activity, uri);
     }
 
-    public Queue<Integer> getPlayQueue(){
-        return playQueue;
+    public int getPlayQueueSize(){
+        return playQueue.size();
     }
 }
