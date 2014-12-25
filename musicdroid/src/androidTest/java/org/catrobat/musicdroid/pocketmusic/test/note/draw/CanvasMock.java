@@ -74,7 +74,7 @@ public class CanvasMock extends Canvas {
 
     @Override
     public void drawOval(RectF oval, Paint paint) {
-        drawnElements.add(createString(DRAW_OVAL, oval.left, oval.top, oval.right, oval.bottom));
+        drawnElements.add(createString(DRAW_OVAL, oval.left, oval.top, oval.right, oval.bottom, paint.getStyle()));
     }
 
     @Override

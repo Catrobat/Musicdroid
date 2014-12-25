@@ -27,6 +27,7 @@ import android.graphics.Point;
 import android.graphics.RectF;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
+import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 
@@ -46,7 +47,7 @@ public final class NoteBodyDrawer {
 	public NoteBodyDrawer(SymbolDrawer symbolDrawer, NoteSheetCanvas noteSheetCanvas, Paint paint, MusicalKey key, int distanceBetweenLines) {
         this.symbolDrawer = symbolDrawer;
         this.noteSheetCanvas = noteSheetCanvas;
-        this.paint = paint;
+        this.paint = new Paint(paint);
         this.key = key;
         this.distanceBetweenLines = distanceBetweenLines;
 	}
@@ -62,6 +63,7 @@ public final class NoteBodyDrawer {
 		NoteName prevNoteName = null;
 
 		for (NoteName noteName : noteSymbol.getNoteNamesSorted()) {
+            NoteLength noteLength = noteSymbol.getNoteLength(noteName);
 			Point centerPointOfActualNote = new Point(centerPointOfSpaceForNote);
 			centerPointOfActualNote.y += NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName)
 					* noteHeight;
@@ -88,8 +90,13 @@ public final class NoteBodyDrawer {
 			RectF rect = new RectF(left, top, right, bottom);
 
 			noteSurroundingRects.add(rect);
-			noteSheetCanvas.drawOval(rect, paint);
+            if (noteLength.isFilled()) {
+                paint.setStyle(Paint.Style.FILL);
+            } else {
+                paint.setStyle(Paint.Style.STROKE);
+            }
 
+            noteSheetCanvas.drawOval(rect, paint);
 			prevNoteName = noteName;
 		}
 
