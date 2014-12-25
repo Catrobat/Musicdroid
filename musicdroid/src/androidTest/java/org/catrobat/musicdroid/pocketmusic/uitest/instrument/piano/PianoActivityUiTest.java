@@ -211,7 +211,6 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     }
 
     private void clickSomePianoButtonsFastForLargeTrack() {
-
         int threadCount = 3;
         List<Thread> playThreads = new ArrayList<>();
         for(int i = 0; i < threadCount; i++){
@@ -224,7 +223,6 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         }
 
         clickSomePianoButtonsForLargeTrack();
-
     }
 
     public void testPlayMidiStop() {

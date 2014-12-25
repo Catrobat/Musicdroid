@@ -23,12 +23,17 @@
 
 package org.catrobat.musicdroid.pocketmusic.instrument;
 
+import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
+import org.catrobat.musicdroid.pocketmusic.note.Track;
+
 public class TickProvider {
 
+    protected int beatsPerMinute;
     protected long tick;
     protected long startTimiMillis;
 
     public TickProvider(int beatsPerMinute) {
+        this.beatsPerMinute = beatsPerMinute;
         tick = 0;
         startTimiMillis = 0;
     }
@@ -43,10 +48,15 @@ public class TickProvider {
 
     public void stopCounting() {
         long  difference = currentTimeMillis() - startTimiMillis;
-        tick += difference; // TODO auf 16tel runden
+        NoteLength noteLength = NoteLength.getNoteLengthFromMilliseconds(difference, beatsPerMinute);
+        tick += noteLength.toTicks(beatsPerMinute);
     }
 
     public long getTick() {
         return tick;
+    }
+
+    public void setTickBasedOnTrack(Track track) {
+        tick = track.getLastTick();
     }
 }

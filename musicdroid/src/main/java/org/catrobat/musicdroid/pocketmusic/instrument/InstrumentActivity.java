@@ -34,8 +34,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
-import org.catrobat.musicdroid.pocketmusic.instrument.tempo.AbstractTickProvider;
-import org.catrobat.musicdroid.pocketmusic.instrument.tempo.SimpleTickProvider;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
@@ -63,7 +61,6 @@ public abstract class InstrumentActivity extends Activity {
 
     private EditText editTextMidiExportNameDialogPrompt;
     private MidiPlayer midiPlayer;
-    private AbstractTickProvider tickThread;
     private Track track;
     private TickProvider tickProvider;
     private TrackMementoStack mementoStack;
@@ -78,7 +75,6 @@ public abstract class InstrumentActivity extends Activity {
 
         midiPlayer = MidiPlayer.getInstance();
 
-        tickThread = new SimpleTickProvider();
         track = new Track(key, instrument, Project.DEFAULT_BEATS_PER_MINUTE);
         tickProvider = new TickProvider(track.getBeatsPerMinute());
 
@@ -120,7 +116,7 @@ public abstract class InstrumentActivity extends Activity {
 
     private void setTrack(Track track) {
         this.track = track;
-        tickThread.setTickBasedOnTrack(track);
+        tickProvider.setTickBasedOnTrack(track);
     }
 
     public Track getTrack() {
@@ -146,7 +142,7 @@ public abstract class InstrumentActivity extends Activity {
             tickProvider.stopCounting();
         }
 
-        track.addNoteEvent(tickThread.getNextTick(noteEvent), noteEvent);
+        track.addNoteEvent(tickProvider.getTick(), noteEvent);
         redraw();
     }
 

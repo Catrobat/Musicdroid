@@ -26,7 +26,10 @@ package org.catrobat.musicdroid.pocketmusic.test.instrument;
 import android.test.AndroidTestCase;
 
 import org.catrobat.musicdroid.pocketmusic.instrument.TickProvider;
+import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
+import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
 
 public class TickProviderTest extends AndroidTestCase {
 
@@ -35,14 +38,37 @@ public class TickProviderTest extends AndroidTestCase {
 
     @Override
     protected void setUp() {
-        currentTimeMillis = new long[] {0, 100, 500, 1000};
+        currentTimeMillis = new long[] {100, 500};
         tickProvider = new TickProviderMock(Project.DEFAULT_BEATS_PER_MINUTE, currentTimeMillis);
     }
 
-    public void testMock() {
+    public void testMockClassBehaviour() {
         for (long time : currentTimeMillis) {
             assertEquals(time,  tickProvider.currentTimeMillis());
         }
+    }
+
+    public void testSetTickBasedOnTrack() {
+        Track track = TrackTestDataFactory.createSimpleTrack();
+
+        tickProvider.setTickBasedOnTrack(track);
+
+        long expectedTick = track.getLastTick();
+        long actualTick = tickProvider.getTick();
+
+        assertEquals(expectedTick, actualTick);
+    }
+
+    public void testCounting(){
+        tickProvider.startCounting();
+        tickProvider.stopCounting();
+
+        long difference = currentTimeMillis[1] - currentTimeMillis[0];
+        NoteLength noteLength = NoteLength.getNoteLengthFromMilliseconds(difference, Project.DEFAULT_BEATS_PER_MINUTE);
+        long expectedTick = noteLength.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+        long actualTick = tickProvider.getTick();
+
+        assertEquals(expectedTick, actualTick);
     }
 
     private class TickProviderMock extends TickProvider {
