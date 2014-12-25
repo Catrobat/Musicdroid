@@ -75,6 +75,18 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
         assertCanvasElementQueueNoteBody(noteSymbol, positionInformation);
     }
 
+    public void testDrawBodyDot() {
+        customSetUp(MusicalKey.VIOLIN);
+        noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER_DOT);
+
+        noteBodyDrawer.drawBody(noteSymbol);
+
+        int bodyCount = 1;
+        int dotCount = 1;
+
+        assertCanvasElementQueueSize(bodyCount + dotCount);
+    }
+
     private void assertCanvasElementQueueNoteBody(NoteSymbol noteSymbol, NotePositionInformation actualPositionInformation) {
         Paint paint = new Paint();
         symbolDrawer.setNoteSheetDrawPosition(new NoteSheetDrawPosition(START_X_POSITION, END_X_POSITION));
