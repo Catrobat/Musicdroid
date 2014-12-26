@@ -27,6 +27,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -62,6 +63,8 @@ public class NoteSheetCanvas {
     public void drawOval(RectF rect, Paint paint) {
         canvas.drawOval(rect, paint);
     }
+
+    public void drawPath(Path path, Paint paint) { canvas.drawPath(path, paint); }
 
     public Rect drawBitmap(Resources resources, int bitmapId, int bitmapHeight, int xPosition, int yPosition) {
         Bitmap bitmap = BitmapFactory.decodeResource(resources, bitmapId);

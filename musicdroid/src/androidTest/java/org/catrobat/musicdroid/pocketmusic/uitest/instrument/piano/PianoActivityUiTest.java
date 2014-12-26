@@ -225,16 +225,6 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         clickSomePianoButtonsForLargeTrack();
     }
 
-    public void testPlayMidiStop() {
-        clickSomePianoButtonsForLargeTrack();
-        solo.clickOnActionBarItem(R.id.action_play_midi);
-        solo.waitForDialogToOpen();
-        solo.clickOnButton(pianoActivity.getString(R.string.action_play_midi_dialog_stop));
-        solo.waitForDialogToClose();
-
-        assertFalse(pianoActivity.getMidiPlayer().isPlaying());
-    }
-
     public void testPlayMidiEmptyTrack() {
         solo.clickOnActionBarItem(R.id.action_play_midi);
 

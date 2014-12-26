@@ -24,6 +24,7 @@ package org.catrobat.musicdroid.pocketmusic.test.note;
 
 import android.test.AndroidTestCase;
 
+import org.catrobat.musicdroid.pocketmusic.note.NoteFlag;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 
@@ -164,35 +165,19 @@ public class NoteLengthTest extends AndroidTestCase {
 		assertTrue(NoteLength.EIGHT_DOT.hasDot());
 	}
 
-	public void testHasFlag1() {
-		assertFalse(NoteLength.QUARTER.hasFlag());
+	public void testGetFlag1() {
+        assertEquals(NoteFlag.NO_FLAG, NoteLength.QUARTER.getFlag());
 	}
 
-	public void testHasFlag2() {
-		assertTrue(NoteLength.EIGHT.hasFlag());
-	}
+    public void testGetFlag2() {
+        assertEquals(NoteFlag.SINGLE_FLAG, NoteLength.EIGHT.getFlag());
+    }
 
-	public void testHasFlag3() {
-		assertTrue(NoteLength.EIGHT_DOT.hasFlag());
-	}
+    public void testGetFlag3() {
+        assertEquals(NoteFlag.SINGLE_FLAG, NoteLength.EIGHT_DOT.getFlag());
+    }
 
-	public void testHasFlag4() {
-		assertTrue(NoteLength.SIXTEENTH.hasFlag());
-	}
-
-	public void testGetAmountOfFlags1() {
-		assertEquals(2, NoteLength.SIXTEENTH.getAmountOfFlags());
-	}
-
-	public void testGetAmountOfFlags2() {
-		assertEquals(1, NoteLength.EIGHT.getAmountOfFlags());
-	}
-
-	public void testGetAmountOfFlags3() {
-		assertEquals(1, NoteLength.EIGHT_DOT.getAmountOfFlags());
-	}
-
-	public void testGetAmountOfFlags4() {
-		assertEquals(0, NoteLength.QUARTER.getAmountOfFlags());
-	}
+    public void testGetFlag4() {
+        assertEquals(NoteFlag.DOUBLE_FLAG, NoteLength.SIXTEENTH.getFlag());
+    }
 }

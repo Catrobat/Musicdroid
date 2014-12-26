@@ -106,18 +106,14 @@ public enum NoteLength {
         return true;
     }
 
-    public boolean hasFlag() {
-        return ((this == EIGHT) || (this == EIGHT_DOT) || (this == SIXTEENTH));
-    }
-
-    public int getAmountOfFlags() {
+    public NoteFlag getFlag() {
         if (this == SIXTEENTH) {
-            return 2;
+            return NoteFlag.DOUBLE_FLAG;
         } else if ((this == EIGHT) || (this == EIGHT_DOT)) {
-            return 1;
+            return NoteFlag.SINGLE_FLAG;
+        } else {
+            return NoteFlag.NO_FLAG;
         }
-
-        return 0;
     }
 
     public boolean hasDot() {

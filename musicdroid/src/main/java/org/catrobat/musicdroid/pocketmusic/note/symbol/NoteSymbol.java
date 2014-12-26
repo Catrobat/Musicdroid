@@ -23,6 +23,7 @@
 package org.catrobat.musicdroid.pocketmusic.note.symbol;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
+import org.catrobat.musicdroid.pocketmusic.note.NoteFlag;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 
@@ -32,7 +33,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 
 public class NoteSymbol implements Symbol {
 
@@ -81,8 +81,7 @@ public class NoteSymbol implements Symbol {
 	}
 
 	public boolean isStemUp(MusicalKey key) {
-		List<NoteName> noteNames = new ArrayList<NoteName>(notes.keySet());
-		Collections.sort(noteNames);
+		List<NoteName> noteNames = getNoteNamesSorted();
 
 		NoteName firstNoteName = noteNames.get(0);
 		NoteName lastNoteName = noteNames.get(noteNames.size() - 1);
@@ -108,5 +107,17 @@ public class NoteSymbol implements Symbol {
         }
 
         return false;
+    }
+
+    public NoteFlag getFlag() {
+        for (NoteLength noteLength : notes.values()) {
+            NoteFlag noteFlag = noteLength.getFlag();
+
+            if ((NoteFlag.DOUBLE_FLAG == noteFlag) || (NoteFlag.SINGLE_FLAG == noteFlag)) {
+                return noteFlag;
+            }
+        }
+
+        return NoteFlag.NO_FLAG;
     }
 }

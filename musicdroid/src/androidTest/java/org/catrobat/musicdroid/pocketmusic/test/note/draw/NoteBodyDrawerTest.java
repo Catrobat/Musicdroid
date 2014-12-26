@@ -85,6 +85,7 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
         int dotCount = 1;
 
         assertCanvasElementQueueSize(bodyCount + dotCount);
+        clearCanvasElementQueue();
     }
 
     private void assertCanvasElementQueueNoteBody(NoteSymbol noteSymbol, NotePositionInformation actualPositionInformation) {

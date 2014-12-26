@@ -61,6 +61,15 @@ public abstract class AbstractDrawerTest extends AndroidTestCase {
         drawPosition = new NoteSheetDrawPosition(START_X_POSITION, END_X_POSITION);
     }
 
+    @Override
+    protected void tearDown() {
+        assertCanvasElementQueueSize(0);
+    }
+
+    protected void clearCanvasElementQueue() {
+        canvas.getDrawnElements().clear();
+    }
+
     protected void assertCanvasElementQueueSize(int expectedSize) {
         assertEquals(expectedSize, canvas.getDrawnElements().size());
     }
@@ -88,6 +97,12 @@ public abstract class AbstractDrawerTest extends AndroidTestCase {
 
     protected void assertCanvasElementQueueOval(float startX, float startY, float stopX, float stopY, Paint.Style style) {
         String expectedLine = CanvasMock.createString(CanvasMock.DRAW_OVAL, startX, startY, stopX, stopY, style);
+
+        assertEquals(expectedLine, canvas.getDrawnElements().poll());
+    }
+
+    protected void assertCanvasElementQueuePath() {
+        String expectedLine = CanvasMock.createString(CanvasMock.DRAW_PATH);
 
         assertEquals(expectedLine, canvas.getDrawnElements().poll());
     }

@@ -26,6 +26,7 @@ package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
@@ -43,6 +44,7 @@ public class CanvasMock extends Canvas {
     public static final String DRAW_LINE = "drawLine";
     public static final String DRAW_RECT = "drawRect";
     public static final String DRAW_OVAL = "drawOval";
+    public static final String DRAW_PATH = "drawPath";
     public static final String DRAW_BITMAP = "drawBitmap";
 
     private Queue<String> drawnElements;
@@ -78,6 +80,11 @@ public class CanvasMock extends Canvas {
     }
 
     @Override
+    public void drawPath(Path path, Paint paint) {
+        drawnElements.add(createString(DRAW_PATH));
+    }
+
+        @Override
     public void drawBitmap(Bitmap bitmap, Rect src, Rect dst, Paint paint) {
         drawnElements.add(createString(DRAW_BITMAP, dst.left, dst.top, dst.right, dst.bottom));
     }
