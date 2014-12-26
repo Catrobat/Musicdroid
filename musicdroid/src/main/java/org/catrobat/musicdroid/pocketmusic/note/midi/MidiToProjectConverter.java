@@ -104,7 +104,7 @@ public class MidiToProjectConverter {
 
 	private Track createTrack(MidiTrack midiTrack) {
 		MusicalInstrument instrument = getInstrumentFromMidiTrack(midiTrack);
-		Track track = new Track(MusicalKey.VIOLIN, instrument, Project.DEFAULT_BEATS_PER_MINUTE); // TODO fw omfg
+		Track track = new Track(MusicalKey.VIOLIN, instrument, beatsPerMinute);
 		Iterator<MidiEvent> it = midiTrack.getEvents().iterator();
 
 		while (it.hasNext()) {
