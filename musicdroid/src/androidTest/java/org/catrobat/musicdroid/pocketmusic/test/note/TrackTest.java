@@ -173,4 +173,17 @@ public class TrackTest extends AndroidTestCase {
 
         assertFalse(track.empty());
     }
+
+    public void testGetTotalTimeInMilliseconds() {
+        Track track = TrackTestDataFactory.createTrack();
+        NoteLength noteLength = NoteLength.QUARTER;
+        long expecteTotalTime = noteLength.toMilliseconds(track.getBeatsPerMinute());
+        long tick = 0;
+
+        track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(true));
+        tick += noteLength.toTicks(track.getBeatsPerMinute());
+        track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(false));
+
+        assertEquals(expecteTotalTime, track.getTotalTimeInMilliseconds());
+    }
 }

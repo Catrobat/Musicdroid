@@ -180,4 +180,23 @@ public class NoteLengthTest extends AndroidTestCase {
     public void testGetFlag4() {
         assertEquals(NoteFlag.DOUBLE_FLAG, NoteLength.SIXTEENTH.getFlag());
     }
+
+    public void testTickToMilliseconds1() {
+        NoteLength noteLength = NoteLength.QUARTER;
+        long expectedMilliseconds = noteLength.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
+        long tick =noteLength.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+
+        assertEquals(expectedMilliseconds, NoteLength.tickToMilliseconds(tick));
+    }
+
+    public void testTickToMilliseconds2() {
+        NoteLength noteLength1 = NoteLength.QUARTER;
+        NoteLength noteLength2 = NoteLength.EIGHT;
+        long expectedMilliseconds = noteLength1.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE)
+                + noteLength2.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
+        long tick = noteLength1.toTicks(Project.DEFAULT_BEATS_PER_MINUTE)
+                + noteLength2.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+
+        assertEquals(expectedMilliseconds, NoteLength.tickToMilliseconds(tick));
+    }
 }

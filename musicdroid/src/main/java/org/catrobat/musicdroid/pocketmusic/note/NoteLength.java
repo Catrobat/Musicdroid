@@ -95,7 +95,12 @@ public enum NoteLength {
     }
 
     public long toMilliseconds(int beatsPerMinute) {
-        return Math.round(beatsPerMinute / MINUTE_IN_SECONDS * length * SECOND_IN_MILLISECONDS);
+        return Math.round(beatsPerMinute * length * SECOND_IN_MILLISECONDS / MINUTE_IN_SECONDS);
+    }
+
+    public static long tickToMilliseconds(long tick) {
+        long millis = tick * SECOND_IN_MILLISECONDS / MINUTE_IN_SECONDS / DEFAULT_TICK_DURATION_MODIFIER;
+        return millis;
     }
 
     public boolean hasStem() {
