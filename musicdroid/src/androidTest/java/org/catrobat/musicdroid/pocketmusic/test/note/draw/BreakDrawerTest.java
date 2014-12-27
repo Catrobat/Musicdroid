@@ -1,0 +1,85 @@
+/*
+ * Musicdroid: An on-device music generator for Android
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package org.catrobat.musicdroid.pocketmusic.test.note.draw;
+
+import android.graphics.Point;
+
+import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
+import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
+import org.catrobat.musicdroid.pocketmusic.note.draw.BreakDrawer;
+import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
+import org.catrobat.musicdroid.pocketmusic.test.note.symbol.BreakSymbolTestDataFactory;
+
+public class BreakDrawerTest extends AbstractDrawerTest {
+
+    private BreakDrawer breakDrawer;
+    private SymbolDrawerMock symbolDrawer;
+
+    @Override
+    protected void setUp() {
+        super.setUp();
+        MusicalKey key = MusicalKey.VIOLIN;
+
+        breakDrawer = new BreakDrawer(noteSheetCanvas, paint, getContext().getResources(), key, drawPosition, distanceBetweenLines);
+        symbolDrawer = new SymbolDrawerMock(noteSheetCanvas, paint, getContext().getResources(), key, new NoteSheetDrawPosition(drawPosition.getStartXPositionForNextElement(), drawPosition.getEndXPositionForDrawingElements()), distanceBetweenLines);
+    }
+
+    public void testDrawSymbolBitmap() {
+        int breakHeight = BreakDrawer.QUARTER_BREAK_HEIGHT * distanceBetweenLines;
+        int xPosition = drawPosition.getStartXPositionForNextElement() + symbolDrawer.getWidthForOneSymbol() / 2;
+        BreakSymbol breakSymbol = BreakSymbolTestDataFactory.createBreakSymbol(NoteLength.QUARTER);
+
+        breakDrawer.drawSymbol(breakSymbol);
+
+        assertCanvasElementQueueBitmap(R.drawable.break_4, breakHeight, xPosition, noteSheetCanvas.getHeightHalf());
+    }
+
+    public void testDrawSymbolRect() {
+        BreakSymbol breakSymbol = BreakSymbolTestDataFactory.createBreakSymbol(NoteLength.HALF);
+
+        breakDrawer.drawSymbol(breakSymbol);
+
+        Point centerPoint = symbolDrawer.getCenterPointForNextSymbol();
+        int breakWidthHalf = distanceBetweenLines / 2;
+        int startX = centerPoint.x - breakWidthHalf;
+        int startY = centerPoint.y - breakWidthHalf;
+        int stopX = centerPoint.x + breakWidthHalf;
+        int stopY = centerPoint.y;
+
+        assertCanvasElementQueueRect(startX, startY, stopX, stopY);
+    }
+
+    public void testDrawSymbolDot() {
+        BreakSymbol breakSymbol = BreakSymbolTestDataFactory.createBreakSymbol(NoteLength.QUARTER_DOT);
+
+        breakDrawer.drawSymbol(breakSymbol);
+
+        int breakCount = 1;
+        int dotCount = 1;
+        assertCanvasElementQueueSize(breakCount + dotCount);
+        clearCanvasElementQueue();
+    }
+}

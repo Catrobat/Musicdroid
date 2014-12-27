@@ -24,6 +24,7 @@ package org.catrobat.musicdroid.pocketmusic.note.draw;
 
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.RectF;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
@@ -101,7 +102,9 @@ public final class NoteBodyDrawer {
             noteSheetCanvas.drawOval(noteRect, paint);
 
             if (noteLength.hasDot()) {
-                symbolDotDrawer.drawDot(noteRect);
+                Rect roundedNoteRect = new Rect();
+                noteRect.roundOut(roundedNoteRect);
+                symbolDotDrawer.drawDot(new Rect(roundedNoteRect));
             }
 
 			prevNoteName = noteName;

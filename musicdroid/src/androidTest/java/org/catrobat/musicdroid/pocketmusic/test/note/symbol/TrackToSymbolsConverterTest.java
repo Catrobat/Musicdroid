@@ -49,10 +49,10 @@ public class TrackToSymbolsConverterTest extends AndroidTestCase {
     private static List<Symbol> createSymbolListWithBreak() {
         List<Symbol> symbols = new LinkedList<Symbol>();
 
-        symbols.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C1, NoteName.D1));
-        symbols.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER_DOT, NoteName.E1));
+        symbols.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C4, NoteName.D4));
+        symbols.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.E4));
         symbols.add(BreakSymbolTestDataFactory.createBreakSymbol(NoteLength.QUARTER));
-        symbols.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C1));
+        symbols.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C4));
 
         return symbols;
     }

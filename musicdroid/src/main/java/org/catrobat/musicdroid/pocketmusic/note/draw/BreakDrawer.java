@@ -38,8 +38,16 @@ import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 
 public class BreakDrawer extends SymbolDrawer {
 
+    public static final int QUARTER_BREAK_HEIGHT = 3;
+    public static final int EIGHT_BREAK_HEIGHT = 2;
+    public static final int SIXTEENTH_BREAK_HEIGHT = 4;
+
+    private SymbolDotDrawer symbolDotDrawer;
+
     public BreakDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, Resources resources, MusicalKey key, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
         super(noteSheetCanvas, paint, resources, key, drawPosition, distanceBetweenLines);
+
+        symbolDotDrawer = new SymbolDotDrawer(noteSheetCanvas, paint, distanceBetweenLines);
     }
 
     @Override
@@ -52,42 +60,43 @@ public class BreakDrawer extends SymbolDrawer {
     }
 
     private void drawBreak(NoteLength noteLength) {
+        Rect breakRect;
+
         if (noteLength.isHalfOrHigher()) {
-            drawBreakBar(noteLength);
+            breakRect = drawBreakBar(noteLength);
         } else {
-            drawBreakBitmap(noteLength);
+            breakRect = drawBreakBitmap(noteLength);
+        }
+
+        if (noteLength.hasDot()) {
+            symbolDotDrawer.drawDot(breakRect);
         }
     }
 
-    // TODO fw break bitmaps should all be of the same size
-    private void drawBreakBitmap(NoteLength noteLength) {
+    private Rect drawBreakBitmap(NoteLength noteLength) {
         int breakHeight = distanceBetweenLines;
         int breakId = 0;
 
         if (noteLength == NoteLength.QUARTER || noteLength == NoteLength.QUARTER_DOT) {
-            breakHeight *= 3;
+            breakHeight *= QUARTER_BREAK_HEIGHT;
             breakId = R.drawable.break_4;
         } else if (noteLength == NoteLength.EIGHT || noteLength == NoteLength.EIGHT_DOT) {
-            breakHeight *= 2;
+            breakHeight *= EIGHT_BREAK_HEIGHT;
             breakId = R.drawable.break_8;
         } else if (noteLength == NoteLength.SIXTEENTH) {
-            breakHeight *= 4;
+            breakHeight *= SIXTEENTH_BREAK_HEIGHT;
             breakId = R.drawable.break_16;
         }
 
-        int xStartPositionForBreak = drawPosition.getStartXPositionForNextElement(); // TODO fw so ok?
-        xStartPositionForBreak += widthForOneSymbol / 4;
+        int xStartPositionForBreak = drawPosition.getStartXPositionForNextElement() + widthForOneSymbol / 2;
 
         Rect breakRect = noteSheetCanvas.drawBitmap(resources, breakId, breakHeight, xStartPositionForBreak, noteSheetCanvas.getHeightHalf());
         drawPosition.setStartXPositionForNextElement(breakRect.right);
 
-        // TODO fw
-        /*if (symbol.getNoteLength().hasDot()) {
-            DotDrawer.drawDotOnRightSideOfRect(rect, noteSheetCanvas);
-        }*/
+        return breakRect;
     }
 
-    private void drawBreakBar(NoteLength noteLength) {
+    private Rect drawBreakBar(NoteLength noteLength) {
         Rect breakRect = new Rect();
         Point centerPoint = getCenterPointForNextSymbol();
         int breakWidthHalf = distanceBetweenLines / 2;
@@ -103,9 +112,6 @@ public class BreakDrawer extends SymbolDrawer {
 
         noteSheetCanvas.drawRect(breakRect, paint);
 
-        // TODO fw
-        /*if (hasDot) {
-            DotDrawer.drawDotOnRightSideOfRect(rect, noteSheetCanvas);
-        }*/
+        return breakRect;
     }
 }

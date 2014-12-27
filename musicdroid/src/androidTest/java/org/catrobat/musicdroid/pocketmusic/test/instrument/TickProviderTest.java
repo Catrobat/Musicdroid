@@ -59,7 +59,7 @@ public class TickProviderTest extends AndroidTestCase {
         assertEquals(expectedTick, actualTick);
     }
 
-    public void testCounting(){
+    public void testCounting() {
         tickProvider.startCounting();
         tickProvider.stopCounting();
 
@@ -69,6 +69,14 @@ public class TickProviderTest extends AndroidTestCase {
         long actualTick = tickProvider.getTick();
 
         assertEquals(expectedTick, actualTick);
+    }
+
+    public void testIncreaseTick() {
+        NoteLength noteLength = NoteLength.QUARTER;
+
+        tickProvider.increaseTick(noteLength);
+
+        assertEquals(noteLength.toTicks(Project.DEFAULT_BEATS_PER_MINUTE), tickProvider.getTick());
     }
 
     private class TickProviderMock extends TickProvider {

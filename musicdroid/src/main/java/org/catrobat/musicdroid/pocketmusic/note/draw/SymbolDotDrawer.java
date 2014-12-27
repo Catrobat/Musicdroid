@@ -24,6 +24,7 @@
 package org.catrobat.musicdroid.pocketmusic.note.draw;
 
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 
 public class SymbolDotDrawer {
@@ -41,9 +42,9 @@ public class SymbolDotDrawer {
         this.distanceBetweenLines = distanceBetweenLines;
     }
 
-    public void drawDot(RectF noteRect) {
-        float x = noteRect.right + DISTANCE_BETWEEN_SYMBOL_AND_DOT;
-        float y = noteRect.top + distanceBetweenLines / 4;
+    public void drawDot(Rect symbolRect) {
+        float x = symbolRect.right + DISTANCE_BETWEEN_SYMBOL_AND_DOT;
+        float y = symbolRect.top + distanceBetweenLines / 4;
 
         RectF dotRect = new RectF();
 

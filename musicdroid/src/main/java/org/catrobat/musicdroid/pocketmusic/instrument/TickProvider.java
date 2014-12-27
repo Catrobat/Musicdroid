@@ -59,4 +59,8 @@ public class TickProvider {
     public void setTickBasedOnTrack(Track track) {
         tick = track.getLastTick();
     }
+
+    public void increaseTick(NoteLength noteLength) {
+        tick += noteLength.toTicks(beatsPerMinute);
+    }
 }
