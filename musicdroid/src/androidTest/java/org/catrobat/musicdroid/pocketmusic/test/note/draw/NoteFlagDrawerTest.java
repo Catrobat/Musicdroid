@@ -29,7 +29,7 @@ import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteFlagDrawer;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
-import org.catrobat.musicdroid.pocketmusic.test.note.NoteSymbolTestDataFactory;
+import org.catrobat.musicdroid.pocketmusic.test.note.symbol.NoteSymbolTestDataFactory;
 
 public class NoteFlagDrawerTest extends AbstractDrawerTest {
 

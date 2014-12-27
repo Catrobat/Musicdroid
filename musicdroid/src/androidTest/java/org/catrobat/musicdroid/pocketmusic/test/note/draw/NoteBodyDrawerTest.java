@@ -34,7 +34,7 @@ import org.catrobat.musicdroid.pocketmusic.note.draw.NoteBodyDrawer;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NotePositionInformation;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
-import org.catrobat.musicdroid.pocketmusic.test.note.NoteSymbolTestDataFactory;
+import org.catrobat.musicdroid.pocketmusic.test.note.symbol.NoteSymbolTestDataFactory;
 
 import java.util.LinkedList;
 import java.util.List;

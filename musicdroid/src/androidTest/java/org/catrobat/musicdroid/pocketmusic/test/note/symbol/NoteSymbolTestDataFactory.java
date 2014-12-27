@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.test.note;
+package org.catrobat.musicdroid.pocketmusic.test.note.symbol;
 
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
