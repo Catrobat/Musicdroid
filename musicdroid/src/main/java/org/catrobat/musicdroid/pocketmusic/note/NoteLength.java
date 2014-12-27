@@ -122,11 +122,19 @@ public enum NoteLength {
     }
 
     public boolean hasDot() {
-        return (this == WHOLE_DOT) || (this == HALF_DOT) || (this == QUARTER_DOT) || (this == EIGHT_DOT);
+        return (WHOLE_DOT == this) || (HALF_DOT == this) || (QUARTER_DOT == this) || (EIGHT_DOT == this);
     }
 
     public boolean isFilled() {
-        return (this != WHOLE_DOT) && (this != WHOLE) && (this != HALF) && (this != HALF_DOT);
+        return (WHOLE_DOT != this) && (WHOLE != this) && (HALF != this) && (HALF_DOT != this);
+    }
+
+    public boolean isHalfOrHigher() {
+        if ((WHOLE_DOT == this) || (WHOLE == this) || (HALF_DOT == this) || (HALF == this)) {
+            return true;
+        }
+
+        return false;
     }
 
     private static class NoteLengthMillisecondsHelper {

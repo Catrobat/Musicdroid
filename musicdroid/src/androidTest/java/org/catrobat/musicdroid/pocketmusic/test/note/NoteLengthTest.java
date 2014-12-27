@@ -199,4 +199,12 @@ public class NoteLengthTest extends AndroidTestCase {
 
         assertEquals(expectedMilliseconds, NoteLength.tickToMilliseconds(tick));
     }
+
+    public void testIsHalfOrHigher1() {
+        assertTrue(NoteLength.HALF.isHalfOrHigher());
+    }
+
+    public void testIsHalfOrHigher2() {
+        assertFalse(NoteLength.QUARTER.isHalfOrHigher());
+    }
 }

@@ -30,6 +30,7 @@ import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
 import org.catrobat.musicdroid.pocketmusic.note.draw.TrackDrawer;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
@@ -46,7 +47,7 @@ public class TrackDrawerTest extends AbstractDrawerTest {
     protected void setUp() {
         super.setUp();
 
-        track = TrackTestDataFactory.createSimpleTrack();
+        track = TrackTestDataFactory.createTrackWithBreak();
         trackDrawer = new TrackDrawer(noteSheetCanvas, paint, getContext().getResources(), track, drawPosition, distanceBetweenLines);
     }
 
@@ -64,28 +65,26 @@ public class TrackDrawerTest extends AbstractDrawerTest {
         List<Symbol> symbols = converter.convertTrack(track);
         int distanceWhenHelpLinesStart = 5;
 
-        int count = symbols.size();
+        int count = 0;
 
         for (Symbol symbol : symbols) {
             if (symbol instanceof NoteSymbol) {
                 NoteSymbol noteSymbol = (NoteSymbol) symbol;
 
+                if (noteSymbol.hasStem()) {
+                    count++;
+                }
+
                 for (NoteName noteName : noteSymbol.getNoteNamesSorted()) {
+                    count++;
                     int distance = Math.abs(NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(track.getKey(), noteName));
 
                     if (distance > distanceWhenHelpLinesStart) {
                         count += distance - distanceWhenHelpLinesStart;
                     }
                 }
-
-                for (NoteName noteName : noteSymbol.getNoteNamesSorted()) {
-                    NoteLength noteLength = noteSymbol.getNoteLength(noteName);
-
-                    if (noteLength.hasStem()) {
-                        count++;
-                        break;
-                    }
-                }
+            } else if (symbol instanceof BreakSymbol) {
+                count++;
             }
         }
 

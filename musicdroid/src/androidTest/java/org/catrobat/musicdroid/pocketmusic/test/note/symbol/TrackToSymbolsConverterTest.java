@@ -40,39 +40,10 @@ public class TrackToSymbolsConverterTest extends AndroidTestCase {
 
     public void testConvertTrack() {
         TrackToSymbolsConverter converter = new TrackToSymbolsConverter();
-        Track track = createTrackWithBreak();
+        Track track = TrackTestDataFactory.createTrackWithBreak();
         List<Symbol> expectedSymbols = createSymbolListWithBreak();
 
         assertEquals(expectedSymbols, converter.convertTrack(track));
-    }
-
-    private static Track createTrackWithBreak() {
-        Track track = TrackTestDataFactory.createTrack();
-
-        long tick = 0;
-
-        track.addNoteEvent(tick, new NoteEvent(NoteName.C1, true));
-        track.addNoteEvent(tick, new NoteEvent(NoteName.D1, true));
-
-        tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
-
-        track.addNoteEvent(tick, new NoteEvent(NoteName.C1, false));
-        track.addNoteEvent(tick, new NoteEvent(NoteName.D1, false));
-        track.addNoteEvent(tick, new NoteEvent(NoteName.E1, true));
-
-        tick += NoteLength.QUARTER_DOT.toTicks(track.getBeatsPerMinute());
-
-        track.addNoteEvent(tick, new NoteEvent(NoteName.E1, false));
-
-        tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
-
-        track.addNoteEvent(tick, new NoteEvent(NoteName.C1, true));
-
-        tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
-
-        track.addNoteEvent(tick, new NoteEvent(NoteName.C1, false));
-
-        return track;
     }
 
     private static List<Symbol> createSymbolListWithBreak() {

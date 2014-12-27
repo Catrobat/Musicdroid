@@ -39,7 +39,7 @@ public final class NoteBodyDrawer {
     public static final int NOTE_WIDTH_SCALE = 130 / 100;
 
     private SymbolDrawer symbolDrawer;
-    private NoteDotDrawer noteDotDrawer;
+    private SymbolDotDrawer symbolDotDrawer;
     private NoteSheetCanvas noteSheetCanvas;
     private Paint paint;
     private MusicalKey key;
@@ -47,7 +47,7 @@ public final class NoteBodyDrawer {
 
 	public NoteBodyDrawer(SymbolDrawer symbolDrawer, NoteSheetCanvas noteSheetCanvas, Paint paint, MusicalKey key, int distanceBetweenLines) {
         this.symbolDrawer = symbolDrawer;
-        this.noteDotDrawer = new NoteDotDrawer(noteSheetCanvas, paint, distanceBetweenLines);
+        this.symbolDotDrawer = new SymbolDotDrawer(noteSheetCanvas, paint, distanceBetweenLines);
         this.noteSheetCanvas = noteSheetCanvas;
         this.paint = new Paint(paint);
         this.key = key;
@@ -101,7 +101,7 @@ public final class NoteBodyDrawer {
             noteSheetCanvas.drawOval(noteRect, paint);
 
             if (noteLength.hasDot()) {
-                noteDotDrawer.drawDot(noteRect);
+                symbolDotDrawer.drawDot(noteRect);
             }
 
 			prevNoteName = noteName;

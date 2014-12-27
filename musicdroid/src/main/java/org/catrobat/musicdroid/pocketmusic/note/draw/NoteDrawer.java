@@ -48,7 +48,7 @@ public class NoteDrawer extends SymbolDrawer {
 
     public void drawSymbol(Symbol symbol) {
         if (false == (symbol instanceof  NoteSymbol)) {
-            return;
+            throw new IllegalArgumentException("Symbol is not of type NoteSymbol: " + symbol);
         }
 
         NoteSymbol noteSymbol = (NoteSymbol) symbol;
