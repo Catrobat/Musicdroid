@@ -29,27 +29,24 @@ import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.draw.BreakDrawer;
-import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 import org.catrobat.musicdroid.pocketmusic.test.note.symbol.BreakSymbolTestDataFactory;
 
 public class BreakDrawerTest extends AbstractDrawerTest {
 
-    private BreakDrawer breakDrawer;
-    private SymbolDrawerMock symbolDrawer;
+    private BreakDrawerMock breakDrawer;
 
     @Override
     protected void setUp() {
         super.setUp();
         MusicalKey key = MusicalKey.VIOLIN;
 
-        breakDrawer = new BreakDrawer(noteSheetCanvas, paint, getContext().getResources(), key, drawPosition, distanceBetweenLines);
-        symbolDrawer = new SymbolDrawerMock(noteSheetCanvas, paint, getContext().getResources(), key, new NoteSheetDrawPosition(drawPosition.getStartXPositionForNextElement(), drawPosition.getEndXPositionForDrawingElements()), distanceBetweenLines);
+        breakDrawer = new BreakDrawerMock(noteSheetCanvas, paint, getContext().getResources(), key, drawPosition, distanceBetweenLines);
     }
 
     public void testDrawSymbolBitmap() {
         int breakHeight = BreakDrawer.QUARTER_BREAK_HEIGHT * distanceBetweenLines;
-        int xPosition = drawPosition.getStartXPositionForNextElement() + symbolDrawer.getWidthForOneSymbol() / 2;
+        int xPosition = breakDrawer.getCenterPointForNextSymbolNoDrawPositionChange().x;
         BreakSymbol breakSymbol = BreakSymbolTestDataFactory.createBreakSymbol(NoteLength.QUARTER);
 
         breakDrawer.drawSymbol(breakSymbol);
@@ -60,14 +57,14 @@ public class BreakDrawerTest extends AbstractDrawerTest {
     public void testDrawSymbolRect() {
         BreakSymbol breakSymbol = BreakSymbolTestDataFactory.createBreakSymbol(NoteLength.HALF);
 
-        breakDrawer.drawSymbol(breakSymbol);
-
-        Point centerPoint = symbolDrawer.getCenterPointForNextSymbol();
+        Point centerPoint = breakDrawer.getCenterPointForNextSymbolNoDrawPositionChange();
         int breakWidthHalf = distanceBetweenLines / 2;
         int startX = centerPoint.x - breakWidthHalf;
         int startY = centerPoint.y - breakWidthHalf;
         int stopX = centerPoint.x + breakWidthHalf;
         int stopY = centerPoint.y;
+
+        breakDrawer.drawSymbol(breakSymbol);
 
         assertCanvasElementQueueRect(startX, startY, stopX, stopY);
     }
