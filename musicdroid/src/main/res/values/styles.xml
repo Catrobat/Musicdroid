@@ -25,15 +25,14 @@
 
     <!-- Base application theme. -->
 
-    <style name="AppTheme" parent="android:Theme.Holo" >
-        <item name="android:windowEnableSplitTouch">false</item>
-        <item name="android:splitMotionEvents">false</item>
-        <item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
-    </style >
-    <style name="MyActionButtonOverflow" parent="android:style/Widget.Holo.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_action_overflow</item>
+    <style name="AppTheme" parent="android:style/Theme.Holo.Light">
+      <item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
     </style>
 
--->
+    <style name="MyActionButtonOverflow" parent="android:style/Widget.Holo.ActionButton.Overflow">
+      <item name="android:src">@drawable/ic_action_overflow</item>
+    </style>
+
 
 </resources >
+
