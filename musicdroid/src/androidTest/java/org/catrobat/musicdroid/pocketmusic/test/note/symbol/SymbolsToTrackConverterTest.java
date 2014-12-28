@@ -25,35 +25,20 @@ package org.catrobat.musicdroid.pocketmusic.test.note.symbol;
 
 import android.test.AndroidTestCase;
 
-import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
-import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
-import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolsToTrackConverter;
 import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
 
-import java.util.LinkedList;
 import java.util.List;
 
-public class TrackToSymbolsConverterTest extends AndroidTestCase {
+public class SymbolsToTrackConverterTest extends AndroidTestCase {
 
-    public void testConvertTrack() {
-        TrackToSymbolsConverter converter = new TrackToSymbolsConverter();
-        Track track = TrackTestDataFactory.createTrackWithBreak();
-        List<Symbol> expectedSymbols = createSymbolListWithBreak();
+    public void testConvertSymbols() {
+        SymbolsToTrackConverter converter = new SymbolsToTrackConverter();
+        List<Symbol> symbols = TrackToSymbolsConverterTest.createSymbolListWithBreak();
+        Track expectedTrack = TrackTestDataFactory.createTrackWithBreak();
 
-        assertEquals(expectedSymbols, converter.convertTrack(track));
-    }
-
-    public static List<Symbol> createSymbolListWithBreak() {
-        List<Symbol> symbols = new LinkedList<Symbol>();
-
-        symbols.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C4, NoteName.D4));
-        symbols.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.E4));
-        symbols.add(BreakSymbolTestDataFactory.createBreakSymbol(NoteLength.QUARTER));
-        symbols.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C4));
-
-        return symbols;
+        assertEquals(expectedTrack, converter.convertSymbols(symbols, expectedTrack.getKey(), expectedTrack.getInstrument(), expectedTrack.getBeatsPerMinute()));
     }
 }

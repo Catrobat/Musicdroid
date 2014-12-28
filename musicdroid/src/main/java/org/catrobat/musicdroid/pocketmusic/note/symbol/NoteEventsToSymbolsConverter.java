@@ -31,13 +31,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class NoteEventListToSymbolConverter {
+public class NoteEventsToSymbolsConverter {
 
 	private long lastTick;
 	private Map<NoteName, Long> openNotes;
 	private Symbol currentSymbol;
 
-	public NoteEventListToSymbolConverter() {
+	public NoteEventsToSymbolsConverter() {
 		lastTick = 0;
 		openNotes = new HashMap<NoteName, Long>();
 		currentSymbol = null;
