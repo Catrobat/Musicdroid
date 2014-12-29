@@ -35,12 +35,13 @@ import java.io.IOException;
 
 public class MidiToProjectConverterTest extends AndroidTestCase {
 
-    private static final String FILE_NAME = "MidiToProjectConverterTest.midi";
+    private Project project;
     private File file;
 
     @Override
     protected void setUp() {
-        file = new File(ProjectToMidiConverter.MIDI_FOLDER + File.separator + FILE_NAME + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
+        project = ProjectTestDataFactory.createProjectWithSemiComplexTracks();
+        file = new File(ProjectToMidiConverter.MIDI_FOLDER + File.separator + project.getName() + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
     }
 
     @Override
@@ -51,11 +52,10 @@ public class MidiToProjectConverterTest extends AndroidTestCase {
 	public void testConvertToMidiToProject() throws MidiException, IOException {
 		ProjectToMidiConverter projectConverter = new ProjectToMidiConverter();
 		MidiToProjectConverter midiConverter = new MidiToProjectConverter();
-		Project expectedProject = ProjectTestDataFactory.createProjectWithSemiComplexTracks();
 
-        projectConverter.writeProjectAsMidi(expectedProject, FILE_NAME);
+        projectConverter.writeProjectAsMidi(project);
         Project actualProject = midiConverter.convertMidiFileToProject(file);
 
-        assertEquals(expectedProject, actualProject);
+        assertEquals(project, actualProject);
 	}
 }

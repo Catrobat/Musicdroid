@@ -30,9 +30,11 @@ import com.robotium.solo.Solo;
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
+import org.catrobat.musicdroid.pocketmusic.test.note.ProjectTestDataFactory;
 import org.catrobat.musicdroid.pocketmusic.test.note.midi.ProjectToMidiConverterTestDataFactory;
 
 import java.io.File;
@@ -134,10 +136,10 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
     public void testImportMidi() throws IOException, MidiException {
         boolean expectedFileExists = true;
-        String filename = "testFile";
-        ProjectToMidiConverterTestDataFactory.writeTestProject(filename);
-        assertFileExists(filename, expectedFileExists);
-        importMidi(filename);
+        Project project = ProjectTestDataFactory.createProjectWithSemiComplexTracks();
+        ProjectToMidiConverterTestDataFactory.writeTestProject(project);
+        assertFileExists(project.getName(), expectedFileExists);
+        importMidi(project.getName());
     }
 
     public void testClear() {

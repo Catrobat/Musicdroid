@@ -309,14 +309,15 @@ public abstract class InstrumentActivity extends Activity {
                                 String userInput = editTextMidiExportNameDialogPrompt.getText().toString();
 
                                 if ((userInput != null) && (false == userInput.equals(""))) {
-                                    String filename = userInput.split(ProjectToMidiConverter.MIDI_FILE_EXTENSION)[0];
+                                    String projectName = userInput.split(ProjectToMidiConverter.MIDI_FILE_EXTENSION)[0];
 
                                     final ProjectToMidiConverter converter = new ProjectToMidiConverter();
-                                    final Project project = new Project(Project.DEFAULT_BEATS_PER_MINUTE);
+                                    // TODO fw
+                                    final Project project = new Project(projectName, Project.DEFAULT_BEATS_PER_MINUTE);
                                     project.addTrack(getTrack());
 
                                     try {
-                                        converter.writeProjectAsMidi(project, filename);
+                                        converter.writeProjectAsMidi(project);
 
                                         Toast.makeText(getBaseContext(), R.string.action_export_midi_success,
                                                 Toast.LENGTH_LONG).show();
