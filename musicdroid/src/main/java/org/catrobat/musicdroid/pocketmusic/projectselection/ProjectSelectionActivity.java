@@ -26,6 +26,7 @@ package org.catrobat.musicdroid.pocketmusic.projectselection;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,13 +34,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.projectselection.menu.DeleteMenuCallback;
 
 public class ProjectSelectionActivity extends Activity {
+    private ProjectSelectionFragment projectSelectionFragment;
+    private DeleteMenuCallback deleteMenuCallback;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_selection);
-        ProjectSelectionFragment projectSelectionFragment = new ProjectSelectionFragment();
+        projectSelectionFragment = new ProjectSelectionFragment();
         if (savedInstanceState != null) {
             getFragmentManager().beginTransaction().replace(R.id.container, projectSelectionFragment).commit();
         } else {
@@ -48,20 +52,34 @@ public class ProjectSelectionActivity extends Activity {
     }
 
     @Override
+    protected void onResume() {
+        getFragmentManager().beginTransaction().replace(R.id.container, projectSelectionFragment).commit();
+        super.onResume();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_project_selection, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         // TODO: menu implementation
-        if (id == R.id.action_about
-                ) {
+        if (id == R.id.action_delete_project ) {
+            deleteMenuCallback = new DeleteMenuCallback(this);
+            startActionMode(deleteMenuCallback);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    public ProjectSelectionFragment getProjectSelectionFragment(){
+        return projectSelectionFragment;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

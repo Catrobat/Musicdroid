@@ -25,6 +25,7 @@ package org.catrobat.musicdroid.pocketmusic.projectselection;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,14 +37,16 @@ import android.widget.TextView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 
+import java.util.ArrayList;
+
 public class ProjectListViewAdapter extends BaseAdapter {
 
     private final Context context;
-    private final String[] projectNames;
-    private final String[] durations;
-    private final boolean[] projectSelectionCheckBoxStatus;
-    private final int numberOfProjects;
-    private final int[] projectSelectionCheckBoxVisibility;
+    private ArrayList<String> projectNames;
+    private ArrayList<String> durations;
+    private ArrayList<Boolean> projectSelectionCheckBoxStatus;
+    private int numberOfProjects;
+    private ArrayList<Integer> projectSelectionCheckBoxVisibility;
 
     static class ViewHolder {
         public LinearLayout projectListItemLinearLayout;
@@ -53,22 +56,33 @@ public class ProjectListViewAdapter extends BaseAdapter {
         public CheckBox projectSelectionCheckBox;
     }
 
-    public ProjectListViewAdapter(Context context, int numberOfProjects, String[] projectNames, String[] durations) {
+    public ProjectListViewAdapter(Context context, int numberOfProjects, ArrayList<String> projectNames, ArrayList<String> durations) {
         this.context = context;
         this.projectNames = projectNames;
         this.durations = durations;
         this.numberOfProjects = numberOfProjects;
 
-        this.projectSelectionCheckBoxStatus = new boolean[numberOfProjects];
-        this.projectSelectionCheckBoxVisibility = new int[numberOfProjects];
+        this.projectSelectionCheckBoxStatus = new ArrayList<Boolean>();
+        this.projectSelectionCheckBoxVisibility = new ArrayList<Integer>();
 
         initFlags();
     }
+    public void deleteItemByProjectName(String projectName){
+        for(int i = 0; i < numberOfProjects; i++)
+            if(projectName.equals(projectNames.get(i))){
+                this.numberOfProjects --;
+                projectNames.remove(i);
+                durations.remove(i);
+                projectSelectionCheckBoxStatus.remove(i);
+                projectSelectionCheckBoxVisibility.remove(i);
+            }
+        notifyDataSetChanged();
 
+    }
     private void initFlags() {
         for (int i = 0; i < numberOfProjects; i++) {
-            this.projectSelectionCheckBoxVisibility[i] = View.INVISIBLE;
-            this.projectSelectionCheckBoxStatus[i] = false;
+            this.projectSelectionCheckBoxVisibility.add(View.INVISIBLE);
+            this.projectSelectionCheckBoxStatus.add(false);
         }
     }
 
@@ -80,6 +94,10 @@ public class ProjectListViewAdapter extends BaseAdapter {
     @Override
     public Object getItem(int i) {
         return null;
+    }
+
+    public String getItemName(int i) {
+        return projectNames.get(i);
     }
 
     @Override
@@ -111,30 +129,42 @@ public class ProjectListViewAdapter extends BaseAdapter {
             view.setTag(viewHolder);
         }
         viewHolder = (ViewHolder) view.getTag();
-        viewHolder.projectNameTextView.setText(context.getResources().getText(R.string.project_name) + projectNames[position]);
-        viewHolder.projectDurationTextView.setText(context.getResources().getText(R.string.project_duration) + durations[position]);
-        viewHolder.projectSelectionCheckBox.setVisibility(projectSelectionCheckBoxVisibility[position]);
-        viewHolder.projectSelectionCheckBox.setChecked(projectSelectionCheckBoxStatus[position]);
+        viewHolder.projectNameTextView.setText(context.getResources().getText(R.string.project_name) + projectNames.get(position));
+        viewHolder.projectDurationTextView.setText(context.getResources().getText(R.string.project_duration) + durations.get(position));
+        //noinspection ResourceType
+        viewHolder.projectSelectionCheckBox.setVisibility(projectSelectionCheckBoxVisibility.get(position));
+        viewHolder.projectSelectionCheckBox.setTag(position);
+        viewHolder.projectSelectionCheckBox.setChecked(projectSelectionCheckBoxStatus.get(position));
         viewHolder.projectSelectionCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CheckBox checkBox = (CheckBox) v;
                 int rowId = (Integer) v.getTag();
-                projectSelectionCheckBoxStatus[rowId] = checkBox.isChecked();
+                projectSelectionCheckBoxStatus.set(rowId,checkBox.isChecked());
             }
         });
         return view;
     }
 
-    public void setEditMode(boolean enabled) {
+    public void setDelMode(boolean enabled) {
         if (enabled) {
             for (int i = 0; i < numberOfProjects; i++)
-                projectSelectionCheckBoxVisibility[i] = View.VISIBLE;
+                projectSelectionCheckBoxVisibility.set(i, View.VISIBLE);
         } else {
             for (int i = 0; i < numberOfProjects; i++)
-                projectSelectionCheckBoxVisibility[i] = View.INVISIBLE;
+                projectSelectionCheckBoxVisibility.set(i, View.INVISIBLE);
 
         }
         notifyDataSetChanged();
     }
+    public boolean getProjectSelectionCheckBoxStatus(int position) {
+        return projectSelectionCheckBoxStatus.get(position);
+    }
+
+    public void clearProjectSelectionCheckBoxStatus() {
+        for (int i = 0; i < numberOfProjects; i++)
+            projectSelectionCheckBoxStatus.set(i,false);
+    }
+
+
 }
