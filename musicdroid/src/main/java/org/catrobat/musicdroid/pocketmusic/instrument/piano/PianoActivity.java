@@ -23,6 +23,7 @@
 
 package org.catrobat.musicdroid.pocketmusic.instrument.piano;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +34,13 @@ import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetViewFragment;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
+import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
+
+import java.io.File;
+import java.io.IOException;
 
 public class PianoActivity extends InstrumentActivity {
 
@@ -55,6 +63,22 @@ public class PianoActivity extends InstrumentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_piano);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            MidiToProjectConverter converter = new MidiToProjectConverter();
+            File midiFile = new File(ProjectToMidiConverter.MIDI_FOLDER, extras.getString("fileName") + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
+            try {
+
+                Project project = converter.convertMidiFileToProject(midiFile);
+                setTrack(project.getTrack(0));
+            } catch (MidiException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         noteSheetViewFragment = new NoteSheetViewFragment();
         pianoViewFragment = new PianoViewFragment();
 

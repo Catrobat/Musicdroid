@@ -114,7 +114,7 @@ public abstract class InstrumentActivity extends Activity {
         dismissPlayAllDialog();
     }
 
-    private void setTrack(Track track) {
+    protected void setTrack(Track track) {
         this.track = track;
         tickProvider.setTickBasedOnTrack(track);
     }
