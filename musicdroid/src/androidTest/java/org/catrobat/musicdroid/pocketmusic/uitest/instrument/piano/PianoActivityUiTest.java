@@ -196,10 +196,10 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         assertEquals(expectedTrackSize, actualTrackSize);
     }
 
-    public void testPlayMidi() {
+    public void testPlayMidi() throws InterruptedException {
         clickSomePianoButtonsForLargeTrack();
         solo.clickOnActionBarItem(R.id.action_play_midi);
-        solo.waitForDialogToOpen();
+        Thread.sleep(100);
 
         assertTrue(pianoActivity.getMidiPlayer().isPlaying());
     }

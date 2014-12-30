@@ -64,7 +64,6 @@ public abstract class InstrumentActivity extends Activity {
     private Track track;
     private TickProvider tickProvider;
     private TrackMementoStack mementoStack;
-    private AlertDialog playAllDialog;
 
     private String[] midiFileList;
     private boolean activityInFocus = false;
@@ -110,8 +109,6 @@ public abstract class InstrumentActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-
-        dismissPlayAllDialog();
     }
 
     protected void setTrack(Track track) {
@@ -213,45 +210,10 @@ public abstract class InstrumentActivity extends Activity {
             return;
         }
 
-        lockScreenOrientation();
-
         try {
             midiPlayer.playTrack(this, getCacheDir(), track, Project.DEFAULT_BEATS_PER_MINUTE);
-
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-            alertDialogBuilder.setMessage(R.string.action_play_midi_dialog_title)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.action_play_midi_dialog_stop,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    midiPlayer.stop();
-                                    unlockScreenOrientation();
-                                }
-                            }
-                    );
-
-            playAllDialog = alertDialogBuilder.create();
-            playAllDialog.show();
         } catch (Exception e) {
             Toast.makeText(getBaseContext(), R.string.action_play_midi_error, Toast.LENGTH_LONG).show();
-            unlockScreenOrientation();
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-    private void lockScreenOrientation() {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
-    }
-
-    private void unlockScreenOrientation() {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-    }
-
-    public void dismissPlayAllDialog() {
-        if ((null != playAllDialog) && playAllDialog.isShowing()) {
-            playAllDialog.dismiss();
-            unlockScreenOrientation();
         }
     }
 

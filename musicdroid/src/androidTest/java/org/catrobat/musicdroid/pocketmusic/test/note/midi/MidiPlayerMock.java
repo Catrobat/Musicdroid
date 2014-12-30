@@ -23,10 +23,10 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.midi;
 
+import android.app.Activity;
 import android.media.MediaPlayer;
 import android.net.Uri;
 
-import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
@@ -48,25 +48,25 @@ public class MidiPlayerMock extends MidiPlayer {
     protected void writeTempPlayFile(File tempPlayFile, Track track, int beatsPerMinute) throws IOException, MidiException {}
 
     @Override
-    protected MediaPlayer createNotePlayer(final InstrumentActivity activity, final int midiFileId) {
+    protected MediaPlayer createNotePlayer(final Activity activity, final int midiFileId) {
         return new MediaPlayerMock();
     }
 
     @Override
-    public void onPlayNoteComplete(final InstrumentActivity activity) {
+    public void onPlayNoteComplete(final Activity activity) {
         setPlaying(false);
         super.onPlayNoteComplete(activity);
     }
 
     @Override
-    protected MediaPlayer createTrackPlayer(final InstrumentActivity activity, final Uri uri) {
+    protected MediaPlayer createTrackPlayer(final Activity activity, final Uri uri) {
         return new MediaPlayerMock();
     }
 
     @Override
-    public void onPlayTrackComplete(final InstrumentActivity activity, final File tempPlayFile) {
+    public void onPlayTrackComplete(final File tempPlayFile) {
         setPlaying(false);
-        super.onPlayTrackComplete(activity, tempPlayFile);
+        super.onPlayTrackComplete(tempPlayFile);
     }
 
     private class MediaPlayerMock extends MediaPlayer {
