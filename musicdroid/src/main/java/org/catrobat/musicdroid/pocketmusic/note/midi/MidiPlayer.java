@@ -29,6 +29,7 @@ import android.net.Uri;
 
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -146,15 +147,21 @@ public class MidiPlayer {
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                onPlayTrackComplete(tempPlayFile);
+                onPlayTrackComplete(tempPlayFile, activity);
             }
         });
 
         return player;
     }
 
-    protected void onPlayTrackComplete(final File tempPlayFile) {
+    protected void onPlayTrackComplete(File tempPlayFile, Activity activity) {
         tempPlayFile.delete();
+        try {
+            ProjectSelectionActivity projectSelectionActivity = (ProjectSelectionActivity) activity;
+            projectSelectionActivity.notifyTrackPlayed();
+        }catch (ClassCastException ex){
+
+        }
     }
 
     protected MediaPlayer createTrackPlayer(final Activity activity, final Uri uri) {

@@ -24,8 +24,8 @@
 package org.catrobat.musicdroid.pocketmusic.projectselection;
 
 
+import android.app.Activity;
 import android.content.Context;
-import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,15 +33,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
-import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
-import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ProjectListViewAdapter extends BaseAdapter {
@@ -50,7 +50,9 @@ public class ProjectListViewAdapter extends BaseAdapter {
     private ArrayList<Project> projects;
     private ArrayList<Boolean> projectSelectionCheckBoxStatus;
     private ArrayList<Integer> projectSelectionCheckBoxVisibility;
-    private MidiPlayer midiPlayer;
+    private ArrayList<Boolean> projectSelectionTrackIsPlayingList;
+    private boolean playButtonLock = false;
+    private ViewHolder viewHolder;
 
     static class ViewHolder {
         public ImageButton projectPlayButton;
@@ -63,7 +65,6 @@ public class ProjectListViewAdapter extends BaseAdapter {
     public ProjectListViewAdapter(Context context, ArrayList<Project> projects) {
         this.context = context;
         this.projects = projects;
-        midiPlayer = MidiPlayer.getInstance();
         initFlags();
     }
 
@@ -73,6 +74,7 @@ public class ProjectListViewAdapter extends BaseAdapter {
                 projects.remove(i);
                 projectSelectionCheckBoxStatus.remove(i);
                 projectSelectionCheckBoxVisibility.remove(i);
+                projectSelectionTrackIsPlayingList.remove(i);
             }
         notifyDataSetChanged();
 
@@ -81,10 +83,12 @@ public class ProjectListViewAdapter extends BaseAdapter {
     private void initFlags() {
         this.projectSelectionCheckBoxStatus = new ArrayList<>();
         this.projectSelectionCheckBoxVisibility = new ArrayList<>();
+        this.projectSelectionTrackIsPlayingList = new ArrayList<>();
 
         for (int i = 0; i < projects.size(); i++) {
             this.projectSelectionCheckBoxVisibility.add(View.INVISIBLE);
             this.projectSelectionCheckBoxStatus.add(false);
+            this.projectSelectionTrackIsPlayingList.add(false);
         }
     }
 
@@ -109,7 +113,7 @@ public class ProjectListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
-        ViewHolder viewHolder = new ViewHolder();
+        viewHolder = new ViewHolder();
 
         if (view == null) {
 
@@ -134,14 +138,14 @@ public class ProjectListViewAdapter extends BaseAdapter {
 
         viewHolder = (ViewHolder) view.getTag();
 
-        initPlayPauseButtonRoutine(viewHolder);
-        initTextViews(viewHolder, position);
-        initCheckBoxBehavior(viewHolder, position);
+        initPlayPauseButtonRoutine(position);
+        initTextViews(position);
+        initCheckBoxBehavior(position);
 
         return view;
     }
 
-    private void initCheckBoxBehavior(ViewHolder viewHolder, int position) {
+    private void initCheckBoxBehavior(int position) {
         //noinspection ResourceType
         viewHolder.projectSelectionCheckBox.setVisibility(projectSelectionCheckBoxVisibility.get(position));
         viewHolder.projectSelectionCheckBox.setTag(position);
@@ -156,28 +160,64 @@ public class ProjectListViewAdapter extends BaseAdapter {
         });
     }
 
-    private void initTextViews(ViewHolder viewHolder, int actualPosition) {
-        viewHolder.projectNameTextView.setText(context.getResources().getText(R.string.project_name) + projects.get(actualPosition).getName());
-        viewHolder.projectDurationTextView.setText(context.getResources().getText(R.string.project_duration) +""+projects.get(actualPosition).getTrack(0).getTotalTimeInMilliseconds());
+    private void initTextViews(int actualPosition) {
+        viewHolder.projectNameTextView.setText(context.getResources().getText(R.string.project_name)
+                + projects.get(actualPosition).getName());
+        viewHolder.projectDurationTextView.setText(context.getResources().getText(R.string.project_duration) + ""
+                + projects.get(actualPosition).getTrack(0).getTotalTimeInMilliseconds());
     }
 
-    private void initPlayPauseButtonRoutine(ViewHolder viewHolder){
-        final ViewHolder finalViewHolder = viewHolder;
+    public void changePlayPauseButtonState(){
+        playButtonLock = false;
+        for(int i = 0; i<projectSelectionTrackIsPlayingList.size();i++)
+            projectSelectionTrackIsPlayingList.set(i,false);
+        notifyDataSetChanged();
+    }
+
+    private void initPlayPauseButtonRoutine(final int position){
+
+        if(projectSelectionTrackIsPlayingList.get(position)) {
+            viewHolder.projectPlayButton.setVisibility(View.INVISIBLE);
+            viewHolder.projectPauseButton.setVisibility(View.VISIBLE);
+        }else{
+            viewHolder.projectPlayButton.setVisibility(View.VISIBLE);
+            viewHolder.projectPauseButton.setVisibility(View.INVISIBLE);
+        }
+
         viewHolder.projectPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finalViewHolder.projectPauseButton.setVisibility(View.VISIBLE);
-                finalViewHolder.projectPlayButton.setVisibility(View.INVISIBLE);
+                try {
+                    if(!playButtonLock) {
+                        playButtonLock = true;
+                        projectSelectionTrackIsPlayingList.set(position, true);
+
+                        MidiPlayer.getInstance().playTrack((Activity) context,
+                                context.getCacheDir(),
+                                projects.get(position).getTrack(0),
+                                projects.get(position).getBeatsPerMinute());
+
+                    }
+                    notifyDataSetChanged();
+                } catch (IOException | MidiException e) {
+                    e.printStackTrace();
+                }
             }
         });
+
         viewHolder.projectPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finalViewHolder.projectPlayButton.setVisibility(View.VISIBLE);
-                finalViewHolder.projectPauseButton.setVisibility(View.INVISIBLE);
+                projectSelectionTrackIsPlayingList.set(position,false);
+                playButtonLock = false;
+                MidiPlayer.getInstance().stop();
+                notifyDataSetChanged();
+
             }
+
         });
     }
+
     public void setDelMode(boolean enabled) {
         if (enabled) {
             for (int i = 0; i < projects.size(); i++)
@@ -189,6 +229,7 @@ public class ProjectListViewAdapter extends BaseAdapter {
         }
         notifyDataSetChanged();
     }
+
     public boolean getProjectSelectionCheckBoxStatus(int position) {
         return projectSelectionCheckBoxStatus.get(position);
     }

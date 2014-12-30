@@ -38,7 +38,6 @@ import org.catrobat.musicdroid.pocketmusic.projectselection.menu.DeleteMenuCallb
 
 public class ProjectSelectionActivity extends Activity {
     private ProjectSelectionFragment projectSelectionFragment;
-    private DeleteMenuCallback deleteMenuCallback;
     public static boolean inCallback = false;
 
     @Override
@@ -63,7 +62,7 @@ public class ProjectSelectionActivity extends Activity {
         int id = item.getItemId();
         // TODO: menu implementation
         if (id == R.id.action_delete_project ) {
-            deleteMenuCallback = new DeleteMenuCallback(this);
+            DeleteMenuCallback deleteMenuCallback = new DeleteMenuCallback(this);
             startActionMode(deleteMenuCallback);
             return true;
         }
@@ -74,7 +73,9 @@ public class ProjectSelectionActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    public void notifyTrackPlayed(){
+        projectSelectionFragment.getListViewAdapter().changePlayPauseButtonState();
+    }
     public ProjectSelectionFragment getProjectSelectionFragment(){
         return projectSelectionFragment;
     }
