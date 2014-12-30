@@ -64,6 +64,7 @@ public class DeleteMenuCallback implements ActionMode.Callback {
         }
         adapter.clearProjectSelectionCheckBoxStatus();
         adapter.setDelMode(false);
+        ProjectSelectionActivity.inCallback = false;
 
     }
 
@@ -71,6 +72,7 @@ public class DeleteMenuCallback implements ActionMode.Callback {
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         parent.getMenuInflater().inflate(R.menu.menu_project_selection_delete_callback, menu);
         mode.setTitle(R.string.project_selection_delete_menu_title);
+        ProjectSelectionActivity.inCallback = true;
         adapter = parent.getProjectSelectionFragment().getListViewAdapter();
         adapter.setDelMode(true);
         return true;

@@ -23,13 +23,16 @@
 
 package org.catrobat.musicdroid.pocketmusic.projectselection;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
@@ -43,50 +46,56 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class ProjectSelectionFragment extends Fragment {
 
-    private String[] midiFileList;
-
-    private Project[] projects;
-    private ArrayList<String> projectNames;
-    private ArrayList<String> projectDurations;
+    private ArrayList<Project> projects;
 
     private ProjectListViewAdapter adapter;
-
+    private ListView projectsListView;
+    private Button newProjectButton;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_project_selection, container, false);
-        ListView projectsListView = (ListView) rootView.findViewById(R.id.project_list_view);
+        projectsListView = (ListView) rootView.findViewById(R.id.project_list_view);
+        newProjectButton = (Button) rootView.findViewById(R.id.new_project_button);
 
-        midiFileList = getMidiFileList();
+        projects = new ArrayList<>();
 
-        projects = new Project[midiFileList.length];
-        projectNames = new ArrayList<>();
-        projectDurations = new ArrayList<>();
-
-        initializeProject();
-
-        adapter = new ProjectListViewAdapter(getActivity(), projects.length, projectNames, projectDurations);
-        projectsListView.setAdapter(adapter);
-        projectsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-                //TODO: only for 1track piano
-                Intent intent = new Intent(getActivity(), PianoActivity.class);
-                intent.putExtra("fileName", projectNames.get(position));
-                startActivity(intent);
-            }
-        });
-
+        fetchProjectInformation();
+        setListAdapter();
+        setOnClickListeners();
 
         return rootView;
     }
 
+    private void setListAdapter() {
+        adapter = new ProjectListViewAdapter(getActivity(), projects);
+        projectsListView.setAdapter(adapter);
+    }
 
+    private void setOnClickListeners(){
+        projectsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
+                //TODO: only for 1track piano
+                if(!ProjectSelectionActivity.inCallback){
+                    Intent intent = new Intent(getActivity(), PianoActivity.class);
+                    intent.putExtra("fileName", projects.get(position).getName());
+                    startActivity(intent);}
+            }
+        });
+
+        newProjectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), PianoActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
     private String[] getMidiFileList() {
 
         if (ProjectToMidiConverter.MIDI_FOLDER.exists()) {
@@ -101,18 +110,19 @@ public class ProjectSelectionFragment extends Fragment {
         return null;
     }
 
-    private void initializeProject() {
+    public void fetchProjectInformation() {
+
+        String[] midiFileList = getMidiFileList();
         MidiToProjectConverter midiToProjectConverter = new MidiToProjectConverter();
-        for (int i = 0; i < midiFileList.length; i++)
+        projects.clear();
+
+        for (String aMidiFile : midiFileList) {
             try {
-                projects[i] = midiToProjectConverter.convertMidiFileToProject(new File(ProjectToMidiConverter.MIDI_FOLDER, midiFileList[i]));
-                projectNames.add(projects[i].getName());
-                projectDurations.add(String.valueOf(projects[i].getTrack(0).getTotalTimeInMilliseconds()));
-            } catch (MidiException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+                projects.add(midiToProjectConverter.convertMidiFileToProject(new File(ProjectToMidiConverter.MIDI_FOLDER, aMidiFile)));
+            } catch (MidiException | IOException e) {
                 e.printStackTrace();
             }
+        }
     }
 
     public ProjectListViewAdapter getListViewAdapter(){

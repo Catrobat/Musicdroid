@@ -25,6 +25,7 @@ package org.catrobat.musicdroid.pocketmusic.projectselection;
 
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,51 +37,52 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
+import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 
 import java.util.ArrayList;
 
 public class ProjectListViewAdapter extends BaseAdapter {
 
     private final Context context;
-    private ArrayList<String> projectNames;
-    private ArrayList<String> durations;
+    private ArrayList<Project> projects;
     private ArrayList<Boolean> projectSelectionCheckBoxStatus;
-    private int numberOfProjects;
     private ArrayList<Integer> projectSelectionCheckBoxVisibility;
+    private MidiPlayer midiPlayer;
 
     static class ViewHolder {
-        public LinearLayout projectListItemLinearLayout;
         public ImageButton projectPlayButton;
+        public ImageButton projectPauseButton;
         public TextView projectNameTextView;
         public TextView projectDurationTextView;
         public CheckBox projectSelectionCheckBox;
     }
 
-    public ProjectListViewAdapter(Context context, int numberOfProjects, ArrayList<String> projectNames, ArrayList<String> durations) {
+    public ProjectListViewAdapter(Context context, ArrayList<Project> projects) {
         this.context = context;
-        this.projectNames = projectNames;
-        this.durations = durations;
-        this.numberOfProjects = numberOfProjects;
-
-        this.projectSelectionCheckBoxStatus = new ArrayList<Boolean>();
-        this.projectSelectionCheckBoxVisibility = new ArrayList<Integer>();
-
+        this.projects = projects;
+        midiPlayer = MidiPlayer.getInstance();
         initFlags();
     }
+
     public void deleteItemByProjectName(String projectName){
-        for(int i = 0; i < numberOfProjects; i++)
-            if(projectName.equals(projectNames.get(i))){
-                this.numberOfProjects --;
-                projectNames.remove(i);
-                durations.remove(i);
+        for(int i = 0; i < projects.size(); i++)
+            if(projectName.equals(projects.get(i).getName())){
+                projects.remove(i);
                 projectSelectionCheckBoxStatus.remove(i);
                 projectSelectionCheckBoxVisibility.remove(i);
             }
         notifyDataSetChanged();
 
     }
+
     private void initFlags() {
-        for (int i = 0; i < numberOfProjects; i++) {
+        this.projectSelectionCheckBoxStatus = new ArrayList<>();
+        this.projectSelectionCheckBoxVisibility = new ArrayList<>();
+
+        for (int i = 0; i < projects.size(); i++) {
             this.projectSelectionCheckBoxVisibility.add(View.INVISIBLE);
             this.projectSelectionCheckBoxStatus.add(false);
         }
@@ -88,16 +90,16 @@ public class ProjectListViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return numberOfProjects;
+        return projects.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return projects.get(i);
     }
 
     public String getItemName(int i) {
-        return projectNames.get(i);
+        return projects.get(i).getName();
     }
 
     @Override
@@ -106,7 +108,7 @@ public class ProjectListViewAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, ViewGroup parent) {
         ViewHolder viewHolder = new ViewHolder();
 
         if (view == null) {
@@ -115,10 +117,11 @@ public class ProjectListViewAdapter extends BaseAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.project_list_item, null);
 
-            viewHolder.projectListItemLinearLayout = (LinearLayout) view
-                    .findViewById(R.id.project_list_item_linear_layout);
+
             viewHolder.projectPlayButton = (ImageButton) view
                     .findViewById(R.id.project_play_button);
+            viewHolder.projectPauseButton = (ImageButton) view
+                    .findViewById(R.id.project_pause_button);
             viewHolder.projectNameTextView = (TextView) view
                     .findViewById(R.id.project_name_text_view);
             viewHolder.projectDurationTextView = (TextView) view
@@ -128,9 +131,17 @@ public class ProjectListViewAdapter extends BaseAdapter {
 
             view.setTag(viewHolder);
         }
+
         viewHolder = (ViewHolder) view.getTag();
-        viewHolder.projectNameTextView.setText(context.getResources().getText(R.string.project_name) + projectNames.get(position));
-        viewHolder.projectDurationTextView.setText(context.getResources().getText(R.string.project_duration) + durations.get(position));
+
+        initPlayPauseButtonRoutine(viewHolder);
+        initTextViews(viewHolder, position);
+        initCheckBoxBehavior(viewHolder, position);
+
+        return view;
+    }
+
+    private void initCheckBoxBehavior(ViewHolder viewHolder, int position) {
         //noinspection ResourceType
         viewHolder.projectSelectionCheckBox.setVisibility(projectSelectionCheckBoxVisibility.get(position));
         viewHolder.projectSelectionCheckBox.setTag(position);
@@ -143,15 +154,36 @@ public class ProjectListViewAdapter extends BaseAdapter {
                 projectSelectionCheckBoxStatus.set(rowId,checkBox.isChecked());
             }
         });
-        return view;
     }
 
+    private void initTextViews(ViewHolder viewHolder, int actualPosition) {
+        viewHolder.projectNameTextView.setText(context.getResources().getText(R.string.project_name) + projects.get(actualPosition).getName());
+        viewHolder.projectDurationTextView.setText(context.getResources().getText(R.string.project_duration) +""+projects.get(actualPosition).getTrack(0).getTotalTimeInMilliseconds());
+    }
+
+    private void initPlayPauseButtonRoutine(ViewHolder viewHolder){
+        final ViewHolder finalViewHolder = viewHolder;
+        viewHolder.projectPlayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finalViewHolder.projectPauseButton.setVisibility(View.VISIBLE);
+                finalViewHolder.projectPlayButton.setVisibility(View.INVISIBLE);
+            }
+        });
+        viewHolder.projectPauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finalViewHolder.projectPlayButton.setVisibility(View.VISIBLE);
+                finalViewHolder.projectPauseButton.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
     public void setDelMode(boolean enabled) {
         if (enabled) {
-            for (int i = 0; i < numberOfProjects; i++)
+            for (int i = 0; i < projects.size(); i++)
                 projectSelectionCheckBoxVisibility.set(i, View.VISIBLE);
         } else {
-            for (int i = 0; i < numberOfProjects; i++)
+            for (int i = 0; i < projects.size(); i++)
                 projectSelectionCheckBoxVisibility.set(i, View.INVISIBLE);
 
         }
@@ -162,7 +194,7 @@ public class ProjectListViewAdapter extends BaseAdapter {
     }
 
     public void clearProjectSelectionCheckBoxStatus() {
-        for (int i = 0; i < numberOfProjects; i++)
+        for (int i = 0; i < projects.size(); i++)
             projectSelectionCheckBoxStatus.set(i,false);
     }
 
