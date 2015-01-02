@@ -23,7 +23,7 @@
   -->
 
 <resources >
-    <color name="list_view_item_title_text_color" >#A8DFF4</color >
-    <color name="list_view_item_background_color" >#4D7F8F</color >
-    <color name="list_view_item_title_text_shadow_color" >#7F000000</color >
+    <color name="list_view_item_background_color_selected" >#4D7F8F</color >
+        <color name="list_view_item_background_color" >#ff000000</color >
+
 </resources >

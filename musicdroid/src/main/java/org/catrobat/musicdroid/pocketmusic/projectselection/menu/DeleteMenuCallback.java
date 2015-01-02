@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
@@ -51,18 +52,18 @@ public class DeleteMenuCallback implements ActionMode.Callback {
     @Override
     public void onDestroyActionMode(ActionMode mode) {
 
-
-        for (int currentProjectIndex = 0; currentProjectIndex < adapter.getCount(); currentProjectIndex++) {
-            if (adapter.getProjectSelectionCheckBoxStatus(currentProjectIndex)) {
-                String projectName = adapter.getItemName(currentProjectIndex);
+        for (int i = 0; i < adapter.getCount(); i++)
+            if (adapter.getProjectSelectionBackgroundFlags(i) || adapter.getProjectSelectionCheckBoxStatus(i)) {
+                String projectName = adapter.getItem(i).getName();
                 File file = new File(ProjectToMidiConverter.MIDI_FOLDER, projectName + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
-                boolean deleted = file.delete();
-                adapter.deleteItemByProjectName(projectName);
-                currentProjectIndex--;
-
+                if(file.delete()){
+                    Toast.makeText(parent, parent.getString(R.string.project_selection_on_deletion_successful), Toast.LENGTH_LONG).show();
+                    adapter.deleteItemByProjectName(projectName);
+                    i--;
+                }
             }
-        }
         adapter.clearProjectSelectionCheckBoxStatus();
+        adapter.clearProjectSelectionBackgroundStatus();
         adapter.setDelMode(false);
         ProjectSelectionActivity.inCallback = false;
 

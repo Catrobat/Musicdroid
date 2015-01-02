@@ -23,10 +23,9 @@
 
 package org.catrobat.musicdroid.pocketmusic.projectselection;
 
-import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,9 +50,10 @@ public class ProjectSelectionFragment extends Fragment {
 
     private ArrayList<Project> projects;
 
-    private ProjectListViewAdapter adapter;
+    private ProjectListViewAdapter listViewAdapter;
     private ListView projectsListView;
     private Button newProjectButton;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -71,45 +71,6 @@ public class ProjectSelectionFragment extends Fragment {
         return rootView;
     }
 
-    private void setListAdapter() {
-        adapter = new ProjectListViewAdapter(getActivity(), projects);
-        projectsListView.setAdapter(adapter);
-    }
-
-    private void setOnClickListeners(){
-        projectsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-                //TODO: only for 1track piano
-                if(!ProjectSelectionActivity.inCallback){
-                    Intent intent = new Intent(getActivity(), PianoActivity.class);
-                    intent.putExtra("fileName", projects.get(position).getName());
-                    startActivity(intent);}
-            }
-        });
-
-        newProjectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), PianoActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-    private String[] getMidiFileList() {
-
-        if (ProjectToMidiConverter.MIDI_FOLDER.exists()) {
-            FilenameFilter filter = new FilenameFilter() {
-                public boolean accept(File dir, String filename) {
-                    File selectedFile = new File(dir, filename);
-                    return filename.contains(ProjectToMidiConverter.MIDI_FILE_EXTENSION) || selectedFile.isDirectory();
-                }
-            };
-            return ProjectToMidiConverter.MIDI_FOLDER.list(filter);
-        }
-        return null;
-    }
-
     public void fetchProjectInformation() {
 
         String[] midiFileList = getMidiFileList();
@@ -125,8 +86,59 @@ public class ProjectSelectionFragment extends Fragment {
         }
     }
 
-    public ProjectListViewAdapter getListViewAdapter(){
-        return adapter;
+    private void setListAdapter() {
+        listViewAdapter = new ProjectListViewAdapter(getActivity(), projects);
+        projectsListView.setAdapter(listViewAdapter);
+    }
+
+    private void setOnClickListeners() {
+        projectsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
+                //TODO: only for 1track piano
+                if (!ProjectSelectionActivity.inCallback) {
+                    Intent intent = new Intent(getActivity(), PianoActivity.class);
+                    intent.putExtra("fileName", projects.get(position).getName());
+                    startActivity(intent);
+                } else {
+                    listViewAdapter.setProjectSelectionBackgroundFlags(position);
+                }
+            }
+        });
+        projectsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ProjectSelectionActivity projectSelectionActivity = (ProjectSelectionActivity) getActivity();
+                projectSelectionActivity.startActionMode();
+                return false;
+            }
+        });
+
+        newProjectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), PianoActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private String[] getMidiFileList() {
+
+        if (ProjectToMidiConverter.MIDI_FOLDER.exists()) {
+            FilenameFilter filter = new FilenameFilter() {
+                public boolean accept(File dir, String filename) {
+                    File selectedFile = new File(dir, filename);
+                    return filename.contains(ProjectToMidiConverter.MIDI_FILE_EXTENSION) || selectedFile.isDirectory();
+                }
+            };
+            return ProjectToMidiConverter.MIDI_FOLDER.list(filter);
+        }
+        return null;
+    }
+
+    public ProjectListViewAdapter getListViewAdapter() {
+        return listViewAdapter;
     }
 }
 

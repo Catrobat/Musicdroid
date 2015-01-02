@@ -67,6 +67,7 @@
     <string name="project_name">project name:&#160;</string>
     <string name="project_duration">duration:&#160;</string>
     <string name="project_selection_delete_menu_title">Delete</string>
+    <string name="project_selection_on_deletion_successful">Delete was successful.</string>
 
 
 

@@ -26,13 +26,14 @@ package org.catrobat.musicdroid.pocketmusic.projectselection;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
@@ -40,17 +41,21 @@ import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class ProjectListViewAdapter extends BaseAdapter {
 
     private final Context context;
+
     private ArrayList<Project> projects;
-    private ArrayList<Boolean> projectSelectionCheckBoxStatus;
-    private ArrayList<Integer> projectSelectionCheckBoxVisibility;
-    private ArrayList<Boolean> projectSelectionTrackIsPlayingList;
+
+    private ArrayList<Boolean> projectSelectionBackgroundFlags;
+
+    private ArrayList<Boolean> projectSelectionCheckBoxFlags;
+    private ArrayList<Boolean> projectSelectionTrackIsPlayingFlags;
+    private ArrayList<Integer> projectSelectionCheckBoxVisibilityList;
+
     private boolean playButtonLock = false;
     private ViewHolder viewHolder;
 
@@ -60,36 +65,40 @@ public class ProjectListViewAdapter extends BaseAdapter {
         public TextView projectNameTextView;
         public TextView projectDurationTextView;
         public CheckBox projectSelectionCheckBox;
-    }
+        public RelativeLayout projectListItemLayout;
 
+    }
     public ProjectListViewAdapter(Context context, ArrayList<Project> projects) {
         this.context = context;
         this.projects = projects;
-        initFlags();
+        initViewParameters();
     }
 
-    public void deleteItemByProjectName(String projectName){
-        for(int i = 0; i < projects.size(); i++)
-            if(projectName.equals(projects.get(i).getName())){
+    private void initViewParameters() {
+        this.projectSelectionBackgroundFlags = new ArrayList<>();
+        this.projectSelectionCheckBoxFlags = new ArrayList<>();
+        this.projectSelectionCheckBoxVisibilityList = new ArrayList<>();
+        this.projectSelectionTrackIsPlayingFlags = new ArrayList<>();
+
+        for (int i = 0; i < projects.size(); i++) {
+            this.projectSelectionBackgroundFlags.add(false);
+            this.projectSelectionCheckBoxVisibilityList.add(View.INVISIBLE);
+            this.projectSelectionCheckBoxFlags.add(false);
+            this.projectSelectionTrackIsPlayingFlags.add(false);
+        }
+    }
+
+    public void deleteItemByProjectName(String projectName) {
+        for (int i = 0; i < projects.size(); i++)
+            if (projectName.equals(projects.get(i).getName())) {
                 projects.remove(i);
-                projectSelectionCheckBoxStatus.remove(i);
-                projectSelectionCheckBoxVisibility.remove(i);
-                projectSelectionTrackIsPlayingList.remove(i);
+                projectSelectionCheckBoxFlags.remove(i);
+                projectSelectionCheckBoxVisibilityList.remove(i);
+                projectSelectionBackgroundFlags.remove(i);
+                projectSelectionTrackIsPlayingFlags.remove(i);
             }
         notifyDataSetChanged();
 
-    }
-
-    private void initFlags() {
-        this.projectSelectionCheckBoxStatus = new ArrayList<>();
-        this.projectSelectionCheckBoxVisibility = new ArrayList<>();
-        this.projectSelectionTrackIsPlayingList = new ArrayList<>();
-
-        for (int i = 0; i < projects.size(); i++) {
-            this.projectSelectionCheckBoxVisibility.add(View.INVISIBLE);
-            this.projectSelectionCheckBoxStatus.add(false);
-            this.projectSelectionTrackIsPlayingList.add(false);
-        }
     }
 
     @Override
@@ -98,12 +107,8 @@ public class ProjectListViewAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
+    public Project getItem(int i) {
         return projects.get(i);
-    }
-
-    public String getItemName(int i) {
-        return projects.get(i).getName();
     }
 
     @Override
@@ -119,9 +124,10 @@ public class ProjectListViewAdapter extends BaseAdapter {
 
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.project_list_item, null);
+            view = inflater.inflate(R.layout.project_selection_list_item, null);
 
-
+            viewHolder.projectListItemLayout = (RelativeLayout) view
+                    .findViewById(R.id.project_list_item_relative_layout);
             viewHolder.projectPlayButton = (ImageButton) view
                     .findViewById(R.id.project_play_button);
             viewHolder.projectPauseButton = (ImageButton) view
@@ -141,45 +147,23 @@ public class ProjectListViewAdapter extends BaseAdapter {
         initPlayPauseButtonRoutine(position);
         initTextViews(position);
         initCheckBoxBehavior(position);
+        initBackgroundBehavior(position);
 
         return view;
     }
+    private void initBackgroundBehavior(int position){
+        if(getProjectSelectionBackgroundFlags(position))
+            viewHolder.projectListItemLayout.setBackgroundColor(context.getResources().getColor(R.color.list_view_item_background_color_selected));
+        else
+            viewHolder.projectListItemLayout.setBackgroundColor(Color.TRANSPARENT);
 
-    private void initCheckBoxBehavior(int position) {
-        //noinspection ResourceType
-        viewHolder.projectSelectionCheckBox.setVisibility(projectSelectionCheckBoxVisibility.get(position));
-        viewHolder.projectSelectionCheckBox.setTag(position);
-        viewHolder.projectSelectionCheckBox.setChecked(projectSelectionCheckBoxStatus.get(position));
-        viewHolder.projectSelectionCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CheckBox checkBox = (CheckBox) v;
-                int rowId = (Integer) v.getTag();
-                projectSelectionCheckBoxStatus.set(rowId,checkBox.isChecked());
-            }
-        });
     }
+    private void initPlayPauseButtonRoutine(final int position) {
 
-    private void initTextViews(int actualPosition) {
-        viewHolder.projectNameTextView.setText(context.getResources().getText(R.string.project_name)
-                + projects.get(actualPosition).getName());
-        viewHolder.projectDurationTextView.setText(context.getResources().getText(R.string.project_duration) + ""
-                + projects.get(actualPosition).getTrack(0).getTotalTimeInMilliseconds());
-    }
-
-    public void changePlayPauseButtonState(){
-        playButtonLock = false;
-        for(int i = 0; i<projectSelectionTrackIsPlayingList.size();i++)
-            projectSelectionTrackIsPlayingList.set(i,false);
-        notifyDataSetChanged();
-    }
-
-    private void initPlayPauseButtonRoutine(final int position){
-
-        if(projectSelectionTrackIsPlayingList.get(position)) {
+        if (projectSelectionTrackIsPlayingFlags.get(position)) {
             viewHolder.projectPlayButton.setVisibility(View.INVISIBLE);
             viewHolder.projectPauseButton.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             viewHolder.projectPlayButton.setVisibility(View.VISIBLE);
             viewHolder.projectPauseButton.setVisibility(View.INVISIBLE);
         }
@@ -188,9 +172,9 @@ public class ProjectListViewAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 try {
-                    if(!playButtonLock) {
+                    if (!playButtonLock) {
                         playButtonLock = true;
-                        projectSelectionTrackIsPlayingList.set(position, true);
+                        projectSelectionTrackIsPlayingFlags.set(position, true);
 
                         MidiPlayer.getInstance().playTrack((Activity) context,
                                 context.getCacheDir(),
@@ -208,7 +192,7 @@ public class ProjectListViewAdapter extends BaseAdapter {
         viewHolder.projectPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                projectSelectionTrackIsPlayingList.set(position,false);
+                projectSelectionTrackIsPlayingFlags.set(position, false);
                 playButtonLock = false;
                 MidiPlayer.getInstance().stop();
                 notifyDataSetChanged();
@@ -218,26 +202,71 @@ public class ProjectListViewAdapter extends BaseAdapter {
         });
     }
 
+    private void initTextViews(int actualPosition) {
+        viewHolder.projectNameTextView.setText(context.getResources().getText(R.string.project_name)
+                + projects.get(actualPosition).getName());
+        viewHolder.projectDurationTextView.setText(context.getResources().getText(R.string.project_duration) + ""
+                + projects.get(actualPosition).getTrack(0).getTotalTimeInMilliseconds());
+    }
+
+    private void initCheckBoxBehavior(int position) {
+        //noinspection ResourceType
+        viewHolder.projectSelectionCheckBox.setVisibility(projectSelectionCheckBoxVisibilityList.get(position));
+        viewHolder.projectSelectionCheckBox.setTag(position);
+        viewHolder.projectSelectionCheckBox.setChecked(projectSelectionCheckBoxFlags.get(position));
+        viewHolder.projectSelectionCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckBox checkBox = (CheckBox) v;
+                int rowId = (Integer) v.getTag();
+                projectSelectionCheckBoxFlags.set(rowId, checkBox.isChecked());
+            }
+        });
+    }
+
+    public void changePlayPauseButtonState() {
+        playButtonLock = false;
+        for (int i = 0; i < projectSelectionTrackIsPlayingFlags.size(); i++)
+            projectSelectionTrackIsPlayingFlags.set(i, false);
+        notifyDataSetChanged();
+    }
+
     public void setDelMode(boolean enabled) {
         if (enabled) {
             for (int i = 0; i < projects.size(); i++)
-                projectSelectionCheckBoxVisibility.set(i, View.VISIBLE);
+                projectSelectionCheckBoxVisibilityList.set(i, View.VISIBLE);
         } else {
             for (int i = 0; i < projects.size(); i++)
-                projectSelectionCheckBoxVisibility.set(i, View.INVISIBLE);
+                projectSelectionCheckBoxVisibilityList.set(i, View.INVISIBLE);
 
         }
         notifyDataSetChanged();
     }
 
     public boolean getProjectSelectionCheckBoxStatus(int position) {
-        return projectSelectionCheckBoxStatus.get(position);
+        return projectSelectionCheckBoxFlags.get(position);
     }
 
     public void clearProjectSelectionCheckBoxStatus() {
         for (int i = 0; i < projects.size(); i++)
-            projectSelectionCheckBoxStatus.set(i,false);
+            projectSelectionCheckBoxFlags.set(i, false);
+    }
+    public void clearProjectSelectionBackgroundStatus() {
+        for (int i = 0; i < projects.size(); i++)
+            projectSelectionBackgroundFlags.set(i, false);
     }
 
+    public boolean getProjectSelectionBackgroundFlags(int position) {
 
+        return projectSelectionBackgroundFlags.get(position);
+    }
+
+    public void setProjectSelectionBackgroundFlags(int position) {
+        if(projectSelectionBackgroundFlags.get(position))
+            this.projectSelectionBackgroundFlags.set(position, false);
+        else
+            this.projectSelectionBackgroundFlags.set(position, true);
+
+        notifyDataSetChanged();
+    }
 }
