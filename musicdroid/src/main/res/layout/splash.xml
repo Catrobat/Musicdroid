@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Musicdroid: An on-device music generator for Android
-  ~ Copyright (C) 2010-2014 The Catrobat Team
+  ~ Copyright (C) 2010-2015 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -20,15 +20,28 @@
   ~
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+  -->
 
-    <!--
-         Example customization of dimensions originally defined in res/values/dimens.xml
-         (such as screen margins) for screens with more than 820dp of available width. This
-         would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively).
-    -->
-    <!-- <dimen name="activity_horizontal_margin" >64dp</dimen > -->
-    <dimen name="activity_horizontal_margin">64dp</dimen>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     >
 
-</resources>
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:textSize="20dp"
+        android:textColor="#454545"
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:text="Catrobat App" />
+
+</RelativeLayout>

@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Musicdroid: An on-device music generator for Android
   ~ Copyright (C) 2010-2014 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -19,34 +20,30 @@
   ~
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -->
+-->
+<resources>
 
-<resources >
     <string name="app_name">Musicdroid</string>
     <string name="action_undo_midi">Undo</string>
     <string name="action_play_midi">Play</string>
     <string name="action_play_midi_error">Could not start playing</string>
     <string name="action_play_midi_dialog_title">Playing…</string>
     <string name="action_play_midi_dialog_stop">Stop</string>
-
     <string name="action_export_midi_title">Save Project</string>
     <string name="action_export_midi_success">Save successful!</string>
     <string name="action_export_midi_cancel">Save canceled!</string>
     <string name="action_export_midi_error">Save failed!</string>
-    <string name="action_export_dialog_positive_button" >OK</string >
-    <string name="action_export_dialog_negative_button" >Cancel</string >
-    <string name="action_export_dialog_title" >Save Project</string >
-    <string name="action_export_dialog_message" >Please enter a Project name:</string >
-
+    <string name="action_export_dialog_positive_button">OK</string>
+    <string name="action_export_dialog_negative_button">Cancel</string>
+    <string name="action_export_dialog_title">Save Project</string>
+    <string name="action_export_dialog_message">Please enter a Project name:</string>
     <string name="action_import_midi_title">Open Project</string>
     <string name="action_import_midi_validation_error">The given Project was not created with Musicdroid</string>
     <string name="action_import_midi_io_error">The device encountered an internal error: </string>
     <string name="action_import_midi_file_chooser_title">Open Project</string>
     <string name="action_import_midi_success">Open successful!</string>
-
     <string name="action_delete_midi_title">Clear Project</string>
     <string name="action_delete_midi_success">Clear successful</string>
-	
     <string name="note_name_simple_c">C</string>
     <string name="note_name_simple_d">D</string>
     <string name="note_name_simple_e">E</string>
@@ -59,4 +56,8 @@
     <string name="note_name_simple_fis">FIS</string>
     <string name="note_name_simple_gis">GIS</string>
     <string name="note_name_simple_ais">AIS</string>
-</resources >
+    <string name="title_activity_splash__screen">Splash_Screen</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
