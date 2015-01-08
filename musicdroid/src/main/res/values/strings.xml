@@ -46,7 +46,7 @@
 
     <string name="action_delete_midi_title">Clear Project</string>
     <string name="action_delete_midi_success">Clear successful</string>
-	
+
     <string name="note_name_simple_c">C</string>
     <string name="note_name_simple_d">D</string>
     <string name="note_name_simple_e">E</string>
@@ -59,4 +59,9 @@
     <string name="note_name_simple_fis">FIS</string>
     <string name="note_name_simple_gis">GIS</string>
     <string name="note_name_simple_ais">AIS</string>
+
+    <string name="title_activity_splash__screen">Splash_Screen</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
 </resources >
