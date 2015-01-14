@@ -21,29 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.instrument.tempo;
+package org.catrobat.musicdroid.pocketmusic.note;
 
-import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
-import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
-
-public class SimpleTickProvider extends AbstractTickProvider {
-
-    private static final NoteLength DEFAULT_NOTE_LENGTH = NoteLength.QUARTER;
-
-    private boolean lastIsNoteOn;
-
-    public SimpleTickProvider() {
-        lastIsNoteOn = true;
-    }
-
-    @Override
-    public long getNextTick(NoteEvent noteEvent) {
-        if (lastIsNoteOn && (false == noteEvent.isNoteOn())){
-            tick += DEFAULT_NOTE_LENGTH.getTickDuration();
-        }
-
-        lastIsNoteOn = noteEvent.isNoteOn();
-
-        return tick;
-    }
+public enum NoteFlag {
+    NO_FLAG, SINGLE_FLAG, DOUBLE_FLAG;
 }

@@ -32,6 +32,7 @@ import android.view.WindowManager;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
@@ -47,7 +48,7 @@ public class NoteSheetView extends View {
 	public NoteSheetView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
-		track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ELECTRIC_PIANO_1);
+		track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ELECTRIC_PIANO_1, Project.DEFAULT_BEATS_PER_MINUTE);
         widthBeforeResize = getWidth();
 	}
 

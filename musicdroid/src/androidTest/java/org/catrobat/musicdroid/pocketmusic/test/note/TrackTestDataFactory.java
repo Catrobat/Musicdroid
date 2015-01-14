@@ -27,6 +27,7 @@ import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 
 public final class TrackTestDataFactory {
@@ -39,8 +40,16 @@ public final class TrackTestDataFactory {
 	}
 
 	public static Track createTrack(MusicalInstrument instrument) {
-		return new Track(MusicalKey.VIOLIN, instrument);
+		return new Track(MusicalKey.VIOLIN, instrument, Project.DEFAULT_BEATS_PER_MINUTE);
 	}
+
+    public static Track createTrack(MusicalKey key) {
+        return new Track(key, MusicalInstrument.ACOUSTIC_GRAND_PIANO, Project.DEFAULT_BEATS_PER_MINUTE);
+    }
+
+    public static Track createTrack(int beatsPerMinute) {
+        return new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO, beatsPerMinute);
+    }
 
 	public static Track createSimpleTrack() {
 		Track track = createTrack();
@@ -49,27 +58,27 @@ public final class TrackTestDataFactory {
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
 
-		tick += NoteLength.QUARTER.getTickDuration();
+		tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.E4, true));
 
-		tick += NoteLength.QUARTER.getTickDuration();
+		tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.E4, false));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.F4, true));
 
-		tick += NoteLength.QUARTER.getTickDuration();
+		tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.F4, false));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
 
-		tick += NoteLength.QUARTER.getTickDuration();
+		tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.C5, true));
 
-		tick += NoteLength.QUARTER.getTickDuration();
+		tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.C5, false));
 
@@ -84,21 +93,21 @@ public final class TrackTestDataFactory {
 		track.addNoteEvent(tick, new NoteEvent(NoteName.C1, true));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.D1, true));
 
-		tick += NoteLength.QUARTER.getTickDuration();
+		tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.C1, false));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.D1, false));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.E1, true));
 
-		tick += NoteLength.QUARTER_DOT.getTickDuration();
+		tick += NoteLength.QUARTER_DOT.toTicks(track.getBeatsPerMinute());
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.E1, false));
 
-		tick += NoteLength.QUARTER.getTickDuration();
+		tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.C1, true));
 
-		tick += NoteLength.QUARTER.getTickDuration();
+		tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.C1, false));
 
@@ -106,29 +115,29 @@ public final class TrackTestDataFactory {
 	}
 
 	public static Track createSemiComplexTrack(MusicalInstrument instrument) {
-		Track track = new Track(MusicalKey.VIOLIN, instrument);
+		Track track = new Track(MusicalKey.VIOLIN, instrument, Project.DEFAULT_BEATS_PER_MINUTE);
 
 		long tick = 0;
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.C2, true));
 
-		tick += NoteLength.QUARTER.getTickDuration();
+		tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.C2, false));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.C1, true));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.D1, true));
 
-		tick += NoteLength.QUARTER.getTickDuration();
+		tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.C1, false));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.D1, false));
 
-		tick += NoteLength.QUARTER_DOT.getTickDuration();
+		tick += NoteLength.QUARTER_DOT.toTicks(track.getBeatsPerMinute());
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.E1, true));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.F1, true));
 
-		tick += NoteLength.QUARTER.getTickDuration() + NoteLength.SIXTEENTH.getTickDuration();
+		tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute()) + NoteLength.SIXTEENTH.toTicks(track.getBeatsPerMinute());
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.E1, false));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.F1, false));
@@ -144,30 +153,30 @@ public final class TrackTestDataFactory {
 		track.addNoteEvent(tick, new NoteEvent(NoteName.C1, true));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.D1, true));
 
-		tick += NoteLength.QUARTER.getTickDuration();
+		tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.C1, false));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.E1, true));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.F1, true));
 
-		tick += NoteLength.QUARTER.getTickDuration();
+		tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.D1, false));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.E1, false));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.F1, false));
 
-		tick += NoteLength.QUARTER_DOT.getTickDuration();
+		tick += NoteLength.QUARTER_DOT.toTicks(track.getBeatsPerMinute());
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.C2, true));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.D2, true));
 
-		tick += NoteLength.QUARTER_DOT.getTickDuration();
+		tick += NoteLength.QUARTER_DOT.toTicks(track.getBeatsPerMinute());
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.C2, false));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.D2, false));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.B3, true));
 
-		tick += NoteLength.QUARTER.getTickDuration();
+		tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.B3, false));
 

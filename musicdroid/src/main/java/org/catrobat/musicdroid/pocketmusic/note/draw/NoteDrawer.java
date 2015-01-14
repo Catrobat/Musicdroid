@@ -80,7 +80,7 @@ public class NoteDrawer extends SymbolDrawer {
 
     protected void drawStem(NoteSymbol noteSymbol) {
         if (noteSymbol.hasStem()) {
-            noteStemDrawer.drawStem(notePositionInformation, noteSymbol.isStemUp(key));
+            noteStemDrawer.drawStem(notePositionInformation, noteSymbol, key);
         }
     }
 

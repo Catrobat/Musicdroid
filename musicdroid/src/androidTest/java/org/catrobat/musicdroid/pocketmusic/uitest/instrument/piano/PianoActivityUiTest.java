@@ -211,7 +211,6 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     }
 
     private void clickSomePianoButtonsFastForLargeTrack() {
-
         int threadCount = 3;
         List<Thread> playThreads = new ArrayList<>();
         for(int i = 0; i < threadCount; i++){
@@ -224,17 +223,6 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         }
 
         clickSomePianoButtonsForLargeTrack();
-
-    }
-
-    public void testPlayMidiStop() {
-        clickSomePianoButtonsForLargeTrack();
-        solo.clickOnActionBarItem(R.id.action_play_midi);
-        solo.waitForDialogToOpen();
-        solo.clickOnButton(pianoActivity.getString(R.string.action_play_midi_dialog_stop));
-        solo.waitForDialogToClose();
-
-        assertFalse(pianoActivity.getMidiPlayer().isPlaying());
     }
 
     public void testPlayMidiEmptyTrack() {
@@ -255,29 +243,29 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     public void testPlayMidiWhileRotating() throws InterruptedException {
         solo.setActivityOrientation(Solo.PORTRAIT);
         clickSomePianoButtonsFastForLargeTrack();
-        assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
+        assertTrue(pianoActivity.getMidiPlayer().getPlayQueueSize() > 0);
 
         solo.setActivityOrientation(Solo.LANDSCAPE);
         clickSomePianoButtonsFastForLargeTrack();
-        assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
+        assertTrue(pianoActivity.getMidiPlayer().getPlayQueueSize() > 0);
 
         solo.setActivityOrientation(Solo.PORTRAIT);
         clickSomePianoButtonsFastForLargeTrack();
-        assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
+        assertTrue(pianoActivity.getMidiPlayer().getPlayQueueSize() > 0);
 
     }
 
     public void testPlayMidiBackButtonPress() throws InterruptedException {
         solo.setActivityOrientation(Solo.PORTRAIT);
         clickSomePianoButtonsFastForLargeTrack();
-        assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
+        assertTrue(pianoActivity.getMidiPlayer().getPlayQueueSize() > 0);
 
         solo.setActivityOrientation(Solo.LANDSCAPE);
         clickSomePianoButtonsFastForLargeTrack();
-        assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() > 0);
+        assertTrue(pianoActivity.getMidiPlayer().getPlayQueueSize() > 0);
 
         solo.goBack();
-        assertTrue(pianoActivity.getMidiPlayer().getPlayQueue().size() == 0);
+        assertTrue(pianoActivity.getMidiPlayer().getPlayQueueSize() == 0);
     }
 
     public void testClickOnButtonMaxTrackSize() {

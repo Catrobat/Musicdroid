@@ -21,26 +21,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.instrument.tempo;
+package org.catrobat.musicdroid.pocketmusic.note.draw;
 
-import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
-import org.catrobat.musicdroid.pocketmusic.note.Track;
+import android.graphics.Paint;
+import android.graphics.RectF;
 
-public abstract class AbstractTickProvider {
+public class NoteDotDrawer {
 
-    protected long tick;
+    public static final int DOT_RADIUS = 5;
+    public static final int DISTANCE_BETWEEN_NOTE_AND_DOT = 10;
 
-    public AbstractTickProvider() {
-        tick = 0;
+    private NoteSheetCanvas noteSheetCanvas;
+    private Paint paint;
+    private int distanceBetweenLines;
+
+    public NoteDotDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, int distanceBetweenLines) {
+        this.noteSheetCanvas = noteSheetCanvas;
+        this.paint = paint;
+        this.distanceBetweenLines = distanceBetweenLines;
     }
 
-    public abstract long getNextTick(NoteEvent noteEvent);
+    public void drawDot(RectF noteRect) {
+        float x = noteRect.right + DISTANCE_BETWEEN_NOTE_AND_DOT;
+        float y = noteRect.top + distanceBetweenLines / 4;
 
-    public long getCurrentTick() {
-        return tick;
-    }
+        RectF dotRect = new RectF();
 
-    public void setTickBasedOnTrack(Track track) {
-        tick = track.getLastTick();
+        dotRect.left = x;
+        dotRect.top = y - DOT_RADIUS;
+        dotRect.right = x + 2 * DOT_RADIUS;
+        dotRect.bottom = y + DOT_RADIUS;
+
+        noteSheetCanvas.drawOval(dotRect, paint);
     }
 }

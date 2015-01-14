@@ -23,10 +23,12 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
+import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteBodyDrawer;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NotePositionInformation;
@@ -73,7 +75,21 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
         assertCanvasElementQueueNoteBody(noteSymbol, positionInformation);
     }
 
+    public void testDrawBodyDot() {
+        customSetUp(MusicalKey.VIOLIN);
+        noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER_DOT);
+
+        noteBodyDrawer.drawBody(noteSymbol);
+
+        int bodyCount = 1;
+        int dotCount = 1;
+
+        assertCanvasElementQueueSize(bodyCount + dotCount);
+        clearCanvasElementQueue();
+    }
+
     private void assertCanvasElementQueueNoteBody(NoteSymbol noteSymbol, NotePositionInformation actualPositionInformation) {
+        Paint paint = new Paint();
         symbolDrawer.setNoteSheetDrawPosition(new NoteSheetDrawPosition(START_X_POSITION, END_X_POSITION));
         boolean isStemUpdirected = noteSymbol.isStemUp(key);
         int lineHeight = distanceBetweenLines;
@@ -85,6 +101,7 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
         NoteName prevNoteName = null;
 
         for (NoteName noteName : noteSymbol.getNoteNamesSorted()) {
+            NoteLength noteLength = noteSymbol.getNoteLength(noteName);
             Point centerPointOfActualNote = new Point(centerPointOfSpaceForNote);
             centerPointOfActualNote.y += NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName)
                     * noteHeight;
@@ -111,7 +128,14 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
             RectF rect = new RectF(left, top, right, bottom);
 
             noteSurroundingRects.add(rect);
-            assertCanvasElementQueueOval(left, top, right, bottom);
+
+            if (noteLength.isFilled()) {
+                paint.setStyle(Paint.Style.FILL);
+            } else {
+                paint.setStyle(Paint.Style.STROKE);
+            }
+
+            assertCanvasElementQueueOval(left, top, right, bottom, paint.getStyle());
 
             prevNoteName = noteName;
         }

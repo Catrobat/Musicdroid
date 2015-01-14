@@ -29,7 +29,7 @@ import java.util.List;
 
 public class Project implements Serializable {
 
-    public static final int DEFAULT_BEATS_PER_MINUTE = 70;
+    public static final int DEFAULT_BEATS_PER_MINUTE = 60;
     private static final long serialVersionUID = 7396763540934053008L;
 
     private int beatsPerMinute;

@@ -63,6 +63,7 @@ public class NoteDrawerTest extends AbstractDrawerTest {
         noteDrawer.drawBody(noteSymbol);
 
         assertCanvasElementQueueSize(noteSymbol.size());
+        clearCanvasElementQueue();
     }
 
     public void testDrawStem1() {
@@ -71,8 +72,9 @@ public class NoteDrawerTest extends AbstractDrawerTest {
         noteDrawer.drawBody(noteSymbol);
         noteDrawer.drawStem(noteSymbol);
 
-        int expectedElementsCount = 2;
-        assertCanvasElementQueueSize(expectedElementsCount);
+        int stemCount = 2;
+        assertCanvasElementQueueSize(stemCount);
+        clearCanvasElementQueue();
     }
 
     public void testDrawStem2() {
@@ -81,8 +83,9 @@ public class NoteDrawerTest extends AbstractDrawerTest {
         noteDrawer.drawBody(noteSymbol);
         noteDrawer.drawStem(noteSymbol);
 
-        int expectedElementsCount = 1;
-        assertCanvasElementQueueSize(expectedElementsCount);
+        int stemCount = 1;
+        assertCanvasElementQueueSize(stemCount);
+        clearCanvasElementQueue();
     }
 
     public void testDrawHelpLines1() {
@@ -93,8 +96,8 @@ public class NoteDrawerTest extends AbstractDrawerTest {
 
         int bodyCount = 1;
         int helpLineCount = 2;
-        int expectedElementsCount = bodyCount + helpLineCount;
-        assertCanvasElementQueueSize(expectedElementsCount);
+        assertCanvasElementQueueSize(bodyCount + helpLineCount);
+        clearCanvasElementQueue();
     }
 
     public void testDrawHelpLines2() {
@@ -151,8 +154,7 @@ public class NoteDrawerTest extends AbstractDrawerTest {
         int crossCount = 1;
         int helpLinesCount = 1;
         int bodyCount = 1;
-        int expectedElementsCount = stemCount + crossCount + helpLinesCount + bodyCount;
-
-        assertCanvasElementQueueSize(expectedElementsCount);
+        assertCanvasElementQueueSize(stemCount + crossCount + helpLinesCount + bodyCount);
+        clearCanvasElementQueue();
     }
 }

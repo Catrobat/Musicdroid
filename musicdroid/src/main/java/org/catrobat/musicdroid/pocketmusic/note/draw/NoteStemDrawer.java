@@ -23,30 +23,39 @@
 package org.catrobat.musicdroid.pocketmusic.note.draw;
 
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.PointF;
+
+import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
+import org.catrobat.musicdroid.pocketmusic.note.NoteFlag;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 
 public class NoteStemDrawer {
 
 	public static final double LENGTH_OF_STEM_IN_NOTE_LINE_DISTANCES = 2.5;
 
+    private NoteFlagDrawer noteFlagDrawer;
     private NoteSheetCanvas noteSheetCanvas;
     private Paint paint;
     private int distanceBetweenLinesHalf;
     private int stemLength;
 
 	public NoteStemDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, int distanceBetweenLines) {
+        noteFlagDrawer = new NoteFlagDrawer(noteSheetCanvas, paint, distanceBetweenLines);
         this.noteSheetCanvas = noteSheetCanvas;
         this.paint = paint;
         this.distanceBetweenLinesHalf = distanceBetweenLines / 2;
         this.stemLength = (int) (Math.round(LENGTH_OF_STEM_IN_NOTE_LINE_DISTANCES * distanceBetweenLines));
 	}
 
-	public void drawStem(NotePositionInformation notePositionInformation, boolean isUpdirectedStem) {
+	public void drawStem(NotePositionInformation notePositionInformation, NoteSymbol noteSymbol, MusicalKey key) {
+        if (false == noteSymbol.hasStem()) {
+            return;
+        }
+
 		PointF startPointOfNoteStem = new PointF();
         PointF endPointOfNoteStem = new PointF();
 
-        if(isUpdirectedStem) {
+        if(noteSymbol.isStemUp(key)) {
             startPointOfNoteStem.x = notePositionInformation.getRightSideOfSymbol();
             startPointOfNoteStem.y = notePositionInformation.getBottomOfSymbol() - distanceBetweenLinesHalf;
             endPointOfNoteStem.y = notePositionInformation.getTopOfSymbol() - stemLength;
@@ -60,5 +69,13 @@ public class NoteStemDrawer {
 
 		noteSheetCanvas.drawLine(startPointOfNoteStem.x, startPointOfNoteStem.y, endPointOfNoteStem.x,
                 endPointOfNoteStem.y, paint);
+
+        if (NoteFlag.NO_FLAG != noteSymbol.getFlag()) {
+            drawFlag(endPointOfNoteStem, noteSymbol, key);
+        }
 	}
+
+    private void drawFlag(PointF endPointOfNoteStem, NoteSymbol noteSymbol, MusicalKey key) {
+        noteFlagDrawer.drawFlag(endPointOfNoteStem, noteSymbol, key);
+    }
 }

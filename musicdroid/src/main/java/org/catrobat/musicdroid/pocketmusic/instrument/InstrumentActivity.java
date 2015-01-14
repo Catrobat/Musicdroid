@@ -34,8 +34,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
-import org.catrobat.musicdroid.pocketmusic.instrument.tempo.AbstractTickProvider;
-import org.catrobat.musicdroid.pocketmusic.instrument.tempo.SimpleTickProvider;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
@@ -54,7 +52,6 @@ import java.util.Locale;
 
 public abstract class InstrumentActivity extends Activity {
 
-
     public static final int MAX_TRACK_SIZE_IN_SYMBOLS = 60;
     public static final int MAX_TRACK_SIZE_IN_NOTE_EVENTS = MAX_TRACK_SIZE_IN_SYMBOLS * 2;
 
@@ -64,8 +61,8 @@ public abstract class InstrumentActivity extends Activity {
 
     private EditText editTextMidiExportNameDialogPrompt;
     private MidiPlayer midiPlayer;
-    private AbstractTickProvider tickThread;
     private Track track;
+    private TickProvider tickProvider;
     private TrackMementoStack mementoStack;
     private AlertDialog playAllDialog;
 
@@ -78,8 +75,8 @@ public abstract class InstrumentActivity extends Activity {
 
         midiPlayer = MidiPlayer.getInstance();
 
-        tickThread = new SimpleTickProvider();
-        track = new Track(key, instrument);
+        track = new Track(key, instrument, Project.DEFAULT_BEATS_PER_MINUTE);
+        tickProvider = new TickProvider(track.getBeatsPerMinute());
 
         midiFileList = null;
         mementoStack = new TrackMementoStack();
@@ -119,7 +116,7 @@ public abstract class InstrumentActivity extends Activity {
 
     private void setTrack(Track track) {
         this.track = track;
-        tickThread.setTickBasedOnTrack(track);
+        tickProvider.setTickBasedOnTrack(track);
     }
 
     public Track getTrack() {
@@ -140,9 +137,12 @@ public abstract class InstrumentActivity extends Activity {
 
             int midiResourceId = getResources().getIdentifier(noteEvent.getNoteName().toString().toLowerCase(Locale.getDefault()), R_RAW, getPackageName());
             midiPlayer.playNote(this, midiResourceId);
+            tickProvider.startCounting();
+        } else {
+            tickProvider.stopCounting();
         }
 
-        track.addNoteEvent(tickThread.getNextTick(noteEvent), noteEvent);
+        track.addNoteEvent(tickProvider.getTick(), noteEvent);
         redraw();
     }
 
@@ -201,7 +201,7 @@ public abstract class InstrumentActivity extends Activity {
     }
 
     private void onActionDeleteMidi() {
-        setTrack(new Track(track.getKey(), track.getInstrument()));
+        setTrack(new Track(track.getKey(), track.getInstrument(), track.getBeatsPerMinute()));
         mementoStack.clear();
         redraw();
 

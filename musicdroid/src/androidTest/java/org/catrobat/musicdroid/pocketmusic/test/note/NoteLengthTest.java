@@ -24,55 +24,114 @@ package org.catrobat.musicdroid.pocketmusic.test.note;
 
 import android.test.AndroidTestCase;
 
+import org.catrobat.musicdroid.pocketmusic.note.NoteFlag;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 
 public class NoteLengthTest extends AndroidTestCase {
 
-	public void testCalculateDuration() {
-		long expected = 384 / 48 * 60;
-		long actual = NoteLength.QUARTER.getTickDuration();
+	public void testToTicks1() {
+        long expectedTicks = 384 / 48 * Project.DEFAULT_BEATS_PER_MINUTE;
+        long actualTicks = NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
-		assertEquals(expected, actual);
-	}
+        assertEquals(expectedTicks, actualTicks);
+    }
+
+    public void testToTicks2() {
+        long expectedTicks = 384 / 48 * 2 * Project.DEFAULT_BEATS_PER_MINUTE;
+        long actualTicks = NoteLength.HALF.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+
+        assertEquals(expectedTicks, actualTicks);
+    }
+
+    public void testToMilliseconds1() {
+        long expectedMilliseconds = 1000;
+        long actualMilliseconds = NoteLength.QUARTER.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
+
+        assertEquals(expectedMilliseconds, actualMilliseconds);
+    }
+
+    public void testToMilliseconds2() {
+        long expectedMilliseconds = 2000;
+        long actualMilliseconds = NoteLength.HALF.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
+
+        assertEquals(expectedMilliseconds, actualMilliseconds);
+    }
 
 	public void testGetNoteLengthFromTick1() {
 		NoteLength expectedNoteLength = NoteLength.WHOLE_DOT;
-		long duration = expectedNoteLength.getTickDuration();
+		long duration = expectedNoteLength.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
-		NoteLength actualNoteLength = NoteLength.getNoteLengthFromTickDuration(duration);
+		NoteLength actualNoteLength = NoteLength.getNoteLengthFromTickDuration(duration, Project.DEFAULT_BEATS_PER_MINUTE);
 
 		assertEquals(expectedNoteLength, actualNoteLength);
 	}
 
 	public void testGetNoteLengthFromTick2() {
 		NoteLength expectedNoteLength = NoteLength.WHOLE_DOT;
-		long duration = expectedNoteLength.getTickDuration();
+		long duration = expectedNoteLength.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 		duration += 1;
 
-		NoteLength actualNoteLength = NoteLength.getNoteLengthFromTickDuration(duration);
+		NoteLength actualNoteLength = NoteLength.getNoteLengthFromTickDuration(duration, Project.DEFAULT_BEATS_PER_MINUTE);
 
 		assertEquals(expectedNoteLength, actualNoteLength);
 	}
 
 	public void testGetNoteLengthFromTick3() {
 		NoteLength expectedNoteLength = NoteLength.QUARTER;
-		long duration = NoteLength.QUARTER_DOT.getTickDuration();
+		long duration = NoteLength.QUARTER_DOT.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 		duration -= 1;
 
-		NoteLength actualNoteLength = NoteLength.getNoteLengthFromTickDuration(duration);
+		NoteLength actualNoteLength = NoteLength.getNoteLengthFromTickDuration(duration, Project.DEFAULT_BEATS_PER_MINUTE);
 
 		assertEquals(expectedNoteLength, actualNoteLength);
 	}
 
 	public void testGetNoteLengthFromTick4() {
 		NoteLength expectedNoteLength = NoteLength.QUARTER;
-		long duration = expectedNoteLength.getTickDuration();
+		long duration = expectedNoteLength.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 		duration += 1;
 
-		NoteLength actualNoteLength = NoteLength.getNoteLengthFromTickDuration(duration);
+		NoteLength actualNoteLength = NoteLength.getNoteLengthFromTickDuration(duration, Project.DEFAULT_BEATS_PER_MINUTE);
 
 		assertEquals(expectedNoteLength, actualNoteLength);
 	}
+
+    public void testGetNoteLengthFromMilliseconds1() {
+        NoteLength expectedNoteLength = NoteLength.QUARTER;
+        long millis = 1000;
+
+        NoteLength actualNoteLength = NoteLength.getNoteLengthFromMilliseconds(millis, Project.DEFAULT_BEATS_PER_MINUTE);
+
+        assertEquals(expectedNoteLength, actualNoteLength);
+    }
+
+    public void testGetNoteLengthFromMilliseconds2() {
+        NoteLength expectedNoteLength = NoteLength.EIGHT;
+        long millis = 510;
+
+        NoteLength actualNoteLength = NoteLength.getNoteLengthFromMilliseconds(millis, Project.DEFAULT_BEATS_PER_MINUTE);
+
+        assertEquals(expectedNoteLength, actualNoteLength);
+    }
+
+    public void testGetNoteLengthFromMilliseconds3() {
+        NoteLength expectedNoteLength = NoteLength.SIXTEENTH;
+        long millis = 1;
+
+        NoteLength actualNoteLength = NoteLength.getNoteLengthFromMilliseconds(millis, Project.DEFAULT_BEATS_PER_MINUTE);
+
+        assertEquals(expectedNoteLength, actualNoteLength);
+    }
+
+    public void testGetNoteLengthFromMilliseconds4() {
+        NoteLength expectedNoteLength = NoteLength.WHOLE_DOT;
+        long millis = 10000;
+
+        NoteLength actualNoteLength = NoteLength.getNoteLengthFromMilliseconds(millis, Project.DEFAULT_BEATS_PER_MINUTE);
+
+        assertEquals(expectedNoteLength, actualNoteLength);
+    }
 
 	public void testHasStem1() {
 		assertFalse(NoteLength.WHOLE.hasStem());
@@ -106,35 +165,19 @@ public class NoteLengthTest extends AndroidTestCase {
 		assertTrue(NoteLength.EIGHT_DOT.hasDot());
 	}
 
-	public void testHasFlag1() {
-		assertFalse(NoteLength.QUARTER.hasFlag());
+	public void testGetFlag1() {
+        assertEquals(NoteFlag.NO_FLAG, NoteLength.QUARTER.getFlag());
 	}
 
-	public void testHasFlag2() {
-		assertTrue(NoteLength.EIGHT.hasFlag());
-	}
+    public void testGetFlag2() {
+        assertEquals(NoteFlag.SINGLE_FLAG, NoteLength.EIGHT.getFlag());
+    }
 
-	public void testHasFlag3() {
-		assertTrue(NoteLength.EIGHT_DOT.hasFlag());
-	}
+    public void testGetFlag3() {
+        assertEquals(NoteFlag.SINGLE_FLAG, NoteLength.EIGHT_DOT.getFlag());
+    }
 
-	public void testHasFlag4() {
-		assertTrue(NoteLength.SIXTEENTH.hasFlag());
-	}
-
-	public void testGetAmountOfFlags1() {
-		assertEquals(2, NoteLength.SIXTEENTH.getAmountOfFlags());
-	}
-
-	public void testGetAmountOfFlags2() {
-		assertEquals(1, NoteLength.EIGHT.getAmountOfFlags());
-	}
-
-	public void testGetAmountOfFlags3() {
-		assertEquals(1, NoteLength.EIGHT_DOT.getAmountOfFlags());
-	}
-
-	public void testGetAmountOfFlags4() {
-		assertEquals(0, NoteLength.QUARTER.getAmountOfFlags());
-	}
+    public void testGetFlag4() {
+        assertEquals(NoteFlag.DOUBLE_FLAG, NoteLength.SIXTEENTH.getFlag());
+    }
 }
