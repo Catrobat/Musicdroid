@@ -26,6 +26,8 @@ import android.content.res.Resources;
 import android.graphics.Paint;
 
 import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
 
@@ -33,19 +35,27 @@ public class TrackDrawer {
 
     private Track track;
 
-    private SymbolDrawer symbolDrawer;
+    private NoteDrawer noteDrawer;
+    private BreakDrawer breakDrawer;
 
     public TrackDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, Resources resources, Track track, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
         this.track = track;
 
-        symbolDrawer = new NoteDrawer(noteSheetCanvas, paint, resources, track.getKey(), drawPosition, distanceBetweenLines);
+        noteDrawer = new NoteDrawer(noteSheetCanvas, paint, resources, track.getKey(), drawPosition, distanceBetweenLines);
+        breakDrawer = new BreakDrawer(noteSheetCanvas, paint, resources, track.getKey(), drawPosition, distanceBetweenLines);
     }
 
 	public void drawTrack() {
 		TrackToSymbolsConverter converter = new TrackToSymbolsConverter();
 
 		for (Symbol symbol : converter.convertTrack(track)) {
-			symbolDrawer.drawSymbol(symbol);
+            if (symbol instanceof NoteSymbol) {
+                noteDrawer.drawSymbol(symbol);
+            } else if (symbol instanceof BreakSymbol) {
+                breakDrawer.drawSymbol(symbol);
+            } else {
+                throw new IllegalArgumentException("Not supported symbol: " + symbol);
+            }
 		}
 	}
 }

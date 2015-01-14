@@ -30,7 +30,7 @@ import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NotePositionInformation;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
-import org.catrobat.musicdroid.pocketmusic.test.note.NoteSymbolTestDataFactory;
+import org.catrobat.musicdroid.pocketmusic.test.note.symbol.NoteSymbolTestDataFactory;
 
 public class NoteDrawerTest extends AbstractDrawerTest {
 

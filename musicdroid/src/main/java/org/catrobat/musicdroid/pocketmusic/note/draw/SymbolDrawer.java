@@ -31,8 +31,8 @@ import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 
 public abstract class SymbolDrawer {
 
-    public static final float SYMBOL_WIDTH_MULTIPLIER = 3f;
-    public static final float SMALL_SYMBOL_WIDTH_MULTIPLIER = 1f / 4f;
+    public static final int SYMBOL_WIDTH_MULTIPLIER = 3;
+    public static final int SMALL_SYMBOL_WIDTH_DIVIDOR = 4;
 
     protected NoteSheetCanvas noteSheetCanvas;
     protected Paint paint;
@@ -52,8 +52,8 @@ public abstract class SymbolDrawer {
         this.drawPosition = drawPosition;
         this.distanceBetweenLines = distanceBetweenLines;
 
-        widthForOneSymbol = (int) (distanceBetweenLines * SYMBOL_WIDTH_MULTIPLIER);
-        widthForOneSmallSymbol = (int) (widthForOneSymbol * SMALL_SYMBOL_WIDTH_MULTIPLIER);
+        widthForOneSymbol = distanceBetweenLines * SYMBOL_WIDTH_MULTIPLIER;
+        widthForOneSmallSymbol = widthForOneSymbol / SMALL_SYMBOL_WIDTH_DIVIDOR;
 	}
 
     private Point getCenterPointForNextSymbol(int symbolWidth) {

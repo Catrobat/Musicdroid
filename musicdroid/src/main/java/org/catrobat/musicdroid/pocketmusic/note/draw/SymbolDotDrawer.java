@@ -24,26 +24,27 @@
 package org.catrobat.musicdroid.pocketmusic.note.draw;
 
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 
-public class NoteDotDrawer {
+public class SymbolDotDrawer {
 
     public static final int DOT_RADIUS = 5;
-    public static final int DISTANCE_BETWEEN_NOTE_AND_DOT = 10;
+    public static final int DISTANCE_BETWEEN_SYMBOL_AND_DOT = 10;
 
     private NoteSheetCanvas noteSheetCanvas;
     private Paint paint;
     private int distanceBetweenLines;
 
-    public NoteDotDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, int distanceBetweenLines) {
+    public SymbolDotDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, int distanceBetweenLines) {
         this.noteSheetCanvas = noteSheetCanvas;
         this.paint = paint;
         this.distanceBetweenLines = distanceBetweenLines;
     }
 
-    public void drawDot(RectF noteRect) {
-        float x = noteRect.right + DISTANCE_BETWEEN_NOTE_AND_DOT;
-        float y = noteRect.top + distanceBetweenLines / 4;
+    public void drawDot(Rect symbolRect) {
+        float x = symbolRect.right + DISTANCE_BETWEEN_SYMBOL_AND_DOT;
+        float y = symbolRect.top + distanceBetweenLines / 4;
 
         RectF dotRect = new RectF();
 

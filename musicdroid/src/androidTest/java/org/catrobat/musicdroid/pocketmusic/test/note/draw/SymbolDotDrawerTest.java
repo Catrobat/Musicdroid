@@ -23,32 +23,33 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
+import android.graphics.Rect;
 import android.graphics.RectF;
 
-import org.catrobat.musicdroid.pocketmusic.note.draw.NoteDotDrawer;
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolDotDrawer;
 
-public class NoteDotDrawerTest extends AbstractDrawerTest {
+public class SymbolDotDrawerTest extends AbstractDrawerTest {
 
-    private NoteDotDrawer noteDotDrawer;
+    private SymbolDotDrawer symbolDotDrawer;
 
     @Override
     protected void setUp() {
         super.setUp();
 
-        noteDotDrawer = new NoteDotDrawer(noteSheetCanvas, paint, distanceBetweenLines);
+        symbolDotDrawer = new SymbolDotDrawer(noteSheetCanvas, paint, distanceBetweenLines);
     }
 
     public void testDrawDot() {
-        RectF noteRect = new RectF(100, 100, 200, 200);
-        float x = noteRect.right + NoteDotDrawer.DISTANCE_BETWEEN_NOTE_AND_DOT;
-        float y = noteRect.top + distanceBetweenLines / 4;
+        Rect noteRect = new Rect(100, 100, 200, 200);
+        int x = noteRect.right + SymbolDotDrawer.DISTANCE_BETWEEN_SYMBOL_AND_DOT;
+        int y = noteRect.top + distanceBetweenLines / 4;
         RectF expectedDotRect = new RectF();
         expectedDotRect.left = x;
-        expectedDotRect.top = y - NoteDotDrawer.DOT_RADIUS;
-        expectedDotRect.right = x + 2 * NoteDotDrawer.DOT_RADIUS;
-        expectedDotRect.bottom = y + NoteDotDrawer.DOT_RADIUS;
+        expectedDotRect.top = y - SymbolDotDrawer.DOT_RADIUS;
+        expectedDotRect.right = x + 2 * SymbolDotDrawer.DOT_RADIUS;
+        expectedDotRect.bottom = y + SymbolDotDrawer.DOT_RADIUS;
 
-        noteDotDrawer.drawDot(noteRect);
+        symbolDotDrawer.drawDot(noteRect);
 
         assertCanvasElementQueueOval(expectedDotRect.left, expectedDotRect.top, expectedDotRect.right, expectedDotRect.bottom, paint.getStyle());
     }

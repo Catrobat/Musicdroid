@@ -40,6 +40,17 @@ public class Project implements Serializable {
         this.tracks = new LinkedList<Track>();
     }
 
+    public Project(Project project) {
+        beatsPerMinute = project.getBeatsPerMinute();
+        tracks = new LinkedList<Track>();
+
+        for (int i = 0; i < project.size(); i++) {
+            Track track = project.getTrack(i);
+
+            tracks.add(new Track(track));
+        }
+    }
+
     public int getBeatsPerMinute() {
         return beatsPerMinute;
     }

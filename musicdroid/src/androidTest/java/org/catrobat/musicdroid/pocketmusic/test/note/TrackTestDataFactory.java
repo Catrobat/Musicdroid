@@ -85,34 +85,34 @@ public final class TrackTestDataFactory {
 		return track;
 	}
 
-	public static Track createTrackWithBreak() {
-		Track track = createTrack();
+    public static Track createTrackWithBreak() {
+        Track track = TrackTestDataFactory.createTrack();
 
-		long tick = 0;
+        long tick = 0;
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C1, true));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.D1, true));
+        track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
+        track.addNoteEvent(tick, new NoteEvent(NoteName.D4, true));
 
-		tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
+        tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C1, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.D1, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.E1, true));
+        track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
+        track.addNoteEvent(tick, new NoteEvent(NoteName.D4, false));
+        track.addNoteEvent(tick, new NoteEvent(NoteName.E4, true));
 
-		tick += NoteLength.QUARTER_DOT.toTicks(track.getBeatsPerMinute());
+        tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.E1, false));
+        track.addNoteEvent(tick, new NoteEvent(NoteName.E4, false));
 
-		tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
+        tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C1, true));
+        track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
 
-		tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
+        tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C1, false));
+        track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
 
-		return track;
-	}
+        return track;
+    }
 
 	public static Track createSemiComplexTrack(MusicalInstrument instrument) {
 		Track track = new Track(MusicalKey.VIOLIN, instrument, Project.DEFAULT_BEATS_PER_MINUTE);
@@ -141,44 +141,6 @@ public final class TrackTestDataFactory {
 
 		track.addNoteEvent(tick, new NoteEvent(NoteName.E1, false));
 		track.addNoteEvent(tick, new NoteEvent(NoteName.F1, false));
-
-		return track;
-	}
-
-	public static Track createComplexTrack() {
-		Track track = createTrack();
-
-		long tick = 0;
-
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C1, true));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.D1, true));
-
-		tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
-
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C1, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.E1, true));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.F1, true));
-
-		tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
-
-		track.addNoteEvent(tick, new NoteEvent(NoteName.D1, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.E1, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.F1, false));
-
-		tick += NoteLength.QUARTER_DOT.toTicks(track.getBeatsPerMinute());
-
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C2, true));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.D2, true));
-
-		tick += NoteLength.QUARTER_DOT.toTicks(track.getBeatsPerMinute());
-
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C2, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.D2, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.B3, true));
-
-		tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
-
-		track.addNoteEvent(tick, new NoteEvent(NoteName.B3, false));
 
 		return track;
 	}

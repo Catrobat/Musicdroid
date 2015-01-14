@@ -48,7 +48,7 @@ public class NoteDrawer extends SymbolDrawer {
 
     public void drawSymbol(Symbol symbol) {
         if (false == (symbol instanceof  NoteSymbol)) {
-            return;
+            throw new IllegalArgumentException("Symbol is not of type NoteSymbol: " + symbol);
         }
 
         NoteSymbol noteSymbol = (NoteSymbol) symbol;
@@ -59,17 +59,17 @@ public class NoteDrawer extends SymbolDrawer {
     }
 
     protected void drawCross(NoteSymbol noteSymbol) {
-        Integer xPositionForCrosses = null;
+        Integer xPositionForCross = null;
 
         for (NoteName noteName : noteSymbol.getNoteNamesSorted()) {
             if (noteName.isSigned()) {
-                if (xPositionForCrosses == null) {
-                    xPositionForCrosses = getCenterPointForNextSmallSymbol().x;
+                if (xPositionForCross == null) {
+                    xPositionForCross = getCenterPointForNextSmallSymbol().x;
                 }
 
                 int yPositionForCross = noteSheetCanvas.getHeightHalf() + NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName) * distanceBetweenLines / 2;
 
-                noteCrossDrawer.drawCross(xPositionForCrosses, yPositionForCross);
+                noteCrossDrawer.drawCross(xPositionForCross, yPositionForCross);
             }
         }
     }

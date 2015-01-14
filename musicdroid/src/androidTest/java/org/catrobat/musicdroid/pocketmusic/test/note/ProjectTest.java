@@ -107,4 +107,12 @@ public class ProjectTest extends AndroidTestCase {
 
 		assertEquals(expectedString, project.toString());
 	}
+
+    public void testCopyProject() {
+        Project project = ProjectTestDataFactory.createProjectWithTrack();
+        Project copyProject = new Project(project);
+
+        assertTrue(project != copyProject);
+        assertTrue(project.equals(copyProject));
+    }
 }

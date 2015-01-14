@@ -23,7 +23,6 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
-import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
@@ -32,7 +31,7 @@ import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NotePositionInformation;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteStemDrawer;
-import org.catrobat.musicdroid.pocketmusic.test.note.NoteSymbolTestDataFactory;
+import org.catrobat.musicdroid.pocketmusic.test.note.symbol.NoteSymbolTestDataFactory;
 
 import java.util.LinkedList;
 import java.util.List;

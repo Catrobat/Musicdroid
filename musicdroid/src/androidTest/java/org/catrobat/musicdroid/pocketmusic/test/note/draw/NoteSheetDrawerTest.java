@@ -65,8 +65,8 @@ public class NoteSheetDrawerTest extends AbstractDrawerTest {
     public void testDrawBars() {
         noteSheetDrawer.drawBars();
 
-        assertCanvasElementQueueBar(drawPosition.getStartXPositionForNextElement(), noteSheetDrawer.getYPositionOfBarTop(), drawPosition.getStartXPositionForNextElement() + NoteSheetDrawer.BOLD_BAR_WIDTH, noteSheetDrawer.getYPositionOfBarBottom());
-        assertCanvasElementQueueBar(drawPosition.getEndXPositionForDrawingElements() - NoteSheetDrawer.BOLD_BAR_WIDTH, noteSheetDrawer.getYPositionOfBarTop(), drawPosition.getEndXPositionForDrawingElements(), noteSheetDrawer.getYPositionOfBarBottom());
+        assertCanvasElementQueueRect(drawPosition.getStartXPositionForNextElement(), noteSheetDrawer.getYPositionOfBarTop(), drawPosition.getStartXPositionForNextElement() + NoteSheetDrawer.BOLD_BAR_WIDTH, noteSheetDrawer.getYPositionOfBarBottom());
+        assertCanvasElementQueueRect(drawPosition.getEndXPositionForDrawingElements() - NoteSheetDrawer.BOLD_BAR_WIDTH, noteSheetDrawer.getYPositionOfBarTop(), drawPosition.getEndXPositionForDrawingElements(), noteSheetDrawer.getYPositionOfBarBottom());
     }
 
     public void testDrawKey() {

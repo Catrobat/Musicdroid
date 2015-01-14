@@ -28,37 +28,14 @@ import android.graphics.Paint;
 import android.graphics.Point;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
+import org.catrobat.musicdroid.pocketmusic.note.draw.BreakDrawer;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
-import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolDrawer;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 
-public class SymbolDrawerMock extends SymbolDrawer {
+public class BreakDrawerMock extends BreakDrawer {
 
-    public SymbolDrawerMock(NoteSheetCanvas canvas, Paint paint, Resources resources, MusicalKey key, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
-        super(canvas, paint, resources, key, drawPosition, distanceBetweenLines);
-    }
-
-    public int getWidthForOneSymbol() {
-        return widthForOneSymbol;
-    }
-
-    public int getWidthForOneSmallSymbol() {
-        return widthForOneSmallSymbol;
-    }
-
-    @Override
-    public Point getCenterPointForNextSymbol() {
-        return super.getCenterPointForNextSymbol();
-    }
-
-    @Override
-    public Point getCenterPointForNextSmallSymbol() {
-        return super.getCenterPointForNextSmallSymbol();
-    }
-
-    @Override
-    public void drawSymbol(Symbol symbol) {
+    public BreakDrawerMock(NoteSheetCanvas noteSheetCanvas, Paint paint, Resources resources, MusicalKey key, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
+        super(noteSheetCanvas, paint, resources, key, drawPosition, distanceBetweenLines);
     }
 
     public Point getCenterPointForNextSymbolNoDrawPositionChange() {

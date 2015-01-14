@@ -95,7 +95,12 @@ public enum NoteLength {
     }
 
     public long toMilliseconds(int beatsPerMinute) {
-        return Math.round(beatsPerMinute / MINUTE_IN_SECONDS * length * SECOND_IN_MILLISECONDS);
+        return Math.round(beatsPerMinute * length * SECOND_IN_MILLISECONDS / MINUTE_IN_SECONDS);
+    }
+
+    public static long tickToMilliseconds(long tick) {
+        long millis = tick * SECOND_IN_MILLISECONDS / MINUTE_IN_SECONDS / DEFAULT_TICK_DURATION_MODIFIER;
+        return millis;
     }
 
     public boolean hasStem() {
@@ -117,11 +122,19 @@ public enum NoteLength {
     }
 
     public boolean hasDot() {
-        return (this == WHOLE_DOT) || (this == HALF_DOT) || (this == QUARTER_DOT) || (this == EIGHT_DOT);
+        return (WHOLE_DOT == this) || (HALF_DOT == this) || (QUARTER_DOT == this) || (EIGHT_DOT == this);
     }
 
     public boolean isFilled() {
-        return (this != WHOLE_DOT) && (this != WHOLE) && (this != HALF) && (this != HALF_DOT);
+        return (WHOLE_DOT != this) && (WHOLE != this) && (HALF != this) && (HALF_DOT != this);
+    }
+
+    public boolean isHalfOrHigher() {
+        if ((WHOLE_DOT == this) || (WHOLE == this) || (HALF_DOT == this) || (HALF == this)) {
+            return true;
+        }
+
+        return false;
     }
 
     private static class NoteLengthMillisecondsHelper {
