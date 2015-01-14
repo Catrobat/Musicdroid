@@ -30,7 +30,7 @@ import java.util.List;
 public class TrackToSymbolsConverter {
 
 	public List<Symbol> convertTrack(Track track) {
-		NoteEventListToSymbolConverter noteEventListConverter = new NoteEventListToSymbolConverter();
+		NoteEventsToSymbolsConverter noteEventListConverter = new NoteEventsToSymbolsConverter();
 		List<Symbol> symbols = new LinkedList<Symbol>();
 
 		for (long tick : track.getSortedTicks()) {
