@@ -29,28 +29,16 @@ import com.robotium.solo.Solo;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.SplashScreen.SplashScreen;
-import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
-import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
-import org.catrobat.musicdroid.pocketmusic.note.Track;
-import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
-import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
-import org.catrobat.musicdroid.pocketmusic.test.note.midi.ProjectToMidiConverterTestDataFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SplashScreenUiTest extends ActivityInstrumentationTestCase2<SplashScreen> {
 
-    private SplashScreen splashscreen;
     private Solo solo;
 
     public SplashScreenUiTest() { super(SplashScreen.class); }
 
     @Override
     protected void setUp() {
-        splashscreen=getActivity();
         solo = new Solo(getInstrumentation(), getActivity());
     }
 
