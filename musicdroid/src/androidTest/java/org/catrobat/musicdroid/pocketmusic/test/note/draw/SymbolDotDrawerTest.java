@@ -36,7 +36,7 @@ public class SymbolDotDrawerTest extends AbstractDrawerTest {
     protected void setUp() {
         super.setUp();
 
-        symbolDotDrawer = new SymbolDotDrawer(noteSheetCanvas, paint, distanceBetweenLines);
+        symbolDotDrawer = new SymbolDotDrawer(noteSheetCanvas, distanceBetweenLines);
     }
 
     public void testDrawDot() {
@@ -49,7 +49,7 @@ public class SymbolDotDrawerTest extends AbstractDrawerTest {
         expectedDotRect.right = x + 2 * SymbolDotDrawer.DOT_RADIUS;
         expectedDotRect.bottom = y + SymbolDotDrawer.DOT_RADIUS;
 
-        symbolDotDrawer.drawDot(noteRect);
+        symbolDotDrawer.drawDot(noteRect, paint);
 
         assertCanvasElementQueueOval(expectedDotRect.left, expectedDotRect.top, expectedDotRect.right, expectedDotRect.bottom, paint.getStyle());
     }

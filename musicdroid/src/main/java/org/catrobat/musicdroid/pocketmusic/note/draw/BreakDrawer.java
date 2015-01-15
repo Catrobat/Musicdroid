@@ -47,29 +47,29 @@ public class BreakDrawer extends SymbolDrawer {
     public BreakDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, Resources resources, MusicalKey key, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
         super(noteSheetCanvas, paint, resources, key, drawPosition, distanceBetweenLines);
 
-        symbolDotDrawer = new SymbolDotDrawer(noteSheetCanvas, paint, distanceBetweenLines);
+        symbolDotDrawer = new SymbolDotDrawer(noteSheetCanvas, distanceBetweenLines);
     }
 
     @Override
-    public void drawSymbol(Symbol symbol) {
+    protected void drawSymbol(Symbol symbol, Paint paint) {
         if (false == (symbol instanceof BreakSymbol)) {
             throw new IllegalArgumentException("Symbol is not of type BreakSymbol: " + symbol);
         }
 
-        drawBreak(((BreakSymbol) symbol).getNoteLength());
+        drawBreak(((BreakSymbol) symbol).getNoteLength(), paint);
     }
 
-    private void drawBreak(NoteLength noteLength) {
+    private void drawBreak(NoteLength noteLength, Paint paint) {
         Rect breakRect;
 
         if (noteLength.isHalfOrHigher()) {
-            breakRect = drawBreakBar(noteLength);
+            breakRect = drawBreakBar(noteLength, paint);
         } else {
             breakRect = drawBreakBitmap(noteLength);
         }
 
         if (noteLength.hasDot()) {
-            symbolDotDrawer.drawDot(breakRect);
+            symbolDotDrawer.drawDot(breakRect, paint);
         }
     }
 
@@ -96,7 +96,7 @@ public class BreakDrawer extends SymbolDrawer {
         return breakRect;
     }
 
-    private Rect drawBreakBar(NoteLength noteLength) {
+    private Rect drawBreakBar(NoteLength noteLength, Paint paint) {
         Rect breakRect = new Rect();
         Point centerPoint = getCenterPointForNextSymbol();
         int breakWidthHalf = distanceBetweenLines / 2;

@@ -46,18 +46,18 @@ public class NoteDrawerMock extends NoteDrawer {
     }
 
     @Override
-    public void drawBody(NoteSymbol noteSymbol) {
-        super.drawBody(noteSymbol);
+    public void drawBody(NoteSymbol noteSymbol, Paint paint) {
+        super.drawBody(noteSymbol, paint);
     }
 
     @Override
-    public void drawStem(NoteSymbol noteSymbol) {
-        super.drawStem(noteSymbol);
+    public void drawStem(NoteSymbol noteSymbol, Paint paint) {
+        super.drawStem(noteSymbol, paint);
     }
 
     @Override
-    public void drawHelpLines() {
-        super.drawHelpLines();
+    public void drawHelpLines(Paint paint) {
+        super.drawHelpLines(paint);
     }
 
     @Override

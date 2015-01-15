@@ -33,16 +33,14 @@ public class SymbolDotDrawer {
     public static final int DISTANCE_BETWEEN_SYMBOL_AND_DOT = 10;
 
     private NoteSheetCanvas noteSheetCanvas;
-    private Paint paint;
     private int distanceBetweenLines;
 
-    public SymbolDotDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, int distanceBetweenLines) {
+    public SymbolDotDrawer(NoteSheetCanvas noteSheetCanvas, int distanceBetweenLines) {
         this.noteSheetCanvas = noteSheetCanvas;
-        this.paint = paint;
         this.distanceBetweenLines = distanceBetweenLines;
     }
 
-    public void drawDot(Rect symbolRect) {
+    public void drawDot(Rect symbolRect, Paint paint) {
         float x = symbolRect.right + DISTANCE_BETWEEN_SYMBOL_AND_DOT;
         float y = symbolRect.top + distanceBetweenLines / 4;
 

@@ -52,7 +52,7 @@ public class NoteStemDrawerTest extends AbstractDrawerTest {
     protected void setUp() {
         super.setUp();
 
-        noteStemDrawer = new NoteStemDrawer(noteSheetCanvas, paint, distanceBetweenLines);
+        noteStemDrawer = new NoteStemDrawer(noteSheetCanvas, distanceBetweenLines);
         List<RectF> rects = new LinkedList<RectF>();
         rects.add(new RectF(RECT_LEFT, RECT_TOP, RECT_RIGHT, RECT_BOTTOM));
         notePositionInformation = new NotePositionInformation(rects);
@@ -65,7 +65,7 @@ public class NoteStemDrawerTest extends AbstractDrawerTest {
         PointF expectedStartPointOfStem = new PointF(notePositionInformation.getRightSideOfSymbol(), notePositionInformation.getBottomOfSymbol() - distanceBetweenLinesHalf);
         PointF expectedEndPointOfStem = new PointF(expectedStartPointOfStem.x, notePositionInformation.getTopOfSymbol() - stemLength);
 
-        noteStemDrawer.drawStem(notePositionInformation, NoteSymbolTestDataFactory.createNoteSymbol(NoteName.C4), MusicalKey.VIOLIN);
+        noteStemDrawer.drawStem(notePositionInformation, NoteSymbolTestDataFactory.createNoteSymbol(NoteName.C4), MusicalKey.VIOLIN, paint);
 
         assertCanvasElementQueueLine(expectedStartPointOfStem.x, expectedStartPointOfStem.y, expectedEndPointOfStem.x, expectedEndPointOfStem.y);
     }
@@ -74,13 +74,13 @@ public class NoteStemDrawerTest extends AbstractDrawerTest {
         PointF expectedStartPointOfStem = new PointF(notePositionInformation.getLeftSideOfSymbol(), notePositionInformation.getTopOfSymbol() + distanceBetweenLinesHalf);
         PointF expectedEndPointOfStem = new PointF(expectedStartPointOfStem.x, notePositionInformation.getBottomOfSymbol() + stemLength);
 
-        noteStemDrawer.drawStem(notePositionInformation, NoteSymbolTestDataFactory.createNoteSymbol(NoteName.C5), MusicalKey.VIOLIN);
+        noteStemDrawer.drawStem(notePositionInformation, NoteSymbolTestDataFactory.createNoteSymbol(NoteName.C5), MusicalKey.VIOLIN, paint);
 
         assertCanvasElementQueueLine(expectedStartPointOfStem.x, expectedStartPointOfStem.y, expectedEndPointOfStem.x, expectedEndPointOfStem.y);
     }
 
     public void testDrawStemWithFlag1() {
-        noteStemDrawer.drawStem(notePositionInformation, NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.EIGHT), MusicalKey.VIOLIN);
+        noteStemDrawer.drawStem(notePositionInformation, NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.EIGHT), MusicalKey.VIOLIN, paint);
 
         int stemCount = 1;
         int flagCount = 1;
@@ -90,7 +90,7 @@ public class NoteStemDrawerTest extends AbstractDrawerTest {
     }
 
     public void testDrawStemWithFlag2() {
-        noteStemDrawer.drawStem(notePositionInformation, NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.SIXTEENTH), MusicalKey.VIOLIN);
+        noteStemDrawer.drawStem(notePositionInformation, NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.SIXTEENTH), MusicalKey.VIOLIN, paint);
 
         int stemCount = 1;
         int flagCount = 2;

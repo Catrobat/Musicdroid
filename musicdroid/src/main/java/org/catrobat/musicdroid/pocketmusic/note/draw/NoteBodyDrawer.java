@@ -42,20 +42,18 @@ public final class NoteBodyDrawer {
     private SymbolDrawer symbolDrawer;
     private SymbolDotDrawer symbolDotDrawer;
     private NoteSheetCanvas noteSheetCanvas;
-    private Paint paint;
     private MusicalKey key;
     private int distanceBetweenLines;
 
-	public NoteBodyDrawer(SymbolDrawer symbolDrawer, NoteSheetCanvas noteSheetCanvas, Paint paint, MusicalKey key, int distanceBetweenLines) {
+	public NoteBodyDrawer(SymbolDrawer symbolDrawer, NoteSheetCanvas noteSheetCanvas, MusicalKey key, int distanceBetweenLines) {
         this.symbolDrawer = symbolDrawer;
-        this.symbolDotDrawer = new SymbolDotDrawer(noteSheetCanvas, paint, distanceBetweenLines);
+        this.symbolDotDrawer = new SymbolDotDrawer(noteSheetCanvas, distanceBetweenLines);
         this.noteSheetCanvas = noteSheetCanvas;
-        this.paint = new Paint(paint);
         this.key = key;
         this.distanceBetweenLines = distanceBetweenLines;
 	}
 
-	public NotePositionInformation drawBody(NoteSymbol noteSymbol) {
+	public NotePositionInformation drawBody(NoteSymbol noteSymbol, Paint paint) {
 		boolean isStemUpdirected = noteSymbol.isStemUp(key);
         int lineHeight = distanceBetweenLines;
 		int noteHeight = lineHeight / 2;
@@ -93,6 +91,8 @@ public final class NoteBodyDrawer {
 			RectF noteRect = new RectF(left, top, right, bottom);
 
 			noteSurroundingRects.add(noteRect);
+            Paint.Style savedStyle = paint.getStyle();
+
             if (noteLength.isFilled()) {
                 paint.setStyle(Paint.Style.FILL);
             } else {
@@ -100,11 +100,12 @@ public final class NoteBodyDrawer {
             }
 
             noteSheetCanvas.drawOval(noteRect, paint);
+            paint.setStyle(savedStyle);
 
             if (noteLength.hasDot()) {
                 Rect roundedNoteRect = new Rect();
                 noteRect.roundOut(roundedNoteRect);
-                symbolDotDrawer.drawDot(new Rect(roundedNoteRect));
+                symbolDotDrawer.drawDot(new Rect(roundedNoteRect), paint);
             }
 
 			prevNoteName = noteName;

@@ -60,7 +60,7 @@ public class NoteDrawerTest extends AbstractDrawerTest {
     public void testDrawBody() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol();
 
-        noteDrawer.drawBody(noteSymbol);
+        noteDrawer.drawBody(noteSymbol, paint);
 
         assertCanvasElementQueueSize(noteSymbol.size());
         clearCanvasElementQueue();
@@ -69,8 +69,8 @@ public class NoteDrawerTest extends AbstractDrawerTest {
     public void testDrawStem1() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER);
 
-        noteDrawer.drawBody(noteSymbol);
-        noteDrawer.drawStem(noteSymbol);
+        noteDrawer.drawBody(noteSymbol, paint);
+        noteDrawer.drawStem(noteSymbol, paint);
 
         int stemCount = 2;
         assertCanvasElementQueueSize(stemCount);
@@ -80,8 +80,8 @@ public class NoteDrawerTest extends AbstractDrawerTest {
     public void testDrawStem2() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.WHOLE);
 
-        noteDrawer.drawBody(noteSymbol);
-        noteDrawer.drawStem(noteSymbol);
+        noteDrawer.drawBody(noteSymbol, paint);
+        noteDrawer.drawStem(noteSymbol, paint);
 
         int stemCount = 1;
         assertCanvasElementQueueSize(stemCount);
@@ -91,8 +91,8 @@ public class NoteDrawerTest extends AbstractDrawerTest {
     public void testDrawHelpLines1() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteName.A3);
 
-        noteDrawer.drawBody(noteSymbol);
-        noteDrawer.drawHelpLines();
+        noteDrawer.drawBody(noteSymbol, paint);
+        noteDrawer.drawHelpLines(paint);
 
         int bodyCount = 1;
         int helpLineCount = 2;
@@ -103,8 +103,8 @@ public class NoteDrawerTest extends AbstractDrawerTest {
     public void testDrawHelpLines2() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteName.C4);
 
-        noteDrawer.drawBody(noteSymbol);
-        noteDrawer.drawHelpLines();
+        noteDrawer.drawBody(noteSymbol, paint);
+        noteDrawer.drawHelpLines(paint);
 
         canvas.getDrawnElements().poll();
         assertHelpLines(noteDrawer.getNotePositionInformation());

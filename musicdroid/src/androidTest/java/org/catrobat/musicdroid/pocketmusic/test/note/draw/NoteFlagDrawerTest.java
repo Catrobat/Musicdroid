@@ -41,28 +41,28 @@ public class NoteFlagDrawerTest extends AbstractDrawerTest {
     protected void setUp() {
         super.setUp();
 
-        noteFlagDrawer = new NoteFlagDrawer(noteSheetCanvas, paint, distanceBetweenLines);
+        noteFlagDrawer = new NoteFlagDrawer(noteSheetCanvas, distanceBetweenLines);
         endPointOfNoteStem = new PointF(1000, 1000);
         key = MusicalKey.VIOLIN;
     }
 
     public void testDrawFlag1() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.EIGHT);
-        noteFlagDrawer.drawFlag(endPointOfNoteStem, noteSymbol, key);
+        noteFlagDrawer.drawFlag(endPointOfNoteStem, noteSymbol, key, paint);
 
         assertCanvasElementQueuePath();
     }
 
     public void testDrawFlag2() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.EIGHT_DOT);
-        noteFlagDrawer.drawFlag(endPointOfNoteStem, noteSymbol, key);
+        noteFlagDrawer.drawFlag(endPointOfNoteStem, noteSymbol, key, paint);
 
         assertCanvasElementQueuePath();
     }
 
     public void testDrawFlag3() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.SIXTEENTH);
-        noteFlagDrawer.drawFlag(endPointOfNoteStem, noteSymbol, key);
+        noteFlagDrawer.drawFlag(endPointOfNoteStem, noteSymbol, key, paint);
 
         assertCanvasElementQueuePath();
         assertCanvasElementQueuePath();

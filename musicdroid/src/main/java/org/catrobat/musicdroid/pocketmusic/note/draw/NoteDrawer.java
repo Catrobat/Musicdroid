@@ -42,20 +42,21 @@ public class NoteDrawer extends SymbolDrawer {
         super(noteSheetCanvas, paint, resources, key, drawPosition, distanceBetweenLines);
 
         noteCrossDrawer = new NoteCrossDrawer(noteSheetCanvas, resources, distanceBetweenLines);
-        noteStemDrawer = new NoteStemDrawer(noteSheetCanvas, paint, distanceBetweenLines);
-        noteBodyDrawer = new NoteBodyDrawer(this, noteSheetCanvas, paint, key, distanceBetweenLines);
+        noteStemDrawer = new NoteStemDrawer(noteSheetCanvas, distanceBetweenLines);
+        noteBodyDrawer = new NoteBodyDrawer(this, noteSheetCanvas, key, distanceBetweenLines);
 	}
 
-    public void drawSymbol(Symbol symbol) {
+    @Override
+    protected void drawSymbol(Symbol symbol, Paint paint) {
         if (false == (symbol instanceof  NoteSymbol)) {
             throw new IllegalArgumentException("Symbol is not of type NoteSymbol: " + symbol);
         }
 
         NoteSymbol noteSymbol = (NoteSymbol) symbol;
         drawCross(noteSymbol);
-        drawBody(noteSymbol);
-        drawStem(noteSymbol);
-        drawHelpLines();
+        drawBody(noteSymbol, paint);
+        drawStem(noteSymbol, paint);
+        drawHelpLines(paint);
     }
 
     protected void drawCross(NoteSymbol noteSymbol) {
@@ -74,17 +75,17 @@ public class NoteDrawer extends SymbolDrawer {
         }
     }
 
-    protected void drawBody(NoteSymbol noteSymbol) {
-        notePositionInformation = noteBodyDrawer.drawBody(noteSymbol);
+    protected void drawBody(NoteSymbol noteSymbol, Paint paint) {
+        notePositionInformation = noteBodyDrawer.drawBody(noteSymbol, paint);
     }
 
-    protected void drawStem(NoteSymbol noteSymbol) {
+    protected void drawStem(NoteSymbol noteSymbol, Paint paint) {
         if (noteSymbol.hasStem()) {
-            noteStemDrawer.drawStem(notePositionInformation, noteSymbol, key);
+            noteStemDrawer.drawStem(notePositionInformation, noteSymbol, key, paint);
         }
     }
 
-    protected void drawHelpLines() {
+    protected void drawHelpLines(Paint paint) {
         float topEndOfNoteLines = noteSheetCanvas.getHeightHalf() -
                 distanceBetweenLines * NoteSheetDrawer.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
         float bottomEndOfNoteLines = noteSheetCanvas.getHeightHalf() +

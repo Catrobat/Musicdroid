@@ -35,19 +35,17 @@ public class NoteStemDrawer {
 
     private NoteFlagDrawer noteFlagDrawer;
     private NoteSheetCanvas noteSheetCanvas;
-    private Paint paint;
     private int distanceBetweenLinesHalf;
     private int stemLength;
 
-	public NoteStemDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, int distanceBetweenLines) {
-        noteFlagDrawer = new NoteFlagDrawer(noteSheetCanvas, paint, distanceBetweenLines);
+	public NoteStemDrawer(NoteSheetCanvas noteSheetCanvas, int distanceBetweenLines) {
+        noteFlagDrawer = new NoteFlagDrawer(noteSheetCanvas, distanceBetweenLines);
         this.noteSheetCanvas = noteSheetCanvas;
-        this.paint = paint;
         this.distanceBetweenLinesHalf = distanceBetweenLines / 2;
         this.stemLength = (int) (Math.round(LENGTH_OF_STEM_IN_NOTE_LINE_DISTANCES * distanceBetweenLines));
 	}
 
-	public void drawStem(NotePositionInformation notePositionInformation, NoteSymbol noteSymbol, MusicalKey key) {
+	public void drawStem(NotePositionInformation notePositionInformation, NoteSymbol noteSymbol, MusicalKey key, Paint paint) {
         if (false == noteSymbol.hasStem()) {
             return;
         }
@@ -71,11 +69,11 @@ public class NoteStemDrawer {
                 endPointOfNoteStem.y, paint);
 
         if (NoteFlag.NO_FLAG != noteSymbol.getFlag()) {
-            drawFlag(endPointOfNoteStem, noteSymbol, key);
+            drawFlag(endPointOfNoteStem, noteSymbol, key, paint);
         }
 	}
 
-    private void drawFlag(PointF endPointOfNoteStem, NoteSymbol noteSymbol, MusicalKey key) {
-        noteFlagDrawer.drawFlag(endPointOfNoteStem, noteSymbol, key);
+    private void drawFlag(PointF endPointOfNoteStem, NoteSymbol noteSymbol, MusicalKey key, Paint paint) {
+        noteFlagDrawer.drawFlag(endPointOfNoteStem, noteSymbol, key, paint);
     }
 }

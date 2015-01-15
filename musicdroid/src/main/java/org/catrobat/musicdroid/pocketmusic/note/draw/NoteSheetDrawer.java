@@ -34,6 +34,9 @@ import org.catrobat.musicdroid.pocketmusic.note.Track;
 
 public class NoteSheetDrawer {
 
+    public static final int COLOR_DEFAULT = Color.BLACK;
+    public static final int COLOR_MARKED = Color.RED;
+
     public static final int NOTE_SHEET_PADDING = 20;
 
     public static final int POSSIBLE_LINE_SPACES_ON_SCREEN = 12;
@@ -68,7 +71,7 @@ public class NoteSheetDrawer {
     private Paint createPaint() {
         Paint paint = new Paint();
 
-        paint.setColor(Color.BLACK);
+        paint.setColor(COLOR_DEFAULT);
         paint.setStyle(Paint.Style.FILL);
         paint.setStrokeWidth(4);
 

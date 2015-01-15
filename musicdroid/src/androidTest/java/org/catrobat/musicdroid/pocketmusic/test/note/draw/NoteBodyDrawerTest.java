@@ -51,10 +51,10 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
     private void assertDrawBody(MusicalKey key) {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol();
         SymbolDrawerMock symbolDrawer = new SymbolDrawerMock(noteSheetCanvas, paint, getContext().getResources(), key, drawPosition, distanceBetweenLines);
-        NoteBodyDrawer noteBodyDrawer = new NoteBodyDrawer(symbolDrawer, noteSheetCanvas, paint, key, distanceBetweenLines);
+        NoteBodyDrawer noteBodyDrawer = new NoteBodyDrawer(symbolDrawer, noteSheetCanvas, key, distanceBetweenLines);
 
         Point centerPointNote = symbolDrawer.getCenterPointForNextSymbolNoDrawPositionChange();
-        NotePositionInformation positionInformation = noteBodyDrawer.drawBody(noteSymbol);
+        NotePositionInformation positionInformation = noteBodyDrawer.drawBody(noteSymbol, paint);
 
         assertCanvasElementQueueNoteBody(key, noteSymbol, positionInformation, centerPointNote);
     }
@@ -117,10 +117,10 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
     public void testDrawBodyDot() {
         MusicalKey key = MusicalKey.VIOLIN;
         SymbolDrawerMock symbolDrawer = new SymbolDrawerMock(noteSheetCanvas, paint, getContext().getResources(), key, drawPosition, distanceBetweenLines);
-        NoteBodyDrawer noteBodyDrawer = new NoteBodyDrawer(symbolDrawer, noteSheetCanvas, paint, key, distanceBetweenLines);
+        NoteBodyDrawer noteBodyDrawer = new NoteBodyDrawer(symbolDrawer, noteSheetCanvas, key, distanceBetweenLines);
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER_DOT);
 
-        noteBodyDrawer.drawBody(noteSymbol);
+        noteBodyDrawer.drawBody(noteSymbol, paint);
 
         int bodyCount = 1;
         int dotCount = 1;
