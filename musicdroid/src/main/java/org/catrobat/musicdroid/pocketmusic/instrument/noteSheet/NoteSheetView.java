@@ -26,6 +26,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -36,10 +37,17 @@ import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class NoteSheetView extends View {
 
-	private Track track;
+    private TrackToSymbolsConverter trackConverter;
+    private List<Symbol> symbols;
+    private MusicalKey key;
 
 	private NoteSheetCanvas noteSheetCanvas;
     private NoteSheetDrawer noteSheetDrawer;
@@ -48,7 +56,9 @@ public class NoteSheetView extends View {
 	public NoteSheetView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
-		track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ELECTRIC_PIANO_1, Project.DEFAULT_BEATS_PER_MINUTE);
+        trackConverter = new TrackToSymbolsConverter();
+        symbols = new LinkedList<Symbol>();
+        key = MusicalKey.VIOLIN;
         widthBeforeResize = getWidth();
 	}
 
@@ -62,7 +72,8 @@ public class NoteSheetView extends View {
     }
 
 	public void redraw(Track track) {
-		this.track = track;
+        key = track.getKey();
+        symbols = trackConverter.convertTrack(track);
 		invalidate();
 	}
 
@@ -96,9 +107,17 @@ public class NoteSheetView extends View {
 		super.onDraw(canvas);
 		noteSheetCanvas = new NoteSheetCanvas(canvas);
         requestLayout();
-        noteSheetDrawer = new NoteSheetDrawer(noteSheetCanvas, getResources(), track);
+        noteSheetDrawer = new NoteSheetDrawer(noteSheetCanvas, getResources(), symbols, key);
         noteSheetDrawer.drawNoteSheet();
         ((PianoActivity) getContext()).scrollNoteSheet();
 	}
 
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        if (MotionEvent.ACTION_UP == e.getAction()) {
+            // TODO fw
+        }
+
+        return true;
+    }
 }

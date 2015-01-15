@@ -30,7 +30,9 @@ import android.graphics.Rect;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
-import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+
+import java.util.List;
 
 public class NoteSheetDrawer {
 
@@ -48,7 +50,8 @@ public class NoteSheetDrawer {
 
     private NoteSheetCanvas noteSheetCanvas;
     private Resources resources;
-    private Track track;
+    private List<Symbol> symbols;
+    private MusicalKey key;
 
     private Paint paint;
     private NoteSheetDrawPosition drawPosition;
@@ -56,16 +59,21 @@ public class NoteSheetDrawer {
     protected int yPositionOfBarTop;
     protected int yPositionOfBarBottom;
 
-    public NoteSheetDrawer(NoteSheetCanvas noteSheetCanvas, Resources resources, Track track) {
+    private SymbolsDrawer trackDrawer;
+
+    public NoteSheetDrawer(NoteSheetCanvas noteSheetCanvas, Resources resources, List<Symbol> symbols, MusicalKey key) {
         this.noteSheetCanvas = noteSheetCanvas;
         this.resources = resources;
-        this.track = track;
+        this.symbols = symbols;
+        this.key = key;
 
         paint = createPaint();
         drawPosition = new NoteSheetDrawPosition(NOTE_SHEET_PADDING, noteSheetCanvas.getWidth() - NOTE_SHEET_PADDING);
         distanceBetweenLines = calculateDistanceBetweenLines();
         yPositionOfBarTop = noteSheetCanvas.getHeightHalf() - NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS * distanceBetweenLines;
         yPositionOfBarBottom = noteSheetCanvas.getHeightHalf() + NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS * distanceBetweenLines;
+
+        trackDrawer = new SymbolsDrawer(noteSheetCanvas, paint, resources, symbols, key, drawPosition, distanceBetweenLines);
     }
 
     private Paint createPaint() {
@@ -119,7 +127,7 @@ public class NoteSheetDrawer {
     }
 
     protected void drawKey() {
-        if (track.getKey() != MusicalKey.VIOLIN) {
+        if (key != MusicalKey.VIOLIN) {
             throw new UnsupportedOperationException();
         }
 
@@ -130,7 +138,6 @@ public class NoteSheetDrawer {
     }
 
     private void drawTrack() {
-        TrackDrawer trackDrawer = new TrackDrawer(noteSheetCanvas, paint, resources, track, drawPosition, distanceBetweenLines);
         trackDrawer.drawTrack();
     }
 }
