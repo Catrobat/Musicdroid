@@ -31,11 +31,11 @@ public class SymbolCoordinates {
 
     private RectF boundaryRect;
 
-    public SymbolCoordinates(List<RectF> rects) {
+    public SymbolCoordinates(RectF... rects) {
         calculateCoordinates(rects);
     }
 
-    private void calculateCoordinates(List<RectF> rects) {
+    private void calculateCoordinates(RectF... rects) {
         boundaryRect = null;
 
         for(RectF rect : rects) {

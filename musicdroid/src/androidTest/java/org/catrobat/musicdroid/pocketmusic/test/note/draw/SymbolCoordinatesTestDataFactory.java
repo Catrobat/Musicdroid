@@ -38,7 +38,7 @@ public class SymbolCoordinatesTestDataFactory {
     }
 
     public static SymbolCoordinates createSymbolCoordinates(RectF... rects) {
-        SymbolCoordinates positionInformation = new SymbolCoordinates(Arrays.asList(rects));
+        SymbolCoordinates positionInformation = new SymbolCoordinates(rects);
 
         return positionInformation;
     }

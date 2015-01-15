@@ -53,9 +53,7 @@ public class NoteStemDrawerTest extends AbstractDrawerTest {
         super.setUp();
 
         noteStemDrawer = new NoteStemDrawer(noteSheetCanvas, distanceBetweenLines);
-        List<RectF> rects = new LinkedList<RectF>();
-        rects.add(new RectF(RECT_LEFT, RECT_TOP, RECT_RIGHT, RECT_BOTTOM));
-        symbolCoordinates = new SymbolCoordinates(rects);
+        symbolCoordinates = SymbolCoordinatesTestDataFactory.createSymbolCoordinates(new RectF(RECT_LEFT, RECT_TOP, RECT_RIGHT, RECT_BOTTOM));
 
         distanceBetweenLinesHalf = distanceBetweenLines / 2;
         stemLength = (int) (Math.round(NoteStemDrawer.LENGTH_OF_STEM_IN_NOTE_LINE_DISTANCES * distanceBetweenLines));

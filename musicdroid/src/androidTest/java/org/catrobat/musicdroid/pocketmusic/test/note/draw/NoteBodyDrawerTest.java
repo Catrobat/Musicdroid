@@ -66,10 +66,12 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
         int noteHeight = lineHeight / 2;
         int noteWidth = noteHeight * NoteBodyDrawer.NOTE_WIDTH_SCALE;
 
-        List<RectF> noteSurroundingRects = new LinkedList<RectF>();
+        List<NoteName> sortedNoteNames = noteSymbol.getNoteNamesSorted();
+        RectF[] noteSurroundingRects = new RectF[sortedNoteNames.size()];
         NoteName prevNoteName = null;
 
-        for (NoteName noteName : noteSymbol.getNoteNamesSorted()) {
+        for (int i = 0; i < sortedNoteNames.size(); i++) {
+            NoteName noteName = sortedNoteNames.get(i);
             NoteLength noteLength = noteSymbol.getNoteLength(noteName);
             Point centerPointOfActualNote = new Point(centerPointNote);
             centerPointOfActualNote.y += NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName)
@@ -96,7 +98,7 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
 
             RectF rect = new RectF(left, top, right, bottom);
 
-            noteSurroundingRects.add(rect);
+            noteSurroundingRects[i] = rect;
 
             if (noteLength.isFilled()) {
                 paint.setStyle(Paint.Style.FILL);
