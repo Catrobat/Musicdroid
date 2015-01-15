@@ -31,7 +31,7 @@ import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteBodyDrawer;
-import org.catrobat.musicdroid.pocketmusic.note.draw.NotePositionInformation;
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolCoordinates;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 import org.catrobat.musicdroid.pocketmusic.test.note.symbol.NoteSymbolTestDataFactory;
 
@@ -54,12 +54,12 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
         NoteBodyDrawer noteBodyDrawer = new NoteBodyDrawer(symbolDrawer, noteSheetCanvas, key, distanceBetweenLines);
 
         Point centerPointNote = symbolDrawer.getCenterPointForNextSymbolNoDrawPositionChange();
-        NotePositionInformation positionInformation = noteBodyDrawer.drawBody(noteSymbol, paint);
+        SymbolCoordinates positionInformation = noteBodyDrawer.drawBody(noteSymbol, paint);
 
         assertCanvasElementQueueNoteBody(key, noteSymbol, positionInformation, centerPointNote);
     }
 
-    private void assertCanvasElementQueueNoteBody(MusicalKey key, NoteSymbol noteSymbol, NotePositionInformation actualPositionInformation, Point centerPointNote) {
+    private void assertCanvasElementQueueNoteBody(MusicalKey key, NoteSymbol noteSymbol, SymbolCoordinates actualPositionInformation, Point centerPointNote) {
         Paint paint = new Paint();
         boolean isStemUpdirected = noteSymbol.isStemUp(key);
         int lineHeight = distanceBetweenLines;
@@ -109,7 +109,7 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
             prevNoteName = noteName;
         }
 
-        NotePositionInformation expectedPositionInformation = new NotePositionInformation(noteSurroundingRects);
+        SymbolCoordinates expectedPositionInformation = new SymbolCoordinates(noteSurroundingRects);
 
         assertEquals(expectedPositionInformation, actualPositionInformation);
     }

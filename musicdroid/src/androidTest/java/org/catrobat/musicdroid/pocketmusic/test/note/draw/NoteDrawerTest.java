@@ -27,7 +27,7 @@ import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
-import org.catrobat.musicdroid.pocketmusic.note.draw.NotePositionInformation;
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolCoordinates;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 import org.catrobat.musicdroid.pocketmusic.test.note.symbol.NoteSymbolTestDataFactory;
@@ -110,21 +110,21 @@ public class NoteDrawerTest extends AbstractDrawerTest {
         assertHelpLines(noteDrawer.getNotePositionInformation());
     }
 
-    private void assertHelpLines(NotePositionInformation notePositionInformation) {
+    private void assertHelpLines(SymbolCoordinates symbolCoordinates) {
         float topEndOfNoteLines = noteSheetCanvas.getHeightHalf() -
                 distanceBetweenLines * NoteSheetDrawer.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
         float bottomEndOfNoteLines = noteSheetCanvas.getHeightHalf() +
                 distanceBetweenLines * NoteSheetDrawer.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
 
-        float topEndOfHelpLines = notePositionInformation.getTopOfSymbol() + distanceBetweenLines / 2;
-        float bottomEndOfHelpLines = notePositionInformation.getBottomOfSymbol() - distanceBetweenLines / 2;
+        float topEndOfHelpLines = symbolCoordinates.getTop() + distanceBetweenLines / 2;
+        float bottomEndOfHelpLines = symbolCoordinates.getBottom() - distanceBetweenLines / 2;
 
-        int lengthOfHelpLine = ((int) notePositionInformation.getRightSideOfSymbol() - (int) notePositionInformation.getLeftSideOfSymbol()) / 3;
+        int lengthOfHelpLine = ((int) symbolCoordinates.getRight() - (int) symbolCoordinates.getLeft()) / 3;
 
         topEndOfNoteLines -= distanceBetweenLines;
         while(topEndOfHelpLines <= topEndOfNoteLines) {
-            int startX = (int) (notePositionInformation.getLeftSideOfSymbol() - lengthOfHelpLine);
-            int stopX = (int) (notePositionInformation.getRightSideOfSymbol() + lengthOfHelpLine);
+            int startX = (int) (symbolCoordinates.getLeft() - lengthOfHelpLine);
+            int stopX = (int) (symbolCoordinates.getRight() + lengthOfHelpLine);
             int startY = (int) topEndOfNoteLines;
             int stopY = startY;
 
@@ -135,8 +135,8 @@ public class NoteDrawerTest extends AbstractDrawerTest {
 
         bottomEndOfNoteLines += distanceBetweenLines;
         while(bottomEndOfHelpLines >= bottomEndOfNoteLines) {
-            int startX = (int) (notePositionInformation.getLeftSideOfSymbol() - lengthOfHelpLine);
-            int stopX = (int) (notePositionInformation.getRightSideOfSymbol() + lengthOfHelpLine);
+            int startX = (int) (symbolCoordinates.getLeft() - lengthOfHelpLine);
+            int stopX = (int) (symbolCoordinates.getRight() + lengthOfHelpLine);
             int startY = (int) bottomEndOfNoteLines;
             int stopY = startY;
 
