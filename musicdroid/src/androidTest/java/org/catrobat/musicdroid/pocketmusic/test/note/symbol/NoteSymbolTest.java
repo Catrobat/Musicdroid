@@ -59,7 +59,7 @@ public class NoteSymbolTest extends AndroidTestCase {
     public void testToString() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol();
 
-        assertEquals("[NoteSymbol] size: " + noteSymbol.size(), noteSymbol.toString());
+        assertEquals("[NoteSymbol] marked=" + noteSymbol.isMarked() + " size=" + noteSymbol.size(), noteSymbol.toString());
     }
 
     public void testGetNoteNamesSorted() {
@@ -114,6 +114,13 @@ public class NoteSymbolTest extends AndroidTestCase {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol();
 
         assertFalse(noteSymbol.equals(null));
+    }
+
+    public void testEquals7() {
+        NoteSymbol noteSymbol1 = NoteSymbolTestDataFactory.createNoteSymbol(true);
+        NoteSymbol noteSymbol2 = NoteSymbolTestDataFactory.createNoteSymbol(false);
+
+        assertFalse(noteSymbol1.equals(noteSymbol2));
     }
 
     public void testHasStem1() {

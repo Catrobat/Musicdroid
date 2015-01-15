@@ -41,7 +41,7 @@ public class BreakSymbolTest extends AndroidTestCase {
         NoteLength noteLength = NoteLength.QUARTER;
         BreakSymbol breakSymbol = BreakSymbolTestDataFactory.createBreakSymbol(noteLength);
 
-        String expectedString = "[BreakSymbol] noteLength: " + noteLength;
+        String expectedString = "[BreakSymbol] marked=" + breakSymbol.isMarked() + " noteLength=" + noteLength;
 
         assertEquals(expectedString, breakSymbol.toString());
     }
@@ -70,5 +70,12 @@ public class BreakSymbolTest extends AndroidTestCase {
         BreakSymbol breakSymbol = BreakSymbolTestDataFactory.createBreakSymbol();
 
         assertFalse(breakSymbol.equals(""));
+    }
+
+    public void testEquals5() {
+        BreakSymbol breakSymbol1 = BreakSymbolTestDataFactory.createBreakSymbol(true);
+        BreakSymbol breakSymbol2 = BreakSymbolTestDataFactory.createBreakSymbol(false);
+
+        assertFalse(breakSymbol1.equals(breakSymbol2));
     }
 }

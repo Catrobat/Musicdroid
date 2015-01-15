@@ -22,5 +22,30 @@
  */
 package org.catrobat.musicdroid.pocketmusic.note.symbol;
 
-public interface Symbol {
+public abstract class Symbol {
+
+    protected boolean marked;
+
+    public Symbol(boolean marked) {
+        this.marked = marked;
+    }
+
+    public boolean isMarked() {
+        return marked;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if ((obj == null) || !(obj instanceof Symbol)) {
+            return false;
+        }
+
+        Symbol symbol = (Symbol) obj;
+
+        if (symbol.isMarked() == isMarked()) {
+            return true;
+        }
+
+        return false;
+    }
 }
