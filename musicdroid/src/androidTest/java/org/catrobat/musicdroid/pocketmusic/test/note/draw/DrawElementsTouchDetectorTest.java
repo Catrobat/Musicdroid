@@ -35,32 +35,56 @@ public class DrawElementsTouchDetectorTest extends AndroidTestCase {
 
     private DrawElementsTouchDetector touchDetector;
     private List<RectF> drawElements;
+    private RectF element1;
+    private RectF element2;
 
     public DrawElementsTouchDetectorTest() {
         touchDetector = new DrawElementsTouchDetector();
         drawElements = new LinkedList<RectF>();
 
-        drawElements.add(new RectF(0, 0, 100, 100));
-        drawElements.add(new RectF(150, 0, 250, 100));
+        element1 = new RectF(0, 0, 100, 100);
+        element2 = new RectF(150, 0, 250, 100);
+
+        drawElements.add(element1);
+        drawElements.add(element2);
     }
 
     public void testGetIndexOfTouchedDrawElement1() {
-        assertElementIndexThroughTouch(0, 50, 50);
+        assertElementTouch(0, element1);
     }
 
     public void testGetIndexOfTouchedDrawElement2() {
-        assertElementIndexThroughTouch(-1, 50, 200);
+        assertElementNoTouch(element1);
     }
 
     public void testGetIndexOfTouchedDrawElement3() {
-        assertElementIndexThroughTouch(-1, 110, 50);
+        assertElementNoTouch(element2);
     }
 
     public void testGetIndexOfTouchedDrawElement4() {
-        assertElementIndexThroughTouch(1, 160, 50);
+        assertElementTouch(1, element2);
     }
 
-    private void assertElementIndexThroughTouch(int expectedIndex, float x, float y) {
+    private void assertElementTouch(int expectedIndex, float x, float y) {
         assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, x, y));
+    }
+
+    private void assertElementTouch(int expectedIndex, RectF element) {
+        assertElementTouch(expectedIndex, element.left, element.bottom);
+        assertElementTouch(expectedIndex, element.right, element.top);
+
+        float elementCenterX = element.left + (element.right - element.left) / 2;
+        float elementCenterY = element.top + (element.bottom - element.top) / 2;
+
+        assertElementTouch(expectedIndex, elementCenterX, elementCenterY);
+    }
+
+    private void assertElementNoTouch(RectF element) {
+        int expectedIndex = -1;
+
+        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, element.left, element.bottom + 1));
+        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, element.right, element.top - 1));
+        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, element.left - 1, element.bottom));
+        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, element.right + 1, element.top));
     }
 }
