@@ -34,7 +34,7 @@ import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 
 public class Splash_Screen extends Activity {
 
-    private static int SPLASH_TIME_OUT = 500;
+    private static int SPLASH_TIME_OUT = 5000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
