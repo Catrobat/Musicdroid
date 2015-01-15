@@ -63,7 +63,7 @@ public class SplashScreenUiTest extends ActivityInstrumentationTestCase2<SplashS
 
     public void testPiano() {
         solo.assertCurrentActivity("correct activity",SplashScreen.class);
-        solo.waitForActivity("PianoActivity",2000);
+        solo.waitForActivity("PianoActivity",3000);
     }
 
 }
