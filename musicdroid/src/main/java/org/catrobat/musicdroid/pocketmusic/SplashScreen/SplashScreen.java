@@ -32,9 +32,9 @@ import android.os.Handler;
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 
-public class Splash_Screen extends Activity {
+public class SplashScreen extends Activity {
 
-    private static int SPLASH_TIME_OUT = 5000;
+    private static int SPLASH_TIME_OUT = 500;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +42,7 @@ public class Splash_Screen extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent launch_piano_activity = new Intent(Splash_Screen.this, PianoActivity.class);
+                Intent launch_piano_activity = new Intent(SplashScreen.this, PianoActivity.class);
                 startActivity(launch_piano_activity);
                 finish();
             }
