@@ -25,14 +25,17 @@ package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
 import android.content.res.Resources;
 
-import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+
+import java.util.List;
 
 public class NoteSheetDrawerMock extends NoteSheetDrawer {
 
-    public NoteSheetDrawerMock(NoteSheetCanvas canvas, Resources resources, Track track) {
-        super(canvas, resources, track);
+    public NoteSheetDrawerMock(NoteSheetCanvas canvas, Resources resources, List<Symbol> symbols, MusicalKey key) {
+        super(canvas, resources, symbols, key);
     }
 
     public int getDistanceBetweenLines() {
