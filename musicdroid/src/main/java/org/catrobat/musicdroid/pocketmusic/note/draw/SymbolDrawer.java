@@ -26,6 +26,8 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
+import android.graphics.RectF;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
@@ -77,13 +79,13 @@ public abstract class SymbolDrawer {
         return getCenterPointForNextSymbol(widthForOneSmallSymbol);
     }
 
-    public void drawSymbol(Symbol symbol) {
+    public SymbolCoordinates drawSymbol(Symbol symbol) {
         if (symbol.isMarked()) {
-            drawSymbol(symbol, paintMarked);
+            return drawSymbol(symbol, paintMarked);
         } else {
-            drawSymbol(symbol, paintDefault);
+            return drawSymbol(symbol, paintDefault);
         }
     }
 
-    protected abstract void drawSymbol(Symbol symbol, Paint paint);
+    protected abstract SymbolCoordinates drawSymbol(Symbol symbol, Paint paint);
 }

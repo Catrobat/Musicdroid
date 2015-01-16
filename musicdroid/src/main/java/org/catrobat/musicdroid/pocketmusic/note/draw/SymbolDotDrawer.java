@@ -40,7 +40,7 @@ public class SymbolDotDrawer {
         this.distanceBetweenLines = distanceBetweenLines;
     }
 
-    public void drawDot(Rect symbolRect, Paint paint) {
+    public RectF drawDot(Rect symbolRect, Paint paint) {
         float x = symbolRect.right + DISTANCE_BETWEEN_SYMBOL_AND_DOT;
         float y = symbolRect.top + distanceBetweenLines / 4;
 
@@ -52,5 +52,7 @@ public class SymbolDotDrawer {
         dotRect.bottom = y + DOT_RADIUS;
 
         noteSheetCanvas.drawOval(dotRect, paint);
+
+        return dotRect;
     }
 }

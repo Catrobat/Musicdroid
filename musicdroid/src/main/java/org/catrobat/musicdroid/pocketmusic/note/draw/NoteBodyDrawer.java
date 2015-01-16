@@ -32,7 +32,6 @@ import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public final class NoteBodyDrawer {

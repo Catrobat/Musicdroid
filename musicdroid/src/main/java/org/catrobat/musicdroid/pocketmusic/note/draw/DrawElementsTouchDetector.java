@@ -29,11 +29,11 @@ import java.util.List;
 
 public class DrawElementsTouchDetector {
 
-    public int getIndexOfTouchedDrawElement(List<RectF> drawElements, float x, float y) {
+    public int getIndexOfTouchedDrawElement(List<SymbolCoordinates> drawElements, float x, float y) {
         for (int i = 0; i < drawElements.size(); i++) {
-            RectF element = drawElements.get(i);
+            SymbolCoordinates element = drawElements.get(i);
 
-            if ((element.left <= x) && (element.right >= x) && (element.top <= y) && (element.bottom >= y)) {
+            if ((element.getLeft() <= x) && (element.getRight() >= x) && (element.getTop() <= y) && (element.getBottom() >= y)) {
                 return i;
             }
         }

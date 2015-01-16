@@ -69,8 +69,8 @@ public class NoteDrawerTest extends AbstractDrawerTest {
     public void testDrawStem1() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER);
 
-        noteDrawer.drawBody(noteSymbol, paint);
-        noteDrawer.drawStem(noteSymbol, paint);
+        SymbolCoordinates bodyCoordinates = noteDrawer.drawBody(noteSymbol, paint);
+        noteDrawer.drawStem(noteSymbol, bodyCoordinates, paint);
 
         int stemCount = 2;
         assertCanvasElementQueueSize(stemCount);
@@ -80,8 +80,8 @@ public class NoteDrawerTest extends AbstractDrawerTest {
     public void testDrawStem2() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.WHOLE);
 
-        noteDrawer.drawBody(noteSymbol, paint);
-        noteDrawer.drawStem(noteSymbol, paint);
+        SymbolCoordinates bodyCoordinates = noteDrawer.drawBody(noteSymbol, paint);
+        noteDrawer.drawStem(noteSymbol, bodyCoordinates, paint);
 
         int stemCount = 1;
         assertCanvasElementQueueSize(stemCount);
@@ -91,8 +91,8 @@ public class NoteDrawerTest extends AbstractDrawerTest {
     public void testDrawHelpLines1() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteName.A3);
 
-        noteDrawer.drawBody(noteSymbol, paint);
-        noteDrawer.drawHelpLines(paint);
+        SymbolCoordinates bodyCoordinates = noteDrawer.drawBody(noteSymbol, paint);
+        noteDrawer.drawHelpLines(bodyCoordinates, paint);
 
         int bodyCount = 1;
         int helpLineCount = 2;
@@ -103,11 +103,11 @@ public class NoteDrawerTest extends AbstractDrawerTest {
     public void testDrawHelpLines2() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteName.C4);
 
-        noteDrawer.drawBody(noteSymbol, paint);
-        noteDrawer.drawHelpLines(paint);
+        SymbolCoordinates bodyCoordinates = noteDrawer.drawBody(noteSymbol, paint);
+        noteDrawer.drawHelpLines(bodyCoordinates, paint);
 
         canvas.getDrawnElements().poll();
-        assertHelpLines(noteDrawer.getNotePositionInformation());
+        assertHelpLines(bodyCoordinates);
     }
 
     private void assertHelpLines(SymbolCoordinates symbolCoordinates) {

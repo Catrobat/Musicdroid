@@ -25,8 +25,6 @@ package org.catrobat.musicdroid.pocketmusic.note.draw;
 
 import android.graphics.RectF;
 
-import java.util.List;
-
 public class SymbolCoordinates {
 
     private RectF boundaryRect;
@@ -75,6 +73,10 @@ public class SymbolCoordinates {
 
     public float getBottom() {
         return  boundaryRect.bottom;
+    }
+
+    public RectF toRectF() {
+        return new RectF(getLeft(), getTop(), getRight(), getBottom());
     }
 
     @Override

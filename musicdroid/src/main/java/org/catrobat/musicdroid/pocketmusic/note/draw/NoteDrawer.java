@@ -24,6 +24,7 @@ package org.catrobat.musicdroid.pocketmusic.note.draw;
 
 import android.content.res.Resources;
 import android.graphics.Paint;
+import android.graphics.RectF;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
@@ -36,8 +37,6 @@ public class NoteDrawer extends SymbolDrawer {
     private NoteStemDrawer noteStemDrawer;
     private NoteBodyDrawer noteBodyDrawer;
 
-    protected SymbolCoordinates symbolCoordinates;
-
 	public NoteDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, Resources resources, MusicalKey key, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
         super(noteSheetCanvas, paint, resources, key, drawPosition, distanceBetweenLines);
 
@@ -47,16 +46,22 @@ public class NoteDrawer extends SymbolDrawer {
 	}
 
     @Override
-    protected void drawSymbol(Symbol symbol, Paint paint) {
+    protected SymbolCoordinates drawSymbol(Symbol symbol, Paint paint) {
         if (false == (symbol instanceof  NoteSymbol)) {
             throw new IllegalArgumentException("Symbol is not of type NoteSymbol: " + symbol);
         }
 
         NoteSymbol noteSymbol = (NoteSymbol) symbol;
         drawCross(noteSymbol);
-        drawBody(noteSymbol, paint);
-        drawStem(noteSymbol, paint);
-        drawHelpLines(paint);
+        SymbolCoordinates bodyCoordinates = drawBody(noteSymbol, paint);
+        RectF stemRect = drawStem(noteSymbol, bodyCoordinates, paint);
+        drawHelpLines(bodyCoordinates, paint);
+
+        if (null == stemRect) {
+            return new SymbolCoordinates(bodyCoordinates.toRectF());
+        } else {
+            return new SymbolCoordinates(bodyCoordinates.toRectF(), stemRect);
+        }
     }
 
     protected void drawCross(NoteSymbol noteSymbol) {
@@ -75,17 +80,19 @@ public class NoteDrawer extends SymbolDrawer {
         }
     }
 
-    protected void drawBody(NoteSymbol noteSymbol, Paint paint) {
-        symbolCoordinates = noteBodyDrawer.drawBody(noteSymbol, paint);
+    protected SymbolCoordinates drawBody(NoteSymbol noteSymbol, Paint paint) {
+        return noteBodyDrawer.drawBody(noteSymbol, paint);
     }
 
-    protected void drawStem(NoteSymbol noteSymbol, Paint paint) {
+    protected RectF drawStem(NoteSymbol noteSymbol, SymbolCoordinates symbolCoordinates, Paint paint) {
         if (noteSymbol.hasStem()) {
-            noteStemDrawer.drawStem(symbolCoordinates, noteSymbol, key, paint);
+            return noteStemDrawer.drawStem(symbolCoordinates, noteSymbol, key, paint);
         }
+
+        return null;
     }
 
-    protected void drawHelpLines(Paint paint) {
+    protected void drawHelpLines(SymbolCoordinates symbolCoordinates, Paint paint) {
         float topEndOfNoteLines = noteSheetCanvas.getHeightHalf() -
                 distanceBetweenLines * NoteSheetDrawer.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
         float bottomEndOfNoteLines = noteSheetCanvas.getHeightHalf() +

@@ -28,12 +28,7 @@ public class BreakSymbol extends Symbol {
 
 	private NoteLength noteLength;
 
-    public BreakSymbol(NoteLength noteLength) {
-        this(false, noteLength);
-    }
-
-	public BreakSymbol(boolean marked, NoteLength noteLength) {
-		super(marked);
+	public BreakSymbol(NoteLength noteLength) {
         this.noteLength = noteLength;
 	}
 

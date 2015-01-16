@@ -85,4 +85,11 @@ public class SymbolCoordinatesTest extends AndroidTestCase {
 
         assertFalse(symbolCoordinates.equals(""));
     }
+
+    public void testToRectF() {
+        RectF rect = new RectF(0, 100, 200, 0);
+        SymbolCoordinates symbolCoordinates = new SymbolCoordinates(rect);
+
+        assertEquals(rect, symbolCoordinates.toRectF());
+    }
 }

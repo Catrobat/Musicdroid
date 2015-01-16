@@ -38,12 +38,7 @@ public class NoteSymbol extends Symbol {
 
 	private Map<NoteName, NoteLength> notes;
 
-    public NoteSymbol() {
-        this(false);
-    }
-
-	public NoteSymbol(boolean marked) {
-		super(marked);
+	public NoteSymbol() {
         notes = new HashMap<NoteName, NoteLength>();
 	}
 

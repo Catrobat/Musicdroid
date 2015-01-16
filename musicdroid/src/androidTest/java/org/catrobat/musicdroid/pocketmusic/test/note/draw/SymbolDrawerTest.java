@@ -23,16 +23,11 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
-import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
-import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolDrawer;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.test.note.symbol.BreakSymbolTestDataFactory;
 

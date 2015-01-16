@@ -30,6 +30,7 @@ import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class SymbolsDrawer {
@@ -46,15 +47,19 @@ public class SymbolsDrawer {
         breakDrawer = new BreakDrawer(noteSheetCanvas, paint, resources, key, drawPosition, distanceBetweenLines);
     }
 
-	public void drawTrack() {
+	public List<SymbolCoordinates> drawSymbols() {
+        List<SymbolCoordinates> drawSymbols = new LinkedList<SymbolCoordinates>();
+
 		for (Symbol symbol : symbols) {
             if (symbol instanceof NoteSymbol) {
-                noteDrawer.drawSymbol(symbol);
+                drawSymbols.add(noteDrawer.drawSymbol(symbol));
             } else if (symbol instanceof BreakSymbol) {
-                breakDrawer.drawSymbol(symbol);
+                drawSymbols.add(breakDrawer.drawSymbol(symbol));
             } else {
                 throw new IllegalArgumentException("Not supported symbol: " + symbol);
             }
 		}
+
+        return drawSymbols;
 	}
 }

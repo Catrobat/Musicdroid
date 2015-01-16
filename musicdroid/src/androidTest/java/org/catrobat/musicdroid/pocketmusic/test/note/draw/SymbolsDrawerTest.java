@@ -51,7 +51,7 @@ public class SymbolsDrawerTest extends AbstractDrawerTest {
     public void testDrawTrack() {
         int expectedElementCount = getSymbolCountFromTrack(track);
 
-        symbolsDrawer.drawTrack();
+        symbolsDrawer.drawSymbols();
 
         assertCanvasElementQueueSize(expectedElementCount);
         clearCanvasElementQueue();

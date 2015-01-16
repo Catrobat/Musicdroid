@@ -35,8 +35,10 @@ import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.draw.DrawElementsTouchDetector;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolCoordinates;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
 
@@ -45,9 +47,11 @@ import java.util.List;
 
 public class NoteSheetView extends View {
 
+    private DrawElementsTouchDetector touchDetector;
     private TrackToSymbolsConverter trackConverter;
     private List<Symbol> symbols;
     private MusicalKey key;
+    private List<SymbolCoordinates> symbolCoordinates;
 
 	private NoteSheetCanvas noteSheetCanvas;
     private NoteSheetDrawer noteSheetDrawer;
@@ -56,8 +60,10 @@ public class NoteSheetView extends View {
 	public NoteSheetView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
+        touchDetector = new DrawElementsTouchDetector();
         trackConverter = new TrackToSymbolsConverter();
         symbols = new LinkedList<Symbol>();
+        symbolCoordinates = new LinkedList<SymbolCoordinates>();
         key = MusicalKey.VIOLIN;
         widthBeforeResize = getWidth();
 	}
@@ -108,14 +114,19 @@ public class NoteSheetView extends View {
 		noteSheetCanvas = new NoteSheetCanvas(canvas);
         requestLayout();
         noteSheetDrawer = new NoteSheetDrawer(noteSheetCanvas, getResources(), symbols, key);
-        noteSheetDrawer.drawNoteSheet();
+        symbolCoordinates = noteSheetDrawer.drawNoteSheet();
         ((PianoActivity) getContext()).scrollNoteSheet();
 	}
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         if (MotionEvent.ACTION_UP == e.getAction()) {
-            // TODO fw
+            int index = touchDetector.getIndexOfTouchedDrawElement(symbolCoordinates, e.getX(), e.getY());
+
+            if (-1 != index) {
+                Symbol symbol = symbols.get(index);
+                symbol.setMarked(symbol.isMarked());
+            }
         }
 
         return true;

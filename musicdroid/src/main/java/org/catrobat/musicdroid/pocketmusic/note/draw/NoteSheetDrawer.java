@@ -59,7 +59,7 @@ public class NoteSheetDrawer {
     protected int yPositionOfBarTop;
     protected int yPositionOfBarBottom;
 
-    private SymbolsDrawer trackDrawer;
+    private SymbolsDrawer symbolsDrawer;
 
     public NoteSheetDrawer(NoteSheetCanvas noteSheetCanvas, Resources resources, List<Symbol> symbols, MusicalKey key) {
         this.noteSheetCanvas = noteSheetCanvas;
@@ -73,7 +73,7 @@ public class NoteSheetDrawer {
         yPositionOfBarTop = noteSheetCanvas.getHeightHalf() - NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS * distanceBetweenLines;
         yPositionOfBarBottom = noteSheetCanvas.getHeightHalf() + NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS * distanceBetweenLines;
 
-        trackDrawer = new SymbolsDrawer(noteSheetCanvas, paint, resources, symbols, key, drawPosition, distanceBetweenLines);
+        symbolsDrawer = new SymbolsDrawer(noteSheetCanvas, paint, resources, symbols, key, drawPosition, distanceBetweenLines);
     }
 
     private Paint createPaint() {
@@ -99,11 +99,11 @@ public class NoteSheetDrawer {
         return drawPosition.getStartXPositionForNextElement();
     }
 
-    public void drawNoteSheet() {
+    public List<SymbolCoordinates> drawNoteSheet() {
         drawLines();
         drawBars();
         drawKey();
-        drawTrack();
+        return drawSymbols();
     }
 
     protected void drawLines() {
@@ -137,7 +137,7 @@ public class NoteSheetDrawer {
         drawPosition.setStartXPositionForNextElement(keyRect.right);
     }
 
-    private void drawTrack() {
-        trackDrawer.drawTrack();
+    private List<SymbolCoordinates> drawSymbols() {
+        return symbolsDrawer.drawSymbols();
     }
 }

@@ -34,5 +34,9 @@ public class BreakSymbolTestDataFactory {
 
     public static BreakSymbol createBreakSymbol(NoteLength noteLength) { return new BreakSymbol(noteLength); }
 
-    public static BreakSymbol createBreakSymbol(boolean marked) { return new BreakSymbol(marked, NoteLength.QUARTER); }
+    public static BreakSymbol createBreakSymbol(boolean marked) {
+        BreakSymbol breakSymbol = new BreakSymbol(NoteLength.QUARTER);
+        breakSymbol.setMarked(marked);
+        return breakSymbol;
+    }
 }

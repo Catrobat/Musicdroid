@@ -26,12 +26,16 @@ public abstract class Symbol {
 
     protected boolean marked;
 
-    public Symbol(boolean marked) {
-        this.marked = marked;
+    public Symbol() {
+        marked = false;
     }
 
     public boolean isMarked() {
         return marked;
+    }
+
+    public void setMarked(boolean marked) {
+        this.marked = marked;
     }
 
     @Override

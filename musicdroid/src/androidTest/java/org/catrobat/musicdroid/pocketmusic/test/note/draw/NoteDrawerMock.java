@@ -26,6 +26,7 @@ package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 import android.content.res.Resources;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.RectF;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteDrawer;
@@ -46,27 +47,23 @@ public class NoteDrawerMock extends NoteDrawer {
     }
 
     @Override
-    public void drawBody(NoteSymbol noteSymbol, Paint paint) {
-        super.drawBody(noteSymbol, paint);
+    public SymbolCoordinates drawBody(NoteSymbol noteSymbol, Paint paint) {
+        return super.drawBody(noteSymbol, paint);
     }
 
     @Override
-    public void drawStem(NoteSymbol noteSymbol, Paint paint) {
-        super.drawStem(noteSymbol, paint);
+    public RectF drawStem(NoteSymbol noteSymbol, SymbolCoordinates symbolCoordinates, Paint paint) {
+        return super.drawStem(noteSymbol, symbolCoordinates, paint);
     }
 
     @Override
-    public void drawHelpLines(Paint paint) {
-        super.drawHelpLines(paint);
+    public void drawHelpLines(SymbolCoordinates symbolCoordinates, Paint paint) {
+        super.drawHelpLines(symbolCoordinates, paint);
     }
 
     @Override
     public Point getCenterPointForNextSmallSymbol() {
         return super.getCenterPointForNextSmallSymbol();
-    }
-
-    public SymbolCoordinates getNotePositionInformation() {
-        return symbolCoordinates;
     }
 
     public Point getCenterPointForNextSmallSymbolNoDrawPositionChange() {

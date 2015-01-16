@@ -27,6 +27,7 @@ import android.graphics.RectF;
 import android.test.AndroidTestCase;
 
 import org.catrobat.musicdroid.pocketmusic.note.draw.DrawElementsTouchDetector;
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolCoordinates;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -34,16 +35,16 @@ import java.util.List;
 public class DrawElementsTouchDetectorTest extends AndroidTestCase {
 
     private DrawElementsTouchDetector touchDetector;
-    private List<RectF> drawElements;
-    private RectF element1;
-    private RectF element2;
+    private List<SymbolCoordinates> drawElements;
+    private SymbolCoordinates element1;
+    private SymbolCoordinates element2;
 
     public DrawElementsTouchDetectorTest() {
         touchDetector = new DrawElementsTouchDetector();
-        drawElements = new LinkedList<RectF>();
+        drawElements = new LinkedList<SymbolCoordinates>();
 
-        element1 = new RectF(0, 0, 100, 100);
-        element2 = new RectF(150, 0, 250, 100);
+        element1 = new SymbolCoordinates(new RectF(0, 0, 100, 100));
+        element2 = new SymbolCoordinates(new RectF(150, 0, 250, 100));
 
         drawElements.add(element1);
         drawElements.add(element2);
@@ -69,22 +70,22 @@ public class DrawElementsTouchDetectorTest extends AndroidTestCase {
         assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, x, y));
     }
 
-    private void assertElementTouch(int expectedIndex, RectF element) {
-        assertElementTouch(expectedIndex, element.left, element.bottom);
-        assertElementTouch(expectedIndex, element.right, element.top);
+    private void assertElementTouch(int expectedIndex, SymbolCoordinates element) {
+        assertElementTouch(expectedIndex, element.getLeft(), element.getBottom());
+        assertElementTouch(expectedIndex, element.getRight(), element.getTop());
 
-        float elementCenterX = element.left + (element.right - element.left) / 2;
-        float elementCenterY = element.top + (element.bottom - element.top) / 2;
+        float elementCenterX = element.getLeft() + (element.getRight() - element.getLeft()) / 2;
+        float elementCenterY = element.getTop() + (element.getBottom() - element.getTop()) / 2;
 
         assertElementTouch(expectedIndex, elementCenterX, elementCenterY);
     }
 
-    private void assertElementNoTouch(RectF element) {
+    private void assertElementNoTouch(SymbolCoordinates element) {
         int expectedIndex = -1;
 
-        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, element.left, element.bottom + 1));
-        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, element.right, element.top - 1));
-        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, element.left - 1, element.bottom));
-        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, element.right + 1, element.top));
+        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, element.getLeft(), element.getBottom() + 1));
+        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, element.getRight(), element.getTop() - 1));
+        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, element.getLeft() - 1, element.getBottom()));
+        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, element.getRight() + 1, element.getTop()));
     }
 }
