@@ -45,15 +45,15 @@ import java.util.List;
 
 public class NoteSheetView extends View {
 
-    private DrawElementsTouchDetector touchDetector;
-    private TrackToSymbolsConverter trackConverter;
-    private List<Symbol> symbols;
-    private MusicalKey key;
-    private List<SymbolPosition> symbolPositions;
+    protected DrawElementsTouchDetector touchDetector;
+    protected TrackToSymbolsConverter trackConverter;
+    protected List<Symbol> symbols;
+    protected MusicalKey key;
+    protected List<SymbolPosition> symbolPositions;
 
-	private NoteSheetCanvas noteSheetCanvas;
-    private NoteSheetDrawer noteSheetDrawer;
-    private int widthBeforeResize;
+    protected NoteSheetCanvas noteSheetCanvas;
+    protected NoteSheetDrawer noteSheetDrawer;
+    protected int widthBeforeResize;
 
 	public NoteSheetView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -78,7 +78,7 @@ public class NoteSheetView extends View {
 	public void redraw(Track track) {
         key = track.getKey();
         symbols = trackConverter.convertTrack(track);
-		invalidate();
+        invalidate();
 	}
 
     @Override
