@@ -125,7 +125,7 @@ public class NoteSheetView extends View {
 
             if (-1 != index) {
                 Symbol symbol = symbols.get(index);
-                symbol.setMarked(symbol.isMarked());
+                symbol.setMarked(!symbol.isMarked());
             }
         }
 
