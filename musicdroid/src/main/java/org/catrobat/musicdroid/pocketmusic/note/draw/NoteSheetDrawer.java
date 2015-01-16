@@ -99,7 +99,7 @@ public class NoteSheetDrawer {
         return drawPosition.getStartXPositionForNextElement();
     }
 
-    public List<SymbolCoordinates> drawNoteSheet() {
+    public List<SymbolPosition> drawNoteSheet() {
         drawLines();
         drawBars();
         drawKey();
@@ -137,7 +137,7 @@ public class NoteSheetDrawer {
         drawPosition.setStartXPositionForNextElement(keyRect.right);
     }
 
-    private List<SymbolCoordinates> drawSymbols() {
+    private List<SymbolPosition> drawSymbols() {
         return symbolsDrawer.drawSymbols();
     }
 }

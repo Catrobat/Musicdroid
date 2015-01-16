@@ -30,7 +30,7 @@ import android.graphics.Point;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
-import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolCoordinates;
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolDrawer;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 
@@ -61,7 +61,7 @@ public class SymbolDrawerMock extends SymbolDrawer {
     }
 
     @Override
-    protected SymbolCoordinates drawSymbol(Symbol symbol, Paint paint) {
+    protected SymbolPosition drawSymbol(Symbol symbol, Paint paint) {
         lastUsedPaint = paint;
         return null;
     }

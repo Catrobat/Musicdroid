@@ -46,21 +46,21 @@ public class NoteDrawer extends SymbolDrawer {
 	}
 
     @Override
-    protected SymbolCoordinates drawSymbol(Symbol symbol, Paint paint) {
+    protected SymbolPosition drawSymbol(Symbol symbol, Paint paint) {
         if (false == (symbol instanceof  NoteSymbol)) {
             throw new IllegalArgumentException("Symbol is not of type NoteSymbol: " + symbol);
         }
 
         NoteSymbol noteSymbol = (NoteSymbol) symbol;
         drawCross(noteSymbol);
-        SymbolCoordinates bodyCoordinates = drawBody(noteSymbol, paint);
-        RectF stemRect = drawStem(noteSymbol, bodyCoordinates, paint);
-        drawHelpLines(bodyCoordinates, paint);
+        SymbolPosition bodyPosition = drawBody(noteSymbol, paint);
+        RectF stemRect = drawStem(noteSymbol, bodyPosition, paint);
+        drawHelpLines(bodyPosition, paint);
 
         if (null == stemRect) {
-            return new SymbolCoordinates(bodyCoordinates.toRectF());
+            return new SymbolPosition(bodyPosition.toRectF());
         } else {
-            return new SymbolCoordinates(bodyCoordinates.toRectF(), stemRect);
+            return new SymbolPosition(bodyPosition.toRectF(), stemRect);
         }
     }
 
@@ -80,33 +80,33 @@ public class NoteDrawer extends SymbolDrawer {
         }
     }
 
-    protected SymbolCoordinates drawBody(NoteSymbol noteSymbol, Paint paint) {
+    protected SymbolPosition drawBody(NoteSymbol noteSymbol, Paint paint) {
         return noteBodyDrawer.drawBody(noteSymbol, paint);
     }
 
-    protected RectF drawStem(NoteSymbol noteSymbol, SymbolCoordinates symbolCoordinates, Paint paint) {
+    protected RectF drawStem(NoteSymbol noteSymbol, SymbolPosition symbolPosition, Paint paint) {
         if (noteSymbol.hasStem()) {
-            return noteStemDrawer.drawStem(symbolCoordinates, noteSymbol, key, paint);
+            return noteStemDrawer.drawStem(symbolPosition, noteSymbol, key, paint);
         }
 
         return null;
     }
 
-    protected void drawHelpLines(SymbolCoordinates symbolCoordinates, Paint paint) {
+    protected void drawHelpLines(SymbolPosition symbolPosition, Paint paint) {
         float topEndOfNoteLines = noteSheetCanvas.getHeightHalf() -
                 distanceBetweenLines * NoteSheetDrawer.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
         float bottomEndOfNoteLines = noteSheetCanvas.getHeightHalf() +
                 distanceBetweenLines * NoteSheetDrawer.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
 
-        float topEndOfHelpLines = symbolCoordinates.getTop() + distanceBetweenLines / 2;
-        float bottomEndOfHelpLines = symbolCoordinates.getBottom() - distanceBetweenLines / 2;
+        float topEndOfHelpLines = symbolPosition.getTop() + distanceBetweenLines / 2;
+        float bottomEndOfHelpLines = symbolPosition.getBottom() - distanceBetweenLines / 2;
 
-        int lengthOfHelpLine = ((int) symbolCoordinates.getRight() - (int) symbolCoordinates.getLeft()) / 3;
+        int lengthOfHelpLine = ((int) symbolPosition.getRight() - (int) symbolPosition.getLeft()) / 3;
 
         topEndOfNoteLines -= distanceBetweenLines;
         while(topEndOfHelpLines <= topEndOfNoteLines) {
-            int startX = (int) (symbolCoordinates.getLeft() - lengthOfHelpLine);
-            int stopX = (int) (symbolCoordinates.getRight() + lengthOfHelpLine);
+            int startX = (int) (symbolPosition.getLeft() - lengthOfHelpLine);
+            int stopX = (int) (symbolPosition.getRight() + lengthOfHelpLine);
             int startY = (int) topEndOfNoteLines;
             int stopY = startY;
             noteSheetCanvas.drawLine(startX, startY, stopX, stopY, paint);
@@ -116,8 +116,8 @@ public class NoteDrawer extends SymbolDrawer {
 
         bottomEndOfNoteLines += distanceBetweenLines;
         while(bottomEndOfHelpLines >= bottomEndOfNoteLines) {
-            int startX = (int) (symbolCoordinates.getLeft() - lengthOfHelpLine);
-            int stopX = (int) (symbolCoordinates.getRight() + lengthOfHelpLine);
+            int startX = (int) (symbolPosition.getLeft() - lengthOfHelpLine);
+            int stopX = (int) (symbolPosition.getRight() + lengthOfHelpLine);
             int startY = (int) bottomEndOfNoteLines;
             int stopY = startY;
             noteSheetCanvas.drawLine(startX, startY, stopX, stopY, paint);

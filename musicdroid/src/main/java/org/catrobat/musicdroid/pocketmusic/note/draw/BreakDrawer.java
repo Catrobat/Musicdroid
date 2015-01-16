@@ -50,7 +50,7 @@ public class BreakDrawer extends SymbolDrawer {
     }
 
     @Override
-    protected SymbolCoordinates drawSymbol(Symbol symbol, Paint paint) {
+    protected SymbolPosition drawSymbol(Symbol symbol, Paint paint) {
         if (false == (symbol instanceof BreakSymbol)) {
             throw new IllegalArgumentException("Symbol is not of type BreakSymbol: " + symbol);
         }
@@ -58,7 +58,7 @@ public class BreakDrawer extends SymbolDrawer {
         return drawBreak(((BreakSymbol) symbol).getNoteLength(), paint);
     }
 
-    private SymbolCoordinates drawBreak(NoteLength noteLength, Paint paint) {
+    private SymbolPosition drawBreak(NoteLength noteLength, Paint paint) {
         Rect breakRect;
 
         if (noteLength.isHalfOrHigher()) {
@@ -70,9 +70,9 @@ public class BreakDrawer extends SymbolDrawer {
         RectF breakRectF = new RectF(breakRect.left, breakRect.top, breakRect.right, breakRect.bottom);
 
         if (noteLength.hasDot()) {
-            return new SymbolCoordinates(breakRectF, symbolDotDrawer.drawDot(breakRect, paint));
+            return new SymbolPosition(breakRectF, symbolDotDrawer.drawDot(breakRect, paint));
         } else {
-            return new SymbolCoordinates(breakRectF);
+            return new SymbolPosition(breakRectF);
         }
     }
 

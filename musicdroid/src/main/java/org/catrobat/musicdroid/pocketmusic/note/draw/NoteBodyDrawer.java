@@ -52,7 +52,7 @@ public final class NoteBodyDrawer {
         this.distanceBetweenLines = distanceBetweenLines;
 	}
 
-	public SymbolCoordinates drawBody(NoteSymbol noteSymbol, Paint paint) {
+	public SymbolPosition drawBody(NoteSymbol noteSymbol, Paint paint) {
 		boolean isStemUpdirected = noteSymbol.isStemUp(key);
         int lineHeight = distanceBetweenLines;
 		int noteHeight = lineHeight / 2;
@@ -112,6 +112,6 @@ public final class NoteBodyDrawer {
 			prevNoteName = noteName;
 		}
 
-		return new SymbolCoordinates(noteSurroundingRects);
+		return new SymbolPosition(noteSurroundingRects);
 	}
 }

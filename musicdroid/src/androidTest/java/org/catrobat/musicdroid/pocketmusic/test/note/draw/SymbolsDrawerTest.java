@@ -25,6 +25,7 @@ package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolsDrawer;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
@@ -37,23 +38,32 @@ import java.util.List;
 public class SymbolsDrawerTest extends AbstractDrawerTest {
 
     private Track track;
+    private List<Symbol> symbols;
     private SymbolsDrawer symbolsDrawer;
 
     @Override
     protected void setUp() {
         super.setUp();
 
-        track = TrackTestDataFactory.createTrackWithBreak();
         TrackToSymbolsConverter trackConverter = new TrackToSymbolsConverter();
-        symbolsDrawer = new SymbolsDrawer(noteSheetCanvas, paint, getContext().getResources(), trackConverter.convertTrack(track), track.getKey(), drawPosition, distanceBetweenLines);
+        track = TrackTestDataFactory.createTrackWithBreak();
+        symbols = trackConverter.convertTrack(track);
+        symbolsDrawer = new SymbolsDrawer(noteSheetCanvas, paint, getContext().getResources(), symbols, track.getKey(), drawPosition, distanceBetweenLines);
     }
 
-    public void testDrawTrack() {
+    public void testDrawSymbols1() {
         int expectedElementCount = getSymbolCountFromTrack(track);
 
         symbolsDrawer.drawSymbols();
 
         assertCanvasElementQueueSize(expectedElementCount);
+        clearCanvasElementQueue();
+    }
+
+    public void testDrawSymbols2() {
+        List<SymbolPosition> symbolPositions = symbolsDrawer.drawSymbols();
+
+        assertEquals(symbols.size(), symbolPositions.size());
         clearCanvasElementQueue();
     }
 

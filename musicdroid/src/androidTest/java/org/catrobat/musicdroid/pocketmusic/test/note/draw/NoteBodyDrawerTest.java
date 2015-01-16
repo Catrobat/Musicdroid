@@ -31,11 +31,10 @@ import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteBodyDrawer;
-import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolCoordinates;
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 import org.catrobat.musicdroid.pocketmusic.test.note.symbol.NoteSymbolTestDataFactory;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class NoteBodyDrawerTest extends AbstractDrawerTest {
@@ -54,12 +53,12 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
         NoteBodyDrawer noteBodyDrawer = new NoteBodyDrawer(symbolDrawer, noteSheetCanvas, key, distanceBetweenLines);
 
         Point centerPointNote = symbolDrawer.getCenterPointForNextSymbolNoDrawPositionChange();
-        SymbolCoordinates positionInformation = noteBodyDrawer.drawBody(noteSymbol, paint);
+        SymbolPosition positionInformation = noteBodyDrawer.drawBody(noteSymbol, paint);
 
         assertCanvasElementQueueNoteBody(key, noteSymbol, positionInformation, centerPointNote);
     }
 
-    private void assertCanvasElementQueueNoteBody(MusicalKey key, NoteSymbol noteSymbol, SymbolCoordinates actualPositionInformation, Point centerPointNote) {
+    private void assertCanvasElementQueueNoteBody(MusicalKey key, NoteSymbol noteSymbol, SymbolPosition actualPositionInformation, Point centerPointNote) {
         Paint paint = new Paint();
         boolean isStemUpdirected = noteSymbol.isStemUp(key);
         int lineHeight = distanceBetweenLines;
@@ -111,7 +110,7 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
             prevNoteName = noteName;
         }
 
-        SymbolCoordinates expectedPositionInformation = new SymbolCoordinates(noteSurroundingRects);
+        SymbolPosition expectedPositionInformation = new SymbolPosition(noteSurroundingRects);
 
         assertEquals(expectedPositionInformation, actualPositionInformation);
     }

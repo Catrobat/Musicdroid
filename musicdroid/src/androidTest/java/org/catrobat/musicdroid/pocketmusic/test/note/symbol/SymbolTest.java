@@ -21,21 +21,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.note.draw;
+package org.catrobat.musicdroid.pocketmusic.test.note.symbol;
 
-import java.util.List;
+import android.test.AndroidTestCase;
 
-public class DrawElementsTouchDetector {
+import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 
-    public int getIndexOfTouchedDrawElement(List<SymbolPosition> drawElements, float x, float y) {
-        for (int i = 0; i < drawElements.size(); i++) {
-            SymbolPosition element = drawElements.get(i);
+public class SymbolTest extends AndroidTestCase {
 
-            if ((element.getLeft() <= x) && (element.getRight() >= x) && (element.getTop() <= y) && (element.getBottom() >= y)) {
-                return i;
-            }
-        }
+    public void testIsMarked1() {
+        testIsMarked(true);
+    }
 
-        return -1;
+    public void testIsMarked2() {
+        testIsMarked(true);
+    }
+
+    private void testIsMarked(boolean expectedMarked) {
+        Symbol symbol = BreakSymbolTestDataFactory.createBreakSymbol();
+        symbol.setMarked(expectedMarked);
+
+        assertEquals(expectedMarked, symbol.isMarked());
     }
 }

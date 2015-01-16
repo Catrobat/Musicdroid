@@ -47,8 +47,8 @@ public class SymbolsDrawer {
         breakDrawer = new BreakDrawer(noteSheetCanvas, paint, resources, key, drawPosition, distanceBetweenLines);
     }
 
-	public List<SymbolCoordinates> drawSymbols() {
-        List<SymbolCoordinates> drawSymbols = new LinkedList<SymbolCoordinates>();
+	public List<SymbolPosition> drawSymbols() {
+        List<SymbolPosition> drawSymbols = new LinkedList<SymbolPosition>();
 
 		for (Symbol symbol : symbols) {
             if (symbol instanceof NoteSymbol) {

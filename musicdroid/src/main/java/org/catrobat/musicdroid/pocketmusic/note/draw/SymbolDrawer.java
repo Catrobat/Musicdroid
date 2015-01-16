@@ -23,11 +23,8 @@
 package org.catrobat.musicdroid.pocketmusic.note.draw;
 
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.Rect;
-import android.graphics.RectF;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
@@ -79,7 +76,7 @@ public abstract class SymbolDrawer {
         return getCenterPointForNextSymbol(widthForOneSmallSymbol);
     }
 
-    public SymbolCoordinates drawSymbol(Symbol symbol) {
+    public SymbolPosition drawSymbol(Symbol symbol) {
         if (symbol.isMarked()) {
             return drawSymbol(symbol, paintMarked);
         } else {
@@ -87,5 +84,5 @@ public abstract class SymbolDrawer {
         }
     }
 
-    protected abstract SymbolCoordinates drawSymbol(Symbol symbol, Paint paint);
+    protected abstract SymbolPosition drawSymbol(Symbol symbol, Paint paint);
 }

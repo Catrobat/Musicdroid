@@ -46,23 +46,23 @@ public class NoteStemDrawer {
         this.stemLength = (int) (Math.round(LENGTH_OF_STEM_IN_NOTE_LINE_DISTANCES * distanceBetweenLines));
 	}
 
-	public RectF drawStem(SymbolCoordinates symbolCoordinates, NoteSymbol noteSymbol, MusicalKey key, Paint paint) {
+	public RectF drawStem(SymbolPosition symbolPosition, NoteSymbol noteSymbol, MusicalKey key, Paint paint) {
         RectF stemRect = new RectF();
         PointF endPointOfNoteStem = new PointF();
 
         if(noteSymbol.isStemUp(key)) {
-            stemRect.left = symbolCoordinates.getRight();
-            stemRect.right = symbolCoordinates.getRight();
-            stemRect.bottom = symbolCoordinates.getBottom() - distanceBetweenLinesHalf;
-            stemRect.top = symbolCoordinates.getTop() - stemLength;
+            stemRect.left = symbolPosition.getRight();
+            stemRect.right = symbolPosition.getRight();
+            stemRect.bottom = symbolPosition.getBottom() - distanceBetweenLinesHalf;
+            stemRect.top = symbolPosition.getTop() - stemLength;
 
             endPointOfNoteStem.x = stemRect.left;
             endPointOfNoteStem.y = stemRect.top;
         } else {
-            stemRect.left = symbolCoordinates.getLeft();
-            stemRect.right = symbolCoordinates.getLeft();
-            stemRect.top = symbolCoordinates.getBottom() + stemLength;
-            stemRect.bottom = symbolCoordinates.getTop() + distanceBetweenLinesHalf;
+            stemRect.left = symbolPosition.getLeft();
+            stemRect.right = symbolPosition.getLeft();
+            stemRect.top = symbolPosition.getBottom() + stemLength;
+            stemRect.bottom = symbolPosition.getTop() + distanceBetweenLinesHalf;
 
             endPointOfNoteStem.x = stemRect.left;
             endPointOfNoteStem.y = stemRect.top;

@@ -1,6 +1,6 @@
 /*
  * Musicdroid: An on-device music generator for Android
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2014 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,21 +21,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.note.draw;
+package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
-import java.util.List;
+import android.graphics.RectF;
 
-public class DrawElementsTouchDetector {
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
 
-    public int getIndexOfTouchedDrawElement(List<SymbolPosition> drawElements, float x, float y) {
-        for (int i = 0; i < drawElements.size(); i++) {
-            SymbolPosition element = drawElements.get(i);
+public class SymbolPositionTestDataFactory {
 
-            if ((element.getLeft() <= x) && (element.getRight() >= x) && (element.getTop() <= y) && (element.getBottom() >= y)) {
-                return i;
-            }
-        }
+    private SymbolPositionTestDataFactory() {}
 
-        return -1;
+    public static SymbolPosition createSymbolPosition() {
+        return createSymbolPosition(new RectF(0, 100, 200, 0));
+    }
+
+    public static SymbolPosition createSymbolPosition(RectF... rects) {
+        SymbolPosition positionInformation = new SymbolPosition(rects);
+
+        return positionInformation;
     }
 }

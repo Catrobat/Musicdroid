@@ -31,14 +31,12 @@ import android.view.View;
 import android.view.WindowManager;
 
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
-import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
-import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.draw.DrawElementsTouchDetector;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
-import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolCoordinates;
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
 
@@ -51,7 +49,7 @@ public class NoteSheetView extends View {
     private TrackToSymbolsConverter trackConverter;
     private List<Symbol> symbols;
     private MusicalKey key;
-    private List<SymbolCoordinates> symbolCoordinates;
+    private List<SymbolPosition> symbolPositions;
 
 	private NoteSheetCanvas noteSheetCanvas;
     private NoteSheetDrawer noteSheetDrawer;
@@ -63,7 +61,7 @@ public class NoteSheetView extends View {
         touchDetector = new DrawElementsTouchDetector();
         trackConverter = new TrackToSymbolsConverter();
         symbols = new LinkedList<Symbol>();
-        symbolCoordinates = new LinkedList<SymbolCoordinates>();
+        symbolPositions = new LinkedList<SymbolPosition>();
         key = MusicalKey.VIOLIN;
         widthBeforeResize = getWidth();
 	}
@@ -114,14 +112,14 @@ public class NoteSheetView extends View {
 		noteSheetCanvas = new NoteSheetCanvas(canvas);
         requestLayout();
         noteSheetDrawer = new NoteSheetDrawer(noteSheetCanvas, getResources(), symbols, key);
-        symbolCoordinates = noteSheetDrawer.drawNoteSheet();
+        symbolPositions = noteSheetDrawer.drawNoteSheet();
         ((PianoActivity) getContext()).scrollNoteSheet();
 	}
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         if (MotionEvent.ACTION_UP == e.getAction()) {
-            int index = touchDetector.getIndexOfTouchedDrawElement(symbolCoordinates, e.getX(), e.getY());
+            int index = touchDetector.getIndexOfTouchedDrawElement(symbolPositions, e.getX(), e.getY());
 
             if (-1 != index) {
                 Symbol symbol = symbols.get(index);
