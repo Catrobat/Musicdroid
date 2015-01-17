@@ -121,7 +121,7 @@ public class NoteSheetView extends View {
         if (MotionEvent.ACTION_UP == e.getAction()) {
             int index = touchDetector.getIndexOfTouchedDrawElement(symbolPositions, e.getX(), e.getY());
 
-            if (-1 != index) {
+            if (DrawElementsTouchDetector.INVALID_INDEX != index) {
                 Symbol symbol = symbols.get(index);
                 symbol.setMarked(!symbol.isMarked());
                 invalidate();

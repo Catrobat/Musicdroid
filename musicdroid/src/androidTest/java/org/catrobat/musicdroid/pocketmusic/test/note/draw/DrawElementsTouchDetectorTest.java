@@ -66,10 +66,6 @@ public class DrawElementsTouchDetectorTest extends AndroidTestCase {
         assertElementTouch(1, element2);
     }
 
-    private void assertElementTouch(int expectedIndex, float x, float y) {
-        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, x, y));
-    }
-
     private void assertElementTouch(int expectedIndex, SymbolPosition element) {
         assertElementTouch(expectedIndex, element.getLeft(), element.getBottom());
         assertElementTouch(expectedIndex, element.getRight(), element.getTop());
@@ -80,8 +76,12 @@ public class DrawElementsTouchDetectorTest extends AndroidTestCase {
         assertElementTouch(expectedIndex, elementCenterX, elementCenterY);
     }
 
+    private void assertElementTouch(int expectedIndex, float x, float y) {
+        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, x, y));
+    }
+
     private void assertElementNoTouch(SymbolPosition element) {
-        int expectedIndex = -1;
+        int expectedIndex = DrawElementsTouchDetector.INVALID_INDEX;
 
         assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, element.getLeft(), element.getBottom() + 1));
         assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, element.getRight(), element.getTop() - 1));

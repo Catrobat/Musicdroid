@@ -57,10 +57,10 @@ public class NoteDrawer extends SymbolDrawer {
         RectF stemRect = drawStem(noteSymbol, bodyPosition, paint);
         drawHelpLines(bodyPosition, paint);
 
-        if (null == stemRect) {
-            return new SymbolPosition(bodyPosition.toRectF());
-        } else {
+        if (noteSymbol.hasStem()) {
             return new SymbolPosition(bodyPosition.toRectF(), stemRect);
+        } else {
+            return new SymbolPosition(bodyPosition.toRectF());
         }
     }
 

@@ -67,13 +67,11 @@ public class BreakDrawer extends SymbolDrawer {
             breakRect = drawBreakBitmap(noteLength);
         }
 
-        RectF breakRectF = new RectF(breakRect.left, breakRect.top, breakRect.right, breakRect.bottom);
-
         if (noteLength.hasDot()) {
-            return new SymbolPosition(breakRectF, symbolDotDrawer.drawDot(breakRect, paint));
-        } else {
-            return new SymbolPosition(breakRectF);
+            symbolDotDrawer.drawDot(breakRect, paint);
         }
+
+        return new SymbolPosition(new RectF(breakRect.left, breakRect.top, breakRect.right, breakRect.bottom));
     }
 
     private Rect drawBreakBitmap(NoteLength noteLength) {
@@ -105,11 +103,13 @@ public class BreakDrawer extends SymbolDrawer {
         int breakWidthHalf = distanceBetweenLines / 2;
 
         breakRect.left = centerPoint.x - breakWidthHalf;
+
         if ((NoteLength.HALF == noteLength) || (NoteLength.HALF_DOT == noteLength)) {
             breakRect.top = centerPoint.y - breakWidthHalf;
         } else {
             breakRect.top = centerPoint.y + breakWidthHalf;
         }
+
         breakRect.right = centerPoint.x + breakWidthHalf;
         breakRect.bottom = centerPoint.y;
 

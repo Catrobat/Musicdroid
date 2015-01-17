@@ -27,6 +27,8 @@ import java.util.List;
 
 public class DrawElementsTouchDetector {
 
+    public static final int INVALID_INDEX = -1;
+
     public int getIndexOfTouchedDrawElement(List<SymbolPosition> drawElements, float x, float y) {
         for (int i = 0; i < drawElements.size(); i++) {
             SymbolPosition element = drawElements.get(i);
@@ -36,6 +38,6 @@ public class DrawElementsTouchDetector {
             }
         }
 
-        return -1;
+        return INVALID_INDEX;
     }
 }
