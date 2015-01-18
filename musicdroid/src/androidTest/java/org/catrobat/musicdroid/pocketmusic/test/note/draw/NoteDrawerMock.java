@@ -42,8 +42,8 @@ public class NoteDrawerMock extends NoteDrawer {
     }
 
     @Override
-    public void drawCross(NoteSymbol noteSymbol) {
-        super.drawCross(noteSymbol);
+    public void drawCross(NoteSymbol noteSymbol, Paint paint) {
+        super.drawCross(noteSymbol, paint);
     }
 
     @Override

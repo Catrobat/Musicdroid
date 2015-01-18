@@ -23,6 +23,8 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
+import android.graphics.Paint;
+
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
@@ -52,7 +54,10 @@ public class NoteDrawerTest extends AbstractDrawerTest {
         int crossHeight = 2 * distanceBetweenLines;
         int yPositionForCross = noteSheetCanvas.getHeightHalf() + NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName) * distanceBetweenLines / 2;
 
-        noteDrawer.drawCross(noteSymbol);
+        Paint paint = new Paint();
+        paint.setColor(NoteSheetDrawer.COLOR_DEFAULT);
+
+        noteDrawer.drawCross(noteSymbol, paint);
 
         assertCanvasElementQueueBitmap(R.drawable.cross, crossHeight, xPositionForCross, yPositionForCross);
     }
