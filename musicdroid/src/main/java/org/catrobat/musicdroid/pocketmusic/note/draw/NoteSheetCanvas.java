@@ -74,7 +74,7 @@ public class NoteSheetCanvas {
 
         if(paint.getColor() == NoteSheetDrawer.COLOR_MARKED) {
             bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-            bitmap = colorBitmap(bitmap, paint);
+            bitmap = recolorBitmap(bitmap, NoteSheetDrawer.COLOR_DEFAULT, paint.getColor());
         }
 
         canvas.drawBitmap(bitmap, null, rect, null);
@@ -82,19 +82,19 @@ public class NoteSheetCanvas {
         return rect;
     }
 
-    private Bitmap colorBitmap(Bitmap bitmap, Paint paint) {
+    private Bitmap recolorBitmap(Bitmap bitmap, int oldColor, int newColor) {
         int areaSize = bitmap.getHeight() * bitmap.getWidth();
         int[] pixelArray = new int[areaSize];
 
         bitmap.getPixels(pixelArray, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
 
         for (int i = 0; i < areaSize; i++) {
-
-            if (pixelArray[i] == Color.BLACK)
-                pixelArray[i] = paint.getColor();
+            if (pixelArray[i] == oldColor)
+                pixelArray[i] = newColor;
         }
 
         bitmap.setPixels(pixelArray, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+
         return bitmap;
     }
 

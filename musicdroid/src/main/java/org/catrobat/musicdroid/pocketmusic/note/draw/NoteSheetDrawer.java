@@ -50,7 +50,6 @@ public class NoteSheetDrawer {
 
     private NoteSheetCanvas noteSheetCanvas;
     private Resources resources;
-    private List<Symbol> symbols;
     private MusicalKey key;
 
     private Paint paint;
@@ -64,7 +63,6 @@ public class NoteSheetDrawer {
     public NoteSheetDrawer(NoteSheetCanvas noteSheetCanvas, Resources resources, List<Symbol> symbols, MusicalKey key) {
         this.noteSheetCanvas = noteSheetCanvas;
         this.resources = resources;
-        this.symbols = symbols;
         this.key = key;
 
         paint = createPaint();
