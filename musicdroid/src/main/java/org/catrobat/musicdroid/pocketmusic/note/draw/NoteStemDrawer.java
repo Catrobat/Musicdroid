@@ -24,6 +24,7 @@ package org.catrobat.musicdroid.pocketmusic.note.draw;
 
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.RectF;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteFlag;
@@ -35,47 +36,49 @@ public class NoteStemDrawer {
 
     private NoteFlagDrawer noteFlagDrawer;
     private NoteSheetCanvas noteSheetCanvas;
-    private Paint paint;
     private int distanceBetweenLinesHalf;
     private int stemLength;
 
-	public NoteStemDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, int distanceBetweenLines) {
-        noteFlagDrawer = new NoteFlagDrawer(noteSheetCanvas, paint, distanceBetweenLines);
+	public NoteStemDrawer(NoteSheetCanvas noteSheetCanvas, int distanceBetweenLines) {
+        noteFlagDrawer = new NoteFlagDrawer(noteSheetCanvas, distanceBetweenLines);
         this.noteSheetCanvas = noteSheetCanvas;
-        this.paint = paint;
         this.distanceBetweenLinesHalf = distanceBetweenLines / 2;
         this.stemLength = (int) (Math.round(LENGTH_OF_STEM_IN_NOTE_LINE_DISTANCES * distanceBetweenLines));
 	}
 
-	public void drawStem(NotePositionInformation notePositionInformation, NoteSymbol noteSymbol, MusicalKey key) {
-        if (false == noteSymbol.hasStem()) {
-            return;
-        }
-
-		PointF startPointOfNoteStem = new PointF();
+	public RectF drawStem(SymbolPosition symbolPosition, NoteSymbol noteSymbol, MusicalKey key, Paint paint) {
+        RectF stemRect = new RectF();
         PointF endPointOfNoteStem = new PointF();
 
         if(noteSymbol.isStemUp(key)) {
-            startPointOfNoteStem.x = notePositionInformation.getRightSideOfSymbol();
-            startPointOfNoteStem.y = notePositionInformation.getBottomOfSymbol() - distanceBetweenLinesHalf;
-            endPointOfNoteStem.y = notePositionInformation.getTopOfSymbol() - stemLength;
+            stemRect.left = symbolPosition.getRight();
+            stemRect.right = symbolPosition.getRight();
+            stemRect.bottom = symbolPosition.getBottom() - distanceBetweenLinesHalf;
+            stemRect.top = symbolPosition.getTop() - stemLength;
+
+            endPointOfNoteStem.x = stemRect.left;
+            endPointOfNoteStem.y = stemRect.top;
         } else {
-            startPointOfNoteStem.x = notePositionInformation.getLeftSideOfSymbol();
-            startPointOfNoteStem.y = notePositionInformation.getTopOfSymbol() + distanceBetweenLinesHalf;
-            endPointOfNoteStem.y = notePositionInformation.getBottomOfSymbol() + stemLength;
+            stemRect.left = symbolPosition.getLeft();
+            stemRect.right = symbolPosition.getLeft();
+            stemRect.top = symbolPosition.getBottom() + stemLength;
+            stemRect.bottom = symbolPosition.getTop() + distanceBetweenLinesHalf;
+
+            endPointOfNoteStem.x = stemRect.left;
+            endPointOfNoteStem.y = stemRect.top;
         }
 
-        endPointOfNoteStem.x = startPointOfNoteStem.x;
-
-		noteSheetCanvas.drawLine(startPointOfNoteStem.x, startPointOfNoteStem.y, endPointOfNoteStem.x,
-                endPointOfNoteStem.y, paint);
+		noteSheetCanvas.drawLine(stemRect.left, stemRect.bottom, stemRect.right,
+                stemRect.top, paint);
 
         if (NoteFlag.NO_FLAG != noteSymbol.getFlag()) {
-            drawFlag(endPointOfNoteStem, noteSymbol, key);
+            drawFlag(endPointOfNoteStem, noteSymbol, key, paint);
         }
+
+        return stemRect;
 	}
 
-    private void drawFlag(PointF endPointOfNoteStem, NoteSymbol noteSymbol, MusicalKey key) {
-        noteFlagDrawer.drawFlag(endPointOfNoteStem, noteSymbol, key);
+    private void drawFlag(PointF endPointOfNoteStem, NoteSymbol noteSymbol, MusicalKey key, Paint paint) {
+        noteFlagDrawer.drawFlag(endPointOfNoteStem, noteSymbol, key, paint);
     }
 }

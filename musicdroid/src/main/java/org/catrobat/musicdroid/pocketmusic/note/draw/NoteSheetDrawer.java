@@ -30,9 +30,14 @@ import android.graphics.Rect;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
-import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+
+import java.util.List;
 
 public class NoteSheetDrawer {
+
+    public static final int COLOR_DEFAULT = Color.BLACK;
+    public static final int COLOR_MARKED = Color.RED;
 
     public static final int NOTE_SHEET_PADDING = 20;
 
@@ -45,7 +50,8 @@ public class NoteSheetDrawer {
 
     private NoteSheetCanvas noteSheetCanvas;
     private Resources resources;
-    private Track track;
+    private List<Symbol> symbols;
+    private MusicalKey key;
 
     private Paint paint;
     private NoteSheetDrawPosition drawPosition;
@@ -53,22 +59,27 @@ public class NoteSheetDrawer {
     protected int yPositionOfBarTop;
     protected int yPositionOfBarBottom;
 
-    public NoteSheetDrawer(NoteSheetCanvas noteSheetCanvas, Resources resources, Track track) {
+    private SymbolsDrawer symbolsDrawer;
+
+    public NoteSheetDrawer(NoteSheetCanvas noteSheetCanvas, Resources resources, List<Symbol> symbols, MusicalKey key) {
         this.noteSheetCanvas = noteSheetCanvas;
         this.resources = resources;
-        this.track = track;
+        this.symbols = symbols;
+        this.key = key;
 
         paint = createPaint();
         drawPosition = new NoteSheetDrawPosition(NOTE_SHEET_PADDING, noteSheetCanvas.getWidth() - NOTE_SHEET_PADDING);
         distanceBetweenLines = calculateDistanceBetweenLines();
         yPositionOfBarTop = noteSheetCanvas.getHeightHalf() - NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS * distanceBetweenLines;
         yPositionOfBarBottom = noteSheetCanvas.getHeightHalf() + NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS * distanceBetweenLines;
+
+        symbolsDrawer = new SymbolsDrawer(noteSheetCanvas, paint, resources, symbols, key, drawPosition, distanceBetweenLines);
     }
 
     private Paint createPaint() {
         Paint paint = new Paint();
 
-        paint.setColor(Color.BLACK);
+        paint.setColor(COLOR_DEFAULT);
         paint.setStyle(Paint.Style.FILL);
         paint.setStrokeWidth(4);
 
@@ -88,11 +99,11 @@ public class NoteSheetDrawer {
         return drawPosition.getStartXPositionForNextElement();
     }
 
-    public void drawNoteSheet() {
+    public List<SymbolPosition> drawNoteSheet() {
         drawLines();
         drawBars();
         drawKey();
-        drawTrack();
+        return drawSymbols();
     }
 
     protected void drawLines() {
@@ -116,7 +127,7 @@ public class NoteSheetDrawer {
     }
 
     protected void drawKey() {
-        if (track.getKey() != MusicalKey.VIOLIN) {
+        if (key != MusicalKey.VIOLIN) {
             throw new UnsupportedOperationException();
         }
 
@@ -126,8 +137,7 @@ public class NoteSheetDrawer {
         drawPosition.setStartXPositionForNextElement(keyRect.right);
     }
 
-    private void drawTrack() {
-        TrackDrawer trackDrawer = new TrackDrawer(noteSheetCanvas, paint, resources, track, drawPosition, distanceBetweenLines);
-        trackDrawer.drawTrack();
+    private List<SymbolPosition> drawSymbols() {
+        return symbolsDrawer.drawSymbols();
     }
 }

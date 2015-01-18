@@ -1,6 +1,6 @@
 /*
  * Musicdroid: An on-device music generator for Android
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,39 +21,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.test.note.draw;
+package org.catrobat.musicdroid.pocketmusic.test.instrument.noteSheet;
 
-import android.content.res.Resources;
+import android.content.Context;
+import android.util.AttributeSet;
 
-import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
+import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetView;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
+import org.catrobat.musicdroid.pocketmusic.test.note.draw.CanvasMock;
 
-import java.util.List;
+public class NoteSheetViewMock extends NoteSheetView {
 
-public class NoteSheetDrawerMock extends NoteSheetDrawer {
-
-    public NoteSheetDrawerMock(NoteSheetCanvas canvas, Resources resources, List<Symbol> symbols, MusicalKey key) {
-        super(canvas, resources, symbols, key);
+    public NoteSheetViewMock(Context context, AttributeSet attrs) {
+        super(context, attrs);
     }
 
-    public int getDistanceBetweenLines() {
-        return distanceBetweenLines;
+    public boolean isSymbolMarked(int index) {
+        return symbols.get(index).isMarked();
     }
 
-    public int getYPositionOfBarTop() { return yPositionOfBarTop; }
-
-    public int getYPositionOfBarBottom() { return yPositionOfBarBottom; }
-
-    @Override
-    public void drawLines() {
-        super.drawLines();
+    public SymbolPosition getSymbolPosition(int index) {
+        return symbolPositions.get(index);
     }
 
-    @Override
-    public void drawBars() { super.drawBars(); }
-
-    @Override
-    public void drawKey() { super.drawKey(); }
+    public void draw() {
+        noteSheetCanvas = new NoteSheetCanvas(new CanvasMock());
+        noteSheetDrawer = new NoteSheetDrawer(noteSheetCanvas, getResources(), symbols, key);
+        symbolPositions = noteSheetDrawer.drawNoteSheet();
+    }
 }

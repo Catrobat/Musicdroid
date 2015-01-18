@@ -23,13 +23,10 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
-import android.graphics.Paint;
-
-import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
-import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
-import org.catrobat.musicdroid.pocketmusic.note.draw.TrackDrawer;
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolsDrawer;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
@@ -38,25 +35,35 @@ import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
 
 import java.util.List;
 
-public class TrackDrawerTest extends AbstractDrawerTest {
+public class SymbolsDrawerTest extends AbstractDrawerTest {
 
     private Track track;
-    private TrackDrawer trackDrawer;
+    private List<Symbol> symbols;
+    private SymbolsDrawer symbolsDrawer;
 
     @Override
     protected void setUp() {
         super.setUp();
 
+        TrackToSymbolsConverter trackConverter = new TrackToSymbolsConverter();
         track = TrackTestDataFactory.createTrackWithBreak();
-        trackDrawer = new TrackDrawer(noteSheetCanvas, paint, getContext().getResources(), track, drawPosition, distanceBetweenLines);
+        symbols = trackConverter.convertTrack(track);
+        symbolsDrawer = new SymbolsDrawer(noteSheetCanvas, paint, getContext().getResources(), symbols, track.getKey(), drawPosition, distanceBetweenLines);
     }
 
-    public void testDrawTrack() {
+    public void testDrawSymbols1() {
         int expectedElementCount = getSymbolCountFromTrack(track);
 
-        trackDrawer.drawTrack();
+        symbolsDrawer.drawSymbols();
 
         assertCanvasElementQueueSize(expectedElementCount);
+        clearCanvasElementQueue();
+    }
+
+    public void testDrawSymbols2() {
+        List<SymbolPosition> symbolPositions = symbolsDrawer.drawSymbols();
+
+        assertEquals(symbols.size(), symbolPositions.size());
         clearCanvasElementQueue();
     }
 

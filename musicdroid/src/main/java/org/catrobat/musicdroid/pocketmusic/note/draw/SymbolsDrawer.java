@@ -25,37 +25,41 @@ package org.catrobat.musicdroid.pocketmusic.note.draw;
 import android.content.res.Resources;
 import android.graphics.Paint;
 
-import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
 
-public class TrackDrawer {
+import java.util.LinkedList;
+import java.util.List;
 
-    private Track track;
+public class SymbolsDrawer {
+
+    private List<Symbol> symbols;
 
     private NoteDrawer noteDrawer;
     private BreakDrawer breakDrawer;
 
-    public TrackDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, Resources resources, Track track, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
-        this.track = track;
+    public SymbolsDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, Resources resources, List<Symbol> symbols, MusicalKey key, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
+        this.symbols = symbols;
 
-        noteDrawer = new NoteDrawer(noteSheetCanvas, paint, resources, track.getKey(), drawPosition, distanceBetweenLines);
-        breakDrawer = new BreakDrawer(noteSheetCanvas, paint, resources, track.getKey(), drawPosition, distanceBetweenLines);
+        noteDrawer = new NoteDrawer(noteSheetCanvas, paint, resources, key, drawPosition, distanceBetweenLines);
+        breakDrawer = new BreakDrawer(noteSheetCanvas, paint, resources, key, drawPosition, distanceBetweenLines);
     }
 
-	public void drawTrack() {
-		TrackToSymbolsConverter converter = new TrackToSymbolsConverter();
+	public List<SymbolPosition> drawSymbols() {
+        List<SymbolPosition> drawSymbols = new LinkedList<SymbolPosition>();
 
-		for (Symbol symbol : converter.convertTrack(track)) {
+		for (Symbol symbol : symbols) {
             if (symbol instanceof NoteSymbol) {
-                noteDrawer.drawSymbol(symbol);
+                drawSymbols.add(noteDrawer.drawSymbol(symbol));
             } else if (symbol instanceof BreakSymbol) {
-                breakDrawer.drawSymbol(symbol);
+                drawSymbols.add(breakDrawer.drawSymbol(symbol));
             } else {
                 throw new IllegalArgumentException("Not supported symbol: " + symbol);
             }
 		}
+
+        return drawSymbols;
 	}
 }

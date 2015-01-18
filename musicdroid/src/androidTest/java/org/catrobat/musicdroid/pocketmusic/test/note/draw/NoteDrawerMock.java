@@ -26,10 +26,11 @@ package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 import android.content.res.Resources;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.RectF;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteDrawer;
-import org.catrobat.musicdroid.pocketmusic.note.draw.NotePositionInformation;
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
@@ -46,27 +47,23 @@ public class NoteDrawerMock extends NoteDrawer {
     }
 
     @Override
-    public void drawBody(NoteSymbol noteSymbol) {
-        super.drawBody(noteSymbol);
+    public SymbolPosition drawBody(NoteSymbol noteSymbol, Paint paint) {
+        return super.drawBody(noteSymbol, paint);
     }
 
     @Override
-    public void drawStem(NoteSymbol noteSymbol) {
-        super.drawStem(noteSymbol);
+    public RectF drawStem(NoteSymbol noteSymbol, SymbolPosition symbolPosition, Paint paint) {
+        return super.drawStem(noteSymbol, symbolPosition, paint);
     }
 
     @Override
-    public void drawHelpLines() {
-        super.drawHelpLines();
+    public void drawHelpLines(SymbolPosition symbolPosition, Paint paint) {
+        super.drawHelpLines(symbolPosition, paint);
     }
 
     @Override
     public Point getCenterPointForNextSmallSymbol() {
         return super.getCenterPointForNextSmallSymbol();
-    }
-
-    public NotePositionInformation getNotePositionInformation() {
-        return notePositionInformation;
     }
 
     public Point getCenterPointForNextSmallSymbolNoDrawPositionChange() {

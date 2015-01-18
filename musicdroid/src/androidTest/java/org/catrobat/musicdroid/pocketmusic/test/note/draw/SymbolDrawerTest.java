@@ -23,15 +23,13 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
-import android.content.res.Resources;
-import android.graphics.Paint;
 import android.graphics.Point;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
-import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
-import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolDrawer;
+import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+import org.catrobat.musicdroid.pocketmusic.test.note.symbol.BreakSymbolTestDataFactory;
 
 public class SymbolDrawerTest extends AbstractDrawerTest {
 
@@ -62,5 +60,21 @@ public class SymbolDrawerTest extends AbstractDrawerTest {
 
     private int calculateStartX(int symbolWidth) {
         return drawPosition.getStartXPositionForNextElement() + (symbolWidth / 2);
+    }
+
+    public void testDrawSymbolDefault() {
+        Symbol symbol = BreakSymbolTestDataFactory.createBreakSymbol(false);
+
+        symbolDrawer.drawSymbol(symbol);
+
+        assertEquals(NoteSheetDrawer.COLOR_DEFAULT, symbolDrawer.getLastUsedPaint().getColor());
+    }
+
+    public void testDrawSymbolMarked() {
+        Symbol symbol = BreakSymbolTestDataFactory.createBreakSymbol(true);
+
+        symbolDrawer.drawSymbol(symbol);
+
+        assertEquals(NoteSheetDrawer.COLOR_MARKED, symbolDrawer.getLastUsedPaint().getColor());
     }
 }

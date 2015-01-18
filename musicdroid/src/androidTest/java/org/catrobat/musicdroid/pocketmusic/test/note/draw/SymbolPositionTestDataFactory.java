@@ -21,36 +21,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.note.draw;
+package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
 
-public class SymbolDotDrawer {
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
 
-    public static final int DOT_RADIUS = 5;
-    public static final int DISTANCE_BETWEEN_SYMBOL_AND_DOT = 10;
+public class SymbolPositionTestDataFactory {
 
-    private NoteSheetCanvas noteSheetCanvas;
-    private int distanceBetweenLines;
+    private SymbolPositionTestDataFactory() {}
 
-    public SymbolDotDrawer(NoteSheetCanvas noteSheetCanvas, int distanceBetweenLines) {
-        this.noteSheetCanvas = noteSheetCanvas;
-        this.distanceBetweenLines = distanceBetweenLines;
+    public static SymbolPosition createSymbolPosition() {
+        return createSymbolPosition(new RectF(0, 100, 200, 0));
     }
 
-    public void drawDot(Rect symbolRect, Paint paint) {
-        float x = symbolRect.right + DISTANCE_BETWEEN_SYMBOL_AND_DOT;
-        float y = symbolRect.top + distanceBetweenLines / 4;
+    public static SymbolPosition createSymbolPosition(RectF... rects) {
+        SymbolPosition positionInformation = new SymbolPosition(rects);
 
-        RectF dotRect = new RectF();
-
-        dotRect.left = x;
-        dotRect.top = y - DOT_RADIUS;
-        dotRect.right = x + 2 * DOT_RADIUS;
-        dotRect.bottom = y + DOT_RADIUS;
-
-        noteSheetCanvas.drawOval(dotRect, paint);
+        return positionInformation;
     }
 }

@@ -26,29 +26,43 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
-import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
-import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.draw.DrawElementsTouchDetector;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class NoteSheetView extends View {
 
-	private Track track;
+    protected DrawElementsTouchDetector touchDetector;
+    protected TrackToSymbolsConverter trackConverter;
+    protected List<Symbol> symbols;
+    protected MusicalKey key;
+    protected List<SymbolPosition> symbolPositions;
 
-	private NoteSheetCanvas noteSheetCanvas;
-    private NoteSheetDrawer noteSheetDrawer;
-    private int widthBeforeResize;
+    protected NoteSheetCanvas noteSheetCanvas;
+    protected NoteSheetDrawer noteSheetDrawer;
+    protected int widthBeforeResize;
 
 	public NoteSheetView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
-		track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ELECTRIC_PIANO_1, Project.DEFAULT_BEATS_PER_MINUTE);
+        touchDetector = new DrawElementsTouchDetector();
+        trackConverter = new TrackToSymbolsConverter();
+        symbols = new LinkedList<Symbol>();
+        symbolPositions = new LinkedList<SymbolPosition>();
+        key = MusicalKey.VIOLIN;
         widthBeforeResize = getWidth();
 	}
 
@@ -62,8 +76,9 @@ public class NoteSheetView extends View {
     }
 
 	public void redraw(Track track) {
-		this.track = track;
-		invalidate();
+        key = track.getKey();
+        symbols = trackConverter.convertTrack(track);
+        invalidate();
 	}
 
     @Override
@@ -96,9 +111,23 @@ public class NoteSheetView extends View {
 		super.onDraw(canvas);
 		noteSheetCanvas = new NoteSheetCanvas(canvas);
         requestLayout();
-        noteSheetDrawer = new NoteSheetDrawer(noteSheetCanvas, getResources(), track);
-        noteSheetDrawer.drawNoteSheet();
+        noteSheetDrawer = new NoteSheetDrawer(noteSheetCanvas, getResources(), symbols, key);
+        symbolPositions = noteSheetDrawer.drawNoteSheet();
         ((PianoActivity) getContext()).scrollNoteSheet();
 	}
 
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        if (MotionEvent.ACTION_UP == e.getAction()) {
+            int index = touchDetector.getIndexOfTouchedDrawElement(symbolPositions, e.getX(), e.getY());
+
+            if (DrawElementsTouchDetector.INVALID_INDEX != index) {
+                Symbol symbol = symbols.get(index);
+                symbol.setMarked(!symbol.isMarked());
+                invalidate();
+            }
+        }
+
+        return true;
+    }
 }

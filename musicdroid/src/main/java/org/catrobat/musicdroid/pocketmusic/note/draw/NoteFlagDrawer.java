@@ -34,19 +34,19 @@ import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 public class NoteFlagDrawer {
 
     private NoteSheetCanvas noteSheetCanvas;
-    private Paint paint;
     private int distanceBetweenLines;
 
-    public NoteFlagDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, int distanceBetweenLines) {
+    public NoteFlagDrawer(NoteSheetCanvas noteSheetCanvas, int distanceBetweenLines) {
         this.noteSheetCanvas = noteSheetCanvas;
-        this.paint = new Paint(paint);
-        this.paint.setStyle(Paint.Style.STROKE);
         this.distanceBetweenLines = distanceBetweenLines;
     }
 
-    public void drawFlag(PointF endPointOfNoteStem, NoteSymbol noteSymbol, MusicalKey key) {
+    public void drawFlag(PointF endPointOfNoteStem, NoteSymbol noteSymbol, MusicalKey key, Paint paint) {
         boolean isStemUp = noteSymbol.isStemUp(key);
-        drawBezierPath(endPointOfNoteStem, isStemUp);
+        Paint.Style savedStyle = paint.getStyle();
+        paint.setStyle(Paint.Style.STROKE);
+
+        drawBezierPath(endPointOfNoteStem, isStemUp, paint);
 
         if (NoteFlag.DOUBLE_FLAG == noteSymbol.getFlag()) {
             if (isStemUp) {
@@ -55,11 +55,13 @@ public class NoteFlagDrawer {
                 endPointOfNoteStem.y -= distanceBetweenLines;
             }
 
-            drawBezierPath(endPointOfNoteStem, isStemUp);
+            drawBezierPath(endPointOfNoteStem, isStemUp, paint);
         }
+
+        paint.setStyle(savedStyle);
     }
 
-    private void drawBezierPath(PointF endPointOfNoteStem, boolean isStemUp) {
+    private void drawBezierPath(PointF endPointOfNoteStem, boolean isStemUp, Paint paint) {
         float xPosition = endPointOfNoteStem.x;
         float yPosition = endPointOfNoteStem.y;
 

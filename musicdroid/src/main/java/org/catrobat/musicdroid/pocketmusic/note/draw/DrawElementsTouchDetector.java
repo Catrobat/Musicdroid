@@ -1,6 +1,6 @@
 /*
  * Musicdroid: An on-device music generator for Android
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,27 +21,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.test.note.draw;
+package org.catrobat.musicdroid.pocketmusic.note.draw;
 
-import android.graphics.RectF;
-
-import org.catrobat.musicdroid.pocketmusic.note.draw.NotePositionInformation;
-
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
-public class NotePositionInformationTestDataFactory {
+public class DrawElementsTouchDetector {
 
-    private NotePositionInformationTestDataFactory() {}
+    public static final int INVALID_INDEX = -1;
 
-    public static NotePositionInformation createNotePositionInformation() {
-        return createNotePositionInformation(new RectF(0, 100, 200, 0));
-    }
+    public int getIndexOfTouchedDrawElement(List<SymbolPosition> drawElements, float x, float y) {
+        for (int i = 0; i < drawElements.size(); i++) {
+            SymbolPosition element = drawElements.get(i);
 
-    public static NotePositionInformation createNotePositionInformation(RectF... rects) {
-        NotePositionInformation positionInformation = new NotePositionInformation(Arrays.asList(rects));
+            if ((element.getLeft() <= x) && (element.getRight() >= x) && (element.getTop() <= y) && (element.getBottom() >= y)) {
+                return i;
+            }
+        }
 
-        return positionInformation;
+        return INVALID_INDEX;
     }
 }

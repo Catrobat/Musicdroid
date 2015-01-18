@@ -31,11 +31,10 @@ import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteBodyDrawer;
-import org.catrobat.musicdroid.pocketmusic.note.draw.NotePositionInformation;
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 import org.catrobat.musicdroid.pocketmusic.test.note.symbol.NoteSymbolTestDataFactory;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class NoteBodyDrawerTest extends AbstractDrawerTest {
@@ -51,25 +50,27 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
     private void assertDrawBody(MusicalKey key) {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol();
         SymbolDrawerMock symbolDrawer = new SymbolDrawerMock(noteSheetCanvas, paint, getContext().getResources(), key, drawPosition, distanceBetweenLines);
-        NoteBodyDrawer noteBodyDrawer = new NoteBodyDrawer(symbolDrawer, noteSheetCanvas, paint, key, distanceBetweenLines);
+        NoteBodyDrawer noteBodyDrawer = new NoteBodyDrawer(symbolDrawer, noteSheetCanvas, key, distanceBetweenLines);
 
         Point centerPointNote = symbolDrawer.getCenterPointForNextSymbolNoDrawPositionChange();
-        NotePositionInformation positionInformation = noteBodyDrawer.drawBody(noteSymbol);
+        SymbolPosition positionInformation = noteBodyDrawer.drawBody(noteSymbol, paint);
 
         assertCanvasElementQueueNoteBody(key, noteSymbol, positionInformation, centerPointNote);
     }
 
-    private void assertCanvasElementQueueNoteBody(MusicalKey key, NoteSymbol noteSymbol, NotePositionInformation actualPositionInformation, Point centerPointNote) {
+    private void assertCanvasElementQueueNoteBody(MusicalKey key, NoteSymbol noteSymbol, SymbolPosition actualPositionInformation, Point centerPointNote) {
         Paint paint = new Paint();
         boolean isStemUpdirected = noteSymbol.isStemUp(key);
         int lineHeight = distanceBetweenLines;
         int noteHeight = lineHeight / 2;
         int noteWidth = noteHeight * NoteBodyDrawer.NOTE_WIDTH_SCALE;
 
-        List<RectF> noteSurroundingRects = new LinkedList<RectF>();
+        List<NoteName> sortedNoteNames = noteSymbol.getNoteNamesSorted();
+        RectF[] noteSurroundingRects = new RectF[sortedNoteNames.size()];
         NoteName prevNoteName = null;
 
-        for (NoteName noteName : noteSymbol.getNoteNamesSorted()) {
+        for (int i = 0; i < sortedNoteNames.size(); i++) {
+            NoteName noteName = sortedNoteNames.get(i);
             NoteLength noteLength = noteSymbol.getNoteLength(noteName);
             Point centerPointOfActualNote = new Point(centerPointNote);
             centerPointOfActualNote.y += NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName)
@@ -96,7 +97,7 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
 
             RectF rect = new RectF(left, top, right, bottom);
 
-            noteSurroundingRects.add(rect);
+            noteSurroundingRects[i] = rect;
 
             if (noteLength.isFilled()) {
                 paint.setStyle(Paint.Style.FILL);
@@ -109,7 +110,7 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
             prevNoteName = noteName;
         }
 
-        NotePositionInformation expectedPositionInformation = new NotePositionInformation(noteSurroundingRects);
+        SymbolPosition expectedPositionInformation = new SymbolPosition(noteSurroundingRects);
 
         assertEquals(expectedPositionInformation, actualPositionInformation);
     }
@@ -117,10 +118,10 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
     public void testDrawBodyDot() {
         MusicalKey key = MusicalKey.VIOLIN;
         SymbolDrawerMock symbolDrawer = new SymbolDrawerMock(noteSheetCanvas, paint, getContext().getResources(), key, drawPosition, distanceBetweenLines);
-        NoteBodyDrawer noteBodyDrawer = new NoteBodyDrawer(symbolDrawer, noteSheetCanvas, paint, key, distanceBetweenLines);
+        NoteBodyDrawer noteBodyDrawer = new NoteBodyDrawer(symbolDrawer, noteSheetCanvas, key, distanceBetweenLines);
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER_DOT);
 
-        noteBodyDrawer.drawBody(noteSymbol);
+        noteBodyDrawer.drawBody(noteSymbol, paint);
 
         int bodyCount = 1;
         int dotCount = 1;

@@ -34,12 +34,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class NoteSymbol implements Symbol {
+public class NoteSymbol extends Symbol {
 
 	private Map<NoteName, NoteLength> notes;
 
 	public NoteSymbol() {
-		notes = new HashMap<NoteName, NoteLength>();
+        notes = new HashMap<NoteName, NoteLength>();
 	}
 
 	public void addNote(NoteName noteName, NoteLength noteLength) {
@@ -66,6 +66,10 @@ public class NoteSymbol implements Symbol {
 			return false;
 		}
 
+        if (false == super.equals(obj)) {
+            return false;
+        }
+
 		NoteSymbol noteSymbol = (NoteSymbol) obj;
 
 		if (notes.equals(noteSymbol.notes)) {
@@ -77,7 +81,7 @@ public class NoteSymbol implements Symbol {
 
 	@Override
 	public String toString() {
-		return "[NoteSymbol] size: " + size();
+		return "[NoteSymbol] marked=" + marked + " size=" + size();
 	}
 
 	public boolean isStemUp(MusicalKey key) {

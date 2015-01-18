@@ -1,6 +1,6 @@
 /*
  * Musicdroid: An on-device music generator for Android
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,20 +23,24 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.symbol;
 
-import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
+import android.test.AndroidTestCase;
 
-public class BreakSymbolTestDataFactory {
+import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 
-    private BreakSymbolTestDataFactory() {}
+public class SymbolTest extends AndroidTestCase {
 
-    public static BreakSymbol createBreakSymbol() { return createBreakSymbol(NoteLength.QUARTER); }
+    public void testIsMarked1() {
+        testIsMarked(true);
+    }
 
-    public static BreakSymbol createBreakSymbol(NoteLength noteLength) { return new BreakSymbol(noteLength); }
+    public void testIsMarked2() {
+        testIsMarked(true);
+    }
 
-    public static BreakSymbol createBreakSymbol(boolean marked) {
-        BreakSymbol breakSymbol = new BreakSymbol(NoteLength.QUARTER);
-        breakSymbol.setMarked(marked);
-        return breakSymbol;
+    private void testIsMarked(boolean expectedMarked) {
+        Symbol symbol = BreakSymbolTestDataFactory.createBreakSymbol();
+        symbol.setMarked(expectedMarked);
+
+        assertEquals(expectedMarked, symbol.isMarked());
     }
 }

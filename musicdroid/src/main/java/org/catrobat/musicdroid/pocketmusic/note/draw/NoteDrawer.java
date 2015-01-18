@@ -24,6 +24,7 @@ package org.catrobat.musicdroid.pocketmusic.note.draw;
 
 import android.content.res.Resources;
 import android.graphics.Paint;
+import android.graphics.RectF;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
@@ -36,26 +37,31 @@ public class NoteDrawer extends SymbolDrawer {
     private NoteStemDrawer noteStemDrawer;
     private NoteBodyDrawer noteBodyDrawer;
 
-    protected NotePositionInformation notePositionInformation;
-
 	public NoteDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, Resources resources, MusicalKey key, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
         super(noteSheetCanvas, paint, resources, key, drawPosition, distanceBetweenLines);
 
         noteCrossDrawer = new NoteCrossDrawer(noteSheetCanvas, resources, distanceBetweenLines);
-        noteStemDrawer = new NoteStemDrawer(noteSheetCanvas, paint, distanceBetweenLines);
-        noteBodyDrawer = new NoteBodyDrawer(this, noteSheetCanvas, paint, key, distanceBetweenLines);
+        noteStemDrawer = new NoteStemDrawer(noteSheetCanvas, distanceBetweenLines);
+        noteBodyDrawer = new NoteBodyDrawer(this, noteSheetCanvas, key, distanceBetweenLines);
 	}
 
-    public void drawSymbol(Symbol symbol) {
+    @Override
+    protected SymbolPosition drawSymbol(Symbol symbol, Paint paint) {
         if (false == (symbol instanceof  NoteSymbol)) {
             throw new IllegalArgumentException("Symbol is not of type NoteSymbol: " + symbol);
         }
 
         NoteSymbol noteSymbol = (NoteSymbol) symbol;
         drawCross(noteSymbol);
-        drawBody(noteSymbol);
-        drawStem(noteSymbol);
-        drawHelpLines();
+        SymbolPosition bodyPosition = drawBody(noteSymbol, paint);
+        RectF stemRect = drawStem(noteSymbol, bodyPosition, paint);
+        drawHelpLines(bodyPosition, paint);
+
+        if (noteSymbol.hasStem()) {
+            return new SymbolPosition(bodyPosition.toRectF(), stemRect);
+        } else {
+            return new SymbolPosition(bodyPosition.toRectF());
+        }
     }
 
     protected void drawCross(NoteSymbol noteSymbol) {
@@ -74,31 +80,33 @@ public class NoteDrawer extends SymbolDrawer {
         }
     }
 
-    protected void drawBody(NoteSymbol noteSymbol) {
-        notePositionInformation = noteBodyDrawer.drawBody(noteSymbol);
+    protected SymbolPosition drawBody(NoteSymbol noteSymbol, Paint paint) {
+        return noteBodyDrawer.drawBody(noteSymbol, paint);
     }
 
-    protected void drawStem(NoteSymbol noteSymbol) {
+    protected RectF drawStem(NoteSymbol noteSymbol, SymbolPosition symbolPosition, Paint paint) {
         if (noteSymbol.hasStem()) {
-            noteStemDrawer.drawStem(notePositionInformation, noteSymbol, key);
+            return noteStemDrawer.drawStem(symbolPosition, noteSymbol, key, paint);
         }
+
+        return null;
     }
 
-    protected void drawHelpLines() {
+    protected void drawHelpLines(SymbolPosition symbolPosition, Paint paint) {
         float topEndOfNoteLines = noteSheetCanvas.getHeightHalf() -
                 distanceBetweenLines * NoteSheetDrawer.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
         float bottomEndOfNoteLines = noteSheetCanvas.getHeightHalf() +
                 distanceBetweenLines * NoteSheetDrawer.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
 
-        float topEndOfHelpLines = notePositionInformation.getTopOfSymbol() + distanceBetweenLines / 2;
-        float bottomEndOfHelpLines = notePositionInformation.getBottomOfSymbol() - distanceBetweenLines / 2;
+        float topEndOfHelpLines = symbolPosition.getTop() + distanceBetweenLines / 2;
+        float bottomEndOfHelpLines = symbolPosition.getBottom() - distanceBetweenLines / 2;
 
-        int lengthOfHelpLine = ((int) notePositionInformation.getRightSideOfSymbol() - (int) notePositionInformation.getLeftSideOfSymbol()) / 3;
+        int lengthOfHelpLine = ((int) symbolPosition.getRight() - (int) symbolPosition.getLeft()) / 3;
 
         topEndOfNoteLines -= distanceBetweenLines;
         while(topEndOfHelpLines <= topEndOfNoteLines) {
-            int startX = (int) (notePositionInformation.getLeftSideOfSymbol() - lengthOfHelpLine);
-            int stopX = (int) (notePositionInformation.getRightSideOfSymbol() + lengthOfHelpLine);
+            int startX = (int) (symbolPosition.getLeft() - lengthOfHelpLine);
+            int stopX = (int) (symbolPosition.getRight() + lengthOfHelpLine);
             int startY = (int) topEndOfNoteLines;
             int stopY = startY;
             noteSheetCanvas.drawLine(startX, startY, stopX, stopY, paint);
@@ -108,8 +116,8 @@ public class NoteDrawer extends SymbolDrawer {
 
         bottomEndOfNoteLines += distanceBetweenLines;
         while(bottomEndOfHelpLines >= bottomEndOfNoteLines) {
-            int startX = (int) (notePositionInformation.getLeftSideOfSymbol() - lengthOfHelpLine);
-            int stopX = (int) (notePositionInformation.getRightSideOfSymbol() + lengthOfHelpLine);
+            int startX = (int) (symbolPosition.getLeft() - lengthOfHelpLine);
+            int stopX = (int) (symbolPosition.getRight() + lengthOfHelpLine);
             int startY = (int) bottomEndOfNoteLines;
             int stopY = startY;
             noteSheetCanvas.drawLine(startX, startY, stopX, stopY, paint);

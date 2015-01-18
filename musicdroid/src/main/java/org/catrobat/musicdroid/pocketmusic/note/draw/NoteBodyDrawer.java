@@ -32,7 +32,6 @@ import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public final class NoteBodyDrawer {
@@ -42,30 +41,30 @@ public final class NoteBodyDrawer {
     private SymbolDrawer symbolDrawer;
     private SymbolDotDrawer symbolDotDrawer;
     private NoteSheetCanvas noteSheetCanvas;
-    private Paint paint;
     private MusicalKey key;
     private int distanceBetweenLines;
 
-	public NoteBodyDrawer(SymbolDrawer symbolDrawer, NoteSheetCanvas noteSheetCanvas, Paint paint, MusicalKey key, int distanceBetweenLines) {
+	public NoteBodyDrawer(SymbolDrawer symbolDrawer, NoteSheetCanvas noteSheetCanvas, MusicalKey key, int distanceBetweenLines) {
         this.symbolDrawer = symbolDrawer;
-        this.symbolDotDrawer = new SymbolDotDrawer(noteSheetCanvas, paint, distanceBetweenLines);
+        this.symbolDotDrawer = new SymbolDotDrawer(noteSheetCanvas, distanceBetweenLines);
         this.noteSheetCanvas = noteSheetCanvas;
-        this.paint = new Paint(paint);
         this.key = key;
         this.distanceBetweenLines = distanceBetweenLines;
 	}
 
-	public NotePositionInformation drawBody(NoteSymbol noteSymbol) {
+	public SymbolPosition drawBody(NoteSymbol noteSymbol, Paint paint) {
 		boolean isStemUpdirected = noteSymbol.isStemUp(key);
         int lineHeight = distanceBetweenLines;
 		int noteHeight = lineHeight / 2;
 		int noteWidth = noteHeight * NOTE_WIDTH_SCALE;
 
 		Point centerPointOfSpaceForNote = symbolDrawer.getCenterPointForNextSymbol();
-		List<RectF> noteSurroundingRects = new LinkedList<RectF>();
+        List<NoteName> sortedNoteNames = noteSymbol.getNoteNamesSorted();
+		RectF[] noteSurroundingRects = new RectF[sortedNoteNames.size()];
 		NoteName prevNoteName = null;
 
-		for (NoteName noteName : noteSymbol.getNoteNamesSorted()) {
+		for (int i = 0; i < sortedNoteNames.size(); i++) {
+            NoteName noteName = sortedNoteNames.get(i);
             NoteLength noteLength = noteSymbol.getNoteLength(noteName);
 			Point centerPointOfActualNote = new Point(centerPointOfSpaceForNote);
 			centerPointOfActualNote.y += NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName)
@@ -92,7 +91,9 @@ public final class NoteBodyDrawer {
 
 			RectF noteRect = new RectF(left, top, right, bottom);
 
-			noteSurroundingRects.add(noteRect);
+			noteSurroundingRects[i] = noteRect;
+            Paint.Style savedStyle = paint.getStyle();
+
             if (noteLength.isFilled()) {
                 paint.setStyle(Paint.Style.FILL);
             } else {
@@ -100,16 +101,17 @@ public final class NoteBodyDrawer {
             }
 
             noteSheetCanvas.drawOval(noteRect, paint);
+            paint.setStyle(savedStyle);
 
             if (noteLength.hasDot()) {
                 Rect roundedNoteRect = new Rect();
                 noteRect.roundOut(roundedNoteRect);
-                symbolDotDrawer.drawDot(new Rect(roundedNoteRect));
+                symbolDotDrawer.drawDot(new Rect(roundedNoteRect), paint);
             }
 
 			prevNoteName = noteName;
 		}
 
-		return new NotePositionInformation(noteSurroundingRects);
+		return new SymbolPosition(noteSurroundingRects);
 	}
 }

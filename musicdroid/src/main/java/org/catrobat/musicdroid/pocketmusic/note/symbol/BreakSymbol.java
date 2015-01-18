@@ -24,12 +24,12 @@ package org.catrobat.musicdroid.pocketmusic.note.symbol;
 
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 
-public class BreakSymbol implements Symbol {
+public class BreakSymbol extends Symbol {
 
 	private NoteLength noteLength;
 
 	public BreakSymbol(NoteLength noteLength) {
-		this.noteLength = noteLength;
+        this.noteLength = noteLength;
 	}
 
 	public NoteLength getNoteLength() {
@@ -42,6 +42,10 @@ public class BreakSymbol implements Symbol {
 			return false;
 		}
 
+        if (false == super.equals(obj)) {
+            return false;
+        }
+
 		BreakSymbol breakSymbol = (BreakSymbol) obj;
 
 		if (noteLength.equals(breakSymbol.getNoteLength())) {
@@ -53,6 +57,6 @@ public class BreakSymbol implements Symbol {
 
 	@Override
 	public String toString() {
-		return "[BreakSymbol] noteLength: " + noteLength;
+		return "[BreakSymbol] marked=" + marked + " noteLength=" + noteLength;
 	}
 }

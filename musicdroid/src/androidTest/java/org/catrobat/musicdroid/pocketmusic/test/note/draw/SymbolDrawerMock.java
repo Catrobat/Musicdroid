@@ -30,10 +30,13 @@ import android.graphics.Point;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolDrawer;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 
 public class SymbolDrawerMock extends SymbolDrawer {
+
+    private Paint lastUsedPaint;
 
     public SymbolDrawerMock(NoteSheetCanvas canvas, Paint paint, Resources resources, MusicalKey key, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
         super(canvas, paint, resources, key, drawPosition, distanceBetweenLines);
@@ -58,7 +61,13 @@ public class SymbolDrawerMock extends SymbolDrawer {
     }
 
     @Override
-    public void drawSymbol(Symbol symbol) {
+    protected SymbolPosition drawSymbol(Symbol symbol, Paint paint) {
+        lastUsedPaint = paint;
+        return null;
+    }
+
+    public Paint getLastUsedPaint() {
+        return lastUsedPaint;
     }
 
     public Point getCenterPointForNextSymbolNoDrawPositionChange() {

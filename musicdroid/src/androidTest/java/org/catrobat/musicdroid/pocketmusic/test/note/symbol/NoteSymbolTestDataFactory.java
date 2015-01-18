@@ -57,4 +57,10 @@ public class NoteSymbolTestDataFactory {
 
         return noteSymbol;
     }
+
+    public static NoteSymbol createNoteSymbol(boolean marked) {
+        NoteSymbol noteSymbol = new NoteSymbol();
+        noteSymbol.setMarked(marked);
+        return noteSymbol;
+    }
 }
