@@ -50,12 +50,11 @@ public class NoteSheetViewTest extends AndroidTestCase {
     }
 
     public void testTouchNoElement() {
-        int elementIndex = 0;
-        SymbolPosition symbolPosition = noteSheetView.getSymbolPosition(elementIndex);
+        touch(0, 0);
 
-        touch(symbolPosition.getLeft() - 1, symbolPosition.getTop());
-
-        assertFalse(noteSheetView.isSymbolMarked(elementIndex));
+        for (int i = 0; i < noteSheetView.getSymbolPositionsSize(); i++) {
+            assertFalse(noteSheetView.isSymbolMarked(i));
+        }
     }
 
     private void touch(float x, float y) {

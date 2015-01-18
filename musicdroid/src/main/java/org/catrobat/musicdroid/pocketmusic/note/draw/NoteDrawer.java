@@ -31,6 +31,9 @@ import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class NoteDrawer extends SymbolDrawer {
 
     private NoteCrossDrawer noteCrossDrawer;
@@ -52,20 +55,27 @@ public class NoteDrawer extends SymbolDrawer {
         }
 
         NoteSymbol noteSymbol = (NoteSymbol) symbol;
-        drawCross(noteSymbol);
+        List<RectF> crossRects = drawCross(noteSymbol);
         SymbolPosition bodyPosition = drawBody(noteSymbol, paint);
         RectF stemRect = drawStem(noteSymbol, bodyPosition, paint);
         drawHelpLines(bodyPosition, paint);
 
+        SymbolPosition symbolPosition = new SymbolPosition(bodyPosition.toRectF());
+
         if (noteSymbol.hasStem()) {
-            return new SymbolPosition(bodyPosition.toRectF(), stemRect);
-        } else {
-            return new SymbolPosition(bodyPosition.toRectF());
+            symbolPosition.calculatePosition(stemRect);
         }
+
+        if (false == crossRects.isEmpty()) {
+            symbolPosition.calculatePosition(crossRects.toArray(new RectF[crossRects.size()]));
+        }
+
+        return symbolPosition;
     }
 
-    protected void drawCross(NoteSymbol noteSymbol) {
+    protected List<RectF> drawCross(NoteSymbol noteSymbol) {
         Integer xPositionForCross = null;
+        List<RectF> crossRects = new LinkedList<RectF>();
 
         for (NoteName noteName : noteSymbol.getNoteNamesSorted()) {
             if (noteName.isSigned()) {
@@ -75,9 +85,11 @@ public class NoteDrawer extends SymbolDrawer {
 
                 int yPositionForCross = noteSheetCanvas.getHeightHalf() + NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName) * distanceBetweenLines / 2;
 
-                noteCrossDrawer.drawCross(xPositionForCross, yPositionForCross);
+                crossRects.add(noteCrossDrawer.drawCross(xPositionForCross, yPositionForCross));
             }
         }
+
+        return crossRects;
     }
 
     protected SymbolPosition drawBody(NoteSymbol noteSymbol, Paint paint) {

@@ -27,13 +27,17 @@ import java.util.List;
 
 public class DrawElementsTouchDetector {
 
+    public static final int DEFAULT_TOLERANCE = 10;
     public static final int INVALID_INDEX = -1;
 
-    public int getIndexOfTouchedDrawElement(List<SymbolPosition> drawElements, float x, float y) {
+    public int getIndexOfTouchedDrawElement(List<SymbolPosition> drawElements, float x, float y, float tolerance) {
         for (int i = 0; i < drawElements.size(); i++) {
             SymbolPosition element = drawElements.get(i);
 
-            if ((element.getLeft() <= x) && (element.getRight() >= x) && (element.getTop() <= y) && (element.getBottom() >= y)) {
+            if (((element.getLeft() - tolerance) <= x)
+                    && ((element.getRight() + tolerance) >= x)
+                    && ((element.getTop() - tolerance) <= y)
+                    && ((element.getBottom() + tolerance) >= y)) {
                 return i;
             }
         }
