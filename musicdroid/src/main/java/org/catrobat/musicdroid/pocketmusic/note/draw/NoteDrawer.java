@@ -52,7 +52,7 @@ public class NoteDrawer extends SymbolDrawer {
         }
 
         NoteSymbol noteSymbol = (NoteSymbol) symbol;
-        drawCross(noteSymbol);
+        drawCross(noteSymbol, paint);
         SymbolPosition bodyPosition = drawBody(noteSymbol, paint);
         RectF stemRect = drawStem(noteSymbol, bodyPosition, paint);
         drawHelpLines(bodyPosition, paint);
@@ -64,7 +64,7 @@ public class NoteDrawer extends SymbolDrawer {
         }
     }
 
-    protected void drawCross(NoteSymbol noteSymbol) {
+    protected void drawCross(NoteSymbol noteSymbol, Paint paint) {
         Integer xPositionForCross = null;
 
         for (NoteName noteName : noteSymbol.getNoteNamesSorted()) {
@@ -75,7 +75,7 @@ public class NoteDrawer extends SymbolDrawer {
 
                 int yPositionForCross = noteSheetCanvas.getHeightHalf() + NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName) * distanceBetweenLines / 2;
 
-                noteCrossDrawer.drawCross(xPositionForCross, yPositionForCross);
+                noteCrossDrawer.drawCross(xPositionForCross, yPositionForCross, paint);
             }
         }
     }

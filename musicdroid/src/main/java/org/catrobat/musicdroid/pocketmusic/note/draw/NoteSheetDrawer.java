@@ -133,7 +133,7 @@ public class NoteSheetDrawer {
 
         int keyPictureHeight = distanceBetweenLines * HEIGHT_OF_KEY_IN_LINE_SPACES;
 
-        Rect keyRect = noteSheetCanvas.drawBitmap(resources, R.drawable.violine, keyPictureHeight, drawPosition.getStartXPositionForNextElement(), noteSheetCanvas.getHeightHalf());
+        Rect keyRect = noteSheetCanvas.drawBitmap(resources, R.drawable.violine, keyPictureHeight, drawPosition.getStartXPositionForNextElement(), noteSheetCanvas.getHeightHalf(), paint);
         drawPosition.setStartXPositionForNextElement(keyRect.right);
     }
 

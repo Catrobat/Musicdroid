@@ -64,7 +64,7 @@ public class BreakDrawer extends SymbolDrawer {
         if (noteLength.isHalfOrHigher()) {
             breakRect = drawBreakBar(noteLength, paint);
         } else {
-            breakRect = drawBreakBitmap(noteLength);
+            breakRect = drawBreakBitmap(noteLength, paint);
         }
 
         if (noteLength.hasDot()) {
@@ -74,7 +74,7 @@ public class BreakDrawer extends SymbolDrawer {
         return new SymbolPosition(new RectF(breakRect.left, breakRect.top, breakRect.right, breakRect.bottom));
     }
 
-    private Rect drawBreakBitmap(NoteLength noteLength) {
+    private Rect drawBreakBitmap(NoteLength noteLength, Paint paint) {
         int breakHeight = distanceBetweenLines;
         int breakId = 0;
 
@@ -91,7 +91,7 @@ public class BreakDrawer extends SymbolDrawer {
 
         int startXPositionBreak = getCenterPointForNextSymbol().x;
 
-        Rect breakRect = noteSheetCanvas.drawBitmap(resources, breakId, breakHeight, startXPositionBreak, noteSheetCanvas.getHeightHalf());
+        Rect breakRect = noteSheetCanvas.drawBitmap(resources, breakId, breakHeight, startXPositionBreak, noteSheetCanvas.getHeightHalf(), paint);
         drawPosition.setStartXPositionForNextElement(breakRect.right);
 
         return breakRect;

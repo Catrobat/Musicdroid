@@ -26,6 +26,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
@@ -66,14 +67,35 @@ public class NoteSheetCanvas {
 
     public void drawPath(Path path, Paint paint) { canvas.drawPath(path, paint); }
 
-    public Rect drawBitmap(Resources resources, int bitmapId, int bitmapHeight, int xPosition, int yPosition) {
+    public Rect drawBitmap(Resources resources, int bitmapId, int bitmapHeight, int xPosition, int yPosition, Paint paint) {
         Bitmap bitmap = BitmapFactory.decodeResource(resources, bitmapId);
 
         Rect rect = calculateProportionalRect(bitmap, bitmapHeight, xPosition, yPosition);
 
+        if(paint.getColor() == NoteSheetDrawer.COLOR_MARKED) {
+            bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+            bitmap = colorBitmap(bitmap, paint);
+        }
+
         canvas.drawBitmap(bitmap, null, rect, null);
 
         return rect;
+    }
+
+    private Bitmap colorBitmap(Bitmap bitmap, Paint paint) {
+        int areaSize = bitmap.getHeight() * bitmap.getWidth();
+        int[] pixelArray = new int[areaSize];
+
+        bitmap.getPixels(pixelArray, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+        for (int i = 0; i < areaSize; i++) {
+
+            if (pixelArray[i] == Color.BLACK)
+                pixelArray[i] = paint.getColor();
+        }
+
+        bitmap.setPixels(pixelArray, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+        return bitmap;
     }
 
     protected Rect calculateProportionalRect(Bitmap originalPicture, int height, int startXPosition, int yCenterPosition) {
