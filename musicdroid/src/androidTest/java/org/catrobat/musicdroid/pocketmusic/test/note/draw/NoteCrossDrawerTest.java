@@ -45,6 +45,6 @@ public class NoteCrossDrawerTest extends AbstractDrawerTest {
 
         crossDrawer.drawCross(X_POSITION, Y_POSITION, paint);
 
-        assertCanvasElementQueueBitmap(R.drawable.cross, expectedBitmapHeight, X_POSITION, Y_POSITION);
+        assertCanvasElementQueueBitmap(R.drawable.cross, expectedBitmapHeight, X_POSITION, Y_POSITION, paint);
     }
 }

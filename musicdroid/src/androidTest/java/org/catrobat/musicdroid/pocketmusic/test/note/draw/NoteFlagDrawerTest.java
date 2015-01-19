@@ -50,21 +50,21 @@ public class NoteFlagDrawerTest extends AbstractDrawerTest {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.EIGHT);
         noteFlagDrawer.drawFlag(endPointOfNoteStem, noteSymbol, key, paint);
 
-        assertCanvasElementQueuePath();
+        assertCanvasElementQueuePath(paint);
     }
 
     public void testDrawFlag2() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.EIGHT_DOT);
         noteFlagDrawer.drawFlag(endPointOfNoteStem, noteSymbol, key, paint);
 
-        assertCanvasElementQueuePath();
+        assertCanvasElementQueuePath(paint);
     }
 
     public void testDrawFlag3() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.SIXTEENTH);
         noteFlagDrawer.drawFlag(endPointOfNoteStem, noteSymbol, key, paint);
 
-        assertCanvasElementQueuePath();
-        assertCanvasElementQueuePath();
+        assertCanvasElementQueuePath(paint);
+        assertCanvasElementQueuePath(paint);
     }
 }

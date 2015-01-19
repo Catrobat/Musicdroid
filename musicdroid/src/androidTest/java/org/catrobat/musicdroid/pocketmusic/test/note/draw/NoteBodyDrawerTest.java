@@ -105,7 +105,7 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
                 paint.setStyle(Paint.Style.STROKE);
             }
 
-            assertCanvasElementQueueOval(left, top, right, bottom, paint.getStyle());
+            assertCanvasElementQueueOval(left, top, right, bottom, paint);
 
             prevNoteName = noteName;
         }

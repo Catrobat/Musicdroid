@@ -51,6 +51,6 @@ public class SymbolDotDrawerTest extends AbstractDrawerTest {
 
         symbolDotDrawer.drawDot(noteRect, paint);
 
-        assertCanvasElementQueueOval(expectedDotRect.left, expectedDotRect.top, expectedDotRect.right, expectedDotRect.bottom, paint.getStyle());
+        assertCanvasElementQueueOval(expectedDotRect.left, expectedDotRect.top, expectedDotRect.right, expectedDotRect.bottom, paint);
     }
 }

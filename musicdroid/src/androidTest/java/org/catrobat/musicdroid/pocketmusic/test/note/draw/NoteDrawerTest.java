@@ -54,7 +54,7 @@ public class NoteDrawerTest extends AbstractDrawerTest {
 
         noteDrawer.drawCross(noteSymbol, paint);
 
-        assertCanvasElementQueueBitmap(R.drawable.cross, crossHeight, xPositionForCross, yPositionForCross);
+        assertCanvasElementQueueBitmap(R.drawable.cross, crossHeight, xPositionForCross, yPositionForCross, paint);
     }
 
     public void testDrawBody() {
@@ -128,7 +128,7 @@ public class NoteDrawerTest extends AbstractDrawerTest {
             int startY = (int) topEndOfNoteLines;
             int stopY = startY;
 
-            assertCanvasElementQueueLine(startX, startY, stopX, stopY);
+            assertCanvasElementQueueLine(startX, startY, stopX, stopY, paint);
 
             topEndOfNoteLines -= distanceBetweenLines;
         }
@@ -140,7 +140,7 @@ public class NoteDrawerTest extends AbstractDrawerTest {
             int startY = (int) bottomEndOfNoteLines;
             int stopY = startY;
 
-            assertCanvasElementQueueLine(startX, startY, stopX, stopY);
+            assertCanvasElementQueueLine(startX, startY, stopX, stopY, paint);
 
             bottomEndOfNoteLines += distanceBetweenLines;
         }

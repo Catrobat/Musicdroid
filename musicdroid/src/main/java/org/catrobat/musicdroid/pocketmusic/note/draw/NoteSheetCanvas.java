@@ -35,7 +35,7 @@ import android.graphics.RectF;
 
 public class NoteSheetCanvas {
 
-    private Canvas canvas;
+    protected Canvas canvas;
 
     public NoteSheetCanvas(Canvas canvas) {
         this.canvas = canvas;
@@ -82,7 +82,7 @@ public class NoteSheetCanvas {
         return rect;
     }
 
-    private Bitmap recolorBitmap(Bitmap bitmap, int oldColor, int newColor) {
+    protected Bitmap recolorBitmap(Bitmap bitmap, int oldColor, int newColor) {
         int areaSize = bitmap.getHeight() * bitmap.getWidth();
         int[] pixelArray = new int[areaSize];
 

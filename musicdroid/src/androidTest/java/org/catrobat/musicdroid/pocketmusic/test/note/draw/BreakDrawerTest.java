@@ -51,7 +51,7 @@ public class BreakDrawerTest extends AbstractDrawerTest {
 
         breakDrawer.drawSymbol(breakSymbol);
 
-        assertCanvasElementQueueBitmap(R.drawable.break_4, breakHeight, xPosition, noteSheetCanvas.getHeightHalf());
+        assertCanvasElementQueueBitmap(R.drawable.break_4, breakHeight, xPosition, noteSheetCanvas.getHeightHalf(), paint);
     }
 
     public void testDrawSymbolRect() {
@@ -66,7 +66,7 @@ public class BreakDrawerTest extends AbstractDrawerTest {
 
         breakDrawer.drawSymbol(breakSymbol);
 
-        assertCanvasElementQueueRect(startX, startY, stopX, stopY);
+        assertCanvasElementQueueRect(startX, startY, stopX, stopY, paint);
     }
 
     public void testDrawSymbolDot() {
