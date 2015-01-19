@@ -148,21 +148,6 @@ public abstract class InstrumentActivity extends Activity {
         redraw();
     }
 
-    //This function has been overridden as the function onPlayTrackComplete() called from midiPlayer calls invalidateOptionsMenu()
-
-/*    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        try {
-            MenuItem item = menu.findItem(R.id.action_play_midi);
-            item.setIcon(getResources().getDrawable(R.drawable.ic_action_play));
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }*/
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
