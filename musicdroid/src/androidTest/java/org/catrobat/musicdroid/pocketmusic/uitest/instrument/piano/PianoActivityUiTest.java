@@ -24,14 +24,17 @@
 package org.catrobat.musicdroid.pocketmusic.uitest.instrument.piano;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.Toast;
 
 import com.robotium.solo.Solo;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.ToastDisplayer;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.test.note.midi.ProjectToMidiConverterTestDataFactory;
 
@@ -197,9 +200,16 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     public void testPlayMidi() {
         clickSomePianoButtonsForLargeTrack();
         solo.clickOnActionBarItem(R.id.action_play_midi);
-        solo.waitForDialogToOpen();
-
+        solo.waitForText(ToastDisplayer.STARTED_PLAYING);
         assertTrue(pianoActivity.getMidiPlayer().isPlaying());
+    }
+
+    public void testStopMidi() {
+        clickSomePianoButtonsForLargeTrack();
+        solo.clickOnActionBarItem(R.id.action_play_midi);
+        solo.clickOnActionBarItem(R.id.action_play_midi);
+        solo.waitForText(ToastDisplayer.STOPPED_PLAYING);
+        assertFalse(pianoActivity.getMidiPlayer().isPlaying());
     }
 
     private void clickSomePianoButtonsForLargeTrack() {
@@ -234,9 +244,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     public void testPlayMidiFinishedPlaying() throws InterruptedException {
         solo.clickOnButton(PIANO_BUTTON);
         solo.clickOnActionBarItem(R.id.action_play_midi);
-        solo.waitForDialogToOpen();
-        solo.waitForDialogToClose();
-
+        solo.waitForText(ToastDisplayer.FINISHED_PLAYING);
         assertFalse(pianoActivity.getMidiPlayer().isPlaying());
     }
 
