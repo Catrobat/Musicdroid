@@ -62,8 +62,9 @@ public class SplashScreenUiTest extends ActivityInstrumentationTestCase2<SplashS
     }
 
     public void testPiano() {
+        int MaximumTimeout = 300;
         solo.assertCurrentActivity("correct activity",SplashScreen.class);
-        solo.waitForActivity("PianoActivity",3000);
+        solo.waitForActivity("PianoActivity",MaximumTimeout);
     }
 
 }

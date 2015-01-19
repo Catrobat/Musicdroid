@@ -60,8 +60,4 @@
     <string name="note_name_simple_gis">GIS</string>
     <string name="note_name_simple_ais">AIS</string>
 
-    <string name="title_activity_splash__screen">Splash_Screen</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-
 </resources >
