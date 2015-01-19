@@ -29,11 +29,13 @@ import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.ToastDisplayer;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
@@ -146,11 +148,24 @@ public abstract class InstrumentActivity extends Activity {
         redraw();
     }
 
+    //This function has been overridden as the function onPlayTrackComplete() called from midiPlayer calls invalidateOptionsMenu()
+
+/*    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        try {
+            MenuItem item = menu.findItem(R.id.action_play_midi);
+            item.setIcon(getResources().getDrawable(R.drawable.ic_action_play));
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }*/
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-        midiPlayer.stop();
 
         if (id == R.id.action_export_midi) {
             onActionExportMidi();
@@ -165,7 +180,18 @@ public abstract class InstrumentActivity extends Activity {
             onActionDeleteMidi();
             return true;
         } else if (id == R.id.action_play_midi) {
-            onActionPlayMidi();
+
+            //If the player is not playing then start playing and change the play icon to stop icon
+            //Else, if the player is playing then stop playing and change the stop icon to play icon
+            //The icon gets changed back when onPlayTrackComplete() is called by the midiPlayer when the entire track has been played
+
+            if(!getMidiPlayer().isPlaying()) {
+                item.setIcon(getResources().getDrawable(R.drawable.ic_action_stop));
+                onActionPlayMidi();
+            } else {
+                item.setIcon(getResources().getDrawable(R.drawable.ic_action_play));
+                onActionStopMidi();
+            }
             return true;
         }
 
@@ -217,26 +243,17 @@ public abstract class InstrumentActivity extends Activity {
 
         try {
             midiPlayer.playTrack(this, getCacheDir(), track, Project.DEFAULT_BEATS_PER_MINUTE);
-
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-            alertDialogBuilder.setMessage(R.string.action_play_midi_dialog_title)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.action_play_midi_dialog_stop,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    midiPlayer.stop();
-                                    unlockScreenOrientation();
-                                }
-                            }
-                    );
-
-            playAllDialog = alertDialogBuilder.create();
-            playAllDialog.show();
+            ToastDisplayer.showPlayToast(getBaseContext());
         } catch (Exception e) {
             Toast.makeText(getBaseContext(), R.string.action_play_midi_error, Toast.LENGTH_LONG).show();
             unlockScreenOrientation();
         }
+    }
+
+    private void onActionStopMidi() {
+        midiPlayer.stop();
+        unlockScreenOrientation();
+        ToastDisplayer.showStopToast(getBaseContext());
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
