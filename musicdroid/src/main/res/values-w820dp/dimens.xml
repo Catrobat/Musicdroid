@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Musicdroid: An on-device music generator for Android
   ~ Copyright (C) 2010-2014 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -19,11 +19,15 @@
   ~
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -->
+-->
+<resources>
 
-<resources >
-    <!-- Example customization of dimensions originally defined in res/values/dimens.xml
+    <!--
+         Example customization of dimensions originally defined in res/values/dimens.xml
          (such as screen margins) for screens with more than 820dp of available width. This
-         would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively). -->
-    <!--<dimen name="activity_horizontal_margin" >64dp</dimen >-->
-</resources >
+         would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively).
+    -->
+    <!-- <dimen name="activity_horizontal_margin" >64dp</dimen > -->
+    <dimen name="activity_horizontal_margin">64dp</dimen>
+
+</resources>
