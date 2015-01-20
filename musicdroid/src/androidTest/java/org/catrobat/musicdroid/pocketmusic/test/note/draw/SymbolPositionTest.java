@@ -31,23 +31,23 @@ import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
 public class SymbolPositionTest extends AndroidTestCase {
 
     public void testCalculatePoints1() {
-        RectF rect = new RectF(0, 100, 200, 0);
+        RectF rect = new RectF(0, 0, 100, 100);
         SymbolPosition symbolPosition = SymbolPositionTestDataFactory.createSymbolPosition(rect);
 
         assertSymbolPosition(symbolPosition, rect.left, rect.top, rect.right, rect.bottom);
     }
 
     public void testCalculatePoints2() {
-        RectF rectLeftSide = new RectF(0, 100, 200, 0);
-        RectF rectRightSide = new RectF(1000, 100, 1200, 0);
+        RectF rectLeftSide = new RectF(0, 0, 100, 100);
+        RectF rectRightSide = new RectF(1000, 0, 1100, 100);
         SymbolPosition symbolPosition = SymbolPositionTestDataFactory.createSymbolPosition(rectLeftSide, rectRightSide);
 
         assertSymbolPosition(symbolPosition, rectLeftSide.left, rectLeftSide.top, rectRightSide.right, rectLeftSide.bottom);
     }
 
     public void testCalculatePoints3() {
-        RectF rectBottom = new RectF(0, 1100, 1200, 0);
-        RectF rectTop = new RectF(0, 100, 200, 0);
+        RectF rectBottom = new RectF(0, 1000, 100, 1100);
+        RectF rectTop = new RectF(0, 0, 100, 100);
         SymbolPosition symbolPosition = SymbolPositionTestDataFactory.createSymbolPosition(rectBottom, rectTop);
 
         assertSymbolPosition(symbolPosition, rectBottom.left, rectTop.top, rectBottom.right, rectBottom.bottom);
@@ -68,8 +68,8 @@ public class SymbolPositionTest extends AndroidTestCase {
     }
 
     public void testEquals2() {
-        SymbolPosition symbolPosition1 = SymbolPositionTestDataFactory.createSymbolPosition(new RectF(0, 100, 200, 0));
-        SymbolPosition symbolPosition2 = SymbolPositionTestDataFactory.createSymbolPosition(new RectF(1, 101, 201, 1));
+        SymbolPosition symbolPosition1 = SymbolPositionTestDataFactory.createSymbolPosition(new RectF(0, 0, 100, 100));
+        SymbolPosition symbolPosition2 = SymbolPositionTestDataFactory.createSymbolPosition(new RectF(1, 1, 101, 101));
 
         assertFalse(symbolPosition1.equals(symbolPosition2));
     }
@@ -87,8 +87,17 @@ public class SymbolPositionTest extends AndroidTestCase {
     }
 
     public void testToRectF() {
-        RectF rect = new RectF(0, 100, 200, 0);
+        RectF rect = new RectF(0, 0, 100, 100);
         SymbolPosition symbolPosition = new SymbolPosition(rect);
+
+        assertEquals(rect, symbolPosition.toRectF());
+    }
+
+    public void testCalculatePosition() {
+        SymbolPosition symbolPosition = SymbolPositionTestDataFactory.createSymbolPosition(new RectF(100, 100, 200, 200));
+        RectF rect = new RectF(0, 0, 2000, 2000);
+
+        symbolPosition.calculatePosition(rect);
 
         assertEquals(rect, symbolPosition.toRectF());
     }

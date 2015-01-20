@@ -32,7 +32,7 @@ public class SymbolPositionTestDataFactory {
     private SymbolPositionTestDataFactory() {}
 
     public static SymbolPosition createSymbolPosition() {
-        return createSymbolPosition(new RectF(0, 100, 200, 0));
+        return createSymbolPosition(new RectF(0, 0, 100, 100));
     }
 
     public static SymbolPosition createSymbolPosition(RectF... rects) {

@@ -46,6 +46,8 @@ public class NoteSheetViewMock extends NoteSheetView {
         return symbolPositions.get(index);
     }
 
+    public int getSymbolPositionsSize() { return symbolPositions.size(); }
+
     public void draw() {
         noteSheetCanvas = new NoteSheetCanvas(new CanvasMock());
         noteSheetDrawer = new NoteSheetDrawer(noteSheetCanvas, getResources(), symbols, key);

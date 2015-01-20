@@ -71,7 +71,7 @@ public class NoteStemDrawerTest extends AbstractDrawerTest {
 
         noteStemDrawer.drawStem(symbolPosition, NoteSymbolTestDataFactory.createNoteSymbol(NoteName.C5), MusicalKey.VIOLIN, paint);
 
-        assertCanvasElementQueueLine(expectedStartPointOfStem.x, expectedStartPointOfStem.y, expectedEndPointOfStem.x, expectedEndPointOfStem.y);
+        assertCanvasElementQueueLine(symbolPosition.getLeft(), symbolPosition.getBottom() + stemLength, symbolPosition.getLeft(), symbolPosition.getTop() + distanceBetweenLinesHalf);
     }
 
     public void testDrawStemWithFlag1() {
