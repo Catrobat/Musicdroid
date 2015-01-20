@@ -158,7 +158,7 @@ public class MidiPlayer {
 
     protected void onPlayTrackComplete(final InstrumentActivity activity, final File tempPlayFile) {
         tempPlayFile.delete();
-        activity.invalidateOptionsMenu(); //To reset the Menu so that the stop button is changed to the play button
+        activity.invalidateOptionsMenu();
         ToastDisplayer.showDoneToast(activity.getApplicationContext());
     }
 

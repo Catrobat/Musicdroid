@@ -164,17 +164,14 @@ public abstract class InstrumentActivity extends Activity {
         } else if (id == R.id.action_clear_midi) {
             onActionDeleteMidi();
             return true;
-        } else if (id == R.id.action_play_midi) {
-
-            //If the player is not playing then start playing and change the play icon to stop icon
-            //Else, if the player is playing then stop playing and change the stop icon to play icon
-            //The icon gets changed back when onPlayTrackComplete() is called by the midiPlayer when the entire track has been played
-
+        } else if (id == R.id.action_play_and_stop_midi) {
             if(!getMidiPlayer().isPlaying()) {
-                item.setIcon(getResources().getDrawable(R.drawable.ic_action_stop));
+                item.setIcon(R.drawable.ic_action_stop);
+                item.setTitle(R.string.action_stop_midi);
                 onActionPlayMidi();
             } else {
-                item.setIcon(getResources().getDrawable(R.drawable.ic_action_play));
+                item.setIcon(R.drawable.ic_action_play);
+                item.setTitle(R.string.action_play_midi);
                 onActionStopMidi();
             }
             return true;
