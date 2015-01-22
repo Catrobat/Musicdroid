@@ -46,7 +46,7 @@ public class NoteDrawer extends SymbolDrawer {
 	}
 
     @Override
-    protected SymbolPosition drawSymbol(Symbol symbol, Paint paint) {
+    protected void drawSymbol(Symbol symbol, Paint paint) {
         if (false == (symbol instanceof  NoteSymbol)) {
             throw new IllegalArgumentException("Symbol is not of type NoteSymbol: " + symbol);
         }
@@ -58,9 +58,9 @@ public class NoteDrawer extends SymbolDrawer {
         drawHelpLines(bodyPosition, paint);
 
         if (noteSymbol.hasStem()) {
-            return new SymbolPosition(bodyPosition.toRectF(), stemRect);
+            symbol.setSymbolPosition(new SymbolPosition(bodyPosition.toRectF(), stemRect));
         } else {
-            return new SymbolPosition(bodyPosition.toRectF());
+            symbol.setSymbolPosition(new SymbolPosition(bodyPosition.toRectF()));
         }
     }
 

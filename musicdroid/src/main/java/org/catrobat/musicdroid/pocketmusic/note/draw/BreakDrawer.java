@@ -50,12 +50,12 @@ public class BreakDrawer extends SymbolDrawer {
     }
 
     @Override
-    protected SymbolPosition drawSymbol(Symbol symbol, Paint paint) {
+    protected void drawSymbol(Symbol symbol, Paint paint) {
         if (false == (symbol instanceof BreakSymbol)) {
             throw new IllegalArgumentException("Symbol is not of type BreakSymbol: " + symbol);
         }
 
-        return drawBreak(((BreakSymbol) symbol).getNoteLength(), paint);
+        symbol.setSymbolPosition(drawBreak(((BreakSymbol) symbol).getNoteLength(), paint));
     }
 
     private SymbolPosition drawBreak(NoteLength noteLength, Paint paint) {

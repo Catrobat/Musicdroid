@@ -49,7 +49,6 @@ public class NoteSheetView extends View {
     protected TrackToSymbolsConverter trackConverter;
     protected List<Symbol> symbols;
     protected MusicalKey key;
-    protected List<SymbolPosition> symbolPositions;
 
     protected NoteSheetCanvas noteSheetCanvas;
     protected NoteSheetDrawer noteSheetDrawer;
@@ -61,7 +60,6 @@ public class NoteSheetView extends View {
         touchDetector = new DrawElementsTouchDetector();
         trackConverter = new TrackToSymbolsConverter();
         symbols = new LinkedList<Symbol>();
-        symbolPositions = new LinkedList<SymbolPosition>();
         key = MusicalKey.VIOLIN;
         widthBeforeResize = getWidth();
 	}
@@ -112,14 +110,14 @@ public class NoteSheetView extends View {
 		noteSheetCanvas = new NoteSheetCanvas(canvas);
         requestLayout();
         noteSheetDrawer = new NoteSheetDrawer(noteSheetCanvas, getResources(), symbols, key);
-        symbolPositions = noteSheetDrawer.drawNoteSheet();
+        noteSheetDrawer.drawNoteSheet();
         ((PianoActivity) getContext()).scrollNoteSheet();
 	}
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         if (MotionEvent.ACTION_UP == e.getAction()) {
-            int index = touchDetector.getIndexOfTouchedDrawElement(symbolPositions, e.getX(), e.getY());
+            int index = touchDetector.getIndexOfTouchedDrawElement(symbols, e.getX(), e.getY());
 
             if (DrawElementsTouchDetector.INVALID_INDEX != index) {
                 Symbol symbol = symbols.get(index);

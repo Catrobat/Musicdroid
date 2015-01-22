@@ -60,13 +60,6 @@ public class SymbolsDrawerTest extends AbstractDrawerTest {
         clearCanvasElementQueue();
     }
 
-    public void testDrawSymbols2() {
-        List<SymbolPosition> symbolPositions = symbolsDrawer.drawSymbols();
-
-        assertEquals(symbols.size(), symbolPositions.size());
-        clearCanvasElementQueue();
-    }
-
     private int getSymbolCountFromTrack(Track track) {
         TrackToSymbolsConverter converter = new TrackToSymbolsConverter();
         List<Symbol> symbols = converter.convertTrack(track);

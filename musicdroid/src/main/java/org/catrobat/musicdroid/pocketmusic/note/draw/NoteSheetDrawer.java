@@ -97,11 +97,11 @@ public class NoteSheetDrawer {
         return drawPosition.getStartXPositionForNextElement();
     }
 
-    public List<SymbolPosition> drawNoteSheet() {
+    public void drawNoteSheet() {
         drawLines();
         drawBars();
         drawKey();
-        return drawSymbols();
+        drawSymbols();
     }
 
     protected void drawLines() {
@@ -135,7 +135,7 @@ public class NoteSheetDrawer {
         drawPosition.setStartXPositionForNextElement(keyRect.right);
     }
 
-    private List<SymbolPosition> drawSymbols() {
-        return symbolsDrawer.drawSymbols();
+    private void drawSymbols() {
+        symbolsDrawer.drawSymbols();
     }
 }

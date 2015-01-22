@@ -22,12 +22,16 @@
  */
 package org.catrobat.musicdroid.pocketmusic.note.symbol;
 
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
+
 public abstract class Symbol {
 
     protected boolean marked;
+    protected SymbolPosition symbolPosition;
 
     public Symbol() {
         marked = false;
+        symbolPosition = null;
     }
 
     public boolean isMarked() {
@@ -38,7 +42,18 @@ public abstract class Symbol {
         this.marked = marked;
     }
 
+    // TODO test
+    public SymbolPosition getSymbolPosition() {
+        return symbolPosition;
+    }
+
+    // TODO test
+    public void setSymbolPosition(SymbolPosition symbolPosition) {
+        this.symbolPosition = symbolPosition;
+    }
+
     @Override
+    //TODO test symbol pos
     public boolean equals(Object obj) {
         if ((obj == null) || !(obj instanceof Symbol)) {
             return false;

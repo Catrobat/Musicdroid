@@ -61,9 +61,8 @@ public class SymbolDrawerMock extends SymbolDrawer {
     }
 
     @Override
-    protected SymbolPosition drawSymbol(Symbol symbol, Paint paint) {
+    protected void drawSymbol(Symbol symbol, Paint paint) {
         lastUsedPaint = paint;
-        return null;
     }
 
     public Paint getLastUsedPaint() {
