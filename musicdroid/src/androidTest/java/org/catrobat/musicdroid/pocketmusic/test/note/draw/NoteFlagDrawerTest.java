@@ -23,9 +23,11 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
+import android.graphics.Paint;
 import android.graphics.PointF;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
+import org.catrobat.musicdroid.pocketmusic.note.NoteFlag;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteFlagDrawer;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
@@ -47,24 +49,32 @@ public class NoteFlagDrawerTest extends AbstractDrawerTest {
     }
 
     public void testDrawFlag1() {
-        NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.EIGHT);
-        noteFlagDrawer.drawFlag(endPointOfNoteStem, noteSymbol, key, paint);
-
-        assertCanvasElementQueuePath(paint);
+        testDrawFlag(false);
     }
 
     public void testDrawFlag2() {
-        NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.EIGHT_DOT);
-        noteFlagDrawer.drawFlag(endPointOfNoteStem, noteSymbol, key, paint);
-
-        assertCanvasElementQueuePath(paint);
+        testDrawFlag(false);
     }
 
-    public void testDrawFlag3() {
-        NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.SIXTEENTH);
+    public void testDrawFlagMarked1() {
+        testDrawFlag(true);
+    }
+
+    public void testDrawFlagMarked2() {
+        testDrawFlag(true);
+    }
+
+    private void testDrawFlag(boolean marked) {
+        Paint paint = marked ? paintMarked : paintDefault;
+        NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.EIGHT);
+        noteSymbol.setMarked(marked);
+
         noteFlagDrawer.drawFlag(endPointOfNoteStem, noteSymbol, key, paint);
 
         assertCanvasElementQueuePath(paint);
-        assertCanvasElementQueuePath(paint);
+
+        if (NoteFlag.DOUBLE_FLAG == noteSymbol.getFlag()) {
+            assertCanvasElementQueuePath(paint);
+        }
     }
 }

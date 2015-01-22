@@ -23,6 +23,8 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
+import android.graphics.Paint;
+
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteCrossDrawer;
 
@@ -41,6 +43,15 @@ public class NoteCrossDrawerTest extends AbstractDrawerTest {
     }
 
     public void testDrawCross() {
+        testDrawCross(false);
+    }
+
+    public void testDrawCrossMarked() {
+        testDrawCross(true);
+    }
+
+    private void testDrawCross(boolean marked) {
+        Paint paint = marked ? paintMarked : paintDefault;
         int expectedBitmapHeight = 2 * distanceBetweenLines;
 
         crossDrawer.drawCross(X_POSITION, Y_POSITION, paint);

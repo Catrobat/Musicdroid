@@ -25,15 +25,12 @@ package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.test.AndroidTestCase;
 
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
-
-import java.util.Queue;
 
 public abstract class AbstractDrawerTest extends AndroidTestCase {
 
@@ -48,7 +45,8 @@ public abstract class AbstractDrawerTest extends AndroidTestCase {
     private static final int DISTANCE_BETWEEN_LINES = 100;
 
     protected int distanceBetweenLines;
-    protected Paint paint;
+    protected Paint paintDefault;
+    protected Paint paintMarked;
     protected CanvasMock canvas;
     protected NoteSheetCanvasMock noteSheetCanvas;
     protected NoteSheetDrawPosition drawPosition;
@@ -56,8 +54,10 @@ public abstract class AbstractDrawerTest extends AndroidTestCase {
     @Override
     protected void setUp() {
         distanceBetweenLines = DISTANCE_BETWEEN_LINES;
-        paint = new Paint();
-        paint.setColor(NoteSheetDrawer.COLOR_DEFAULT);
+        paintDefault = new Paint();
+        paintDefault.setColor(NoteSheetDrawer.COLOR_DEFAULT);
+        paintMarked = new Paint();
+        paintMarked.setColor(NoteSheetDrawer.COLOR_MARKED);
         canvas = new CanvasMock();
         noteSheetCanvas = new NoteSheetCanvasMock(canvas);
         drawPosition = new NoteSheetDrawPosition(START_X_POSITION, END_X_POSITION);

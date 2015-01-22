@@ -48,7 +48,7 @@ public class SymbolsDrawerTest extends AbstractDrawerTest {
         TrackToSymbolsConverter trackConverter = new TrackToSymbolsConverter();
         track = TrackTestDataFactory.createTrackWithBreak();
         symbols = trackConverter.convertTrack(track);
-        symbolsDrawer = new SymbolsDrawer(noteSheetCanvas, paint, getContext().getResources(), symbols, track.getKey(), drawPosition, distanceBetweenLines);
+        symbolsDrawer = new SymbolsDrawer(noteSheetCanvas, paintDefault, getContext().getResources(), symbols, track.getKey(), drawPosition, distanceBetweenLines);
     }
 
     public void testDrawSymbols1() {

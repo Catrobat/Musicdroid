@@ -23,6 +23,8 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
+import android.graphics.Paint;
+
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
@@ -42,7 +44,7 @@ public class NoteDrawerTest extends AbstractDrawerTest {
         super.setUp();
 
         key = MusicalKey.VIOLIN;
-        noteDrawer = new NoteDrawerMock(noteSheetCanvas, paint, getContext().getResources(), key, drawPosition, distanceBetweenLines);
+        noteDrawer = new NoteDrawerMock(noteSheetCanvas, paintDefault, getContext().getResources(), key, drawPosition, distanceBetweenLines);
     }
 
     public void testDrawCross() {
@@ -52,15 +54,15 @@ public class NoteDrawerTest extends AbstractDrawerTest {
         int crossHeight = 2 * distanceBetweenLines;
         int yPositionForCross = noteSheetCanvas.getHeightHalf() + NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName) * distanceBetweenLines / 2;
 
-        noteDrawer.drawCross(noteSymbol, paint);
+        noteDrawer.drawCross(noteSymbol, paintDefault);
 
-        assertCanvasElementQueueBitmap(R.drawable.cross, crossHeight, xPositionForCross, yPositionForCross, paint);
+        assertCanvasElementQueueBitmap(R.drawable.cross, crossHeight, xPositionForCross, yPositionForCross, paintDefault);
     }
 
     public void testDrawBody() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol();
 
-        noteDrawer.drawBody(noteSymbol, paint);
+        noteDrawer.drawBody(noteSymbol, paintDefault);
 
         assertCanvasElementQueueSize(noteSymbol.size());
         clearCanvasElementQueue();
@@ -69,8 +71,8 @@ public class NoteDrawerTest extends AbstractDrawerTest {
     public void testDrawStem1() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER);
 
-        SymbolPosition bodyPosition = noteDrawer.drawBody(noteSymbol, paint);
-        noteDrawer.drawStem(noteSymbol, bodyPosition, paint);
+        SymbolPosition bodyPosition = noteDrawer.drawBody(noteSymbol, paintDefault);
+        noteDrawer.drawStem(noteSymbol, bodyPosition, paintDefault);
 
         int stemCount = 2;
         assertCanvasElementQueueSize(stemCount);
@@ -80,19 +82,19 @@ public class NoteDrawerTest extends AbstractDrawerTest {
     public void testDrawStem2() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.WHOLE);
 
-        SymbolPosition bodyPosition = noteDrawer.drawBody(noteSymbol, paint);
-        noteDrawer.drawStem(noteSymbol, bodyPosition, paint);
+        SymbolPosition bodyPosition = noteDrawer.drawBody(noteSymbol, paintDefault);
+        noteDrawer.drawStem(noteSymbol, bodyPosition, paintDefault);
 
         int stemCount = 1;
         assertCanvasElementQueueSize(stemCount);
         clearCanvasElementQueue();
     }
 
-    public void testDrawHelpLines1() {
+    public void testDrawHelpLines2() {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteName.A3);
 
-        SymbolPosition bodyPosition = noteDrawer.drawBody(noteSymbol, paint);
-        noteDrawer.drawHelpLines(bodyPosition, paint);
+        SymbolPosition bodyPosition = noteDrawer.drawBody(noteSymbol, paintDefault);
+        noteDrawer.drawHelpLines(bodyPosition, paintDefault);
 
         int bodyCount = 1;
         int helpLineCount = 2;
@@ -100,17 +102,27 @@ public class NoteDrawerTest extends AbstractDrawerTest {
         clearCanvasElementQueue();
     }
 
-    public void testDrawHelpLines2() {
+    public void testDrawHelpLines() {
+        testDrawHelpLines(false);
+    }
+
+    public void testDrawHelpLinesMarked() {
+        testDrawHelpLines(true);
+    }
+
+    private void testDrawHelpLines(boolean marked) {
+        Paint paint = marked ? paintMarked : paintDefault;
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteName.C4);
+        noteSymbol.setMarked(marked);
 
         SymbolPosition bodyPosition = noteDrawer.drawBody(noteSymbol, paint);
         noteDrawer.drawHelpLines(bodyPosition, paint);
 
         canvas.getDrawnElements().poll();
-        assertHelpLines(bodyPosition);
+        assertHelpLines(bodyPosition, paint);
     }
 
-    private void assertHelpLines(SymbolPosition symbolPosition) {
+    private void assertHelpLines(SymbolPosition symbolPosition, Paint paint) {
         float topEndOfNoteLines = noteSheetCanvas.getHeightHalf() -
                 distanceBetweenLines * NoteSheetDrawer.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
         float bottomEndOfNoteLines = noteSheetCanvas.getHeightHalf() +
