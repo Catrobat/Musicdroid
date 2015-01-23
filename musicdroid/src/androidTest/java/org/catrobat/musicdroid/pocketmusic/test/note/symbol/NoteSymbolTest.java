@@ -23,7 +23,6 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.symbol;
 
-import android.graphics.RectF;
 import android.test.AndroidTestCase;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
@@ -31,7 +30,6 @@ import org.catrobat.musicdroid.pocketmusic.note.NoteFlag;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
-import org.catrobat.musicdroid.pocketmusic.test.note.draw.SymbolPositionTestDataFactory;
 
 import java.util.List;
 
@@ -123,20 +121,6 @@ public class NoteSymbolTest extends AndroidTestCase {
         NoteSymbol noteSymbol2 = NoteSymbolTestDataFactory.createNoteSymbol(false);
 
         assertFalse(noteSymbol1.equals(noteSymbol2));
-    }
-
-    public void testEquals8() {
-        NoteSymbol noteSymbol1 = NoteSymbolTestDataFactory.createNoteSymbol(SymbolPositionTestDataFactory.createSymbolPosition(new RectF(0, 0, 100, 100)));
-        NoteSymbol noteSymbol2 = NoteSymbolTestDataFactory.createNoteSymbol(SymbolPositionTestDataFactory.createSymbolPosition(new RectF(0, 0, 101, 101)));
-
-        assertFalse(noteSymbol1.equals(noteSymbol2));
-    }
-
-    public void testEquals9() {
-        NoteSymbol noteSymbol1 = NoteSymbolTestDataFactory.createNoteSymbol(SymbolPositionTestDataFactory.createSymbolPosition());
-        NoteSymbol noteSymbol2 = NoteSymbolTestDataFactory.createNoteSymbol(SymbolPositionTestDataFactory.createSymbolPosition());
-
-        assertTrue(noteSymbol1.equals(noteSymbol2));
     }
 
     public void testHasStem1() {
