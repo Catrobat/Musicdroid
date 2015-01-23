@@ -30,12 +30,11 @@ public class SymbolPosition {
     private RectF boundaryRect;
 
     public SymbolPosition(RectF... rects) {
+        boundaryRect = null;
         calculatePosition(rects);
     }
 
-    private void calculatePosition(RectF... rects) {
-        boundaryRect = null;
-
+    public void calculatePosition(RectF... rects) {
         for(RectF rect : rects) {
             if (null == boundaryRect) {
                 boundaryRect = new RectF(rect);

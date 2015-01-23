@@ -61,11 +61,11 @@ public class NoteStemDrawer {
         } else {
             stemRect.left = symbolPosition.getLeft();
             stemRect.right = symbolPosition.getLeft();
-            stemRect.top = symbolPosition.getBottom() + stemLength;
-            stemRect.bottom = symbolPosition.getTop() + distanceBetweenLinesHalf;
+            stemRect.top = symbolPosition.getTop() + distanceBetweenLinesHalf;
+            stemRect.bottom = symbolPosition.getBottom() + stemLength;
 
             endPointOfNoteStem.x = stemRect.left;
-            endPointOfNoteStem.y = stemRect.top;
+            endPointOfNoteStem.y = stemRect.bottom;
         }
 
 		noteSheetCanvas.drawLine(stemRect.left, stemRect.bottom, stemRect.right,

@@ -48,6 +48,10 @@ public class NoteSheetViewMock extends NoteSheetView {
         noteSheetDrawer.drawNoteSheet();
     }
 
+    public int getSymbolsSize() {
+        return symbols.size();
+    }
+
     public SymbolPosition getSymbolPosition(int elementIndex) {
         return symbols.get(elementIndex).getSymbolPosition();
     }

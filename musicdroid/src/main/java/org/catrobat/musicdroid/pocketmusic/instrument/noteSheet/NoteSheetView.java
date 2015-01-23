@@ -117,7 +117,7 @@ public class NoteSheetView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         if (MotionEvent.ACTION_UP == e.getAction()) {
-            int index = touchDetector.getIndexOfTouchedDrawElement(symbols, e.getX(), e.getY());
+            int index = touchDetector.getIndexOfTouchedDrawElement(symbols, e.getX(), e.getY(), DrawElementsTouchDetector.DEFAULT_TOLERANCE);
 
             if (DrawElementsTouchDetector.INVALID_INDEX != index) {
                 Symbol symbol = symbols.get(index);

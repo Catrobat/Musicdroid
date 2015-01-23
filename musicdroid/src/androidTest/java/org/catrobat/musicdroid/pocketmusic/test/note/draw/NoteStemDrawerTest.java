@@ -83,12 +83,9 @@ public class NoteStemDrawerTest extends AbstractDrawerTest {
     }
 
     private void testDrawStemDownDirected(Paint paint) {
-        PointF expectedStartPointOfStem = new PointF(symbolPosition.getLeft(), symbolPosition.getTop() + distanceBetweenLinesHalf);
-        PointF expectedEndPointOfStem = new PointF(expectedStartPointOfStem.x, symbolPosition.getBottom() + stemLength);
-
         noteStemDrawer.drawStem(symbolPosition, NoteSymbolTestDataFactory.createNoteSymbol(NoteName.C5), MusicalKey.VIOLIN, paint);
 
-        assertCanvasElementQueueLine(expectedStartPointOfStem.x, expectedStartPointOfStem.y, expectedEndPointOfStem.x, expectedEndPointOfStem.y, paint);
+        assertCanvasElementQueueLine(symbolPosition.getLeft(), symbolPosition.getBottom() + stemLength, symbolPosition.getLeft(), symbolPosition.getTop() + distanceBetweenLinesHalf, paint);
     }
 
     public void testDrawStemWithFlag1() {
