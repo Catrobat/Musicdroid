@@ -23,7 +23,10 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.graphics.Rect;
 
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
@@ -37,5 +40,21 @@ public class NoteSheetCanvasMock extends NoteSheetCanvas {
     @Override
     public Rect calculateProportionalRect(Bitmap originalPicture, int height, int startXPosition, int yCenterPosition) {
         return super.calculateProportionalRect(originalPicture, height, startXPosition, yCenterPosition);
+    }
+
+    @Override
+    public Rect drawBitmap(Resources resources, int bitmapId, int bitmapHeight, int xPosition, int yPosition, Paint paint) {
+        Bitmap bitmap = BitmapFactory.decodeResource(resources, bitmapId);
+
+        Rect rect = calculateProportionalRect(bitmap, bitmapHeight, xPosition, yPosition);
+
+        canvas.drawBitmap(bitmap, null, rect, paint);
+
+        return rect;
+    }
+
+    @Override
+    public Bitmap recolorBitmap(Bitmap bitmap, int oldColor, int newColor) {
+        return super.recolorBitmap(bitmap, oldColor, newColor);
     }
 }

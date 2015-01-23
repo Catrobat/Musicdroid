@@ -49,13 +49,13 @@ public class NoteDrawer extends SymbolDrawer {
 	}
 
     @Override
-    protected SymbolPosition drawSymbol(Symbol symbol, Paint paint) {
+    protected void drawSymbol(Symbol symbol, Paint paint) {
         if (false == (symbol instanceof  NoteSymbol)) {
             throw new IllegalArgumentException("Symbol is not of type NoteSymbol: " + symbol);
         }
 
         NoteSymbol noteSymbol = (NoteSymbol) symbol;
-        List<RectF> crossRects = drawCross(noteSymbol);
+        List<RectF> crossRects = drawCross(noteSymbol, paint);
         SymbolPosition bodyPosition = drawBody(noteSymbol, paint);
         RectF stemRect = drawStem(noteSymbol, bodyPosition, paint);
         drawHelpLines(bodyPosition, paint);
@@ -70,10 +70,10 @@ public class NoteDrawer extends SymbolDrawer {
             symbolPosition.calculatePosition(crossRects.toArray(new RectF[crossRects.size()]));
         }
 
-        return symbolPosition;
+        symbol.setSymbolPosition(symbolPosition);
     }
 
-    protected List<RectF> drawCross(NoteSymbol noteSymbol) {
+    protected List<RectF> drawCross(NoteSymbol noteSymbol, Paint paint) {
         Integer xPositionForCross = null;
         List<RectF> crossRects = new LinkedList<RectF>();
 
@@ -85,7 +85,7 @@ public class NoteDrawer extends SymbolDrawer {
 
                 int yPositionForCross = noteSheetCanvas.getHeightHalf() + NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName) * distanceBetweenLines / 2;
 
-                crossRects.add(noteCrossDrawer.drawCross(xPositionForCross, yPositionForCross));
+                crossRects.add(noteCrossDrawer.drawCross(xPositionForCross, yPositionForCross, paint));
             }
         }
 

@@ -60,15 +60,15 @@ public class NoteSheetDrawerTest extends AbstractDrawerTest {
         noteSheetDrawer.drawLines();
 
         for (int i = noteSheetDrawer.getYPositionOfBarTop(); i <= noteSheetDrawer.getYPositionOfBarBottom(); i += noteSheetDrawer.getDistanceBetweenLines()) {
-            assertCanvasElementQueueLine(drawPosition.getStartXPositionForNextElement(), i, drawPosition.getEndXPositionForDrawingElements(), i);
+            assertCanvasElementQueueLine(drawPosition.getStartXPositionForNextElement(), i, drawPosition.getEndXPositionForDrawingElements(), i, paintDefault);
         }
     }
 
     public void testDrawBars() {
         noteSheetDrawer.drawBars();
 
-        assertCanvasElementQueueRect(drawPosition.getStartXPositionForNextElement(), noteSheetDrawer.getYPositionOfBarTop(), drawPosition.getStartXPositionForNextElement() + NoteSheetDrawer.BOLD_BAR_WIDTH, noteSheetDrawer.getYPositionOfBarBottom());
-        assertCanvasElementQueueRect(drawPosition.getEndXPositionForDrawingElements() - NoteSheetDrawer.BOLD_BAR_WIDTH, noteSheetDrawer.getYPositionOfBarTop(), drawPosition.getEndXPositionForDrawingElements(), noteSheetDrawer.getYPositionOfBarBottom());
+        assertCanvasElementQueueRect(drawPosition.getStartXPositionForNextElement(), noteSheetDrawer.getYPositionOfBarTop(), drawPosition.getStartXPositionForNextElement() + NoteSheetDrawer.BOLD_BAR_WIDTH, noteSheetDrawer.getYPositionOfBarBottom(), paintDefault);
+        assertCanvasElementQueueRect(drawPosition.getEndXPositionForDrawingElements() - NoteSheetDrawer.BOLD_BAR_WIDTH, noteSheetDrawer.getYPositionOfBarTop(), drawPosition.getEndXPositionForDrawingElements(), noteSheetDrawer.getYPositionOfBarBottom(), paintDefault);
     }
 
     public void testDrawKey() {
@@ -76,7 +76,7 @@ public class NoteSheetDrawerTest extends AbstractDrawerTest {
 
         int expectedHeight = noteSheetDrawer.getDistanceBetweenLines() * NoteSheetDrawer.HEIGHT_OF_KEY_IN_LINE_SPACES;
 
-        assertCanvasElementQueueBitmap(R.drawable.violine, expectedHeight, drawPosition.getStartXPositionForNextElement(), noteSheetCanvas.getHeightHalf());
+        assertCanvasElementQueueBitmap(R.drawable.violine, expectedHeight, drawPosition.getStartXPositionForNextElement(), noteSheetCanvas.getHeightHalf(), paintDefault);
     }
 
     public void testDrawNoteSheet() {

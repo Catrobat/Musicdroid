@@ -23,6 +23,7 @@
 package org.catrobat.musicdroid.pocketmusic.note.draw;
 
 import android.content.res.Resources;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
@@ -40,10 +41,10 @@ public class NoteCrossDrawer {
         this.distanceBetweenLines = distanceBetweenLines;
 	}
 
-	public RectF drawCross(int xPosition, int yPosition) {
+	public RectF drawCross(int xPosition, int yPosition, Paint paint) {
 		int crossHeight = 2 * distanceBetweenLines;
 
-        Rect crossRect = noteSheetCanvas.drawBitmap(resources, R.drawable.cross, crossHeight, xPosition, yPosition);
+        Rect crossRect = noteSheetCanvas.drawBitmap(resources, R.drawable.cross, crossHeight, xPosition, yPosition, paint);
 
         return new RectF(crossRect.left, crossRect.top, crossRect.right, crossRect.bottom);
 	}

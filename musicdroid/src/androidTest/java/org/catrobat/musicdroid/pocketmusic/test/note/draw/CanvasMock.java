@@ -66,27 +66,31 @@ public class CanvasMock extends Canvas {
 
     @Override
     public void drawLine(float startX, float startY, float stopX, float stopY, Paint paint) {
-        drawnElements.add(createString(DRAW_LINE, startX, startY, stopX, stopY));
+        drawnElements.add(createString(DRAW_LINE, startX, startY, stopX, stopY, paint.getColor()));
     }
 
     @Override
     public void drawRect(Rect r, Paint paint) {
-        drawnElements.add(createString(DRAW_RECT, r.left, r.top, r.right, r.bottom));
+        drawnElements.add(createString(DRAW_RECT, r.left, r.top, r.right, r.bottom, paint.getColor()));
     }
 
     @Override
     public void drawOval(RectF oval, Paint paint) {
-        drawnElements.add(createString(DRAW_OVAL, oval.left, oval.top, oval.right, oval.bottom, paint.getStyle()));
+        drawnElements.add(createString(DRAW_OVAL, oval.left, oval.top, oval.right, oval.bottom, paint.getStyle(), paint.getColor()));
     }
 
     @Override
     public void drawPath(Path path, Paint paint) {
-        drawnElements.add(createString(DRAW_PATH));
+        drawnElements.add(createString(DRAW_PATH, paint.getColor()));
     }
 
-        @Override
+    @Override
     public void drawBitmap(Bitmap bitmap, Rect src, Rect dst, Paint paint) {
-        drawnElements.add(createString(DRAW_BITMAP, dst.left, dst.top, dst.right, dst.bottom));
+        if (null != paint) {
+            drawnElements.add(createString(DRAW_BITMAP, dst.left, dst.top, dst.right, dst.bottom, paint.getColor()));
+        } else {
+            drawnElements.add(createString(DRAW_BITMAP, dst.left, dst.top, dst.right, dst.bottom));
+        }
     }
 
     public static String createString(String methodName, Object... objects) {

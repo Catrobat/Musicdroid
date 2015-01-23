@@ -50,7 +50,6 @@ public class NoteSheetDrawer {
 
     private NoteSheetCanvas noteSheetCanvas;
     private Resources resources;
-    private List<Symbol> symbols;
     private MusicalKey key;
 
     private Paint paint;
@@ -64,7 +63,6 @@ public class NoteSheetDrawer {
     public NoteSheetDrawer(NoteSheetCanvas noteSheetCanvas, Resources resources, List<Symbol> symbols, MusicalKey key) {
         this.noteSheetCanvas = noteSheetCanvas;
         this.resources = resources;
-        this.symbols = symbols;
         this.key = key;
 
         paint = createPaint();
@@ -99,11 +97,11 @@ public class NoteSheetDrawer {
         return drawPosition.getStartXPositionForNextElement();
     }
 
-    public List<SymbolPosition> drawNoteSheet() {
+    public void drawNoteSheet() {
         drawLines();
         drawBars();
         drawKey();
-        return drawSymbols();
+        drawSymbols();
     }
 
     protected void drawLines() {
@@ -133,11 +131,11 @@ public class NoteSheetDrawer {
 
         int keyPictureHeight = distanceBetweenLines * HEIGHT_OF_KEY_IN_LINE_SPACES;
 
-        Rect keyRect = noteSheetCanvas.drawBitmap(resources, R.drawable.violine, keyPictureHeight, drawPosition.getStartXPositionForNextElement(), noteSheetCanvas.getHeightHalf());
+        Rect keyRect = noteSheetCanvas.drawBitmap(resources, R.drawable.violine, keyPictureHeight, drawPosition.getStartXPositionForNextElement(), noteSheetCanvas.getHeightHalf(), paint);
         drawPosition.setStartXPositionForNextElement(keyRect.right);
     }
 
-    private List<SymbolPosition> drawSymbols() {
-        return symbolsDrawer.drawSymbols();
+    private void drawSymbols() {
+        symbolsDrawer.drawSymbols();
     }
 }

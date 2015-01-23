@@ -25,14 +25,12 @@ package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.test.AndroidTestCase;
 
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
-
-import java.util.Queue;
+import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
 
 public abstract class AbstractDrawerTest extends AndroidTestCase {
 
@@ -47,7 +45,8 @@ public abstract class AbstractDrawerTest extends AndroidTestCase {
     private static final int DISTANCE_BETWEEN_LINES = 100;
 
     protected int distanceBetweenLines;
-    protected Paint paint;
+    protected Paint paintDefault;
+    protected Paint paintMarked;
     protected CanvasMock canvas;
     protected NoteSheetCanvasMock noteSheetCanvas;
     protected NoteSheetDrawPosition drawPosition;
@@ -55,7 +54,10 @@ public abstract class AbstractDrawerTest extends AndroidTestCase {
     @Override
     protected void setUp() {
         distanceBetweenLines = DISTANCE_BETWEEN_LINES;
-        paint = new Paint();
+        paintDefault = new Paint();
+        paintDefault.setColor(NoteSheetDrawer.COLOR_DEFAULT);
+        paintMarked = new Paint();
+        paintMarked.setColor(NoteSheetDrawer.COLOR_MARKED);
         canvas = new CanvasMock();
         noteSheetCanvas = new NoteSheetCanvasMock(canvas);
         drawPosition = new NoteSheetDrawPosition(START_X_POSITION, END_X_POSITION);
@@ -74,35 +76,35 @@ public abstract class AbstractDrawerTest extends AndroidTestCase {
         assertEquals(expectedSize, canvas.getDrawnElements().size());
     }
 
-    protected void assertCanvasElementQueueBitmap(int bitmapId, int bitmapHeight, int xPosition, int yPosition) {
+    protected void assertCanvasElementQueueBitmap(int bitmapId, int bitmapHeight, int xPosition, int yPosition, Paint paint) {
         Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), bitmapId);
 
         Rect rect = noteSheetCanvas.calculateProportionalRect(bitmap, bitmapHeight, xPosition, yPosition);
 
-        String expectedLine = CanvasMock.createString(CanvasMock.DRAW_BITMAP, rect.left, rect.top, rect.right, rect.bottom);
+        String expectedLine = CanvasMock.createString(CanvasMock.DRAW_BITMAP, rect.left, rect.top, rect.right, rect.bottom, paint.getColor());
         assertEquals(expectedLine, canvas.getDrawnElements().poll());
     }
 
-    protected void assertCanvasElementQueueLine(float startX, float startY, float stopX, float stopY) {
-        String expectedLine = CanvasMock.createString(CanvasMock.DRAW_LINE, startX, startY, stopX, stopY);
-
-        assertEquals(expectedLine, canvas.getDrawnElements().poll());
-    }
-
-    protected void assertCanvasElementQueueRect(int startX, int startY, int stopX, int stopY) {
-        String expectedLine = CanvasMock.createString(CanvasMock.DRAW_RECT, startX, startY, stopX, stopY);
+    protected void assertCanvasElementQueueLine(float startX, float startY, float stopX, float stopY, Paint paint) {
+        String expectedLine = CanvasMock.createString(CanvasMock.DRAW_LINE, startX, startY, stopX, stopY, paint.getColor());
 
         assertEquals(expectedLine, canvas.getDrawnElements().poll());
     }
 
-    protected void assertCanvasElementQueueOval(float startX, float startY, float stopX, float stopY, Paint.Style style) {
-        String expectedLine = CanvasMock.createString(CanvasMock.DRAW_OVAL, startX, startY, stopX, stopY, style);
+    protected void assertCanvasElementQueueRect(int startX, int startY, int stopX, int stopY, Paint paint) {
+        String expectedLine = CanvasMock.createString(CanvasMock.DRAW_RECT, startX, startY, stopX, stopY, paint.getColor());
 
         assertEquals(expectedLine, canvas.getDrawnElements().poll());
     }
 
-    protected void assertCanvasElementQueuePath() {
-        String expectedLine = CanvasMock.createString(CanvasMock.DRAW_PATH);
+    protected void assertCanvasElementQueueOval(float startX, float startY, float stopX, float stopY, Paint paint) {
+        String expectedLine = CanvasMock.createString(CanvasMock.DRAW_OVAL, startX, startY, stopX, stopY, paint.getStyle(), paint.getColor());
+
+        assertEquals(expectedLine, canvas.getDrawnElements().poll());
+    }
+
+    protected void assertCanvasElementQueuePath(Paint paint) {
+        String expectedLine = CanvasMock.createString(CanvasMock.DRAW_PATH, paint.getColor());
 
         assertEquals(expectedLine, canvas.getDrawnElements().poll());
     }

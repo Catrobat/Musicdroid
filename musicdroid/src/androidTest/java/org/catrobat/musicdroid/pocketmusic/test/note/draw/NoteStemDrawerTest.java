@@ -23,6 +23,7 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
+import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
@@ -57,25 +58,38 @@ public class NoteStemDrawerTest extends AbstractDrawerTest {
     }
 
     public void testDrawStemUpDirected() {
+        testDrawStemUpDirected(paintDefault);
+    }
+
+    public void testDrawStemUpDirectedMarked() {
+        testDrawStemUpDirected(paintMarked);
+    }
+
+    private void testDrawStemUpDirected(Paint paint) {
         PointF expectedStartPointOfStem = new PointF(symbolPosition.getRight(), symbolPosition.getBottom() - distanceBetweenLinesHalf);
         PointF expectedEndPointOfStem = new PointF(expectedStartPointOfStem.x, symbolPosition.getTop() - stemLength);
 
         noteStemDrawer.drawStem(symbolPosition, NoteSymbolTestDataFactory.createNoteSymbol(NoteName.C4), MusicalKey.VIOLIN, paint);
 
-        assertCanvasElementQueueLine(expectedStartPointOfStem.x, expectedStartPointOfStem.y, expectedEndPointOfStem.x, expectedEndPointOfStem.y);
+        assertCanvasElementQueueLine(expectedStartPointOfStem.x, expectedStartPointOfStem.y, expectedEndPointOfStem.x, expectedEndPointOfStem.y, paint);
     }
 
     public void testDrawStemDownDirected() {
-        PointF expectedStartPointOfStem = new PointF(symbolPosition.getLeft(), symbolPosition.getTop() + distanceBetweenLinesHalf);
-        PointF expectedEndPointOfStem = new PointF(expectedStartPointOfStem.x, symbolPosition.getBottom() + stemLength);
+        testDrawStemDownDirected(paintDefault);
+    }
 
+    public void testDrawStemDownDirectedMarked() {
+        testDrawStemDownDirected(paintMarked);
+    }
+
+    private void testDrawStemDownDirected(Paint paint) {
         noteStemDrawer.drawStem(symbolPosition, NoteSymbolTestDataFactory.createNoteSymbol(NoteName.C5), MusicalKey.VIOLIN, paint);
 
-        assertCanvasElementQueueLine(symbolPosition.getLeft(), symbolPosition.getBottom() + stemLength, symbolPosition.getLeft(), symbolPosition.getTop() + distanceBetweenLinesHalf);
+        assertCanvasElementQueueLine(symbolPosition.getLeft(), symbolPosition.getBottom() + stemLength, symbolPosition.getLeft(), symbolPosition.getTop() + distanceBetweenLinesHalf, paint);
     }
 
     public void testDrawStemWithFlag1() {
-        noteStemDrawer.drawStem(symbolPosition, NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.EIGHT), MusicalKey.VIOLIN, paint);
+        noteStemDrawer.drawStem(symbolPosition, NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.EIGHT), MusicalKey.VIOLIN, paintDefault);
 
         int stemCount = 1;
         int flagCount = 1;
@@ -85,7 +99,7 @@ public class NoteStemDrawerTest extends AbstractDrawerTest {
     }
 
     public void testDrawStemWithFlag2() {
-        noteStemDrawer.drawStem(symbolPosition, NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.SIXTEENTH), MusicalKey.VIOLIN, paint);
+        noteStemDrawer.drawStem(symbolPosition, NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.SIXTEENTH), MusicalKey.VIOLIN, paintDefault);
 
         int stemCount = 1;
         int flagCount = 2;

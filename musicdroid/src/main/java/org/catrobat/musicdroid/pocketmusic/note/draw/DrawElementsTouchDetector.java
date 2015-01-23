@@ -23,16 +23,18 @@
 
 package org.catrobat.musicdroid.pocketmusic.note.draw;
 
+import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+
 import java.util.List;
 
 public class DrawElementsTouchDetector {
 
-    public static final int DEFAULT_TOLERANCE = 10;
+    public static final int DEFAULT_TOLERANCE = 100;
     public static final int INVALID_INDEX = -1;
 
-    public int getIndexOfTouchedDrawElement(List<SymbolPosition> drawElements, float x, float y, float tolerance) {
-        for (int i = 0; i < drawElements.size(); i++) {
-            SymbolPosition element = drawElements.get(i);
+    public int getIndexOfTouchedDrawElement(List<Symbol> symbols, float x, float y, float tolerance) {
+        for (int i = 0; i < symbols.size(); i++) {
+            SymbolPosition element = symbols.get(i).getSymbolPosition();
 
             if (((element.getLeft() - tolerance) <= x)
                     && ((element.getRight() + tolerance) >= x)

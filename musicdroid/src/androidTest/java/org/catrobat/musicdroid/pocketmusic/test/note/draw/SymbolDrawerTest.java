@@ -41,7 +41,7 @@ public class SymbolDrawerTest extends AbstractDrawerTest {
         super.setUp();
 
         drawPosition = new NoteSheetDrawPosition(START_X_POSITION, END_X_POSITION);
-        symbolDrawer = new SymbolDrawerMock(noteSheetCanvas, paint, getContext().getResources(), MusicalKey.VIOLIN, drawPosition, distanceBetweenLines);
+        symbolDrawer = new SymbolDrawerMock(noteSheetCanvas, paintDefault, getContext().getResources(), MusicalKey.VIOLIN, drawPosition, distanceBetweenLines);
     }
 
     public void testGetCenterPointForNextSymbol() {

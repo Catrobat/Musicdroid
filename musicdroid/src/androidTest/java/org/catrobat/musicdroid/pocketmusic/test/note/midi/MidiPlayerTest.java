@@ -34,7 +34,6 @@ import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
 import java.io.File;
 import java.io.IOException;
 
-
 public class MidiPlayerTest extends AndroidTestCase {
 
     private static final File CACHE_DIR = new File("");

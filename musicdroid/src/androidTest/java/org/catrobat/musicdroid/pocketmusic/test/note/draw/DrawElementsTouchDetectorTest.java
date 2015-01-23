@@ -28,6 +28,8 @@ import android.test.AndroidTestCase;
 
 import org.catrobat.musicdroid.pocketmusic.note.draw.DrawElementsTouchDetector;
 import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+import org.catrobat.musicdroid.pocketmusic.test.note.symbol.NoteSymbolTestDataFactory;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -35,62 +37,65 @@ import java.util.List;
 public class DrawElementsTouchDetectorTest extends AndroidTestCase {
 
     private DrawElementsTouchDetector touchDetector;
-    private List<SymbolPosition> drawElements;
-    private SymbolPosition element1;
-    private SymbolPosition element2;
+    private List<Symbol> symbols;
+    private Symbol symbol1;
+    private Symbol symbol2;
 
     public DrawElementsTouchDetectorTest() {
         touchDetector = new DrawElementsTouchDetector();
-        drawElements = new LinkedList<SymbolPosition>();
+        symbols = new LinkedList<Symbol>();
 
-        element1 = new SymbolPosition(new RectF(0, 0, 100, 100));
-        element2 = new SymbolPosition(new RectF(150, 0, 250, 100));
+        symbol1 = NoteSymbolTestDataFactory.createNoteSymbol();
+        symbol1.setSymbolPosition(new SymbolPosition(new RectF(0, 0, 100, 100)));
 
-        drawElements.add(element1);
-        drawElements.add(element2);
+        symbol2 = NoteSymbolTestDataFactory.createNoteSymbol();
+        symbol2.setSymbolPosition(new SymbolPosition(new RectF(150, 0, 250, 100)));
+
+        symbols.add(symbol1);
+        symbols.add(symbol2);
     }
 
     public void testGetIndexOfTouchedDrawElement1() {
-        assertElementTouch(0, element1);
+        assertElementTouch(0, symbol1.getSymbolPosition());
     }
 
     public void testGetIndexOfTouchedDrawElement2() {
-        assertElementNoTouch(element1);
+        assertElementNoTouch(symbol1.getSymbolPosition());
     }
 
     public void testGetIndexOfTouchedDrawElement3() {
-        assertElementNoTouch(element2);
+        assertElementNoTouch(symbol2.getSymbolPosition());
     }
 
     public void testGetIndexOfTouchedDrawElement4() {
-        assertElementTouch(1, element2);
+        assertElementTouch(1, symbol2.getSymbolPosition());
     }
 
-    private void assertElementTouch(int expectedIndex, SymbolPosition element) {
-        assertElementTouch(expectedIndex, element.getLeft(), element.getBottom(), 0);
-        assertElementTouch(expectedIndex, element.getRight(), element.getTop(), 0);
+    private void assertElementTouch(int expectedIndex, SymbolPosition symbolPosition) {
+        assertElementTouch(expectedIndex, symbolPosition.getLeft(), symbolPosition.getBottom(), 0);
+        assertElementTouch(expectedIndex, symbolPosition.getRight(), symbolPosition.getTop(), 0);
 
         float tolerance = 1;
 
-        assertElementTouch(expectedIndex, element.getLeft() - tolerance, element.getBottom() + tolerance, tolerance);
-        assertElementTouch(expectedIndex, element.getRight() + tolerance, element.getTop() - tolerance, tolerance);
+        assertElementTouch(expectedIndex, symbolPosition.getLeft() - tolerance, symbolPosition.getBottom() + tolerance, tolerance);
+        assertElementTouch(expectedIndex, symbolPosition.getRight() + tolerance, symbolPosition.getTop() - tolerance, tolerance);
 
-        float elementCenterX = element.getLeft() + (element.getRight() - element.getLeft()) / 2;
-        float elementCenterY = element.getTop() + (element.getBottom() - element.getTop()) / 2;
+        float elementCenterX = symbolPosition.getLeft() + (symbolPosition.getRight() - symbolPosition.getLeft()) / 2;
+        float elementCenterY = symbolPosition.getTop() + (symbolPosition.getBottom() - symbolPosition.getTop()) / 2;
 
         assertElementTouch(expectedIndex, elementCenterX, elementCenterY, 0);
     }
 
     private void assertElementTouch(int expectedIndex, float x, float y, float tolerance) {
-        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, x, y, tolerance));
+        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(symbols, x, y, tolerance));
     }
 
-    private void assertElementNoTouch(SymbolPosition element) {
+    private void assertElementNoTouch(SymbolPosition symbolPosition) {
         int expectedIndex = DrawElementsTouchDetector.INVALID_INDEX;
 
-        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, element.getLeft(), element.getBottom() + 1, 0));
-        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, element.getRight(), element.getTop() - 1, 0));
-        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, element.getLeft() - 1, element.getBottom(), 0));
-        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(drawElements, element.getRight() + 1, element.getTop(), 0));
+        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(symbols, symbolPosition.getLeft(), symbolPosition.getBottom() + 1, 0));
+        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(symbols, symbolPosition.getRight(), symbolPosition.getTop() - 1, 0));
+        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(symbols, symbolPosition.getLeft() - 1, symbolPosition.getBottom(), 0));
+        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(symbols, symbolPosition.getRight() + 1, symbolPosition.getTop(), 0));
     }
 }

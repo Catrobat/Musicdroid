@@ -52,7 +52,7 @@ public class NoteSheetViewTest extends AndroidTestCase {
     public void testTouchNoElement() {
         touch(0, 0);
 
-        for (int i = 0; i < noteSheetView.getSymbolPositionsSize(); i++) {
+        for (int i = 0; i < noteSheetView.getSymbolsSize(); i++) {
             assertFalse(noteSheetView.isSymbolMarked(i));
         }
     }

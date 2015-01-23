@@ -42,15 +42,17 @@ public class NoteSheetViewMock extends NoteSheetView {
         return symbols.get(index).isMarked();
     }
 
-    public SymbolPosition getSymbolPosition(int index) {
-        return symbolPositions.get(index);
-    }
-
-    public int getSymbolPositionsSize() { return symbolPositions.size(); }
-
     public void draw() {
         noteSheetCanvas = new NoteSheetCanvas(new CanvasMock());
         noteSheetDrawer = new NoteSheetDrawer(noteSheetCanvas, getResources(), symbols, key);
-        symbolPositions = noteSheetDrawer.drawNoteSheet();
+        noteSheetDrawer.drawNoteSheet();
+    }
+
+    public int getSymbolsSize() {
+        return symbols.size();
+    }
+
+    public SymbolPosition getSymbolPosition(int elementIndex) {
+        return symbols.get(elementIndex).getSymbolPosition();
     }
 }

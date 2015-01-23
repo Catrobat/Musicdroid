@@ -26,6 +26,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
@@ -34,7 +35,7 @@ import android.graphics.RectF;
 
 public class NoteSheetCanvas {
 
-    private Canvas canvas;
+    protected Canvas canvas;
 
     public NoteSheetCanvas(Canvas canvas) {
         this.canvas = canvas;
@@ -66,14 +67,35 @@ public class NoteSheetCanvas {
 
     public void drawPath(Path path, Paint paint) { canvas.drawPath(path, paint); }
 
-    public Rect drawBitmap(Resources resources, int bitmapId, int bitmapHeight, int xPosition, int yPosition) {
+    public Rect drawBitmap(Resources resources, int bitmapId, int bitmapHeight, int xPosition, int yPosition, Paint paint) {
         Bitmap bitmap = BitmapFactory.decodeResource(resources, bitmapId);
 
         Rect rect = calculateProportionalRect(bitmap, bitmapHeight, xPosition, yPosition);
 
+        if(paint.getColor() != NoteSheetDrawer.COLOR_DEFAULT) {
+            bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+            bitmap = recolorBitmap(bitmap, NoteSheetDrawer.COLOR_DEFAULT, paint.getColor());
+        }
+
         canvas.drawBitmap(bitmap, null, rect, null);
 
         return rect;
+    }
+
+    protected Bitmap recolorBitmap(Bitmap bitmap, int oldColor, int newColor) {
+        int areaSize = bitmap.getHeight() * bitmap.getWidth();
+        int[] pixelArray = new int[areaSize];
+
+        bitmap.getPixels(pixelArray, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+        for (int i = 0; i < areaSize; i++) {
+            if (pixelArray[i] == oldColor)
+                pixelArray[i] = newColor;
+        }
+
+        bitmap.setPixels(pixelArray, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+        return bitmap;
     }
 
     protected Rect calculateProportionalRect(Bitmap originalPicture, int height, int startXPosition, int yCenterPosition) {

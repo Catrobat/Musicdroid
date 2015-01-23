@@ -41,21 +41,39 @@ public class BreakDrawerTest extends AbstractDrawerTest {
         super.setUp();
         MusicalKey key = MusicalKey.VIOLIN;
 
-        breakDrawer = new BreakDrawerMock(noteSheetCanvas, paint, getContext().getResources(), key, drawPosition, distanceBetweenLines);
+        breakDrawer = new BreakDrawerMock(noteSheetCanvas, paintDefault, getContext().getResources(), key, drawPosition, distanceBetweenLines);
     }
 
     public void testDrawSymbolBitmap() {
+        testDrawSymbolBitmap(false);
+    }
+
+    public void testDrawSymbolBitmapMarked() {
+        testDrawSymbolBitmap(true);
+    }
+
+    private void testDrawSymbolBitmap(boolean marked) {
         int breakHeight = BreakDrawer.QUARTER_BREAK_HEIGHT * distanceBetweenLines;
         int xPosition = breakDrawer.getCenterPointForNextSymbolNoDrawPositionChange().x;
         BreakSymbol breakSymbol = BreakSymbolTestDataFactory.createBreakSymbol(NoteLength.QUARTER);
+        breakSymbol.setMarked(marked);
 
         breakDrawer.drawSymbol(breakSymbol);
 
-        assertCanvasElementQueueBitmap(R.drawable.break_4, breakHeight, xPosition, noteSheetCanvas.getHeightHalf());
+        assertCanvasElementQueueBitmap(R.drawable.break_4, breakHeight, xPosition, noteSheetCanvas.getHeightHalf(), marked ? paintMarked : paintDefault);
     }
 
     public void testDrawSymbolRect() {
+        testDrawSymbolRect(false);
+    }
+
+    public void testDrawSymbolRectMarked() {
+        testDrawSymbolRect(true);
+    }
+
+    private void testDrawSymbolRect(boolean marked) {
         BreakSymbol breakSymbol = BreakSymbolTestDataFactory.createBreakSymbol(NoteLength.HALF);
+        breakSymbol.setMarked(marked);
 
         Point centerPoint = breakDrawer.getCenterPointForNextSymbolNoDrawPositionChange();
         int breakWidthHalf = distanceBetweenLines / 2;
@@ -66,7 +84,7 @@ public class BreakDrawerTest extends AbstractDrawerTest {
 
         breakDrawer.drawSymbol(breakSymbol);
 
-        assertCanvasElementQueueRect(startX, startY, stopX, stopY);
+        assertCanvasElementQueueRect(startX, startY, stopX, stopY, marked ? paintMarked : paintDefault);
     }
 
     public void testDrawSymbolDot() {
