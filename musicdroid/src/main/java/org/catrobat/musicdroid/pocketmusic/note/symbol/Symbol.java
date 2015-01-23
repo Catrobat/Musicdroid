@@ -42,18 +42,15 @@ public abstract class Symbol {
         this.marked = marked;
     }
 
-    // TODO test
     public SymbolPosition getSymbolPosition() {
         return symbolPosition;
     }
 
-    // TODO test
     public void setSymbolPosition(SymbolPosition symbolPosition) {
         this.symbolPosition = symbolPosition;
     }
 
     @Override
-    //TODO test symbol pos
     public boolean equals(Object obj) {
         if ((obj == null) || !(obj instanceof Symbol)) {
             return false;
@@ -61,10 +58,16 @@ public abstract class Symbol {
 
         Symbol symbol = (Symbol) obj;
 
-        if (symbol.isMarked() == isMarked()) {
-            return true;
+        if ((null != symbol.getSymbolPosition()) && (null != symbolPosition)) {
+            if (false == symbol.getSymbolPosition().equals(symbolPosition)) {
+                return false;
+            }
         }
 
-        return false;
+        if (symbol.isMarked() != isMarked()) {
+            return false;
+        }
+
+        return true;
     }
 }
