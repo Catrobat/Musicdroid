@@ -49,10 +49,11 @@ import java.util.ArrayList;
 public class ProjectSelectionFragment extends Fragment {
 
     private ArrayList<Project> projects;
-
     private ProjectListViewAdapter listViewAdapter;
     private ListView projectsListView;
     private Button newProjectButton;
+    private ProjectSelectionActivity projectSelectionActivity;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,6 +64,7 @@ public class ProjectSelectionFragment extends Fragment {
         newProjectButton = (Button) rootView.findViewById(R.id.new_project_button);
 
         projects = new ArrayList<>();
+        projectSelectionActivity = (ProjectSelectionActivity) getActivity();
 
         fetchProjectInformation();
         setListAdapter();
@@ -100,16 +102,21 @@ public class ProjectSelectionFragment extends Fragment {
                     Intent intent = new Intent(getActivity(), PianoActivity.class);
                     intent.putExtra("fileName", projects.get(position).getName());
                     startActivity(intent);
-                } else {
-                    listViewAdapter.setProjectSelectionBackgroundFlags(position);
                 }
+                else{
+                    listViewAdapter.setProjectSelectionBackgroundFlags(position);
+                    projectSelectionActivity.notifyNumberOfItemsSelected(listViewAdapter.getProjectSelectionSelectedItemsCount());
+
+                }
+
             }
         });
         projectsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ProjectSelectionActivity projectSelectionActivity = (ProjectSelectionActivity) getActivity();
-                projectSelectionActivity.startActionMode();
+                if(listViewAdapter.getProjectSelectionSelectedItemsCount() == 0) {
+                    projectSelectionActivity.startActionMode();
+                }
                 return false;
             }
         });

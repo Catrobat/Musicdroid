@@ -25,22 +25,25 @@ package org.catrobat.musicdroid.pocketmusic.projectselection;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import org.catrobat.musicdroid.pocketmusic.R;
-import org.catrobat.musicdroid.pocketmusic.projectselection.menu.DeleteMenuCallback;
+import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionContextMenu;
 
 public class ProjectSelectionActivity extends Activity {
     private ProjectSelectionFragment projectSelectionFragment;
     public static boolean inCallback = false;
-    private DeleteMenuCallback deleteMenuCallback;
+    private ProjectSelectionContextMenu projectSelectionContextMenu;
+    private ActionMode actionMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_selection);
-        deleteMenuCallback = new DeleteMenuCallback(this);
+        projectSelectionContextMenu = new ProjectSelectionContextMenu(this);
         projectSelectionFragment = new ProjectSelectionFragment();
         if (savedInstanceState != null) {
             getFragmentManager().beginTransaction().replace(R.id.container, projectSelectionFragment).commit();
@@ -55,16 +58,12 @@ public class ProjectSelectionActivity extends Activity {
         return true;
     }
     public void startActionMode(){
-        startActionMode(deleteMenuCallback);
+        actionMode = startActionMode(projectSelectionContextMenu);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        // TODO: menu implementation
-        if (id == R.id.action_delete_project ) {
-            startActionMode();
-            return true;
-        }
+
         if (id == R.id.action_refresh_project ) {
             projectSelectionFragment = new ProjectSelectionFragment();
             getFragmentManager().beginTransaction().replace(R.id.container, projectSelectionFragment).commit();
@@ -84,4 +83,13 @@ public class ProjectSelectionActivity extends Activity {
         super.onBackPressed();
     }
 
+    public void notifyNumberOfItemsSelected(int numberOfItems){
+        if(numberOfItems == 0)
+            actionMode.finish();
+        else if(numberOfItems == 1)
+            projectSelectionContextMenu.enterSingleEditMode();
+        else
+            projectSelectionContextMenu.enterMultipleEditMode();
+
+    }
 }

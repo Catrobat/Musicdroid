@@ -152,7 +152,7 @@ public class MidiPlayerTest extends AndroidTestCase {
         Track track = TrackTestDataFactory.createSimpleTrack();
         FileMock tempFileToPlay = new FileMock();
         player.playTrack(activity, CACHE_DIR, track, Project.DEFAULT_BEATS_PER_MINUTE);
-        player.onPlayTrackComplete(tempFileToPlay);
+        player.onPlayTrackComplete(tempFileToPlay,activity);
 
         assertTrue(tempFileToPlay.isDeleted());
     }

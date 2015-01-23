@@ -64,9 +64,9 @@ public class MidiPlayerMock extends MidiPlayer {
     }
 
     @Override
-    public void onPlayTrackComplete(final File tempPlayFile) {
+    public void onPlayTrackComplete(final File tempPlayFile, Activity activity) {
         setPlaying(false);
-        super.onPlayTrackComplete(tempPlayFile);
+        super.onPlayTrackComplete(tempPlayFile,activity);
     }
 
     private class MediaPlayerMock extends MediaPlayer {

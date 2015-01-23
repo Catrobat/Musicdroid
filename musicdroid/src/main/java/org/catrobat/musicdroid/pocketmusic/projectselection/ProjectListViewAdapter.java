@@ -31,7 +31,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -49,12 +48,8 @@ public class ProjectListViewAdapter extends BaseAdapter {
     private final Context context;
 
     private ArrayList<Project> projects;
-
     private ArrayList<Boolean> projectSelectionBackgroundFlags;
-
-    private ArrayList<Boolean> projectSelectionCheckBoxFlags;
     private ArrayList<Boolean> projectSelectionTrackIsPlayingFlags;
-    private ArrayList<Integer> projectSelectionCheckBoxVisibilityList;
 
     private boolean playButtonLock = false;
     private ViewHolder viewHolder;
@@ -64,7 +59,6 @@ public class ProjectListViewAdapter extends BaseAdapter {
         public ImageButton projectPauseButton;
         public TextView projectNameTextView;
         public TextView projectDurationTextView;
-        public CheckBox projectSelectionCheckBox;
         public RelativeLayout projectListItemLayout;
 
     }
@@ -76,14 +70,10 @@ public class ProjectListViewAdapter extends BaseAdapter {
 
     private void initViewParameters() {
         this.projectSelectionBackgroundFlags = new ArrayList<>();
-        this.projectSelectionCheckBoxFlags = new ArrayList<>();
-        this.projectSelectionCheckBoxVisibilityList = new ArrayList<>();
         this.projectSelectionTrackIsPlayingFlags = new ArrayList<>();
 
         for (int i = 0; i < projects.size(); i++) {
             this.projectSelectionBackgroundFlags.add(false);
-            this.projectSelectionCheckBoxVisibilityList.add(View.INVISIBLE);
-            this.projectSelectionCheckBoxFlags.add(false);
             this.projectSelectionTrackIsPlayingFlags.add(false);
         }
     }
@@ -92,8 +82,6 @@ public class ProjectListViewAdapter extends BaseAdapter {
         for (int i = 0; i < projects.size(); i++)
             if (projectName.equals(projects.get(i).getName())) {
                 projects.remove(i);
-                projectSelectionCheckBoxFlags.remove(i);
-                projectSelectionCheckBoxVisibilityList.remove(i);
                 projectSelectionBackgroundFlags.remove(i);
                 projectSelectionTrackIsPlayingFlags.remove(i);
             }
@@ -136,8 +124,7 @@ public class ProjectListViewAdapter extends BaseAdapter {
                     .findViewById(R.id.project_name_text_view);
             viewHolder.projectDurationTextView = (TextView) view
                     .findViewById(R.id.project_duration_text_view);
-            viewHolder.projectSelectionCheckBox = (CheckBox) view
-                    .findViewById(R.id.project_selection_check_box);
+
 
             view.setTag(viewHolder);
         }
@@ -146,7 +133,6 @@ public class ProjectListViewAdapter extends BaseAdapter {
 
         initPlayPauseButtonRoutine(position);
         initTextViews(position);
-        initCheckBoxBehavior(position);
         initBackgroundBehavior(position);
 
         return view;
@@ -205,24 +191,10 @@ public class ProjectListViewAdapter extends BaseAdapter {
     private void initTextViews(int actualPosition) {
         viewHolder.projectNameTextView.setText(context.getResources().getText(R.string.project_name)
                 + projects.get(actualPosition).getName());
-        viewHolder.projectDurationTextView.setText(context.getResources().getText(R.string.project_duration) + ""
+        viewHolder.projectDurationTextView.setText( context.getResources().getText(R.string.project_duration) + ""
                 + projects.get(actualPosition).getTrack(0).getTotalTimeInMilliseconds());
     }
 
-    private void initCheckBoxBehavior(int position) {
-        //noinspection ResourceType
-        viewHolder.projectSelectionCheckBox.setVisibility(projectSelectionCheckBoxVisibilityList.get(position));
-        viewHolder.projectSelectionCheckBox.setTag(position);
-        viewHolder.projectSelectionCheckBox.setChecked(projectSelectionCheckBoxFlags.get(position));
-        viewHolder.projectSelectionCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CheckBox checkBox = (CheckBox) v;
-                int rowId = (Integer) v.getTag();
-                projectSelectionCheckBoxFlags.set(rowId, checkBox.isChecked());
-            }
-        });
-    }
 
     public void changePlayPauseButtonState() {
         playButtonLock = false;
@@ -231,33 +203,13 @@ public class ProjectListViewAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void setDelMode(boolean enabled) {
-        if (enabled) {
-            for (int i = 0; i < projects.size(); i++)
-                projectSelectionCheckBoxVisibilityList.set(i, View.VISIBLE);
-        } else {
-            for (int i = 0; i < projects.size(); i++)
-                projectSelectionCheckBoxVisibilityList.set(i, View.INVISIBLE);
 
-        }
-        notifyDataSetChanged();
-    }
-
-    public boolean getProjectSelectionCheckBoxStatus(int position) {
-        return projectSelectionCheckBoxFlags.get(position);
-    }
-
-    public void clearProjectSelectionCheckBoxStatus() {
-        for (int i = 0; i < projects.size(); i++)
-            projectSelectionCheckBoxFlags.set(i, false);
-    }
     public void clearProjectSelectionBackgroundStatus() {
         for (int i = 0; i < projects.size(); i++)
             projectSelectionBackgroundFlags.set(i, false);
     }
 
     public boolean getProjectSelectionBackgroundFlags(int position) {
-
         return projectSelectionBackgroundFlags.get(position);
     }
 
@@ -268,5 +220,14 @@ public class ProjectListViewAdapter extends BaseAdapter {
             this.projectSelectionBackgroundFlags.set(position, true);
 
         notifyDataSetChanged();
+    }
+
+    public int getProjectSelectionSelectedItemsCount() {
+        int counter = 0;
+        for(int i = 0; i < projectSelectionBackgroundFlags.size(); i++)
+            if(projectSelectionBackgroundFlags.get(i)){
+                counter ++;
+            }
+        return counter;
     }
 }
