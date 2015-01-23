@@ -72,7 +72,7 @@ public class NoteSheetCanvas {
 
         Rect rect = calculateProportionalRect(bitmap, bitmapHeight, xPosition, yPosition);
 
-        if(paint.getColor() == NoteSheetDrawer.COLOR_MARKED) {
+        if(paint.getColor() != NoteSheetDrawer.COLOR_DEFAULT) {
             bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
             bitmap = recolorBitmap(bitmap, NoteSheetDrawer.COLOR_DEFAULT, paint.getColor());
         }

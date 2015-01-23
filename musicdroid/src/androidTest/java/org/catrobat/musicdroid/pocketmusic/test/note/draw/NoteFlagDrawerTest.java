@@ -49,24 +49,24 @@ public class NoteFlagDrawerTest extends AbstractDrawerTest {
     }
 
     public void testDrawFlag1() {
-        testDrawFlag(false);
+        testDrawFlag(NoteLength.EIGHT, false);
     }
 
     public void testDrawFlag2() {
-        testDrawFlag(false);
+        testDrawFlag(NoteLength.SIXTEENTH, false);
     }
 
     public void testDrawFlagMarked1() {
-        testDrawFlag(true);
+        testDrawFlag(NoteLength.EIGHT, true);
     }
 
     public void testDrawFlagMarked2() {
-        testDrawFlag(true);
+        testDrawFlag(NoteLength.SIXTEENTH, true);
     }
 
-    private void testDrawFlag(boolean marked) {
+    private void testDrawFlag(NoteLength noteLength, boolean marked) {
         Paint paint = marked ? paintMarked : paintDefault;
-        NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.EIGHT);
+        NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(noteLength);
         noteSymbol.setMarked(marked);
 
         noteFlagDrawer.drawFlag(endPointOfNoteStem, noteSymbol, key, paint);
