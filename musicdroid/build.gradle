@@ -44,7 +44,6 @@ android {
     }
     buildTypes {
         release {
-//            runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -53,7 +52,6 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('libs/android-midi-libv3-1-42.jar')
-    compile 'com.jayway.android.robotium:robotium-solo:5.2.1'
 }
 
 def signing_config_file = file(System.getProperty("user.home") + "/.catrobat/musicdroid_signing_config.gradle")

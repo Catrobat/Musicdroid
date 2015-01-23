@@ -25,7 +25,9 @@ package org.catrobat.musicdroid.pocketmusic.test.note.symbol;
 
 import android.test.AndroidTestCase;
 
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+import org.catrobat.musicdroid.pocketmusic.test.note.draw.SymbolPositionTestDataFactory;
 
 public class SymbolTest extends AndroidTestCase {
 
@@ -42,5 +44,20 @@ public class SymbolTest extends AndroidTestCase {
         symbol.setMarked(expectedMarked);
 
         assertEquals(expectedMarked, symbol.isMarked());
+    }
+
+    public void testSymbolPosition1() {
+        Symbol symbol = BreakSymbolTestDataFactory.createBreakSymbol();
+
+        assertEquals(null, symbol.getSymbolPosition());
+    }
+
+    public void testSymbolPosition2() {
+        Symbol symbol = BreakSymbolTestDataFactory.createBreakSymbol();
+        SymbolPosition symbolPosition = SymbolPositionTestDataFactory.createSymbolPosition();
+
+        symbol.setSymbolPosition(symbolPosition);
+
+        assertEquals(symbolPosition, symbol.getSymbolPosition());
     }
 }
