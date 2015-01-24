@@ -33,12 +33,12 @@ public class DrawElementsTouchDetector {
 
     // TODO fw more detailed tests
     // TODO fw add break logic for touching empty space?!
-    public int getIndexOfTouchedDrawElement(List<Symbol> symbols, float x, float y, float tolerance, int widthForOneSymbol, int startPositionOffset) {
+    public int getIndexOfTouchedDrawElement(List<Symbol> symbols, float x, float y, float tolerance, float widthForOneSymbol, float xOffset) {
         if (symbols.isEmpty()) {
             return INVALID_INDEX;
         }
 
-        int startIndex = (int) Math.floor((x - startPositionOffset) / widthForOneSymbol);
+        int startIndex = (int) Math.floor((x - xOffset) / widthForOneSymbol);
 
         if (startIndex >= symbols.size()) {
             startIndex = symbols.size() - 1;

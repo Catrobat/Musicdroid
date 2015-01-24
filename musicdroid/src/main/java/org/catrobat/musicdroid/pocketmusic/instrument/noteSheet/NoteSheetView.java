@@ -117,8 +117,8 @@ public class NoteSheetView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         if (MotionEvent.ACTION_UP == e.getAction()) {
-            int widthForOneSymbol = noteSheetDrawer.getWidthForOneSymbol();
-            float tolerance = widthForOneSymbol / 4;
+            float widthForOneSymbol = noteSheetDrawer.getWidthForOneSymbol();
+            float tolerance = widthForOneSymbol / 4f;
             int index = touchDetector.getIndexOfTouchedDrawElement(symbols, e.getX(), e.getY(), tolerance, widthForOneSymbol, noteSheetDrawer.getStartPositionForSymbols());
 
             if (DrawElementsTouchDetector.INVALID_INDEX != index) {
