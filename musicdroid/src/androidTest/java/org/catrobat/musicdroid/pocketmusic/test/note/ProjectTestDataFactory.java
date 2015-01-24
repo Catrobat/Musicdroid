@@ -70,8 +70,8 @@ public class ProjectTestDataFactory {
 		return project;
 	}
 
-    public static Project createProjectWithOneSimpleTrack() {
-        Project project = createProject();
+    public static Project createProjectWithOneSimpleTrack(String projectName) {
+        Project project = createProject(projectName);
         Track track1 = TrackTestDataFactory.createSimpleTrack();
         project.addTrack(track1);
 
