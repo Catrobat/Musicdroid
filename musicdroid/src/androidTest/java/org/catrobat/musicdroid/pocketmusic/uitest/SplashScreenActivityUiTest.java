@@ -23,13 +23,11 @@
 
 package org.catrobat.musicdroid.pocketmusic.uitest;
 
-
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.TextView;
 import com.robotium.solo.Solo;
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.splashscreen.SplashScreenActivity;
-
 
 public class SplashScreenActivityUiTest extends ActivityInstrumentationTestCase2<SplashScreenActivity> {
 
@@ -50,21 +48,17 @@ public class SplashScreenActivityUiTest extends ActivityInstrumentationTestCase2
     }
 
     public void testLoadingTime() {
-        int timeOffset = 300;
-        solo.sleep(SplashScreenActivity.SPLASH_TIME_OUT - timeOffset);
+        solo.sleep(SplashScreenActivity.SPLASH_TIME_OUT / 2);
         assertNotNull(solo.getCurrentActivity().findViewById(R.id.splash_screen_relative_layout));
+
         solo.sleep(SplashScreenActivity.SPLASH_TIME_OUT);
         assertNull(solo.getCurrentActivity().findViewById(R.id.splash_screen_relative_layout));
-
-    }
-
-    public void testSplashScreen() {
-        assertNotNull(solo.getCurrentActivity().findViewById(R.id.splash_screen_relative_layout));
     }
 
     public void testTextOnSplashScreen() {
-        String textField = "Musicdroid";
+        String textField = solo.getCurrentActivity().getResources().getString(R.string.app_name);
         TextView splashScreenTextView = (TextView) solo.getCurrentActivity().findViewById(R.id.splash_screen_text_view);
+
         assertEquals(textField, splashScreenTextView.getText());
     }
 }
