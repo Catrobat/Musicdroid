@@ -98,9 +98,9 @@ public class DrawElementsTouchDetectorTest extends AndroidTestCase {
     private void assertElementNoTouch(SymbolPosition symbolPosition) {
         int expectedIndex = DrawElementsTouchDetector.INVALID_INDEX;
 
-        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(symbols, symbolPosition.getLeft(), symbolPosition.getBottom() + 1, 0, widthForOneSymbol, xOffset));
-        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(symbols, symbolPosition.getRight(), symbolPosition.getTop() - 1, 0, widthForOneSymbol, xOffset));
-        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(symbols, symbolPosition.getLeft() - 1, symbolPosition.getBottom(), 0, widthForOneSymbol, xOffset));
-        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(symbols, symbolPosition.getRight() + 1, symbolPosition.getTop(), 0, widthForOneSymbol, xOffset));
+        assertElementTouch(expectedIndex, symbolPosition.getLeft(), symbolPosition.getBottom() + 1, 0);
+        assertElementTouch(expectedIndex, symbolPosition.getLeft(), symbolPosition.getTop() - 1, 0);
+        assertElementTouch(expectedIndex, symbolPosition.getLeft() - 1, symbolPosition.getBottom(), 0);
+        assertElementTouch(expectedIndex, symbolPosition.getRight() + 1, symbolPosition.getTop(), 0);
     }
 }
