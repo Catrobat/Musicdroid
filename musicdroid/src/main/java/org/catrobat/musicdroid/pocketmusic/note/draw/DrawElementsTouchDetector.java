@@ -29,7 +29,6 @@ import java.util.List;
 
 public class DrawElementsTouchDetector {
 
-    public static final int DEFAULT_TOLERANCE = 100;
     public static final int INVALID_INDEX = -1;
 
     // TODO fw more detailed tests
