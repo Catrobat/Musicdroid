@@ -26,11 +26,9 @@ package org.catrobat.musicdroid.pocketmusic.uitest;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.TextView;
-
 import com.robotium.solo.Solo;
-
 import org.catrobat.musicdroid.pocketmusic.R;
-import org.catrobat.musicdroid.pocketmusic.SplashScreenActivity;
+import org.catrobat.musicdroid.pocketmusic.splashscreen.SplashScreenActivity;
 
 
 public class SplashScreenActivityUiTest extends ActivityInstrumentationTestCase2<SplashScreenActivity> {
@@ -64,7 +62,7 @@ public class SplashScreenActivityUiTest extends ActivityInstrumentationTestCase2
         assertNotNull(solo.getCurrentActivity().findViewById(R.id.splash_screen_relative_layout));
     }
 
-    public void testTextOnSPlashScreen() {
+    public void testTextOnSplashScreen() {
         String textField = "Musicdroid";
         TextView splashScreenTextView = (TextView) solo.getCurrentActivity().findViewById(R.id.splash_screen_text_view);
         assertEquals(textField, splashScreenTextView.getText());

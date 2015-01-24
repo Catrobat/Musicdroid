@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic;
+package org.catrobat.musicdroid.pocketmusic.splashscreen;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 
+import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 
 public class SplashScreenActivity extends Activity {
