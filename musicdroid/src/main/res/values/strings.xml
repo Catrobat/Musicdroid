@@ -59,4 +59,5 @@
     <string name="note_name_simple_fis">FIS</string>
     <string name="note_name_simple_gis">GIS</string>
     <string name="note_name_simple_ais">AIS</string>
+    <string name="splash_screen_logo_content_description" />
 </resources >
