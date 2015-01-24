@@ -69,4 +69,12 @@ public class ProjectTestDataFactory {
 
 		return project;
 	}
+
+    public static Project createProjectWithOneSimpleTrack() {
+        Project project = createProject();
+        Track track1 = TrackTestDataFactory.createSimpleTrack();
+        project.addTrack(track1);
+
+        return project;
+    }
 }

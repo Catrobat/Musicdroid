@@ -63,7 +63,7 @@
     <string name="action_project_import">Import</string>
     <string name="action_project_export">Export</string>
     <string name="action_project_delete">Delete</string>
-    <string name="action_project_refresh">Delete</string>
+    <string name="action_project_refresh">Refresh</string>
     <string name="project_name">Project name:&#160;</string>
     <string name="project_duration">Duration:&#160;</string>
     <string name="project_selection_delete_menu_title">Delete</string>
