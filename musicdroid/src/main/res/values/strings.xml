@@ -23,6 +23,8 @@
 
 <resources >
     <string name="app_name">Musicdroid</string>
+    <string name="splash_screen_logo_content_description">Logo</string>string>
+
     <string name="action_undo_midi">Undo</string>
     <string name="action_play_midi">Play</string>
     <string name="action_play_midi_error">Could not start playing</string>
