@@ -54,11 +54,15 @@ public class ProjectSelectionFragment extends Fragment {
     private Button newProjectButton;
     private ProjectSelectionActivity projectSelectionActivity;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        setRetainInstance(true);
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.fragment_project_selection, container, false);
         projectsListView = (ListView) rootView.findViewById(R.id.project_list_view);
         newProjectButton = (Button) rootView.findViewById(R.id.new_project_button);
@@ -97,10 +101,10 @@ public class ProjectSelectionFragment extends Fragment {
         projectsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-                //TODO: only for 1track piano
+                //TODO:  for more tracks
                 if (!ProjectSelectionActivity.inCallback) {
                     Intent intent = new Intent(getActivity(), PianoActivity.class);
-                    intent.putExtra("fileName", projects.get(position).getName());
+                    intent.putExtra(ProjectSelectionActivity.INTENT_EXTRA_FILE_NAME, projects.get(position).getName());
                     startActivity(intent);
                 }
                 else{

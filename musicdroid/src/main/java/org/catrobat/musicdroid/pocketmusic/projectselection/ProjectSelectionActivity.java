@@ -31,6 +31,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
 import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionContextMenu;
 
 public class ProjectSelectionActivity extends Activity {
@@ -38,6 +39,9 @@ public class ProjectSelectionActivity extends Activity {
     public static boolean inCallback = false;
     private ProjectSelectionContextMenu projectSelectionContextMenu;
     private ActionMode actionMode;
+
+    public static final String INTENT_EXTRA_FILE_NAME = "fileName";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,8 @@ public class ProjectSelectionActivity extends Activity {
         int id = item.getItemId();
 
         if (id == R.id.action_refresh_project ) {
+            MidiPlayer.getInstance().stop();
+            notifyTrackPlayed();
             projectSelectionFragment = new ProjectSelectionFragment();
             getFragmentManager().beginTransaction().replace(R.id.container, projectSelectionFragment).commit();
             return true;

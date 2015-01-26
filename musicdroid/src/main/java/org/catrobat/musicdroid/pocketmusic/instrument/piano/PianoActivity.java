@@ -37,6 +37,8 @@ import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
+import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
+import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionFragment;
 
 import java.io.File;
 import java.io.IOException;
@@ -81,10 +83,13 @@ public class PianoActivity extends InstrumentActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             MidiToProjectConverter converter = new MidiToProjectConverter();
-            File midiFile = new File(ProjectToMidiConverter.MIDI_FOLDER, extras.getString("fileName") + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
-            setTitle(extras.getString("fileName"));
+            File midiFile = new File(ProjectToMidiConverter.MIDI_FOLDER,
+                                extras.getString(ProjectSelectionActivity.INTENT_EXTRA_FILE_NAME) +
+                                ProjectToMidiConverter.MIDI_FILE_EXTENSION);
+            setTitle(extras.getString(ProjectSelectionActivity.INTENT_EXTRA_FILE_NAME));
             try {
                 Project project = converter.convertMidiFileToProject(midiFile);
+                //TODO: consider more tracks
                 setTrack(project.getTrack(0));
             } catch (MidiException e) {
                 e.printStackTrace();
