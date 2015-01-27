@@ -191,10 +191,17 @@ public class ProjectListViewAdapter extends BaseAdapter {
     private void initTextViews(int actualPosition) {
         viewHolder.projectNameTextView.setText(context.getResources().getText(R.string.project_name)
                 + projects.get(actualPosition).getName());
-        viewHolder.projectDurationTextView.setText( context.getResources().getText(R.string.project_duration) + ""
-                + projects.get(actualPosition).getTrack(0).getTotalTimeInMilliseconds());
+        viewHolder.projectDurationTextView.setText(getDurationTextViewText(actualPosition, 0));
     }
 
+    private String getDurationTextViewText(int actualPosition, int trackPosition){
+        long timeInMilliseconds = projects.get(actualPosition).getTrack(trackPosition).getTotalTimeInMilliseconds();
+        return context.getResources().getText(R.string.project_duration)
+        + String.format("%02d", (timeInMilliseconds/1000)/60)
+        + context.getResources().getString(R.string.minutes_short) + " "
+        + String.format("%02d", timeInMilliseconds/1000)
+        + context.getResources().getString(R.string.seconds_short);
+    }
 
     public void changePlayPauseButtonState() {
         playButtonLock = false;
@@ -202,7 +209,6 @@ public class ProjectListViewAdapter extends BaseAdapter {
             projectSelectionTrackIsPlayingFlags.set(i, false);
         notifyDataSetChanged();
     }
-
 
     public void clearProjectSelectionBackgroundStatus() {
         for (int i = 0; i < projects.size(); i++)

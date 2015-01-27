@@ -29,7 +29,7 @@ import android.view.View;
 import android.widget.Button;
 
 import org.catrobat.musicdroid.pocketmusic.R;
-
+//PLACEHOLDER CLASS!!!
 public final class EditProjectDialog extends Dialog {
 
     public EditProjectDialog(Context context) {

@@ -23,10 +23,7 @@
 
 package org.catrobat.musicdroid.pocketmusic.uitest.projectselection;
 
-import android.app.LauncherActivity;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.UiThreadTest;
-import android.view.View;
 import android.widget.ListView;
 
 import com.robotium.solo.Solo;
@@ -52,7 +49,9 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
 
     private Solo solo;
     private static final String FILE_NAME = "TestProject";
+    private static final String NEW_PROJECT_BUTTON_NAME = "+";
     private ProjectSelectionActivity projectSelectionActivity;
+
 
 
     public ProjectSelectionActivityUiTest() {
@@ -98,8 +97,7 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
     private void baseDeleteRoutine(int[] projectIndicesToDelete) throws IOException, MidiException {
         createSampleProjectFiles(NUMBER_OF_SAMPLE_PROJECTS);
         ArrayList<File> expectedProjects = getProjectFilesInStorage();
-        solo.clickOnView(getActivity().findViewById(R.id.action_refresh_project));
-        solo.sleep(1000);
+        clickRefreshActionButton();
 
         for (int i = 0; i < projectIndicesToDelete.length; i++) {
             if (i == 0)
@@ -115,13 +113,21 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
 
         assertEquals(getProjectFilesInStorage(), expectedProjects);
     }
+    private void clickRefreshActionButton(){
+        solo.clickOnView(projectSelectionActivity.findViewById(R.id.action_refresh_project));
+        solo.sleep(100);
+    }
 
     // --------------------------------------- TESTS ----------------------------------------------
-    public void testContextMenuDelete() throws IOException, MidiException {
+    public void testRefreshActionButton() throws IOException, MidiException {
+        createSampleProjectFiles(3);
+        clickRefreshActionButton();
+        solo.clickOnText(FILE_NAME + 2);
+    }
 
+    public void testContextMenuDelete() throws IOException, MidiException {
         int[] projectIndicesToDelete = {0, NUMBER_OF_SAMPLE_PROJECTS / 2, NUMBER_OF_SAMPLE_PROJECTS - 1};
         baseDeleteRoutine(projectIndicesToDelete);
-
     }
 
     public void testContextMenuDelete2() throws IOException, MidiException {
@@ -137,14 +143,14 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
     }
 
     public void testLinkToNextActivity(){
-        solo.clickOnButton("+");
+        solo.clickOnButton(NEW_PROJECT_BUTTON_NAME);
         solo.waitForActivity(PianoActivity.class);
-        solo.assertCurrentActivity("Piano Activity", PianoActivity.class);
+        solo.assertCurrentActivity(PianoActivity.class.getSimpleName(), PianoActivity.class);
     }
 
     public void testProjectListCount() throws IOException, MidiException {
         createSampleProjectFiles(99);
-        solo.clickOnView(getActivity().findViewById(R.id.action_refresh_project));
+        clickRefreshActionButton();
         solo.sleep(1000);
         assertEquals(getActivity().getProjectSelectionFragment().getListViewAdapter().getCount(), 99);
     }
@@ -154,19 +160,33 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
 
         createSampleProjectFiles(3);
 
-        solo.clickOnView(projectSelectionActivity.findViewById(R.id.action_refresh_project));
+        clickRefreshActionButton();
         solo.clickOnView(solo.getView(R.id.project_play_button,2));
-        solo.sleep(100);
 
+        solo.sleep(100);
         assertEquals(midiplayer.isPlaying(), true);
 
         ListView list = (ListView) solo.getView(R.id.project_list_view);
         Project project = (Project) list.getAdapter().getItem(2);
-        solo.sleep((int) project.getTrack(0).getTotalTimeInMilliseconds()-100);
+        solo.sleep((int) project.getTrack(0).getTotalTimeInMilliseconds());
 
         assertEquals(midiplayer.isPlaying(), false);
-
     }
+
+    public void testRefreshActionButton2() throws IOException, MidiException {
+        MidiPlayer midiplayer = MidiPlayer.getInstance();
+
+        createSampleProjectFiles(3);
+
+        clickRefreshActionButton();
+        solo.clickOnView(solo.getView(R.id.project_play_button,2));
+        solo.sleep(100);
+
+        clickRefreshActionButton();
+
+        assertEquals(midiplayer.isPlaying(), false);
+    }
+
 
 
 }
