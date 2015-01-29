@@ -204,6 +204,23 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         assertTrue(pianoActivity.getMidiPlayer().isPlaying());
     }
 
+    public void testPlayButtonShown() {
+        assertTrue(solo.getCurrentActivity().getResources().getDrawable(R.drawable.ic_action_play).isVisible());
+    }
+
+    public void testStopButtonShown() {
+        clickSomePianoButtonsForLargeTrack();
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
+        assertTrue(solo.getCurrentActivity().getResources().getDrawable(R.drawable.ic_action_stop).isVisible());
+    }
+
+    public void testPlayButtonShownAfterStop() {
+        clickSomePianoButtonsForLargeTrack();
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
+        assertTrue(solo.getCurrentActivity().getResources().getDrawable(R.drawable.ic_action_play).isVisible());
+    }
+
     public void testStopMidi() {
         clickSomePianoButtonsForLargeTrack();
         solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
