@@ -27,9 +27,11 @@
 
     <string name="action_undo_midi">Undo</string>
     <string name="action_play_midi">Play</string>
+    <string name="action_stop_midi">Stop</string>
+    <string name="action_midi_playing">Playing</string>
+    <string name="action_midi_stopped">Stopped</string>
+    <string name="action_midi_finished">Done</string>
     <string name="action_play_midi_error">Could not start playing</string>
-    <string name="action_play_midi_dialog_title">Playing…</string>
-    <string name="action_play_midi_dialog_stop">Stop</string>
 
     <string name="action_export_midi_title">Save Project</string>
     <string name="action_export_midi_success">Save successful!</string>
@@ -48,7 +50,7 @@
 
     <string name="action_delete_midi_title">Clear Project</string>
     <string name="action_delete_midi_success">Clear successful</string>
-	
+  
     <string name="note_name_simple_c">C</string>
     <string name="note_name_simple_d">D</string>
     <string name="note_name_simple_e">E</string>

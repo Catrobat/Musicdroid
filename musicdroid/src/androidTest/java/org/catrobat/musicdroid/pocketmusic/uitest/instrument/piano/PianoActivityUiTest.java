@@ -24,14 +24,17 @@
 package org.catrobat.musicdroid.pocketmusic.uitest.instrument.piano;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.Toast;
 
 import com.robotium.solo.Solo;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.ToastDisplayer;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.test.note.midi.ProjectToMidiConverterTestDataFactory;
 
@@ -196,10 +199,34 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
     public void testPlayMidi() {
         clickSomePianoButtonsForLargeTrack();
-        solo.clickOnActionBarItem(R.id.action_play_midi);
-        solo.waitForDialogToOpen();
-
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
+        solo.waitForText(pianoActivity.getString(R.string.action_midi_playing));
         assertTrue(pianoActivity.getMidiPlayer().isPlaying());
+    }
+
+    public void testPlayButtonShown() {
+        assertTrue(solo.getCurrentActivity().getResources().getDrawable(R.drawable.ic_action_play).isVisible());
+    }
+
+    public void testStopButtonShown() {
+        clickSomePianoButtonsForLargeTrack();
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
+        assertTrue(solo.getCurrentActivity().getResources().getDrawable(R.drawable.ic_action_stop).isVisible());
+    }
+
+    public void testPlayButtonShownAfterStop() {
+        clickSomePianoButtonsForLargeTrack();
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
+        assertTrue(solo.getCurrentActivity().getResources().getDrawable(R.drawable.ic_action_play).isVisible());
+    }
+
+    public void testStopMidi() {
+        clickSomePianoButtonsForLargeTrack();
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
+        solo.waitForText(pianoActivity.getString(R.string.action_midi_stopped));
+        assertFalse(pianoActivity.getMidiPlayer().isPlaying());
     }
 
     private void clickSomePianoButtonsForLargeTrack() {
@@ -226,17 +253,15 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     }
 
     public void testPlayMidiEmptyTrack() {
-        solo.clickOnActionBarItem(R.id.action_play_midi);
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
 
         assertFalse(pianoActivity.getMidiPlayer().isPlaying());
     }
 
     public void testPlayMidiFinishedPlaying() throws InterruptedException {
         solo.clickOnButton(PIANO_BUTTON);
-        solo.clickOnActionBarItem(R.id.action_play_midi);
-        solo.waitForDialogToOpen();
-        solo.waitForDialogToClose();
-
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
+        solo.waitForText(pianoActivity.getString(R.string.action_midi_finished));
         assertFalse(pianoActivity.getMidiPlayer().isPlaying());
     }
 
