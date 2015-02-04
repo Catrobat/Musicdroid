@@ -37,7 +37,6 @@ public class ProjectSelectionDeleteContextMenu extends ProjectSelectionContextMe
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
-        runDeleteRoutine();
         super.onDestroyActionMode(mode);
     }
 

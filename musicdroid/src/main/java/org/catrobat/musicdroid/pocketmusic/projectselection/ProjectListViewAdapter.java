@@ -94,6 +94,14 @@ public class ProjectListViewAdapter extends BaseAdapter {
         return projects.size();
     }
 
+    public int getSelectedItemsCount(){
+        int counter = 0;
+        for(int i = 0; i<projectSelectionBackgroundFlags.size();i++)
+            if(projectSelectionBackgroundFlags.get(i))
+                counter++;
+        return counter;
+    }
+
     @Override
     public Project getItem(int i) {
         return projects.get(i);

@@ -25,6 +25,7 @@ package org.catrobat.musicdroid.pocketmusic.projectselection;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -115,5 +116,9 @@ public class ProjectSelectionActivity extends Activity {
         else
             projectSelectionContextMenu.enterMultipleEditMode();
 
+    }
+
+    public void notifyCheckedItemStateChanged() {
+        projectSelectionContextMenu.checkedItemStateChanged();
     }
 }

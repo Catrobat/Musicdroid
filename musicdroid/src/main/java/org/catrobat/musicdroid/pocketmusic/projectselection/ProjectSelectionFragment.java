@@ -108,6 +108,7 @@ public class ProjectSelectionFragment extends Fragment {
                     startActivity(intent);
                 } else {
                     listViewAdapter.setProjectSelectionBackgroundFlags(position);
+                    projectSelectionActivity.notifyCheckedItemStateChanged();
                     projectSelectionActivity.notifyNumberOfItemsSelected(listViewAdapter.getProjectSelectionSelectedItemsCount());
 
                 }

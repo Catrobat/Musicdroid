@@ -36,13 +36,14 @@ import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActi
 import java.io.File;
 
 
-public abstract class ProjectSelectionContextMenu implements ActionMode.Callback{
+public abstract class ProjectSelectionContextMenu implements ActionMode.Callback {
     protected ProjectListViewAdapter adapter;
     protected ProjectSelectionActivity parent;
-
+    protected ActionMode actionMode;
 
     @Override
     public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+        this.actionMode = actionMode;
         ProjectSelectionActivity.inCallback = true;
         adapter = parent.getProjectSelectionFragment().getListViewAdapter();
         return true;
@@ -55,7 +56,14 @@ public abstract class ProjectSelectionContextMenu implements ActionMode.Callback
 
     @Override
     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-        return false;
+        switch (menuItem.getItemId()) {
+            case R.id.callback_action_delete_project:
+                runDeleteRoutine();
+                actionMode.finish();
+                return true;
+            default:
+                return false;
+        }
     }
 
     @Override
@@ -64,20 +72,26 @@ public abstract class ProjectSelectionContextMenu implements ActionMode.Callback
         ProjectSelectionActivity.inCallback = false;
         adapter.notifyDataSetChanged();
     }
+
     public abstract void enterSingleEditMode();
 
     public abstract void enterMultipleEditMode();
 
-    public void runDeleteRoutine(){
+    public void runDeleteRoutine() {
         for (int i = 0; i < adapter.getCount(); i++)
             if (adapter.getProjectSelectionBackgroundFlags(i)) {
                 String projectName = adapter.getItem(i).getName();
                 File file = new File(ProjectToMidiConverter.MIDI_FOLDER, projectName + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
-                if(file.delete()){
+                if (file.delete()) {
                     Toast.makeText(parent, parent.getString(R.string.project_selection_on_deletion_successful), Toast.LENGTH_LONG).show();
                     adapter.deleteItemByProjectName(projectName);
                     i--;
                 }
             }
+    }
+
+    public void checkedItemStateChanged() {
+        if (adapter.getSelectedItemsCount() != 0)
+            actionMode.setTitle(adapter.getSelectedItemsCount() + " " + parent.getResources().getString(R.string.selected));
     }
 }
