@@ -89,7 +89,7 @@ public class ProjectSelectionActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-    private void stopPlayingTracks(){
+    public void stopPlayingTracks(){
         MidiPlayer.getInstance().stop();
         notifyTrackPlayed();
     }
@@ -102,6 +102,7 @@ public class ProjectSelectionActivity extends Activity {
 
     @Override
     public void onBackPressed() {
+        stopPlayingTracks();
         super.onBackPressed();
     }
 

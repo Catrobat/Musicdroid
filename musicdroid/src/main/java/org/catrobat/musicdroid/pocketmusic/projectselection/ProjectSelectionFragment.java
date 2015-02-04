@@ -102,11 +102,11 @@ public class ProjectSelectionFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
                 //TODO:  for more tracks
                 if (!ProjectSelectionActivity.inCallback) {
+                    projectSelectionActivity.stopPlayingTracks();
                     Intent intent = new Intent(getActivity(), PianoActivity.class);
                     intent.putExtra(ProjectSelectionActivity.INTENT_EXTRA_FILE_NAME, projects.get(position).getName());
                     startActivity(intent);
-                }
-                else{
+                } else {
                     listViewAdapter.setProjectSelectionBackgroundFlags(position);
                     projectSelectionActivity.notifyNumberOfItemsSelected(listViewAdapter.getProjectSelectionSelectedItemsCount());
 
@@ -117,7 +117,7 @@ public class ProjectSelectionFragment extends Fragment {
         projectsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(listViewAdapter.getProjectSelectionSelectedItemsCount() == 0) {
+                if (listViewAdapter.getProjectSelectionSelectedItemsCount() == 0) {
                     projectSelectionActivity.startMainActionMode();
                 }
                 return false;
@@ -127,6 +127,7 @@ public class ProjectSelectionFragment extends Fragment {
         newProjectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                projectSelectionActivity.stopPlayingTracks();
                 Intent intent = new Intent(getActivity(), PianoActivity.class);
                 startActivity(intent);
             }
