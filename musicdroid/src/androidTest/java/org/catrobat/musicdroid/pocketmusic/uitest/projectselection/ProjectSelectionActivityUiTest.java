@@ -108,7 +108,7 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
             expectedProjects.remove(projectIndicesToDelete[i] - i);
         }
 
-        solo.clickOnView(getActivity().findViewById(R.id.action_delete_project));
+        solo.clickOnView(getActivity().findViewById(R.id.callback_action_delete_project));
         solo.sleep(1000);
 
         assertEquals(getProjectFilesInStorage(), expectedProjects);

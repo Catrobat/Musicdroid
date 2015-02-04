@@ -23,9 +23,11 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" tools:context="org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity" >
 
+    <item android:id="@+id/action_rename" android:title="@string/action_project_rename" android:orderInCategory="100" android:showAsAction="never" />
     <item android:id="@+id/action_import_project" android:title="@string/action_project_import" android:orderInCategory="100" android:showAsAction="never" />
     <item android:id="@+id/action_export_project" android:title="@string/action_project_export" android:orderInCategory="100" android:showAsAction="never" />
     <item android:id="@+id/action_about" android:title="@string/action_project_about" android:orderInCategory="100" android:showAsAction="never" />
     <item android:id="@+id/action_refresh_project" android:title="@string/action_project_refresh" android:orderInCategory="100" android:showAsAction="ifRoom" android:icon="@drawable/ic_action_refresh"/>
+    <item android:id="@+id/action_delete_project" android:title="@string/action_project_delete" android:orderInCategory="100" android:showAsAction="ifRoom" android:icon="@drawable/ic_action_discard"/>
 
 </menu >
