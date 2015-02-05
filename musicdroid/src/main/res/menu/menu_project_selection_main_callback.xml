@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Musicdroid: An on-device music generator for Android
   ~ Copyright (C) 2010-2014 The Catrobat Team
@@ -21,13 +22,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout
-    android:id="@+id/container"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".PianoActivity"
-    tools:ignore="MergeRootFrame" >
-</LinearLayout >
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/callback_action_delete_project" android:icon="@drawable/ic_action_discard" android:title="@string/project_selection_delete_menu_title" android:orderInCategory="100" android:showAsAction="ifRoom" />
+    <item android:id="@+id/callback_action_edit_project" android:icon="@drawable/ic_action_edit" android:title="@string/project_selection_edit_menu_title" android:orderInCategory="100" android:showAsAction="ifRoom" />
+</menu >

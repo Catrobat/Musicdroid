@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Musicdroid: An on-device music generator for Android
   ~ Copyright (C) 2010-2014 The Catrobat Team
@@ -21,13 +22,8 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout
-    android:id="@+id/container"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".PianoActivity"
-    tools:ignore="MergeRootFrame" >
-</LinearLayout >
+<resources >
+    <color name="list_view_item_background_color_selected" >#4D7F8F</color >
+        <color name="list_view_item_background_color" >#ff000000</color >
+
+</resources >

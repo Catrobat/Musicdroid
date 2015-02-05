@@ -64,7 +64,6 @@ public abstract class InstrumentActivity extends Activity {
     private Track track;
     private TickProvider tickProvider;
     private TrackMementoStack mementoStack;
-    private AlertDialog playAllDialog;
 
     private String[] midiFileList;
     private boolean activityInFocus = false;
@@ -110,11 +109,9 @@ public abstract class InstrumentActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-
-        dismissPlayAllDialog();
     }
 
-    private void setTrack(Track track) {
+    protected void setTrack(Track track) {
         this.track = track;
         tickProvider.setTickBasedOnTrack(track);
     }
@@ -213,45 +210,10 @@ public abstract class InstrumentActivity extends Activity {
             return;
         }
 
-        lockScreenOrientation();
-
         try {
             midiPlayer.playTrack(this, getCacheDir(), track, Project.DEFAULT_BEATS_PER_MINUTE);
-
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-            alertDialogBuilder.setMessage(R.string.action_play_midi_dialog_title)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.action_play_midi_dialog_stop,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    midiPlayer.stop();
-                                    unlockScreenOrientation();
-                                }
-                            }
-                    );
-
-            playAllDialog = alertDialogBuilder.create();
-            playAllDialog.show();
         } catch (Exception e) {
             Toast.makeText(getBaseContext(), R.string.action_play_midi_error, Toast.LENGTH_LONG).show();
-            unlockScreenOrientation();
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-    private void lockScreenOrientation() {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
-    }
-
-    private void unlockScreenOrientation() {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-    }
-
-    public void dismissPlayAllDialog() {
-        if ((null != playAllDialog) && playAllDialog.isShowing()) {
-            playAllDialog.dismiss();
-            unlockScreenOrientation();
         }
     }
 
@@ -309,14 +271,15 @@ public abstract class InstrumentActivity extends Activity {
                                 String userInput = editTextMidiExportNameDialogPrompt.getText().toString();
 
                                 if ((userInput != null) && (false == userInput.equals(""))) {
-                                    String filename = userInput.split(ProjectToMidiConverter.MIDI_FILE_EXTENSION)[0];
+                                    String projectName = userInput.split(ProjectToMidiConverter.MIDI_FILE_EXTENSION)[0];
 
                                     final ProjectToMidiConverter converter = new ProjectToMidiConverter();
-                                    final Project project = new Project(Project.DEFAULT_BEATS_PER_MINUTE);
+                                    // TODO fw
+                                    final Project project = new Project(projectName, Project.DEFAULT_BEATS_PER_MINUTE);
                                     project.addTrack(getTrack());
 
                                     try {
-                                        converter.writeProjectAsMidi(project, filename);
+                                        converter.writeProjectAsMidi(project);
 
                                         Toast.makeText(getBaseContext(), R.string.action_export_midi_success,
                                                 Toast.LENGTH_LONG).show();

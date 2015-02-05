@@ -144,22 +144,16 @@ public class MidiPlayerTest extends AndroidTestCase {
         player.playTrack(activity, CACHE_DIR, track, Project.DEFAULT_BEATS_PER_MINUTE);
 
         assertEquals(0, player.getPlayQueueSize());
-        assertPlayTrack(true);
+        assertEquals(true, player.isPlaying());
     }
 
     public void testPlayTrackCompleteEvent() throws IOException, MidiException {
         Track track = TrackTestDataFactory.createSimpleTrack();
         FileMock tempFileToPlay = new FileMock();
         player.playTrack(activity, CACHE_DIR, track, Project.DEFAULT_BEATS_PER_MINUTE);
-        player.onPlayTrackComplete(activity, tempFileToPlay);
+        player.onPlayTrackComplete(tempFileToPlay,activity);
 
         assertTrue(tempFileToPlay.isDeleted());
-        assertTrue(activity.isDismissed());
-        assertPlayTrack(player.isPlaying());
-    }
-
-    private void assertPlayTrack(boolean expectedIsPlaying) {
-        assertEquals(expectedIsPlaying, player.isPlaying());
     }
 
     private class FileMock extends File {

@@ -59,7 +59,9 @@ public class MidiToProjectConverter {
 
 		validateMidiFile(midi);
 
-		return convertMidi(midi);
+        String projectName = file.getName().split(ProjectToMidiConverter.MIDI_FILE_EXTENSION)[0];
+
+		return convertMidi(projectName, midi);
 	}
 
 	private void validateMidiFile(MidiFile midiFile) throws MidiException {
@@ -84,14 +86,14 @@ public class MidiToProjectConverter {
 		throw new MidiException("Unsupported MIDI!");
 	}
 
-	private Project convertMidi(MidiFile midi) {
+	private Project convertMidi(String name, MidiFile midi) {
 		List<Track> tracks = new ArrayList<Track>();
 
 		for (MidiTrack midiTrack : midi.getTracks()) {
 			tracks.add(createTrack(midiTrack));
 		}
 
-		Project project = new Project(beatsPerMinute);
+		Project project = new Project(name, beatsPerMinute);
 
 		for (Track track : tracks) {
 			if (track.size() > 0) {

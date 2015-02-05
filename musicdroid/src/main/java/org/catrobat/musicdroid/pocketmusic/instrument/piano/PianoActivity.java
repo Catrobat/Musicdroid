@@ -33,6 +33,15 @@ import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetViewFragment;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
+import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
+import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
+import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionFragment;
+
+import java.io.File;
+import java.io.IOException;
 
 public class PianoActivity extends InstrumentActivity {
 
@@ -47,7 +56,7 @@ public class PianoActivity extends InstrumentActivity {
         return pianoViewFragment;
     }
 
-    public String getTrackSizeString(){
+    public String getTrackSizeString() {
         return noteSheetViewFragment.getTrackSizeTextViewText();
     }
 
@@ -55,6 +64,9 @@ public class PianoActivity extends InstrumentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_piano);
+
+        handleExtras();
+
         noteSheetViewFragment = new NoteSheetViewFragment();
         pianoViewFragment = new PianoViewFragment();
 
@@ -65,6 +77,37 @@ public class PianoActivity extends InstrumentActivity {
             getFragmentManager().beginTransaction().add(R.id.container, noteSheetViewFragment).commit();
             getFragmentManager().beginTransaction().add(R.id.container, pianoViewFragment).commit();
         }
+    }
+
+    private void handleExtras() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            MidiToProjectConverter converter = new MidiToProjectConverter();
+            File midiFile = new File(ProjectToMidiConverter.MIDI_FOLDER,
+                                extras.getString(ProjectSelectionActivity.INTENT_EXTRA_FILE_NAME) +
+                                ProjectToMidiConverter.MIDI_FILE_EXTENSION);
+            setTitle(extras.getString(ProjectSelectionActivity.INTENT_EXTRA_FILE_NAME));
+            try {
+                Project project = converter.convertMidiFileToProject(midiFile);
+                //TODO: consider more tracks
+                setTrack(project.getTrack(0));
+            } catch (MidiException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+
+    // TODO fw add test for this?!
+    @Override
+    protected void redraw() {
+        noteSheetViewFragment.redraw(getTrack());
     }
 
     @Override
@@ -79,18 +122,6 @@ public class PianoActivity extends InstrumentActivity {
         getMenuInflater().inflate(R.menu.piano, menu);
         return true;
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
-
-    // TODO fw add test for this?!
-    @Override
-    protected void redraw() {
-        noteSheetViewFragment.redraw(getTrack());
-    }
-
 
     public void scrollNoteSheet() {
         if (noteSheetViewFragment.checkForScrollAndRecalculateWidth()) {

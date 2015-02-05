@@ -32,8 +32,16 @@ public class ProjectTestDataFactory {
 	}
 
 	public static Project createProject() {
-        return new Project(Project.DEFAULT_BEATS_PER_MINUTE);
+        return new Project("TestProject", Project.DEFAULT_BEATS_PER_MINUTE);
 	}
+
+    public static Project createProject(String name) {
+        return new Project(name, Project.DEFAULT_BEATS_PER_MINUTE);
+    }
+
+    public static Project createProject(int beatsPerMinute) {
+        return new Project("TestProject", beatsPerMinute);
+    }
 
 	public static Project createProjectWithTrack(MusicalInstrument instrument) {
 		Project project = createProject();
@@ -52,7 +60,7 @@ public class ProjectTestDataFactory {
 	}
 
 	public static Project createProjectWithSemiComplexTracks() {
-		Project project = new Project(Project.DEFAULT_BEATS_PER_MINUTE);
+		Project project = createProject();
 		Track track1 = TrackTestDataFactory.createSemiComplexTrack(MusicalInstrument.GUNSHOT);
 		Track track2 = TrackTestDataFactory.createSemiComplexTrack(MusicalInstrument.WHISTLE);
 
@@ -61,4 +69,12 @@ public class ProjectTestDataFactory {
 
 		return project;
 	}
+
+    public static Project createProjectWithOneSimpleTrack(String projectName) {
+        Project project = createProject(projectName);
+        Track track1 = TrackTestDataFactory.createSimpleTrack();
+        project.addTrack(track1);
+
+        return project;
+    }
 }

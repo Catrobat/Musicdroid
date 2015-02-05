@@ -1,6 +1,6 @@
 /*
  * Musicdroid: An on-device music generator for Android
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,22 +21,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.test.note.midi;
+package org.catrobat.musicdroid.pocketmusic.projectselection.dialog;
 
-import org.catrobat.musicdroid.pocketmusic.note.Project;
-import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
-import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
-import org.catrobat.musicdroid.pocketmusic.test.note.ProjectTestDataFactory;
+import android.app.Dialog;
+import android.content.Context;
+import android.view.View;
+import android.widget.Button;
 
-import java.io.IOException;
+import org.catrobat.musicdroid.pocketmusic.R;
+//PLACEHOLDER CLASS!!!
+public final class EditProjectDialog extends Dialog {
 
-public class ProjectToMidiConverterTestDataFactory {
-
-    private ProjectToMidiConverterTestDataFactory() {
+    public EditProjectDialog(Context context) {
+        super(context);
+        init();
     }
 
-    public static void writeTestProject(Project project) throws IOException, MidiException {
-        final ProjectToMidiConverter converter = new ProjectToMidiConverter();
-        converter.writeProjectAsMidi(project);
+    void init(){
+        this.setTitle("Edit Project");
+        this.setContentView(R.layout.dialog_project_edit);
+        Button dialogOKButton = (Button) this.findViewById(R.id.dialog_project_edit_ok_button);
+        dialogOKButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // dialog.dismiss();
+            }
+        });
+
     }
+
 }

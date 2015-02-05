@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<!--
   ~ Musicdroid: An on-device music generator for Android
   ~ Copyright (C) 2010-2014 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -20,34 +20,13 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
+
 <FrameLayout
+    android:id="@+id/container"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="horizontal" >
-
-    <HorizontalScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/scroll_note_sheet_view">
-
-        <org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"
-            android:id ="@+id/note_sheet_view">
-        </org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetView >
-
-    </HorizontalScrollView >
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/track_size_text_view"/>
-    </LinearLayout >
-
-</FrameLayout>
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity"
+    tools:ignore="MergeRootFrame"
+    />
