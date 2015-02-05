@@ -55,8 +55,9 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
     @Override
     protected void setUp() {
-        pianoActivity = getActivity();
         solo = new Solo(getInstrumentation(), getActivity());
+        solo.waitForActivity(PianoActivity.class);
+        pianoActivity = getActivity();
     }
 
     @Override
