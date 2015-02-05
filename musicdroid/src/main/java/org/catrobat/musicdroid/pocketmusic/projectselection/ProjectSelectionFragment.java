@@ -77,7 +77,6 @@ public class ProjectSelectionFragment extends Fragment {
     }
 
     public void fetchProjectInformation() {
-
         String[] midiFileList = getMidiFileList();
         MidiToProjectConverter midiToProjectConverter = new MidiToProjectConverter();
         projects.clear();
@@ -110,7 +109,6 @@ public class ProjectSelectionFragment extends Fragment {
                     listViewAdapter.setProjectSelectionBackgroundFlags(position);
                     projectSelectionActivity.notifyCheckedItemStateChanged();
                     projectSelectionActivity.notifyNumberOfItemsSelected(listViewAdapter.getProjectSelectionSelectedItemsCount());
-
                 }
 
             }
@@ -145,8 +143,10 @@ public class ProjectSelectionFragment extends Fragment {
                     return filename.contains(ProjectToMidiConverter.MIDI_FILE_EXTENSION) || selectedFile.isDirectory();
                 }
             };
+
             return ProjectToMidiConverter.MIDI_FOLDER.list(filter);
         }
+
         return null;
     }
 

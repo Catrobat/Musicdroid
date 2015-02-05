@@ -52,7 +52,6 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
     private static final String FILE_NAME = "TestProject";
     private ProjectSelectionActivity projectSelectionActivity;
 
-
     public ProjectSelectionActivityUiTest() {
         super(ProjectSelectionActivity.class);
     }
@@ -90,6 +89,7 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         if (ProjectToMidiConverter.MIDI_FOLDER.isDirectory()) {
             Collections.addAll(projectFiles, ProjectToMidiConverter.MIDI_FOLDER.listFiles());
         }
+
         return projectFiles;
     }
 
@@ -176,7 +176,6 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
     }
 
     public void testPlayButton() throws IOException, MidiException {
-
         createSampleProjectFiles(3);
 
         clickRefreshActionButton();
@@ -190,7 +189,6 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         solo.sleep((int) project.getTrack(0).getTotalTimeInMilliseconds());
 
         assertEquals(midiplayer.isPlaying(), false);
-
     }
 
     public void testContextMenuTitle() throws IOException, MidiException {
@@ -203,7 +201,6 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         solo.sleep(100);
         assertEquals(counter + " " + projectSelectionActivity.getResources().getString(R.string.selected),
                 projectSelectionActivity.getProjectSelectionContextMenu().getActionMode().getTitle());
-
     }
 
     public void testRandomInteraction() throws IOException, MidiException {
@@ -218,10 +215,9 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         solo.goBack();
         solo.clickOnButton(getActivity().getResources().getString(R.string.action_project_add));
         solo.waitForActivity(PianoActivity.class);
-
     }
-    public void testRefreshActionButton2() throws IOException, MidiException {
 
+    public void testRefreshActionButton2() throws IOException, MidiException {
         createSampleProjectFiles(3);
         clickRefreshActionButton();
 
@@ -232,6 +228,4 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
 
         assertEquals(midiplayer.isPlaying(), false);
     }
-
-
 }

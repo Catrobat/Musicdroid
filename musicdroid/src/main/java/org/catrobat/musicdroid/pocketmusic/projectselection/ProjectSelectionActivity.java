@@ -44,7 +44,6 @@ public class ProjectSelectionActivity extends Activity {
 
     public static final String INTENT_EXTRA_FILE_NAME = "fileName";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,14 +113,12 @@ public class ProjectSelectionActivity extends Activity {
     }
 
     public void notifyNumberOfItemsSelected(int numberOfItems){
-
         if(numberOfItems == 0)
             actionMode.finish();
         else if(numberOfItems == 1)
             getProjectSelectionContextMenu().enterSingleEditMode();
         else
             getProjectSelectionContextMenu().enterMultipleEditMode();
-
     }
 
     public void notifyCheckedItemStateChanged() {

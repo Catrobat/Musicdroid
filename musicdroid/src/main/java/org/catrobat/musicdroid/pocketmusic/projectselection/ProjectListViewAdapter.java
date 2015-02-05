@@ -169,12 +169,14 @@ public class ProjectListViewAdapter extends BaseAdapter {
                         playButtonLock = true;
                         projectSelectionTrackIsPlayingFlags.set(position, true);
 
+                        // TODO consider more tracks
                         MidiPlayer.getInstance().playTrack((Activity) context,
                                 context.getCacheDir(),
                                 projects.get(position).getTrack(0),
                                 projects.get(position).getBeatsPerMinute());
 
                     }
+
                     notifyDataSetChanged();
                 } catch (IOException | MidiException e) {
                     e.printStackTrace();
@@ -189,7 +191,6 @@ public class ProjectListViewAdapter extends BaseAdapter {
                 playButtonLock = false;
                 MidiPlayer.getInstance().stop();
                 notifyDataSetChanged();
-
             }
 
         });
