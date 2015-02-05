@@ -279,10 +279,16 @@ public abstract class InstrumentActivity extends Activity {
                                     project.addTrack(getTrack());
 
                                     try {
-                                        converter.writeProjectAsMidi(project);
+                                        File file = converter.getMidiFileFromProject(project);
 
-                                        Toast.makeText(getBaseContext(), R.string.action_export_midi_success,
-                                                Toast.LENGTH_LONG).show();
+                                        if (file.exists()) {
+                                            Toast.makeText(getBaseContext(), R.string.action_export_midi_same_name, Toast.LENGTH_LONG).show();
+                                        } else {
+                                            converter.writeProjectAsMidi(project);
+
+                                            Toast.makeText(getBaseContext(), R.string.action_export_midi_success,
+                                                    Toast.LENGTH_LONG).show();
+                                        }
                                     } catch (Exception e) {
                                         Toast.makeText(getBaseContext(), R.string.action_export_midi_error,
                                                 Toast.LENGTH_LONG).show();

@@ -34,6 +34,7 @@
     <string name="action_export_midi_success">Save successful!</string>
     <string name="action_export_midi_cancel">Save canceled!</string>
     <string name="action_export_midi_error">Save failed!</string>
+    <string name="action_export_midi_same_name">This name already exists!</string>
     <string name="action_export_dialog_positive_button">OK</string>
     <string name="action_export_dialog_negative_button">Cancel</string>
     <string name="action_export_dialog_title">Save Project</string>

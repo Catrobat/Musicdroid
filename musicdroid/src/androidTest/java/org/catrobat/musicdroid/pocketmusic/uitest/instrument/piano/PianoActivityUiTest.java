@@ -33,6 +33,7 @@ import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.test.note.ProjectTestDataFactory;
 import org.catrobat.musicdroid.pocketmusic.test.note.midi.ProjectToMidiConverterTestDataFactory;
@@ -101,6 +102,14 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         assertFileExists(filename, expectedFileExists);
     }
 
+    public void testExportMidiSameName() throws IOException, MidiException {
+        String filename = "same name file";
+        boolean saveFile = true;
+
+        exportMidi(filename, saveFile);
+        exportMidi(filename, saveFile);
+    }
+
     private void assertFileExists(String filename, boolean expectedExistResult) {
         File file = new File(ProjectToMidiConverter.MIDI_FOLDER, filename + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
 
@@ -116,11 +125,14 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
         if(clickOnSaveButton) {
             solo.clickOnButton(pianoActivity.getString(R.string.action_export_dialog_positive_button));
+            File file = new File(ProjectToMidiConverter.MIDI_FOLDER, filename + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
 
-            if ((filename != null) && (false == filename.equals(""))) {
-                solo.waitForText(pianoActivity.getString(R.string.action_export_midi_success));
+            if (file.exists()) {
+                assertTrue(solo.waitForText(pianoActivity.getString(R.string.action_export_midi_same_name)));
+            } else if ((filename != null) && (false == filename.equals(""))) {
+                assertTrue(solo.waitForText(pianoActivity.getString(R.string.action_export_midi_success)));
             } else {
-                solo.waitForText(pianoActivity.getString(R.string.action_export_midi_cancel));
+                assertTrue(solo.waitForText(pianoActivity.getString(R.string.action_export_midi_cancel)));
             }
         } else {
             solo.clickOnButton(pianoActivity.getString(R.string.action_export_dialog_negative_button));
@@ -131,7 +143,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         solo.clickOnActionBarItem(R.id.action_import_midi);
         solo.waitForDialogToOpen();
         solo.clickOnText(filename);
-        solo.waitForText(pianoActivity.getString(R.string.action_import_midi_success));
+        assertTrue(solo.waitForText(pianoActivity.getString(R.string.action_import_midi_success)));
     }
 
     public void testImportMidi() throws IOException, MidiException {
@@ -145,7 +157,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     public void testClear() {
         solo.clickOnButton(PIANO_BUTTON);
         solo.clickOnActionBarItem(R.id.action_clear_midi);
-        solo.waitForText(pianoActivity.getString(R.string.action_delete_midi_success));
+        assertTrue(solo.waitForText(pianoActivity.getString(R.string.action_delete_midi_success)));
 
         Track newTrack = getActivity().getTrack();
 

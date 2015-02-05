@@ -57,10 +57,22 @@ public class ProjectToMidiConverter {
 		eventConverter = new NoteEventToMidiEventConverter();
 		usedChannels = new ArrayList<MusicalInstrument>();
 	}
-    
-	public void writeProjectAsMidi(Project project) throws IOException, MidiException {
-		MidiFile midi = convertProject(project);
 
+    public void writeProjectAsMidi(Project project) throws IOException, MidiException {
+        MidiFile midiFile = convertProject(project);
+
+        checkMidiFolder();
+
+        File file = getMidiFileFromProject(project);
+
+        if (file.exists()) {
+            throw new IOException("Project " + project.getName() + "already exists");
+        }
+
+        midiFile.writeToFile(file);
+    }
+
+    private void checkMidiFolder() throws IOException {
         if (!MIDI_FOLDER.exists()) {
             boolean success = MIDI_FOLDER.mkdir();
 
@@ -68,11 +80,13 @@ public class ProjectToMidiConverter {
                 throw new IOException("Could not create folder: " + MIDI_FOLDER);
             }
         }
+    }
 
-		File file = new File(MIDI_FOLDER + File.separator + project.getName() + MIDI_FILE_EXTENSION);
+    public File getMidiFileFromProject(Project project) throws IOException {
+        checkMidiFolder();
 
-		midi.writeToFile(file);
-	}
+        return new File(MIDI_FOLDER + File.separator + project.getName() + MIDI_FILE_EXTENSION);
+    }
 
     public void writeProjectAsMidi(Project project, File file) throws IOException, MidiException {
         MidiFile midi = convertProject(project);
