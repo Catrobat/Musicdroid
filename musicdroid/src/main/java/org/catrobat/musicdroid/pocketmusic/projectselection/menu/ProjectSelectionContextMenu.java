@@ -39,7 +39,7 @@ import java.io.File;
 public abstract class ProjectSelectionContextMenu implements ActionMode.Callback {
     protected ProjectListViewAdapter adapter;
     protected ProjectSelectionActivity parent;
-    protected ActionMode actionMode;
+    private ActionMode actionMode;
 
     @Override
     public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
@@ -92,6 +92,10 @@ public abstract class ProjectSelectionContextMenu implements ActionMode.Callback
 
     public void checkedItemStateChanged() {
         if (adapter.getSelectedItemsCount() != 0)
-            actionMode.setTitle(adapter.getSelectedItemsCount() + " " + parent.getResources().getString(R.string.selected));
+            getActionMode().setTitle(adapter.getSelectedItemsCount() + " " + parent.getResources().getString(R.string.selected));
+    }
+
+    public ActionMode getActionMode() {
+        return actionMode;
     }
 }

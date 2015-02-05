@@ -31,10 +31,10 @@ import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.EditProjectDialog;
 
-public class ProjectSelectionMainContextMenu extends ProjectSelectionContextMenu {
+public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionContextMenu {
     private MenuItem editItem;
 
-    public ProjectSelectionMainContextMenu(ProjectSelectionActivity parentActivity) {
+    public ProjectSelectionTapAndHoldContextMenu(ProjectSelectionActivity parentActivity) {
         parent = parentActivity;
     }
 

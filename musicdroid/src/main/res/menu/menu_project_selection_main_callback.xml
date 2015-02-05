@@ -26,5 +26,4 @@
     <item android:id="@+id/callback_action_delete_project" android:icon="@drawable/ic_action_discard" android:title="@string/project_selection_delete_menu_title" android:orderInCategory="100" android:showAsAction="ifRoom" />
     <item android:id="@+id/callback_action_edit_project" android:icon="@drawable/ic_action_edit" android:title="@string/project_selection_edit_menu_title" android:orderInCategory="100" android:showAsAction="ifRoom" />
 
-
 </menu >

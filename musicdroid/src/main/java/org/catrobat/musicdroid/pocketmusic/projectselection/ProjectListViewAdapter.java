@@ -62,6 +62,7 @@ public class ProjectListViewAdapter extends BaseAdapter {
         public RelativeLayout projectListItemLayout;
 
     }
+
     public ProjectListViewAdapter(Context context, ArrayList<Project> projects) {
         this.context = context;
         this.projects = projects;

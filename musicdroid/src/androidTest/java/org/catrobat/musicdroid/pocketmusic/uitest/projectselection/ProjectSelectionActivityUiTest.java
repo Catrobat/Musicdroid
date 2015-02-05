@@ -93,7 +93,7 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         return projectFiles;
     }
 
-    private void baseDeleteRoutine(int[] projectIndicesToDelete) throws IOException, MidiException {
+    private void tapAndHoldDeleteRoutine(int[] projectIndicesToDelete) throws IOException, MidiException {
         createSampleProjectFiles(NUMBER_OF_SAMPLE_PROJECTS);
         ArrayList<File> expectedProjects = getProjectFilesInStorage();
         clickRefreshActionButton();
@@ -113,7 +113,7 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         assertEquals(getProjectFilesInStorage(), expectedProjects);
     }
 
-    private void mainMenuDeleteRoutine(int[] projectIndicesToDelete) throws IOException, MidiException {
+    private void deleteButtonRoutine(int[] projectIndicesToDelete) throws IOException, MidiException {
         createSampleProjectFiles(NUMBER_OF_SAMPLE_PROJECTS);
         ArrayList<File> expectedProjects = getProjectFilesInStorage();
         clickRefreshActionButton();
@@ -123,7 +123,8 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
             solo.clickOnText(FILE_NAME + projectIndicesToDelete[i]);
             expectedProjects.remove(projectIndicesToDelete[i] - i);
         }
-        solo.goBack();
+
+        solo.clickOnView(getActivity().findViewById(R.id.callback_action_delete_project));
         solo.sleep(1000);
 
         assertEquals(getProjectFilesInStorage(), expectedProjects);
@@ -143,22 +144,22 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
 
     public void testContextMenuDelete() throws IOException, MidiException {
         int[] projectIndicesToDelete = {0, NUMBER_OF_SAMPLE_PROJECTS / 2, NUMBER_OF_SAMPLE_PROJECTS - 1};
-        baseDeleteRoutine(projectIndicesToDelete);
-        mainMenuDeleteRoutine(projectIndicesToDelete);
+        tapAndHoldDeleteRoutine(projectIndicesToDelete);
+        deleteButtonRoutine(projectIndicesToDelete);
     }
 
     public void testContextMenuDelete2() throws IOException, MidiException {
         int[] projectIndicesToDelete = {0};
-        baseDeleteRoutine(projectIndicesToDelete);
-        mainMenuDeleteRoutine(projectIndicesToDelete);
+        tapAndHoldDeleteRoutine(projectIndicesToDelete);
+        deleteButtonRoutine(projectIndicesToDelete);
     }
 
     public void testContextMenuDelete3() throws IOException, MidiException {
         int[] projectIndicesToDelete = new int[NUMBER_OF_SAMPLE_PROJECTS];
         for (int i = 0; i < projectIndicesToDelete.length; i++)
             projectIndicesToDelete[i] = i;
-        baseDeleteRoutine(projectIndicesToDelete);
-        mainMenuDeleteRoutine(projectIndicesToDelete);
+        tapAndHoldDeleteRoutine(projectIndicesToDelete);
+        deleteButtonRoutine(projectIndicesToDelete);
     }
 
     public void testLinkToNextActivity() {
@@ -189,7 +190,22 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         solo.sleep((int) project.getTrack(0).getTotalTimeInMilliseconds());
 
         assertEquals(midiplayer.isPlaying(), false);
+
     }
+
+    public void testContextMenuTitle() throws IOException, MidiException {
+        int counter = 3;
+        createSampleProjectFiles(5);
+        clickRefreshActionButton();
+        solo.clickOnView(getActivity().findViewById(R.id.action_delete_project));
+        for (int i = 0; i < counter; i++)
+            solo.clickOnText(FILE_NAME + i);
+        solo.sleep(100);
+        assertEquals(counter + " " + projectSelectionActivity.getResources().getString(R.string.selected),
+                projectSelectionActivity.getProjectSelectionContextMenu().getActionMode().getTitle());
+
+    }
+
     public void testRandomInteraction() throws IOException, MidiException {
         createSampleProjectFiles(5);
 
@@ -207,8 +223,8 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
     public void testRefreshActionButton2() throws IOException, MidiException {
 
         createSampleProjectFiles(3);
-
         clickRefreshActionButton();
+
         solo.clickOnView(solo.getView(R.id.project_play_button, 2));
         solo.sleep(100);
 
