@@ -45,6 +45,7 @@ public class SplashScreenActivityUiTest extends ActivityInstrumentationTestCase2
     @Override
     protected void tearDown() {
         solo.finishOpenedActivities();
+        solo.sleep(1000);
     }
 
     public void testLoadingTime() {
