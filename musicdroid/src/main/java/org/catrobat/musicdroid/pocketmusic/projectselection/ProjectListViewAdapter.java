@@ -60,7 +60,6 @@ public class ProjectListViewAdapter extends BaseAdapter {
         public TextView projectNameTextView;
         public TextView projectDurationTextView;
         public RelativeLayout projectListItemLayout;
-
     }
 
     public ProjectListViewAdapter(Context context, ArrayList<Project> projects) {
@@ -87,7 +86,6 @@ public class ProjectListViewAdapter extends BaseAdapter {
                 projectSelectionTrackIsPlayingFlags.remove(i);
             }
         notifyDataSetChanged();
-
     }
 
     @Override
@@ -95,10 +93,10 @@ public class ProjectListViewAdapter extends BaseAdapter {
         return projects.size();
     }
 
-    public int getSelectedItemsCount(){
+    public int getSelectedItemsCount() {
         int counter = 0;
-        for(int i = 0; i<projectSelectionBackgroundFlags.size();i++)
-            if(projectSelectionBackgroundFlags.get(i))
+        for (int i = 0; i < projectSelectionBackgroundFlags.size(); i++)
+            if (projectSelectionBackgroundFlags.get(i))
                 counter++;
         return counter;
     }
@@ -118,7 +116,6 @@ public class ProjectListViewAdapter extends BaseAdapter {
         viewHolder = new ViewHolder();
 
         if (view == null) {
-
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.project_selection_list_item, null);
@@ -134,7 +131,6 @@ public class ProjectListViewAdapter extends BaseAdapter {
             viewHolder.projectDurationTextView = (TextView) view
                     .findViewById(R.id.project_duration_text_view);
 
-
             view.setTag(viewHolder);
         }
 
@@ -146,13 +142,15 @@ public class ProjectListViewAdapter extends BaseAdapter {
 
         return view;
     }
-    private void initBackgroundBehavior(int position){
-        if(getProjectSelectionBackgroundFlags(position))
+
+    private void initBackgroundBehavior(int position) {
+        if (getProjectSelectionBackgroundFlags(position))
             viewHolder.projectListItemLayout.setBackgroundColor(context.getResources().getColor(R.color.list_view_item_background_color_selected));
         else
             viewHolder.projectListItemLayout.setBackgroundColor(Color.TRANSPARENT);
 
     }
+
     private void initPlayPauseButtonRoutine(final int position) {
 
         if (projectSelectionTrackIsPlayingFlags.get(position)) {
@@ -203,13 +201,13 @@ public class ProjectListViewAdapter extends BaseAdapter {
         viewHolder.projectDurationTextView.setText(getDurationTextViewText(actualPosition, 0));
     }
 
-    private String getDurationTextViewText(int actualPosition, int trackPosition){
+    private String getDurationTextViewText(int actualPosition, int trackPosition) {
         long timeInMilliseconds = projects.get(actualPosition).getTrack(trackPosition).getTotalTimeInMilliseconds();
         return context.getResources().getText(R.string.project_duration)
-        + String.format("%02d", (timeInMilliseconds/1000)/60)
-        + context.getResources().getString(R.string.minutes_short) + " "
-        + String.format("%02d", timeInMilliseconds/1000)
-        + context.getResources().getString(R.string.seconds_short);
+                + String.format("%02d", (timeInMilliseconds / 1000) / 60)
+                + context.getResources().getString(R.string.minutes_short) + " "
+                + String.format("%02d", timeInMilliseconds / 1000)
+                + context.getResources().getString(R.string.seconds_short);
     }
 
     public void changePlayPauseButtonState() {
@@ -229,7 +227,7 @@ public class ProjectListViewAdapter extends BaseAdapter {
     }
 
     public void setProjectSelectionBackgroundFlags(int position) {
-        if(projectSelectionBackgroundFlags.get(position))
+        if (projectSelectionBackgroundFlags.get(position))
             this.projectSelectionBackgroundFlags.set(position, false);
         else
             this.projectSelectionBackgroundFlags.set(position, true);
@@ -239,9 +237,9 @@ public class ProjectListViewAdapter extends BaseAdapter {
 
     public int getProjectSelectionSelectedItemsCount() {
         int counter = 0;
-        for(int i = 0; i < projectSelectionBackgroundFlags.size(); i++)
-            if(projectSelectionBackgroundFlags.get(i)){
-                counter ++;
+        for (int i = 0; i < projectSelectionBackgroundFlags.size(); i++)
+            if (projectSelectionBackgroundFlags.get(i)) {
+                counter++;
             }
         return counter;
     }

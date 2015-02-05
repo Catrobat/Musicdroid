@@ -63,14 +63,17 @@ public class ProjectSelectionActivity extends Activity {
         getMenuInflater().inflate(R.menu.menu_project_selection, menu);
         return true;
     }
+
     public void startTapAndHoldActionMode(){
         projectSelectionContextMenu = new ProjectSelectionTapAndHoldContextMenu(this);
         actionMode = startActionMode(getProjectSelectionContextMenu());
     }
+
     private void startDeleteActionMode(){
         projectSelectionContextMenu = new ProjectSelectionDeleteContextMenu(this);
         actionMode = startActionMode(getProjectSelectionContextMenu());
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -87,15 +90,19 @@ public class ProjectSelectionActivity extends Activity {
             startDeleteActionMode();
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
+
     public void stopPlayingTracks(){
         MidiPlayer.getInstance().stop();
         notifyTrackPlayed();
     }
+
     public void notifyTrackPlayed(){
         projectSelectionFragment.getListViewAdapter().changePlayPauseButtonState();
     }
+
     public ProjectSelectionFragment getProjectSelectionFragment(){
         return projectSelectionFragment;
     }
