@@ -71,6 +71,7 @@
     <string name="project_duration">Duration:&#160;</string>
     <string name="project_selection_delete_menu_title">Select items to delete</string>
     <string name="project_selection_edit_menu_title">Edit</string>
+    <string name="project_selection_copy_menu_title">Copy</string>
     <string name="project_selection_on_deletion_successful">Delete was successful.</string>
     <string name="minutes_short">min</string>
     <string name="seconds_short">sec</string>

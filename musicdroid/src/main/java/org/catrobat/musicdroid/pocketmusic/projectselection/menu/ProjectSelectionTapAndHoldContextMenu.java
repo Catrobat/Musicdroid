@@ -32,7 +32,9 @@ import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActi
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.EditProjectDialog;
 
 public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionContextMenu {
+
     private MenuItem editItem;
+    private MenuItem copyItem;
 
     public ProjectSelectionTapAndHoldContextMenu(ProjectSelectionActivity parentActivity) {
         parent = parentActivity;
@@ -46,6 +48,12 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
                 EditProjectDialog editProjectDialog = new EditProjectDialog(parent);
                 editProjectDialog.show();
                 mode.finish();
+
+                return true;
+            case R.id.callback_action_copy_project:
+                // TODO fw
+                mode.finish();
+                
                 return true;
             default:
                 return false;
@@ -54,10 +62,12 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
 
     public void enterSingleEditMode() {
         editItem.setVisible(true);
+        copyItem.setVisible(true);
     }
 
     public void enterMultipleEditMode() {
         editItem.setVisible(false);
+        copyItem.setVisible(false);
     }
 
     @Override
@@ -70,6 +80,7 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
         parent.getMenuInflater().inflate(R.menu.menu_project_selection_main_callback, menu);
         super.onCreateActionMode(mode,menu);
         editItem = menu.findItem(R.id.callback_action_edit_project);
+        copyItem = menu.findItem(R.id.callback_action_copy_project);
 
         return true;
     }
