@@ -63,7 +63,7 @@ public class ProjectToMidiConverter {
 
         checkMidiFolder();
 
-        File file = getMidiFileFromProject(project);
+        File file = getMidiFileFromProjectName(project.getName());
 
         if (file.exists()) {
             throw new IOException("Project " + project.getName() + "already exists");
@@ -72,7 +72,7 @@ public class ProjectToMidiConverter {
         midiFile.writeToFile(file);
     }
 
-    private void checkMidiFolder() throws IOException {
+    private static void checkMidiFolder() throws IOException {
         if (!MIDI_FOLDER.exists()) {
             boolean success = MIDI_FOLDER.mkdir();
 
@@ -82,10 +82,14 @@ public class ProjectToMidiConverter {
         }
     }
 
-    public File getMidiFileFromProject(Project project) throws IOException {
+    public static File getMidiFileFromProjectName(String name) throws IOException {
         checkMidiFolder();
 
-        return new File(MIDI_FOLDER + File.separator + project.getName() + MIDI_FILE_EXTENSION);
+        return new File(MIDI_FOLDER + File.separator + name + MIDI_FILE_EXTENSION);
+    }
+
+    public static String removeMidiExtensionFromString(String input) {
+        return input.split(MIDI_FILE_EXTENSION)[0];
     }
 
     public void writeProjectAsMidi(Project project, File file) throws IOException, MidiException {

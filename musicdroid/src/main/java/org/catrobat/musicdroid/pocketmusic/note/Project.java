@@ -54,6 +54,11 @@ public class Project implements Serializable {
         }
     }
 
+    public Project(Project project, String name) {
+        this(project);
+        this.name = name;
+    }
+
     public String getName() { return name; }
 
     public int getBeatsPerMinute() {

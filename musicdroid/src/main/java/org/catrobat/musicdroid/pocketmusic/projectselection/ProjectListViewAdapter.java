@@ -244,4 +244,14 @@ public class ProjectListViewAdapter extends BaseAdapter {
             }
         return counter;
     }
+
+    public Project getSelectedProject() {
+        for (int i = 0; i < projectSelectionBackgroundFlags.size(); i++) {
+            if (projectSelectionBackgroundFlags.get(i)) {
+                return projects.get(i);
+            }
+        }
+
+        return null;
+    }
 }

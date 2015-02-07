@@ -23,12 +23,14 @@
 
 package org.catrobat.musicdroid.pocketmusic.projectselection.menu;
 
+import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
+import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.CopyProjectDialog;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.EditProjectDialog;
 
 public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionContextMenu {
@@ -51,9 +53,13 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
 
                 return true;
             case R.id.callback_action_copy_project:
-                // TODO fw
+                Bundle args = new Bundle();
+                args.putSerializable("project", adapter.getSelectedProject());
+                CopyProjectDialog dialog = new CopyProjectDialog();
+                dialog.setArguments(args);
+                dialog.show(parent.getFragmentManager(), "tag");
                 mode.finish();
-                
+
                 return true;
             default:
                 return false;

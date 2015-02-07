@@ -23,31 +23,25 @@
 
 package org.catrobat.musicdroid.pocketmusic.projectselection.dialog;
 
-import android.app.Dialog;
-import android.content.Context;
-import android.view.View;
-import android.widget.Button;
-
 import org.catrobat.musicdroid.pocketmusic.R;
-//PLACEHOLDER CLASS!!!
-public final class EditProjectDialog extends Dialog {
+import org.catrobat.musicdroid.pocketmusic.note.Project;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
+import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 
-    public EditProjectDialog(Context context) {
-        super(context);
-        initComponents();
+import java.io.IOException;
+
+public class CopyProjectDialog extends AbstractProjectNameDialog {
+
+    public CopyProjectDialog() {
+        super(R.string.dialog_project_copy_title, R.string.dialog_project_copy_message, R.string.dialog_project_copy_success, R.string.dialog_project_copy_error, R.string.dialog_project_copy_cancel);
     }
 
-    void initComponents(){
-        setTitle(R.string.dialog_project_edit_title);
-        setContentView(R.layout.dialog_project_edit);
-        Button dialogOKButton = (Button) this.findViewById(R.id.dialog_project_edit_ok_button);
-        dialogOKButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               // dialog.dismiss();
-            }
-        });
+    @Override
+    protected void onExistingProjectName(String name) throws IOException, MidiException {
+        Project existingProject = (Project) getArguments().getSerializable("project");
+        Project copyProject = new Project(existingProject, name);
 
+        ProjectToMidiConverter converter = new ProjectToMidiConverter();
+        converter.writeProjectAsMidi(copyProject);
     }
-
 }

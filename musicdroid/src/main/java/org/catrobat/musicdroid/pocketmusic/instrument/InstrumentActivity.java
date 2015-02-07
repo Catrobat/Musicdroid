@@ -279,7 +279,7 @@ public abstract class InstrumentActivity extends Activity {
                                     project.addTrack(getTrack());
 
                                     try {
-                                        File file = converter.getMidiFileFromProject(project);
+                                        File file = converter.getMidiFileFromProjectName(project.getName());
 
                                         if (file.exists()) {
                                             Toast.makeText(getBaseContext(), R.string.action_export_midi_same_name, Toast.LENGTH_LONG).show();
