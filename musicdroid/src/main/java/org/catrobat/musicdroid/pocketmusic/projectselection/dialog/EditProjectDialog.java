@@ -27,27 +27,71 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
-//PLACEHOLDER CLASS!!!
+import org.catrobat.musicdroid.pocketmusic.note.Project;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
+import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectListViewAdapter;
+
+import java.io.IOException;
+
 public final class EditProjectDialog extends Dialog {
 
-    public EditProjectDialog(Context context) {
+    private EditText renameProjectEditText;
+    private Button okButton;
+    private Button cancelButton;
+
+    private Project project;
+    private ProjectListViewAdapter adapter;
+
+    public EditProjectDialog(Context context, Project project, ProjectListViewAdapter adapter) {
         super(context);
-        init();
+
+        this.setContentView(R.layout.dialog_project_edit);
+
+        this.project = project;
+        this.adapter = adapter;
+
+        findViews();
+        initDialog();
+        setClickListeners();
     }
 
-    void init(){
-        this.setTitle("Edit Project");
-        this.setContentView(R.layout.dialog_project_edit);
-        Button dialogOKButton = (Button) this.findViewById(R.id.dialog_project_edit_ok_button);
-        dialogOKButton.setOnClickListener(new View.OnClickListener() {
+    private void findViews() {
+        okButton = (Button) this.findViewById(R.id.dialog_project_edit_ok_button);
+        cancelButton = (Button) this.findViewById(R.id.dialog_project_edit_cancel_button);
+        renameProjectEditText = (EditText) this.findViewById(R.id.dialog_project_edit_rename_field);
+    }
+
+    private void initDialog() {
+        this.setTitle(getContext().getResources().getString(R.string.edit_project));
+        renameProjectEditText.setText(project.getName());
+    }
+
+    private void setClickListeners() {
+        okButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-               // dialog.dismiss();
+            public void onClick(View view) {
+                try {
+                    //TODO just rename now
+                    if (adapter.renameItem(project.getName(), renameProjectEditText.getText().toString()))
+                        Toast.makeText(getContext(), getContext().getString(R.string.edit_successful), Toast.LENGTH_LONG).show();
+                    else
+                        Toast.makeText(getContext(), getContext().getString(R.string.edit_unsuccessful), Toast.LENGTH_LONG).show();
+                } catch (IOException | MidiException e) {
+                    e.printStackTrace();
+                }
+                dismiss();
             }
         });
 
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
     }
-
 }

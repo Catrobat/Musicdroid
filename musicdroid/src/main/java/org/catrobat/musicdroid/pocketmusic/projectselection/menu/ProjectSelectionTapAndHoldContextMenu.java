@@ -28,6 +28,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.EditProjectDialog;
 
@@ -40,10 +41,15 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        super.onActionItemClicked(mode,item);
+        super.onActionItemClicked(mode, item);
         switch (item.getItemId()) {
             case R.id.callback_action_edit_project:
-                EditProjectDialog editProjectDialog = new EditProjectDialog(parent);
+                Project project = null;
+                for (int i = 0; i < adapter.getCount(); i++)
+                    if (adapter.getProjectSelectionBackgroundFlags(i)) {
+                        project = adapter.getItem(i);
+                    }
+                EditProjectDialog editProjectDialog = new EditProjectDialog(parent, project, adapter);
                 editProjectDialog.show();
                 mode.finish();
                 return true;
@@ -68,7 +74,7 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         parent.getMenuInflater().inflate(R.menu.menu_project_selection_main_callback, menu);
-        super.onCreateActionMode(mode,menu);
+        super.onCreateActionMode(mode, menu);
         editItem = menu.findItem(R.id.callback_action_edit_project);
 
         return true;

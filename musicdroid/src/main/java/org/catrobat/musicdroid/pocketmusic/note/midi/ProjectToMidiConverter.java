@@ -57,7 +57,17 @@ public class ProjectToMidiConverter {
 		eventConverter = new NoteEventToMidiEventConverter();
 		usedChannels = new ArrayList<MusicalInstrument>();
 	}
-    
+
+    public boolean deleteMidiByName(String name)
+    {
+        File file = new File(ProjectToMidiConverter.MIDI_FOLDER, name + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
+
+        if(file.delete())
+            return true;
+
+        return false;
+    }
+
 	public void writeProjectAsMidi(Project project) throws IOException, MidiException {
 		MidiFile midi = convertProject(project);
 
