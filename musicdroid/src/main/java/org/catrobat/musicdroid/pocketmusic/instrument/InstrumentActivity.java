@@ -271,7 +271,6 @@ public abstract class InstrumentActivity extends Activity {
             args.putSerializable(SaveProjectDialog.ARGUMENT_TRACK, getTrack());
             SaveProjectDialog dialog = new SaveProjectDialog();
             dialog.setArguments(args);
-            Object o = getFragmentManager();
             dialog.show(getFragmentManager(), "tag");
         }
     }

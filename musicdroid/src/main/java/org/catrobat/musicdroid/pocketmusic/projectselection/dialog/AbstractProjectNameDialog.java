@@ -67,41 +67,57 @@ public abstract class AbstractProjectNameDialog extends DialogFragment {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String input = editTextProjectName.getText().toString();
-
-                        if ((input != null) && (false == input.equals(""))) {
-                            String projectName = ProjectToMidiConverter.removeMidiExtensionFromString(input);
-
-                            try {
-                                File file = ProjectToMidiConverter.getMidiFileFromProjectName(projectName);
-
-                                if (file.exists()) {
-                                    Toast.makeText(getActivity().getBaseContext(), R.string.dialog_project_name_exists_error, Toast.LENGTH_LONG).show();
-                                } else {
-                                    onNewProjectName(projectName);
-
-                                    Toast.makeText(getActivity().getBaseContext(), successMessageId,
-                                            Toast.LENGTH_LONG).show();
-                                }
-                            } catch (Exception e) {
-                                Toast.makeText(getActivity().getBaseContext(), errorMessageId,
-                                        Toast.LENGTH_LONG).show();
-                            }
-                        } else {
-                            Toast.makeText(getActivity().getBaseContext(), cancelMessageId,
-                                    Toast.LENGTH_LONG).show();
-                        }
+                        onPositiveButton();
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getActivity().getBaseContext(), cancelMessageId,
-                                Toast.LENGTH_LONG).show();
+                        onNegativeButton();
                     }
                 })
                 .create();
     }
 
     protected abstract void onNewProjectName(String name) throws IOException, MidiException;
+
+    protected void onPositiveButton() {
+        String input = getUserInput();
+
+        if ((input != null) && (false == input.equals(""))) {
+            String projectName = ProjectToMidiConverter.removeMidiExtensionFromString(input);
+
+            try {
+                if (projectNameExists(projectName)) {
+                    makeToastText(R.string.dialog_project_name_exists_error, Toast.LENGTH_LONG);
+                } else {
+                    onNewProjectName(projectName);
+
+                    makeToastText(successMessageId, Toast.LENGTH_LONG);
+                }
+            } catch (Exception e) {
+                makeToastText(errorMessageId, Toast.LENGTH_LONG);
+            }
+        } else {
+            makeToastText(cancelMessageId, Toast.LENGTH_LONG);
+        }
+    }
+
+    protected String getUserInput() {
+        return editTextProjectName.getText().toString();
+    }
+
+    protected boolean projectNameExists(String projectName) throws IOException {
+        File file = ProjectToMidiConverter.getMidiFileFromProjectName(projectName);
+
+        return file.exists();
+    }
+
+    protected void onNegativeButton() {
+        makeToastText(cancelMessageId, Toast.LENGTH_LONG);
+    }
+
+    protected void makeToastText(int resId, int toastLength) {
+        Toast.makeText(getActivity().getBaseContext(), resId, toastLength).show();
+    }
 }

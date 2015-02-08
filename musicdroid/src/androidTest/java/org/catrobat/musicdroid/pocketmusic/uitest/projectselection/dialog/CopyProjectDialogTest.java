@@ -21,33 +21,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.projectselection.dialog;
+package org.catrobat.musicdroid.pocketmusic.uitest.projectselection.dialog;
 
-import org.catrobat.musicdroid.pocketmusic.R;
-import org.catrobat.musicdroid.pocketmusic.note.Project;
-import org.catrobat.musicdroid.pocketmusic.note.Track;
+import android.os.Bundle;
+import android.test.AndroidTestCase;
+
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
+import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.CopyProjectDialog;
+import org.catrobat.musicdroid.pocketmusic.test.note.ProjectTestDataFactory;
 
+import java.io.File;
 import java.io.IOException;
 
-public class SaveProjectDialog extends AbstractProjectNameDialog {
+public class CopyProjectDialogTest extends AndroidTestCase {
 
-    public static final String ARGUMENT_TRACK = "track";
+    private String userInput;
+    private CopyProjectDialogMock dialog;
 
-    public SaveProjectDialog() {
-        super(R.string.dialog_project_save_title, R.string.dialog_project_save_message, R.string.dialog_project_save_success, R.string.dialog_project_save_error, R.string.dialog_project_save_cancel);
+    @Override
+    protected void setUp() {
+        userInput = "some input";
+        Bundle args = new Bundle();
+        args.putSerializable(CopyProjectDialog.ARGUMENT_PROJECT, ProjectTestDataFactory.createProject());
+        dialog = new CopyProjectDialogMock();
+        dialog.setArguments(args);
     }
 
     @Override
-    protected void onNewProjectName(String name) throws IOException, MidiException {
-        Track track = (Track) getArguments().getSerializable(ARGUMENT_TRACK);
-        int beatsPerMinute = track.getBeatsPerMinute();
+    protected void tearDown() throws IOException {
+        ProjectToMidiConverter.getMidiFileFromProjectName(userInput).delete();
+    }
 
-        Project project = new Project(name, beatsPerMinute);
-        project.addTrack(track);
+    public void testOnNewProjectName() throws IOException, MidiException {
+        dialog.onNewProjectName(userInput);
 
-        ProjectToMidiConverter converter = new ProjectToMidiConverter();
-        converter.writeProjectAsMidi(project);
+        assertTrue(ProjectToMidiConverter.getMidiFileFromProjectName(userInput).exists());
     }
 }
