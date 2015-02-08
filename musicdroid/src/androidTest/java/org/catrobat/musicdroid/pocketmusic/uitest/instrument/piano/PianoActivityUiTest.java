@@ -33,7 +33,6 @@ import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
-import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.test.note.ProjectTestDataFactory;
 import org.catrobat.musicdroid.pocketmusic.test.note.midi.ProjectToMidiConverterTestDataFactory;
@@ -72,86 +71,25 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         solo.finishOpenedActivities();
     }
 
-    public void testExportMidi() {
-        String filename = "music";
-        boolean saveFile = true;
-        boolean expectedFileExists = true;
-
-        exportMidi(filename, saveFile);
-
-        assertFileExists(filename, expectedFileExists);
-    }
-
-    public void testExportMidiInvalidName() {
-        String invalidFilename = "";
-        boolean saveFile = true;
-        boolean expectedFileExists = false;
-
-        exportMidi(invalidFilename, saveFile);
-
-        assertFileExists(invalidFilename, expectedFileExists);
-    }
-
-    public void testExportMidiCancel() {
-        String filename = "music";
-        boolean saveFile = false;
-        boolean expectedFileExists = false;
-
-        exportMidi(filename, saveFile);
-
-        assertFileExists(filename, expectedFileExists);
-    }
-
-    public void testExportMidiSameName() throws IOException, MidiException {
-        String filename = "same name file";
-        boolean saveFile = true;
-
-        exportMidi(filename, saveFile);
-        exportMidi(filename, saveFile);
-    }
-
     private void assertFileExists(String filename, boolean expectedExistResult) {
         File file = new File(ProjectToMidiConverter.MIDI_FOLDER, filename + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
 
         assertEquals(expectedExistResult, file.exists());
     }
 
-    private void exportMidi(String filename, boolean clickOnSaveButton) {
-        solo.clickOnButton(PIANO_BUTTON);
-        solo.clickOnActionBarItem(R.id.action_export_midi);
-        solo.waitForDialogToOpen();
-        solo.clearEditText(pianoActivity.getEditTextMidiExportNameDialogPrompt());
-        solo.enterText(pianoActivity.getEditTextMidiExportNameDialogPrompt(), filename);
-
-        if(clickOnSaveButton) {
-            solo.clickOnButton(pianoActivity.getString(R.string.action_export_dialog_positive_button));
-            File file = new File(ProjectToMidiConverter.MIDI_FOLDER, filename + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
-
-            if (file.exists()) {
-                assertTrue(solo.waitForText(pianoActivity.getString(R.string.action_export_midi_same_name)));
-            } else if ((filename != null) && (false == filename.equals(""))) {
-                assertTrue(solo.waitForText(pianoActivity.getString(R.string.action_export_midi_success)));
-            } else {
-                assertTrue(solo.waitForText(pianoActivity.getString(R.string.action_export_midi_cancel)));
-            }
-        } else {
-            solo.clickOnButton(pianoActivity.getString(R.string.action_export_dialog_negative_button));
-        }
-    }
-
-    private void importMidi(String filename) {
-        solo.clickOnActionBarItem(R.id.action_import_midi);
+    private void loadMidi(String filename) {
+        solo.clickOnActionBarItem(R.id.action_load_midi);
         solo.waitForDialogToOpen();
         solo.clickOnText(filename);
-        assertTrue(solo.waitForText(pianoActivity.getString(R.string.action_import_midi_success)));
+        assertTrue(solo.waitForText(pianoActivity.getString(R.string.action_load_midi_success)));
     }
 
-    public void testImportMidi() throws IOException, MidiException {
+    public void testLoadtMidi() throws IOException, MidiException {
         boolean expectedFileExists = true;
         Project project = ProjectTestDataFactory.createProjectWithSemiComplexTracks();
         ProjectToMidiConverterTestDataFactory.writeTestProject(project);
         assertFileExists(project.getName(), expectedFileExists);
-        importMidi(project.getName());
+        loadMidi(project.getName());
     }
 
     public void testClear() {

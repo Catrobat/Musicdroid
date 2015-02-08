@@ -54,7 +54,7 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
                 return true;
             case R.id.callback_action_copy_project:
                 Bundle args = new Bundle();
-                args.putSerializable("project", adapter.getSelectedProject());
+                args.putSerializable(CopyProjectDialog.ARGUMENT_PROJECT, adapter.getSelectedProject());
                 CopyProjectDialog dialog = new CopyProjectDialog();
                 dialog.setArguments(args);
                 dialog.show(parent.getFragmentManager(), "tag");

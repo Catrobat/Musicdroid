@@ -78,7 +78,7 @@ public abstract class AbstractProjectNameDialog extends DialogFragment {
                                 if (file.exists()) {
                                     Toast.makeText(getActivity().getBaseContext(), R.string.dialog_project_name_exists_error, Toast.LENGTH_LONG).show();
                                 } else {
-                                    onExistingProjectName(projectName);
+                                    onNewProjectName(projectName);
 
                                     Toast.makeText(getActivity().getBaseContext(), successMessageId,
                                             Toast.LENGTH_LONG).show();
@@ -103,5 +103,5 @@ public abstract class AbstractProjectNameDialog extends DialogFragment {
                 .create();
     }
 
-    protected abstract void onExistingProjectName(String name) throws IOException, MidiException;
+    protected abstract void onNewProjectName(String name) throws IOException, MidiException;
 }
