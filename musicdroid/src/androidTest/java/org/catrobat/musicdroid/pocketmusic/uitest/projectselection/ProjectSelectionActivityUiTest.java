@@ -109,7 +109,10 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         clickRefreshActionButton();
 
         solo.clickLongOnText(FILE_NAME + projectToEditIndex);
+
+        solo.setActivityOrientation(Solo.LANDSCAPE);
         solo.clickOnView(getActivity().findViewById(R.id.callback_action_edit_project));
+
         solo.waitForDialogToOpen();
         solo.enterText(0, editAppend);
         if (tapOK) {
