@@ -29,12 +29,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
-import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectListViewAdapter;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
-
-import java.io.File;
-
 
 public abstract class ProjectSelectionContextMenu implements ActionMode.Callback {
     protected ProjectListViewAdapter adapter;
@@ -81,12 +77,11 @@ public abstract class ProjectSelectionContextMenu implements ActionMode.Callback
         for (int i = 0; i < adapter.getCount(); i++)
             if (adapter.getProjectSelectionBackgroundFlags(i)) {
                 String projectName = adapter.getItem(i).getName();
-                File file = new File(ProjectToMidiConverter.MIDI_FOLDER, projectName + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
-                if (file.delete()) {
+                if (adapter.deleteItemByProjectName(projectName)) {
                     Toast.makeText(parent, parent.getString(R.string.project_selection_on_deletion_successful), Toast.LENGTH_LONG).show();
-                    adapter.deleteItemByProjectName(projectName);
                     i--;
-                }
+                } else
+                    Toast.makeText(parent, parent.getString(R.string.delete_unsuccessful), Toast.LENGTH_LONG).show();
             }
     }
 

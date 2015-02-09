@@ -29,9 +29,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.CopyProjectDialog;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.EditProjectDialog;
+import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.EditProjectDialogFragment;
 
 public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionContextMenu {
 
@@ -44,17 +46,21 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        super.onActionItemClicked(mode,item);
+        super.onActionItemClicked(mode, item);
+
+        Bundle args = new Bundle();
+        args.putSerializable("project", adapter.getSelectedProject());
+
         switch (item.getItemId()) {
             case R.id.callback_action_edit_project:
-                EditProjectDialog editProjectDialog = new EditProjectDialog(parent);
-                editProjectDialog.show();
+
+                EditProjectDialogFragment editProjectDialog = new EditProjectDialogFragment();
+                editProjectDialog.setArguments(args);
+                editProjectDialog.show(parent.getFragmentManager(), "tag");
                 mode.finish();
 
                 return true;
             case R.id.callback_action_copy_project:
-                Bundle args = new Bundle();
-                args.putSerializable("project", adapter.getSelectedProject());
                 CopyProjectDialog dialog = new CopyProjectDialog();
                 dialog.setArguments(args);
                 dialog.show(parent.getFragmentManager(), "tag");
@@ -84,7 +90,7 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         parent.getMenuInflater().inflate(R.menu.menu_project_selection_main_callback, menu);
-        super.onCreateActionMode(mode,menu);
+        super.onCreateActionMode(mode, menu);
         editItem = menu.findItem(R.id.callback_action_edit_project);
         copyItem = menu.findItem(R.id.callback_action_copy_project);
 

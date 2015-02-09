@@ -39,13 +39,13 @@ public class Project implements Serializable {
     public Project(String name, int beatsPerMinute) {
         this.name = name;
         this.beatsPerMinute = beatsPerMinute;
-        this.tracks = new LinkedList<Track>();
+        this.tracks = new LinkedList<>();
     }
 
     public Project(Project project) {
         name = project.getName();
         beatsPerMinute = project.getBeatsPerMinute();
-        tracks = new LinkedList<Track>();
+        tracks = new LinkedList<>();
 
         for (int i = 0; i < project.size(); i++) {
             Track track = project.getTrack(i);
@@ -59,7 +59,13 @@ public class Project implements Serializable {
         this.name = name;
     }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public int getBeatsPerMinute() {
         return beatsPerMinute;
@@ -115,4 +121,3 @@ public class Project implements Serializable {
         return "[Project] name=" + name + " beatsPerMinute=" + beatsPerMinute + " trackCount=" + size();
     }
 }
-
