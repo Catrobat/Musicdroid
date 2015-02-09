@@ -50,6 +50,7 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
 
     private Solo solo;
     private static final String FILE_NAME = "TestProject";
+    private static final String RENAME_TEST_STRING = "edit";
     private ProjectSelectionActivity projectSelectionActivity;
 
     public ProjectSelectionActivityUiTest() {
@@ -93,6 +94,15 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         return projectFiles;
     }
 
+    private boolean isInStorage(String projectName) {
+        String fileName = projectName + ProjectToMidiConverter.MIDI_FILE_EXTENSION;
+        ArrayList<File> projects = getProjectFilesInStorage();
+        for (int i = 0; i < projects.size(); i++)
+            if (projects.get(i).getName().equals(fileName))
+                return true;
+        return false;
+    }
+
     private void tapAndHoldDeleteRoutine(int[] projectIndicesToDelete) throws IOException, MidiException {
         createSampleProjectFiles(NUMBER_OF_SAMPLE_PROJECTS);
         ArrayList<File> expectedProjects = getProjectFilesInStorage();
@@ -111,6 +121,25 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         solo.sleep(1000);
 
         assertEquals(getProjectFilesInStorage(), expectedProjects);
+    }
+
+    private void tapAndHoldRenameEditRoutine(int projectToEditIndex, boolean tapOK) throws IOException, MidiException {
+        createSampleProjectFiles(NUMBER_OF_SAMPLE_PROJECTS);
+        clickRefreshActionButton();
+
+        solo.clickLongOnText(FILE_NAME + projectToEditIndex);
+        solo.clickOnView(getActivity().findViewById(R.id.callback_action_edit_project));
+        solo.waitForDialogToOpen();
+        solo.enterText(0, RENAME_TEST_STRING);
+        if (tapOK) {
+            solo.clickOnButton(getActivity().getString(R.string.ok));
+            solo.waitForText(getActivity().getString(R.string.edit_successful));
+            assertTrue(isInStorage(FILE_NAME + projectToEditIndex + RENAME_TEST_STRING));
+        } else {
+            solo.clickOnButton(getActivity().getString(R.string.cancel));
+            solo.waitForDialogToClose();
+            assertTrue(isInStorage(FILE_NAME + projectToEditIndex));
+        }
     }
 
     private void deleteButtonRoutine(int[] projectIndicesToDelete) throws IOException, MidiException {
@@ -227,5 +256,13 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         clickRefreshActionButton();
 
         assertEquals(midiplayer.isPlaying(), false);
+    }
+
+    public void testRenameFunction() throws IOException, MidiException {
+        tapAndHoldRenameEditRoutine(NUMBER_OF_SAMPLE_PROJECTS / 2, false);
+    }
+
+    public void testRenameFunction2() throws IOException, MidiException {
+        tapAndHoldRenameEditRoutine(NUMBER_OF_SAMPLE_PROJECTS / 2, true);
     }
 }
