@@ -115,13 +115,13 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
 
         solo.waitForDialogToOpen();
         solo.enterText(0, editAppend);
+
         if (tapOK) {
             solo.clickOnButton(getActivity().getString(R.string.ok));
             if (editAppend.equals(""))
                 solo.waitForText(getActivity().getString(R.string.dialog_project_name_exists_error));
             else
                 solo.waitForText(getActivity().getString(R.string.edit_successful));
-
             assertTrue(ProjectTestDataFactory.checkIfProjectInStorage(FILE_NAME + projectToEditIndex + editAppend));
         } else {
             solo.clickOnButton(getActivity().getString(R.string.cancel));
@@ -226,7 +226,7 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         for (int i = 0; i < counter; i++)
             solo.clickOnText(FILE_NAME + i);
         solo.sleep(100);
-        assertEquals(counter + " " + projectSelectionActivity.getResources().getString(R.string.selected),
+        assertEquals(counter + "",
                 projectSelectionActivity.getProjectSelectionContextMenu().getActionMode().getTitle());
     }
 

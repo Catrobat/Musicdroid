@@ -77,6 +77,7 @@ public abstract class ProjectSelectionContextMenu implements ActionMode.Callback
 
     public void runEditRoutine() {
         Bundle args = new Bundle();
+        parent.stopPlayingTracks();
         args.putSerializable("project", adapter.getSelectedProject());
         EditProjectDialog editProjectDialog = new EditProjectDialog();
         editProjectDialog.setArguments(args);
@@ -85,7 +86,7 @@ public abstract class ProjectSelectionContextMenu implements ActionMode.Callback
 
     public void checkedItemStateChanged() {
         if (adapter.getSelectedItemsCount() != 0)
-            getActionMode().setTitle(adapter.getSelectedItemsCount() + " " + parent.getResources().getString(R.string.selected));
+            getActionMode().setTitle(adapter.getSelectedItemsCount()+"");
     }
 
     public ActionMode getActionMode() {
