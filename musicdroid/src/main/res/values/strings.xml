@@ -60,7 +60,7 @@
     <string name="title_activity_project_selection">ProjectSelectionActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_project_add">+</string>
-    <string name="action_project_rename">Rename</string>
+    <string name="action_project_edit">Edit</string>
     <string name="action_project_about">About</string>
     <string name="action_project_import">Import</string>
     <string name="action_project_export">Export</string>
@@ -69,7 +69,7 @@
     <string name="project_name">Project name:&#160;</string>
     <string name="project_duration">Duration:&#160;</string>
     <string name="project_selection_delete_menu_title">Select items to delete</string>
-    <string name="project_selection_edit_menu_title">Edit</string>
+    <string name="project_selection_edit_menu_title">Select an item to edit</string>
     <string name="project_selection_copy_menu_title">Copy</string>
     <string name="project_selection_on_deletion_successful">Delete was successful.</string>
     <string name="delete_unsuccessful">Delete failed.</string>

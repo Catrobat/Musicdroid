@@ -23,5 +23,4 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-      <item android:id="@+id/callback_action_edit_project" android:icon="@drawable/ic_action_edit" android:title="@string/project_selection_edit_menu_title" android:orderInCategory="100" android:showAsAction="ifRoom" />
 </menu >

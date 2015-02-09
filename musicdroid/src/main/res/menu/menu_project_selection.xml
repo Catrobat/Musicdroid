@@ -22,7 +22,7 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" tools:context="org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity" >
-    <item android:id="@+id/action_rename" android:title="@string/action_project_rename" android:orderInCategory="100" android:showAsAction="never" />
+    <item android:id="@+id/action_edit_project" android:title="@string/action_project_edit" android:orderInCategory="100" android:showAsAction="never" />
     <item android:id="@+id/action_import_project" android:title="@string/action_project_import" android:orderInCategory="100" android:showAsAction="never" />
     <item android:id="@+id/action_export_project" android:title="@string/action_project_export" android:orderInCategory="100" android:showAsAction="never" />
     <item android:id="@+id/action_about" android:title="@string/action_project_about" android:orderInCategory="100" android:showAsAction="never" />

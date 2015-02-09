@@ -23,6 +23,7 @@
 
 package org.catrobat.musicdroid.pocketmusic.projectselection.menu;
 
+import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,11 +32,12 @@ import android.widget.Toast;
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectListViewAdapter;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
+import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.EditProjectDialog;
 
 public abstract class ProjectSelectionContextMenu implements ActionMode.Callback {
     protected ProjectListViewAdapter adapter;
     protected ProjectSelectionActivity parent;
-    private ActionMode actionMode;
+    protected ActionMode actionMode;
 
     @Override
     public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
@@ -48,18 +50,6 @@ public abstract class ProjectSelectionContextMenu implements ActionMode.Callback
     @Override
     public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
         return false;
-    }
-
-    @Override
-    public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.callback_action_delete_project:
-                runDeleteRoutine();
-                actionMode.finish();
-                return true;
-            default:
-                return false;
-        }
     }
 
     @Override
@@ -83,6 +73,14 @@ public abstract class ProjectSelectionContextMenu implements ActionMode.Callback
                 } else
                     Toast.makeText(parent, parent.getString(R.string.delete_unsuccessful), Toast.LENGTH_LONG).show();
             }
+    }
+
+    public void runEditRoutine() {
+        Bundle args = new Bundle();
+        args.putSerializable("project", adapter.getSelectedProject());
+        EditProjectDialog editProjectDialog = new EditProjectDialog();
+        editProjectDialog.setArguments(args);
+        editProjectDialog.show(parent.getFragmentManager(), "tag");
     }
 
     public void checkedItemStateChanged() {
