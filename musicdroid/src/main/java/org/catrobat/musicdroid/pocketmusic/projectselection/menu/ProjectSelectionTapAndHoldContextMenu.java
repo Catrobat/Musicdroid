@@ -31,7 +31,6 @@ import android.view.MenuItem;
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.CopyProjectDialog;
-import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.EditProjectDialog;
 
 public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionContextMenu {
 
@@ -50,6 +49,10 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
         switch (item.getItemId()) {
             case R.id.callback_action_edit_project:
                 runEditRoutine();
+                mode.finish();
+                return true;
+            case R.id.callback_action_delete_project:
+                runDeleteRoutine();
                 mode.finish();
                 return true;
             case R.id.callback_action_copy_project:
