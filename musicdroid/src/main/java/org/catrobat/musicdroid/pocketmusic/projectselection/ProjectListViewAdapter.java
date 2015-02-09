@@ -97,17 +97,15 @@ public class ProjectListViewAdapter extends BaseAdapter {
         return false;
     }
 
-    public boolean renameItem(String oldName, String newName) throws IOException, MidiException {
+    public void renameItem(String oldName, String newName) throws IOException, MidiException {
         for (int i = 0; i < projects.size(); i++)
             if (oldName.equals(projects.get(i).getName())) {
                 projects.get(i).setName(newName);
                 projectToMidiConverter.writeProjectAsMidi(projects.get(i));
                 if (projectToMidiConverter.deleteMidiByName(oldName)) {
                     notifyDataSetChanged();
-                    return true;
                 }
             }
-        return false;
     }
 
     @Override

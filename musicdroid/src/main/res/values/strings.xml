@@ -74,6 +74,7 @@
     <string name="project_selection_on_deletion_successful">Delete was successful.</string>
     <string name="delete_unsuccessful">Delete failed.</string>
     <string name="edit_successful">Edit was successful.</string>
+    <string name="edit_canceled">Edit canceled!</string>
     <string name="edit_unsuccessful">Edit failed.</string>
     <string name="minutes_short">min</string>
     <string name="seconds_short">sec</string>

@@ -85,27 +85,9 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         }
     }
 
-    private ArrayList<File> getProjectFilesInStorage() {
-        ArrayList<File> projectFiles = new ArrayList<>();
-        if (ProjectToMidiConverter.MIDI_FOLDER.isDirectory()) {
-            Collections.addAll(projectFiles, ProjectToMidiConverter.MIDI_FOLDER.listFiles());
-        }
-
-        return projectFiles;
-    }
-
-    private boolean isInStorage(String projectName) {
-        String fileName = projectName + ProjectToMidiConverter.MIDI_FILE_EXTENSION;
-        ArrayList<File> projects = getProjectFilesInStorage();
-        for (int i = 0; i < projects.size(); i++)
-            if (projects.get(i).getName().equals(fileName))
-                return true;
-        return false;
-    }
-
     private void tapAndHoldDeleteRoutine(int[] projectIndicesToDelete) throws IOException, MidiException {
         createSampleProjectFiles(NUMBER_OF_SAMPLE_PROJECTS);
-        ArrayList<File> expectedProjects = getProjectFilesInStorage();
+        ArrayList<File> expectedProjects = ProjectTestDataFactory.getProjectFilesInStorage();
         clickRefreshActionButton();
 
         for (int i = 0; i < projectIndicesToDelete.length; i++) {
@@ -120,7 +102,7 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         solo.clickOnView(getActivity().findViewById(R.id.callback_action_delete_project));
         solo.sleep(1000);
 
-        assertEquals(getProjectFilesInStorage(), expectedProjects);
+        assertEquals(ProjectTestDataFactory.getProjectFilesInStorage(), expectedProjects);
     }
 
     private void tapAndHoldRenameEditRoutine(int projectToEditIndex, boolean tapOK) throws IOException, MidiException {
@@ -134,17 +116,17 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         if (tapOK) {
             solo.clickOnButton(getActivity().getString(R.string.ok));
             solo.waitForText(getActivity().getString(R.string.edit_successful));
-            assertTrue(isInStorage(FILE_NAME + projectToEditIndex + RENAME_TEST_STRING));
+            assertTrue(ProjectTestDataFactory.checkIfProjectInStorage(FILE_NAME + projectToEditIndex + RENAME_TEST_STRING));
         } else {
             solo.clickOnButton(getActivity().getString(R.string.cancel));
             solo.waitForDialogToClose();
-            assertTrue(isInStorage(FILE_NAME + projectToEditIndex));
+            assertTrue(ProjectTestDataFactory.checkIfProjectInStorage(FILE_NAME + projectToEditIndex));
         }
     }
 
     private void deleteButtonRoutine(int[] projectIndicesToDelete) throws IOException, MidiException {
         createSampleProjectFiles(NUMBER_OF_SAMPLE_PROJECTS);
-        ArrayList<File> expectedProjects = getProjectFilesInStorage();
+        ArrayList<File> expectedProjects = ProjectTestDataFactory.getProjectFilesInStorage();
         clickRefreshActionButton();
 
         solo.clickOnView(getActivity().findViewById(R.id.action_delete_project));
@@ -156,7 +138,7 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         solo.clickOnView(getActivity().findViewById(R.id.callback_action_delete_project));
         solo.sleep(1000);
 
-        assertEquals(getProjectFilesInStorage(), expectedProjects);
+        assertEquals(ProjectTestDataFactory.getProjectFilesInStorage(), expectedProjects);
     }
 
     private void clickRefreshActionButton() {
