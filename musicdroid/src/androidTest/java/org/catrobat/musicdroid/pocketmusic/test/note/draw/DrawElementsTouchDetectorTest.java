@@ -38,42 +38,73 @@ public class DrawElementsTouchDetectorTest extends AndroidTestCase {
 
     private DrawElementsTouchDetector touchDetector;
     private List<Symbol> symbols;
-    private Symbol symbol1;
-    private Symbol symbol2;
+
     private float widthForOneSymbol;
+    private float spaceBetweenSymbols;
+    private RectF notePosition;
     private float xOffset;
 
     public DrawElementsTouchDetectorTest() {
         touchDetector = new DrawElementsTouchDetector();
         symbols = new LinkedList<Symbol>();
+        widthForOneSymbol = 100;
+        spaceBetweenSymbols = 50;
 
-        symbol1 = NoteSymbolTestDataFactory.createNoteSymbol();
-        symbol1.setSymbolPosition(new SymbolPosition(new RectF(0, 0, 100, 100)));
+        notePosition = new RectF(0,0,widthForOneSymbol, widthForOneSymbol);
 
-        symbol2 = NoteSymbolTestDataFactory.createNoteSymbol();
-        symbol2.setSymbolPosition(new SymbolPosition(new RectF(150, 0, 250, 100)));
+        Symbol symbol1 = NoteSymbolTestDataFactory.createNoteSymbol();
+        symbol1.setSymbolPosition(new SymbolPosition(notePosition));
+
+        notePosition.left += widthForOneSymbol + spaceBetweenSymbols;
+        notePosition.right += widthForOneSymbol + spaceBetweenSymbols;
+
+        Symbol symbol2 = NoteSymbolTestDataFactory.createNoteSymbol();
+        symbol2.setSymbolPosition(new SymbolPosition(notePosition));
 
         symbols.add(symbol1);
         symbols.add(symbol2);
 
-        widthForOneSymbol = 100;
         xOffset = 0;
     }
 
     public void testGetIndexOfTouchedDrawElement1() {
-        assertElementTouch(0, symbol1.getSymbolPosition());
+        assertElementTouch(0, symbols.get(0).getSymbolPosition());
     }
 
     public void testGetIndexOfTouchedDrawElement2() {
-        assertElementNoTouch(symbol1.getSymbolPosition());
+        assertElementNoTouch(symbols.get(0).getSymbolPosition());
     }
 
     public void testGetIndexOfTouchedDrawElement3() {
-        assertElementNoTouch(symbol2.getSymbolPosition());
+        assertElementNoTouch(symbols.get(1).getSymbolPosition());
     }
 
     public void testGetIndexOfTouchedDrawElement4() {
-        assertElementTouch(1, symbol2.getSymbolPosition());
+        assertElementTouch(1, symbols.get(1).getSymbolPosition());
+    }
+
+    public void testGetIndexOfTouchedDrawElement5() {
+        List<Symbol> oldList = new LinkedList<Symbol>();
+        oldList.addAll(this.symbols);
+        this.addAddidionalSymbols(20);
+        assertElementTouch(16, symbols.get(16).getSymbolPosition());
+        this.symbols = oldList;
+    }
+
+    public void testGetIndexOfTouchedDrawElement6() {
+        List<Symbol> oldList = new LinkedList<Symbol>();
+        oldList.addAll(this.symbols);
+        this.symbols.removeAll(oldList);
+        assertElementNoTouch(oldList.get(0).getSymbolPosition());
+        this.symbols = oldList;
+    }
+
+    public void testGetIndexOfTouchedDrawElement7() {
+        List<Symbol> oldList = new LinkedList<Symbol>();
+        oldList.addAll(this.symbols);
+        this.addAddidionalSymbols(20);
+        assertElementTouch(19, symbols.get(19).getSymbolPosition());
+        this.symbols = oldList;
     }
 
     private void assertElementTouch(int expectedIndex, SymbolPosition symbolPosition) {
@@ -102,5 +133,16 @@ public class DrawElementsTouchDetectorTest extends AndroidTestCase {
         assertElementTouch(expectedIndex, symbolPosition.getLeft(), symbolPosition.getTop() - 1, 0);
         assertElementTouch(expectedIndex, symbolPosition.getLeft() - 1, symbolPosition.getBottom(), 0);
         assertElementTouch(expectedIndex, symbolPosition.getRight() + 1, symbolPosition.getTop(), 0);
+    }
+
+    private void addAddidionalSymbols(int number) {
+
+        for(int i = 0; i < number ; i++ ) {
+            Symbol symbol = NoteSymbolTestDataFactory.createNoteSymbol();
+            notePosition.left += widthForOneSymbol + spaceBetweenSymbols;
+            notePosition.right += widthForOneSymbol + spaceBetweenSymbols;
+            symbol.setSymbolPosition(new SymbolPosition(notePosition));
+            symbols.add(symbol);
+        }
     }
 }
