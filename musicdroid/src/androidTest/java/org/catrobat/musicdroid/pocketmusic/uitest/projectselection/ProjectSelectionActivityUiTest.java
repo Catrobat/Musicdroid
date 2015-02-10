@@ -104,16 +104,14 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         assertEquals(ProjectTestDataFactory.getProjectFilesInStorage(), expectedProjects);
     }
 
-    private void tapAndHoldRenameEditRoutine(int projectToEditIndex, boolean tapOK, String editAppend) throws IOException, MidiException {
+    private void renameEditRoutine(int projectToEditIndex, boolean tapOK, String editAppend) throws IOException, MidiException {
         createSampleProjectFiles(NUMBER_OF_SAMPLE_PROJECTS);
         clickRefreshActionButton();
 
-        solo.clickLongOnText(FILE_NAME + projectToEditIndex);
-
-        solo.setActivityOrientation(Solo.LANDSCAPE);
-        solo.clickOnView(getActivity().findViewById(R.id.callback_action_edit_project));
-
+        solo.clickOnMenuItem(getActivity().getString(R.string.action_project_edit));
+        solo.clickOnText(FILE_NAME + projectToEditIndex);
         solo.waitForDialogToOpen();
+
         solo.enterText(0, editAppend);
 
         if (tapOK) {
@@ -145,20 +143,6 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         solo.sleep(1000);
 
         assertEquals(ProjectTestDataFactory.getProjectFilesInStorage(), expectedProjects);
-    }
-
-    private void editButtonRoutine(int projectToEditIndex) throws IOException, MidiException {
-        createSampleProjectFiles(NUMBER_OF_SAMPLE_PROJECTS);
-        clickRefreshActionButton();
-
-        solo.clickOnMenuItem(getActivity().getString(R.string.action_project_edit));
-        solo.clickOnText(FILE_NAME + projectToEditIndex);
-        solo.waitForDialogToOpen();
-        solo.enterText(0, RENAME_TEST_STRING);
-        solo.clickOnButton(getActivity().getString(R.string.ok));
-        solo.waitForText(getActivity().getString(R.string.edit_successful));
-
-        assertTrue(ProjectTestDataFactory.checkIfProjectInStorage(FILE_NAME + projectToEditIndex + RENAME_TEST_STRING));
     }
 
     private void clickRefreshActionButton() {
@@ -258,18 +242,15 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
     }
 
     public void testRenameFunction() throws IOException, MidiException {
-        tapAndHoldRenameEditRoutine(NUMBER_OF_SAMPLE_PROJECTS / 2, false, "test");
+        renameEditRoutine(NUMBER_OF_SAMPLE_PROJECTS / 2, false, "test");
     }
 
     public void testRenameFunction2() throws IOException, MidiException {
-        tapAndHoldRenameEditRoutine(NUMBER_OF_SAMPLE_PROJECTS / 2, true, "test");
+        renameEditRoutine(NUMBER_OF_SAMPLE_PROJECTS / 2, true, "test");
     }
 
     public void testRenameFunction3() throws IOException, MidiException {
-        tapAndHoldRenameEditRoutine(NUMBER_OF_SAMPLE_PROJECTS / 2, true, "");
+        renameEditRoutine(NUMBER_OF_SAMPLE_PROJECTS / 2, true, "");
     }
 
-    public void testRenameFunction4() throws IOException, MidiException {
-        editButtonRoutine(NUMBER_OF_SAMPLE_PROJECTS / 2);
-    }
 }
