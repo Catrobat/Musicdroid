@@ -24,11 +24,13 @@
 package org.catrobat.musicdroid.pocketmusic.instrument.piano;
 
 import android.os.Bundle;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.HorizontalScrollView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.editmode.menu.EditModeContextMenu;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetViewFragment;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
@@ -45,8 +47,12 @@ import java.io.IOException;
 
 public class PianoActivity extends InstrumentActivity {
 
+    public static boolean inCallback = false;
+
     private PianoViewFragment pianoViewFragment;
     private NoteSheetViewFragment noteSheetViewFragment;
+
+    private EditModeContextMenu editModeContextMenu;
 
     public PianoActivity() {
         super(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
@@ -58,6 +64,11 @@ public class PianoActivity extends InstrumentActivity {
 
     public String getTrackSizeString() {
         return noteSheetViewFragment.getTrackSizeTextViewText();
+    }
+
+    public void startEditMode(){
+        editModeContextMenu = new EditModeContextMenu();
+        startActionMode(editModeContextMenu);
     }
 
     @Override

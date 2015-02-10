@@ -114,8 +114,7 @@ public class NoteSheetView extends View {
         ((PianoActivity) getContext()).scrollNoteSheet();
 	}
 
-    @Override
-    public boolean onTouchEvent(MotionEvent e) {
+    public boolean onEditMode(MotionEvent e) {
         if (MotionEvent.ACTION_UP == e.getAction()) {
             int index = touchDetector.getIndexOfTouchedDrawElement(symbols, e.getX(), e.getY(), DrawElementsTouchDetector.DEFAULT_TOLERANCE);
 
