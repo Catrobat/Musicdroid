@@ -70,8 +70,6 @@ public class ProjectSelectionFragment extends Fragment {
         projectSelectionActivity = (ProjectSelectionActivity) getActivity();
 
         fetchProjectInformation();
-        setListAdapter();
-        setOnClickListeners();
 
         return rootView;
     }
@@ -88,6 +86,8 @@ public class ProjectSelectionFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+        setListAdapter();
+        setOnClickListeners();
     }
 
     private void setListAdapter() {
@@ -110,7 +110,6 @@ public class ProjectSelectionFragment extends Fragment {
                     projectSelectionActivity.notifyCheckedItemStateChanged();
                     projectSelectionActivity.notifyNumberOfItemsSelected(listViewAdapter.getProjectSelectionSelectedItemsCount());
                 }
-
             }
         });
 
@@ -120,6 +119,7 @@ public class ProjectSelectionFragment extends Fragment {
                 if (listViewAdapter.getProjectSelectionSelectedItemsCount() == 0) {
                     projectSelectionActivity.startTapAndHoldActionMode();
                 }
+
                 return false;
             }
         });
@@ -154,5 +154,3 @@ public class ProjectSelectionFragment extends Fragment {
         return listViewAdapter;
     }
 }
-
-
