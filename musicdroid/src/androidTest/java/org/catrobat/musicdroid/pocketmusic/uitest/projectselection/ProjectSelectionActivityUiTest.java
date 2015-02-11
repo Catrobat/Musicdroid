@@ -115,14 +115,14 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         solo.enterText(0, editAppend);
 
         if (tapOK) {
-            solo.clickOnButton(getActivity().getString(R.string.ok));
+            solo.clickOnButton(getActivity().getString(android.R.string.yes));
             if (editAppend.equals(""))
                 solo.waitForText(getActivity().getString(R.string.dialog_project_name_exists_error));
             else
                 solo.waitForText(getActivity().getString(R.string.edit_successful));
             assertTrue(ProjectTestDataFactory.checkIfProjectInStorage(FILE_NAME + projectToEditIndex + editAppend));
         } else {
-            solo.clickOnButton(getActivity().getString(R.string.cancel));
+            solo.clickOnButton(getActivity().getString(android.R.string.no));
             solo.waitForText(getActivity().getString(R.string.edit_canceled));
             assertTrue(ProjectTestDataFactory.checkIfProjectInStorage(FILE_NAME + projectToEditIndex));
         }
