@@ -60,6 +60,10 @@ public abstract class SymbolDrawer {
         widthForOneSmallSymbol = widthForOneSymbol / SMALL_SYMBOL_WIDTH_DIVIDOR;
 	}
 
+    public int getWidthForOneSymbol() {
+        return widthForOneSymbol;
+    }
+
     private Point getCenterPointForNextSymbol(int symbolWidth) {
         Point centerPoint = new Point(drawPosition.getStartXPositionForNextElement() + (symbolWidth / 2), noteSheetCanvas.getHeightHalf());
 
