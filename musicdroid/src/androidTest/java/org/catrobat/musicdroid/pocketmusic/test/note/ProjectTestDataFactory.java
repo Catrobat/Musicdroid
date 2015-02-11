@@ -25,6 +25,11 @@ package org.catrobat.musicdroid.pocketmusic.test.note;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class ProjectTestDataFactory {
 
@@ -76,5 +81,23 @@ public class ProjectTestDataFactory {
         project.addTrack(track1);
 
         return project;
+    }
+
+    public static ArrayList<File> getProjectFilesInStorage() {
+        ArrayList<File> projectFiles = new ArrayList<>();
+        if (ProjectToMidiConverter.MIDI_FOLDER.isDirectory()) {
+            Collections.addAll(projectFiles, ProjectToMidiConverter.MIDI_FOLDER.listFiles());
+        }
+
+        return projectFiles;
+    }
+
+    public static boolean checkIfProjectInStorage(String projectName) {
+        String fileName = projectName + ProjectToMidiConverter.MIDI_FILE_EXTENSION;
+        ArrayList<File> projects = getProjectFilesInStorage();
+        for (int i = 0; i < projects.size(); i++)
+            if (projects.get(i).getName().equals(fileName))
+                return true;
+        return false;
     }
 }
