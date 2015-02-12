@@ -27,6 +27,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.widget.TextView;
 import com.robotium.solo.Solo;
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
 import org.catrobat.musicdroid.pocketmusic.splashscreen.SplashScreenActivity;
 
 public class SplashScreenActivityUiTest extends ActivityInstrumentationTestCase2<SplashScreenActivity> {
@@ -44,8 +45,8 @@ public class SplashScreenActivityUiTest extends ActivityInstrumentationTestCase2
 
     @Override
     protected void tearDown() {
+        solo.waitForActivity(ProjectSelectionActivity.class);
         solo.finishOpenedActivities();
-        solo.sleep(1000);
     }
 
     public void testLoadingTime() {
