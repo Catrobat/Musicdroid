@@ -139,7 +139,7 @@ public class ProjectSelectionActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        importProjectHandler.onChosenFile(requestCode, resultCode, data);
+        importProjectHandler.importProject(requestCode, resultCode, data);
         projectSelectionFragment.fetchProjectInformation();
     }
 }

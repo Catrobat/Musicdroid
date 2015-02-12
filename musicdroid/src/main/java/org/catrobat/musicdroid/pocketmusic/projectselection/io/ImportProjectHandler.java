@@ -39,7 +39,7 @@ import java.io.IOException;
 
 public class ImportProjectHandler {
 
-    private static final int PICKFILE_RESULT_CODE = 1;
+    public static final int PICKFILE_RESULT_CODE = 1;
     private ProjectSelectionActivity projectSelectionActivity;
 
     public ImportProjectHandler(ProjectSelectionActivity projectSelectionActivity) {
@@ -52,7 +52,7 @@ public class ImportProjectHandler {
         projectSelectionActivity.startActivityForResult(intent, PICKFILE_RESULT_CODE);
     }
 
-    public void onChosenFile(int requestCode, int resultCode, Intent data) {
+    public void importProject(int requestCode, int resultCode, Intent data) {
         try {
             switch (requestCode) {
                 case PICKFILE_RESULT_CODE:
