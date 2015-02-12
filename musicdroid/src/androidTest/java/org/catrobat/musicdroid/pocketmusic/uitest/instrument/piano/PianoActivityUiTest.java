@@ -254,21 +254,6 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         assertFalse(pianoActivity.getMidiPlayer().isPlaying());
     }
 
-    public void testPlayMidiWhileRotating() throws InterruptedException {
-        solo.setActivityOrientation(Solo.PORTRAIT);
-        clickSomePianoButtonsFastForLargeTrack();
-        assertTrue(pianoActivity.getMidiPlayer().getPlayQueueSize() > 0);
-
-        solo.setActivityOrientation(Solo.LANDSCAPE);
-        clickSomePianoButtonsFastForLargeTrack();
-        assertTrue(pianoActivity.getMidiPlayer().getPlayQueueSize() > 0);
-
-        solo.setActivityOrientation(Solo.PORTRAIT);
-        clickSomePianoButtonsFastForLargeTrack();
-        assertTrue(pianoActivity.getMidiPlayer().getPlayQueueSize() > 0);
-
-    }
-
     public void testPlayMidiBackButtonPress() throws InterruptedException {
         solo.setActivityOrientation(Solo.PORTRAIT);
         clickSomePianoButtonsFastForLargeTrack();
