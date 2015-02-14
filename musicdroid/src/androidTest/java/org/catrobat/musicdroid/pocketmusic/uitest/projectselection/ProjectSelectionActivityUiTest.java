@@ -57,13 +57,21 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
 
     @Override
     protected void setUp() {
-        solo = new Solo(getInstrumentation(), getActivity());
-        projectSelectionActivity = getActivity();
-
         if (ProjectToMidiConverter.MIDI_FOLDER.isDirectory()) {
             for (File file : ProjectToMidiConverter.MIDI_FOLDER.listFiles())
                 file.delete();
         }
+
+        try {
+            createSampleProjectFiles(NUMBER_OF_SAMPLE_PROJECTS);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (MidiException e) {
+            e.printStackTrace();
+        }
+
+        solo = new Solo(getInstrumentation(), getActivity());
+        projectSelectionActivity = getActivity();
     }
 
     @Override
@@ -83,10 +91,13 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         }
     }
 
+    private void createSampleProjectFile(String name) throws IOException, MidiException {
+        Project project = ProjectTestDataFactory.createProjectWithOneSimpleTrack(name);
+        ProjectToMidiConverterTestDataFactory.writeTestProject(project);
+    }
+
     private void tapAndHoldDeleteRoutine(int[] projectIndicesToDelete) throws IOException, MidiException {
-        createSampleProjectFiles(NUMBER_OF_SAMPLE_PROJECTS);
         ArrayList<File> expectedProjects = ProjectTestDataFactory.getProjectFilesInStorage();
-        clickRefreshActionButton();
 
         for (int i = 0; i < projectIndicesToDelete.length; i++) {
             if (i == 0)
@@ -96,18 +107,14 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
 
             expectedProjects.remove(projectIndicesToDelete[i] - i);
         }
-        solo.sleep(1000);
 
         solo.clickOnView(getActivity().findViewById(R.id.callback_action_delete_project));
-        solo.sleep(1000);
+        solo.waitForText(projectSelectionActivity.getString(R.string.project_selection_on_deletion_successful));
 
         assertEquals(ProjectTestDataFactory.getProjectFilesInStorage(), expectedProjects);
     }
 
     private void renameEditRoutine(int projectToEditIndex, boolean tapOK, String editAppend) throws IOException, MidiException {
-        createSampleProjectFiles(NUMBER_OF_SAMPLE_PROJECTS);
-        clickRefreshActionButton();
-
         solo.clickOnMenuItem(getActivity().getString(R.string.action_project_edit));
         solo.clickOnText(FILE_NAME + projectToEditIndex);
         solo.waitForDialogToOpen();
@@ -129,9 +136,7 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
     }
 
     private void deleteButtonRoutine(int[] projectIndicesToDelete) throws IOException, MidiException {
-        createSampleProjectFiles(NUMBER_OF_SAMPLE_PROJECTS);
         ArrayList<File> expectedProjects = ProjectTestDataFactory.getProjectFilesInStorage();
-        clickRefreshActionButton();
 
         solo.clickOnView(getActivity().findViewById(R.id.action_delete_project));
         for (int i = 0; i < projectIndicesToDelete.length; i++) {
@@ -145,18 +150,7 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         assertEquals(ProjectTestDataFactory.getProjectFilesInStorage(), expectedProjects);
     }
 
-    private void clickRefreshActionButton() {
-        solo.clickOnView(projectSelectionActivity.findViewById(R.id.action_refresh_project));
-        solo.sleep(100);
-    }
-
     // --------------------------------------- TESTS ----------------------------------------------
-    public void testRefreshActionButton() throws IOException, MidiException {
-        createSampleProjectFiles(3);
-        clickRefreshActionButton();
-        solo.clickOnText(FILE_NAME + 2);
-    }
-
     public void testContextMenuDelete() throws IOException, MidiException {
         int[] projectIndicesToDelete = {0, NUMBER_OF_SAMPLE_PROJECTS / 2, NUMBER_OF_SAMPLE_PROJECTS - 1};
         tapAndHoldDeleteRoutine(projectIndicesToDelete);
@@ -188,15 +182,11 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
     }
 
     public void testProjectListCount() throws IOException, MidiException {
-        createSampleProjectFiles(99);
-        clickRefreshActionButton();
         solo.sleep(1000);
-        assertEquals(getActivity().getProjectSelectionFragment().getListViewAdapter().getCount(), 99);
+        assertEquals(getActivity().getProjectSelectionFragment().getListViewAdapter().getCount(), NUMBER_OF_SAMPLE_PROJECTS);
     }
 
     public void testPlayButton() throws IOException, MidiException {
-        createSampleProjectFiles(3);
-        clickRefreshActionButton();
         solo.clickOnView(solo.getView(R.id.project_play_button, 2));
         solo.sleep(500);
         assertEquals(midiplayer.isPlaying(), true);
@@ -204,8 +194,6 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
 
     public void testContextMenuTitle() throws IOException, MidiException {
         int counter = 3;
-        createSampleProjectFiles(5);
-        clickRefreshActionButton();
         solo.clickOnView(getActivity().findViewById(R.id.action_delete_project));
         for (int i = 0; i < counter; i++)
             solo.clickOnText(FILE_NAME + i);
@@ -215,9 +203,6 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
     }
 
     public void testRandomInteraction() throws IOException, MidiException {
-        createSampleProjectFiles(5);
-
-        clickRefreshActionButton();
         solo.clickOnView(solo.getView(R.id.project_play_button, 2));
         solo.sleep(100);
         assertEquals(midiplayer.isPlaying(), true);
@@ -226,19 +211,6 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         solo.goBack();
         solo.clickOnButton(getActivity().getResources().getString(R.string.action_project_add));
         solo.waitForActivity(PianoActivity.class);
-    }
-
-    public void testRefreshActionButton2() throws IOException, MidiException {
-        createSampleProjectFiles(3);
-        clickRefreshActionButton();
-
-        solo.clickOnView(solo.getView(R.id.project_play_button, 2));
-
-        solo.sleep(100);
-        clickRefreshActionButton();
-        solo.sleep(1000);
-
-        assertEquals(midiplayer.isPlaying(), false);
     }
 
     public void testRenameFunction() throws IOException, MidiException {
@@ -253,4 +225,12 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         renameEditRoutine(NUMBER_OF_SAMPLE_PROJECTS / 2, true, "");
     }
 
+    public void testAutoRefresh() throws IOException, MidiException {
+        String fileName = "New_file";
+        solo.clickOnButton(getActivity().getResources().getString(R.string.action_project_add));
+        solo.waitForActivity(PianoActivity.class);
+        createSampleProjectFile(fileName);
+        solo.goBack();
+        assertTrue(solo.searchText(fileName));
+    }
 }

@@ -89,13 +89,6 @@ public class ProjectSelectionActivity extends Activity {
             return true;
         }
 
-        if (id == R.id.action_refresh_project ) {
-            stopPlayingTracks();
-            projectSelectionFragment = new ProjectSelectionFragment();
-            getFragmentManager().beginTransaction().replace(R.id.container, projectSelectionFragment).commit();
-            return true;
-        }
-
         if (id == R.id.action_delete_project ) {
             stopPlayingTracks();
             startDeleteActionMode();
