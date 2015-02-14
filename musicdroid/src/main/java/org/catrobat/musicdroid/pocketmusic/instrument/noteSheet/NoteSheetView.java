@@ -36,7 +36,6 @@ import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.draw.DrawElementsTouchDetector;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
-import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
 
@@ -126,5 +125,13 @@ public class NoteSheetView extends View {
         }
 
         return true;
+    }
+
+    public void resetSymbolMarkers() {
+        for (Symbol symbol : symbols) {
+            symbol.setMarked(false);
+        }
+
+        invalidate();
     }
 }

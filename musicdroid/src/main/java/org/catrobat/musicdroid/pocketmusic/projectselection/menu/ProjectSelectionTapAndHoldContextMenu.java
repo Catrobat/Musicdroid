@@ -40,7 +40,7 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        super.onActionItemClicked(mode,item);
+        super.onActionItemClicked(mode, item);
         switch (item.getItemId()) {
             case R.id.callback_action_edit_project:
                 EditProjectDialog editProjectDialog = new EditProjectDialog(parent);
@@ -68,7 +68,7 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         parent.getMenuInflater().inflate(R.menu.menu_project_selection_main_callback, menu);
-        super.onCreateActionMode(mode,menu);
+        super.onCreateActionMode(mode, menu);
         editItem = menu.findItem(R.id.callback_action_edit_project);
 
         return true;

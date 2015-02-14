@@ -22,20 +22,15 @@
  */
 package org.catrobat.musicdroid.pocketmusic.instrument;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.pm.ActivityInfo;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.ActionMode;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
-import org.catrobat.musicdroid.pocketmusic.editmode.menu.EditModeContextMenu;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
@@ -46,8 +41,6 @@ import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
-import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionDeleteContextMenu;
-import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionTapAndHoldContextMenu;
 
 import java.io.File;
 import java.io.FilenameFilter;

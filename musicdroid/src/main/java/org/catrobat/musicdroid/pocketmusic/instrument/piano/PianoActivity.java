@@ -24,13 +24,12 @@
 package org.catrobat.musicdroid.pocketmusic.instrument.piano;
 
 import android.os.Bundle;
-import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.HorizontalScrollView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
-import org.catrobat.musicdroid.pocketmusic.editmode.menu.EditModeContextMenu;
+import org.catrobat.musicdroid.pocketmusic.instrument.edit.menu.EditModeContextMenu;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetViewFragment;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
@@ -40,7 +39,6 @@ import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
-import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionFragment;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,7 +65,7 @@ public class PianoActivity extends InstrumentActivity {
     }
 
     public void startEditMode(){
-        editModeContextMenu = new EditModeContextMenu();
+        editModeContextMenu = new EditModeContextMenu(this);
         startActionMode(editModeContextMenu);
     }
 
@@ -115,7 +113,6 @@ public class PianoActivity extends InstrumentActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // TODO fw add test for this?!
     @Override
     protected void redraw() {
         noteSheetViewFragment.redraw(getTrack());
@@ -139,5 +136,9 @@ public class PianoActivity extends InstrumentActivity {
             HorizontalScrollView hv = (HorizontalScrollView) findViewById(R.id.scroll_note_sheet_view);
             hv.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
         }
+    }
+
+    public void resetSymbolMarkers() {
+        noteSheetViewFragment.resetSymbolMarkers();
     }
 }

@@ -75,4 +75,5 @@
     <string name="seconds_short">sec</string>
     <string name="selected">selected</string>
 
+    <string name="piano_edit_mode_delete">Delete marked</string>
 </resources>

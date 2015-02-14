@@ -31,17 +31,12 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
-import org.catrobat.musicdroid.pocketmusic.editmode.NoteSheetViewAdapter;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
-
-import java.util.ArrayList;
 
 public  class NoteSheetViewFragment extends Fragment {
 
@@ -116,5 +111,9 @@ public  class NoteSheetViewFragment extends Fragment {
 
     public boolean checkForScrollAndRecalculateWidth() {
         return noteSheetView.checkForScrollAndRecalculateWidth();
+    }
+
+    public void resetSymbolMarkers() {
+        noteSheetView.resetSymbolMarkers();
     }
 }
