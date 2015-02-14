@@ -31,6 +31,7 @@ import android.widget.HorizontalScrollView;
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.edit.menu.EditModeContextMenu;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
+import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetView;
 import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetViewFragment;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
@@ -58,6 +59,10 @@ public class PianoActivity extends InstrumentActivity {
 
     public PianoViewFragment getPianoViewFragment() {
         return pianoViewFragment;
+    }
+
+    public NoteSheetView getNoteSheetView() {
+        return noteSheetViewFragment.getNoteSheetView();
     }
 
     public String getTrackSizeString() {
@@ -122,7 +127,6 @@ public class PianoActivity extends InstrumentActivity {
     protected void onStart() {
         super.onStart();
         noteSheetViewFragment.redraw(getTrack());
-
     }
 
     @Override

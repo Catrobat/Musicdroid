@@ -91,7 +91,6 @@ public  class NoteSheetViewFragment extends Fragment {
         return widthAndHeight;
     }
 
-
     public void redraw(Track track) {
         noteSheetView.redraw(track);
         trackSizeTextView.setText(track.size()/2 +" / " + InstrumentActivity.MAX_TRACK_SIZE_IN_SYMBOLS);
@@ -99,6 +98,10 @@ public  class NoteSheetViewFragment extends Fragment {
 
     public String getTrackSizeTextViewText(){
         return trackSizeTextView.getText().toString();
+    }
+
+    public NoteSheetView getNoteSheetView() {
+        return noteSheetView;
     }
 
     public int getDisplayWidth() {
