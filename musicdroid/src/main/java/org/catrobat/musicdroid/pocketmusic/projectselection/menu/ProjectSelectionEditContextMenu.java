@@ -30,22 +30,28 @@ import android.view.MenuItem;
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
 
-public class ProjectSelectionDeleteContextMenu extends ProjectSelectionContextMenu {
+public class ProjectSelectionEditContextMenu extends ProjectSelectionContextMenu {
 
-    public ProjectSelectionDeleteContextMenu(ProjectSelectionActivity parentActivity) {
+    public ProjectSelectionEditContextMenu(ProjectSelectionActivity parentActivity) {
         parent = parentActivity;
+    }
+
+    @Override
+    public void enterSingleEditMode() {
+        runEditRoutine();
+        actionMode.finish();
     }
 
     @Override
     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-            case R.id.callback_action_delete_project:
-                runDeleteRoutine();
-                actionMode.finish();
-                return true;
             default:
                 return false;
         }
+    }
+
+    @Override
+    public void enterMultipleEditMode() {
     }
 
     @Override
@@ -54,18 +60,10 @@ public class ProjectSelectionDeleteContextMenu extends ProjectSelectionContextMe
     }
 
     @Override
-    public void enterSingleEditMode() {
-    }
-
-    @Override
-    public void enterMultipleEditMode() {
-    }
-
-    @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-        parent.getMenuInflater().inflate(R.menu.menu_project_selection_delete_callback, menu);
+        parent.getMenuInflater().inflate(R.menu.menu_project_selection_edit_callback, menu);
         super.onCreateActionMode(mode, menu);
-        mode.setTitle(R.string.project_selection_delete_menu_title);
+        mode.setTitle(R.string.project_selection_edit_menu_title);
         return true;
     }
 }

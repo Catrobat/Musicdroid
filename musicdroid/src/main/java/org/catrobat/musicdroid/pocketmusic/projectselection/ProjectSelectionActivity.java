@@ -33,6 +33,7 @@ import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
 import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionContextMenu;
 import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionDeleteContextMenu;
+import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionEditContextMenu;
 import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionTapAndHoldContextMenu;
 
 public class ProjectSelectionActivity extends Activity {
@@ -73,9 +74,20 @@ public class ProjectSelectionActivity extends Activity {
         actionMode = startActionMode(getProjectSelectionContextMenu());
     }
 
+    private void startEditActionMode(){
+        projectSelectionContextMenu = new ProjectSelectionEditContextMenu(this);
+        actionMode = startActionMode(getProjectSelectionContextMenu());
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
+        if (id == R.id.action_edit_project ) {
+            stopPlayingTracks();
+            startEditActionMode();
+            return true;
+        }
 
         if (id == R.id.action_refresh_project ) {
             stopPlayingTracks();

@@ -66,4 +66,14 @@ public class ProjectToMidiConverterTest extends AndroidTestCase {
 
         assertEquals(file.getName(), newFile.getName());
     }
+
+    public void testDeleteMidiByName() throws IOException, MidiException {
+        Project project = ProjectTestDataFactory.createProject();
+        ProjectToMidiConverter converter = new ProjectToMidiConverter();
+        converter.writeProjectAsMidi(project);
+        if(converter.deleteMidiByName(ProjectToMidiConverter.removeMidiExtensionFromString(project.getName())))
+            assertFalse(ProjectTestDataFactory.checkIfProjectInStorage(project.getName()));
+        else
+            assertTrue(ProjectTestDataFactory.checkIfProjectInStorage(project.getName()));
+    }
 }

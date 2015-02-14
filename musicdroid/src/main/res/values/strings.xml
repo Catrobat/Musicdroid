@@ -25,7 +25,6 @@
 
     <string name="app_name">Musicdroid</string>
     <string name="splash_screen_logo_content_description">Logo</string>string>
-
     <string name="action_undo_midi">Undo</string>
     <string name="action_play_midi">Play</string>
     <string name="action_play_midi_error">Could not start playing</string>
@@ -53,7 +52,7 @@
     <string name="title_activity_project_selection">ProjectSelectionActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_project_add">+</string>
-    <string name="action_project_rename">Rename</string>
+    <string name="action_project_edit">Edit</string>
     <string name="action_project_about">About</string>
     <string name="action_project_import">Import</string>
     <string name="action_project_export">Export</string>
@@ -62,19 +61,25 @@
     <string name="project_name">Project name:&#160;</string>
     <string name="project_duration">Duration:&#160;</string>
     <string name="project_selection_delete_menu_title">Select items to delete</string>
-    <string name="project_selection_edit_menu_title">Edit</string>
+    <string name="project_selection_edit_menu_title">Select an item to edit</string>
     <string name="project_selection_copy_menu_title">Copy</string>
     <string name="project_selection_on_deletion_successful">Delete was successful.</string>
+    <string name="delete_unsuccessful">Delete failed.</string>
+
     <string name="minutes_short">min</string>
     <string name="seconds_short">sec</string>
     <string name="selected">selected</string>
 
     <string name="dialog_project_edit_title">Edit project</string>
+    <string name="dialog_project_edit_success">Edit was successful!</string>
+    <string name="dialog_project_edit_cancel">Edit canceled!</string>
+    <string name="dialog_project_edit_error">Edit failed!</string>
+
     <string name="dialog_project_copy_title">Copy project</string>
     <string name="dialog_project_copy_message">Please enter a new name:</string>
     <string name="dialog_project_copy_success">Copy successful!</string>
-    <string name="dialog_project_copy_error">Copy failed!</string>
     <string name="dialog_project_copy_cancel">Copy canceled!</string>
+    <string name="dialog_project_copy_error">Copy failed!</string>
     <string name="dialog_project_name_exists_error">This name already exists!</string>
 
     <string name="dialog_project_save_title">Save Project</string>

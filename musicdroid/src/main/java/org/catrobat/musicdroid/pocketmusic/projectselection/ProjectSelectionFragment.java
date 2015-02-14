@@ -155,6 +155,5 @@ public class ProjectSelectionFragment extends Fragment {
     public ProjectListViewAdapter getListViewAdapter() {
         return listViewAdapter;
     }
+
 }
-
-

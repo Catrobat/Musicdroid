@@ -31,7 +31,6 @@ import android.view.MenuItem;
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.CopyProjectDialog;
-import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.EditProjectDialog;
 
 public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionContextMenu {
 
@@ -44,13 +43,14 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        super.onActionItemClicked(mode,item);
         switch (item.getItemId()) {
             case R.id.callback_action_edit_project:
-                EditProjectDialog editProjectDialog = new EditProjectDialog(parent);
-                editProjectDialog.show();
+                runEditRoutine();
                 mode.finish();
-
+                return true;
+            case R.id.callback_action_delete_project:
+                runDeleteRoutine();
+                mode.finish();
                 return true;
             case R.id.callback_action_copy_project:
                 Bundle args = new Bundle();
@@ -84,7 +84,7 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         parent.getMenuInflater().inflate(R.menu.menu_project_selection_main_callback, menu);
-        super.onCreateActionMode(mode,menu);
+        super.onCreateActionMode(mode, menu);
         editItem = menu.findItem(R.id.callback_action_edit_project);
         copyItem = menu.findItem(R.id.callback_action_copy_project);
 
