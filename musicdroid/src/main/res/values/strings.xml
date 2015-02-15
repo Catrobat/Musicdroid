@@ -25,24 +25,16 @@
 
     <string name="app_name">Musicdroid</string>
     <string name="splash_screen_logo_content_description">Logo</string>string>
-
     <string name="action_undo_midi">Undo</string>
     <string name="action_play_midi">Play</string>
     <string name="action_play_midi_error">Could not start playing</string>
     <string name="action_play_midi_dialog_stop">Stop</string>
-    <string name="action_export_midi_title">Save Project</string>
-    <string name="action_export_midi_success">Save successful!</string>
-    <string name="action_export_midi_cancel">Save canceled!</string>
-    <string name="action_export_midi_error">Save failed!</string>
-    <string name="action_export_dialog_positive_button">OK</string>
-    <string name="action_export_dialog_negative_button">Cancel</string>
-    <string name="action_export_dialog_title">Save Project</string>
-    <string name="action_export_dialog_message">Please enter a Project name:</string>
-    <string name="action_import_midi_title">Open Project</string>
-    <string name="action_import_midi_validation_error">The given Project was not created with Musicdroid</string>
-    <string name="action_import_midi_io_error">The device encountered an internal error: </string>
-    <string name="action_import_midi_file_chooser_title">Open Project</string>
-    <string name="action_import_midi_success">Open successful!</string>
+    <string name="action_save_midi_title">Save Project</string>
+    <string name="action_load_midi_title">Open Project</string>
+    <string name="action_load_midi_validation_error">The given Project was not created with Musicdroid</string>
+    <string name="action_load_midi_io_error">The device encountered an internal error: </string>
+    <string name="action_load_midi_file_chooser_title">Open Project</string>
+    <string name="action_load_midi_success">Open successful!</string>
     <string name="action_delete_midi_title">Clear Project</string>
     <string name="action_delete_midi_success">Clear successful</string>
     <string name="note_name_simple_c">C</string>
@@ -60,7 +52,7 @@
     <string name="title_activity_project_selection">ProjectSelectionActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_project_add">+</string>
-    <string name="action_project_rename">Rename</string>
+    <string name="action_project_edit">Edit</string>
     <string name="action_project_about">About</string>
     <string name="action_project_import">Import</string>
     <string name="action_project_export">Export</string>
@@ -69,11 +61,32 @@
     <string name="project_name">Project name:&#160;</string>
     <string name="project_duration">Duration:&#160;</string>
     <string name="project_selection_delete_menu_title">Select items to delete</string>
-    <string name="project_selection_edit_menu_title">Edit</string>
+    <string name="project_selection_edit_menu_title">Select an item to edit</string>
+    <string name="project_selection_copy_menu_title">Copy</string>
     <string name="project_selection_on_deletion_successful">Delete was successful.</string>
+    <string name="delete_unsuccessful">Delete failed.</string>
+
     <string name="minutes_short">min</string>
     <string name="seconds_short">sec</string>
     <string name="selected">selected</string>
 
     <string name="piano_edit_mode_delete">Delete marked</string>
+
+    <string name="dialog_project_edit_title">Edit project</string>
+    <string name="dialog_project_edit_success">Edit was successful!</string>
+    <string name="dialog_project_edit_cancel">Edit canceled!</string>
+    <string name="dialog_project_edit_error">Edit failed!</string>
+
+    <string name="dialog_project_copy_title">Copy project</string>
+    <string name="dialog_project_copy_message">Please enter a new name:</string>
+    <string name="dialog_project_copy_success">Copy successful!</string>
+    <string name="dialog_project_copy_cancel">Copy canceled!</string>
+    <string name="dialog_project_copy_error">Copy failed!</string>
+    <string name="dialog_project_name_exists_error">This name already exists!</string>
+
+    <string name="dialog_project_save_title">Save Project</string>
+    <string name="dialog_project_save_message">Please enter a name:</string>
+    <string name="dialog_project_save_success">Save successful!</string>
+    <string name="dialog_project_save_cancel">Save canceled!</string>
+    <string name="dialog_project_save_error">Save failed!</string>
 </resources>

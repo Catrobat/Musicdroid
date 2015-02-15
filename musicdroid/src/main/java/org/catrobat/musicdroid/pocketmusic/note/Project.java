@@ -29,23 +29,27 @@ import java.util.List;
 
 public class Project implements Serializable {
 
+    public static final int INVALID_ID = -1;
     public static final int DEFAULT_BEATS_PER_MINUTE = 60;
     private static final long serialVersionUID = 7396763540934053008L;
 
+    private int idCounter;
     private String name;
     private int beatsPerMinute;
     private List<Track> tracks;
 
     public Project(String name, int beatsPerMinute) {
+        this.idCounter = 0;
         this.name = name;
         this.beatsPerMinute = beatsPerMinute;
-        this.tracks = new LinkedList<Track>();
+        this.tracks = new LinkedList<>();
     }
 
     public Project(Project project) {
+        idCounter = project.idCounter;
         name = project.getName();
         beatsPerMinute = project.getBeatsPerMinute();
-        tracks = new LinkedList<Track>();
+        tracks = new LinkedList<>();
 
         for (int i = 0; i < project.size(); i++) {
             Track track = project.getTrack(i);
@@ -54,13 +58,27 @@ public class Project implements Serializable {
         }
     }
 
-    public String getName() { return name; }
+    public Project(Project project, String name) {
+        this(project);
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public int getBeatsPerMinute() {
         return beatsPerMinute;
     }
 
     public void addTrack(Track track) {
+        track.setId(idCounter);
+        track.setProject(this);
+        idCounter++;
         tracks.add(track);
     }
 
@@ -110,4 +128,3 @@ public class Project implements Serializable {
         return "[Project] name=" + name + " beatsPerMinute=" + beatsPerMinute + " trackCount=" + size();
     }
 }
-

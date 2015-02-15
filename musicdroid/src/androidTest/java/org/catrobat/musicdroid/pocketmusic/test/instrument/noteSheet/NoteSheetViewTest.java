@@ -60,7 +60,7 @@ public class NoteSheetViewTest extends AndroidTestCase {
     private void touch(float x, float y) {
         MotionEvent motionEvent = MotionEvent.obtain(1, 1, MotionEvent.ACTION_UP, x, y, 0);
 
-        noteSheetView.onTouchEvent(motionEvent);
+        noteSheetView.onEditMode(motionEvent);
     }
 
     public void testResetSymbolMarkers() {

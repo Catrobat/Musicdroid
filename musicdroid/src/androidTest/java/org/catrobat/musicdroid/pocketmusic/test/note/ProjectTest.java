@@ -44,11 +44,21 @@ public class ProjectTest extends AndroidTestCase {
         assertEquals(name, project.getName());
     }
 
+    public void testSetName() {
+        String name = "SomeNewName";
+        Project project = new Project(ProjectTestDataFactory.createProject(), name);
+
+        assertEquals(name, project.getName());
+    }
+
 	public void testAddTrack() {
 		Project project = ProjectTestDataFactory.createProject();
-		project.addTrack(TrackTestDataFactory.createTrack());
+        Track track = TrackTestDataFactory.createTrack();
+		project.addTrack(track);
 
 		assertEquals(1, project.size());
+        assertEquals(0, track.getId());
+        assertEquals(project, track.getProject());
 	}
 
 	public void testGetTrack() {
