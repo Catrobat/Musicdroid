@@ -65,6 +65,8 @@ public class PianoActivity extends InstrumentActivity {
         return noteSheetViewFragment.getNoteSheetView();
     }
 
+    public NoteSheetViewFragment getNoteSheetViewFragment() { return noteSheetViewFragment; }
+
     public String getTrackSizeString() {
         return noteSheetViewFragment.getTrackSizeTextViewText();
     }
@@ -72,6 +74,10 @@ public class PianoActivity extends InstrumentActivity {
     public void startEditMode(){
         editModeContextMenu = new EditModeContextMenu(this);
         startActionMode(editModeContextMenu);
+    }
+
+    public void notifyCheckedItemStateChanged() {
+        editModeContextMenu.checkedItemStateChanged();
     }
 
     @Override

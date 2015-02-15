@@ -136,4 +136,37 @@ public class NoteSheetView extends View {
 
         invalidate();
     }
+
+    public void deleteMarkedSymbols() {
+        List<Integer> deletedIndices = new LinkedList<Integer>();
+
+        for (int i = 0; i < symbols.size(); i++) {
+            Symbol symbol = symbols.get(i);
+
+            if (symbol.isMarked()) {
+                deletedIndices.add(i);
+            }
+        }
+
+        for (int i = deletedIndices.size() - 1; i >= 0; i--) {
+            int index = deletedIndices.get(i);
+            symbols.remove(index);
+        }
+    }
+
+    public int getMarkedSymbolCount() {
+        int count = 0;
+
+        for (Symbol symbol : symbols) {
+            if (symbol.isMarked()) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    public List<Symbol> getSymbols() {
+        return symbols;
+    }
 }

@@ -78,7 +78,7 @@ public abstract class ProjectSelectionContextMenu implements ActionMode.Callback
     public void runEditRoutine() {
         Bundle args = new Bundle();
         parent.stopPlayingTracks();
-        args.putSerializable("project", adapter.getSelectedProject());
+        args.putSerializable(EditProjectDialog.ARGUMENT_PROJECT, adapter.getSelectedProject());
         EditProjectDialog editProjectDialog = new EditProjectDialog();
         editProjectDialog.setArguments(args);
         editProjectDialog.show(parent.getFragmentManager(), "tag");

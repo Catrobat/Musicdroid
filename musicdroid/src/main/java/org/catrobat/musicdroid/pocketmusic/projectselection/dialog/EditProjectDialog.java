@@ -44,6 +44,8 @@ import java.io.IOException;
 
 public class EditProjectDialog extends DialogFragment {
 
+    public static final String ARGUMENT_PROJECT = "project";
+
     private EditText renameField;
     private Project projectToEdit;
 
@@ -52,7 +54,7 @@ public class EditProjectDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        projectToEdit = (Project) getArguments().getSerializable("project");
+        projectToEdit = (Project) getArguments().getSerializable(ARGUMENT_PROJECT);
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
