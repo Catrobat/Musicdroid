@@ -73,13 +73,7 @@ public class ProjectToMidiConverter {
 
         checkMidiFolder();
 
-        File file = getMidiFileFromProjectName(project.getName());
-
-        if (file.exists()) {
-            throw new IOException("Project " + project.getName() + "already exists");
-        }
-
-        midiFile.writeToFile(file);
+        midiFile.writeToFile(getMidiFileFromProjectName(project.getName()));
     }
 
     private static void checkMidiFolder() throws IOException {

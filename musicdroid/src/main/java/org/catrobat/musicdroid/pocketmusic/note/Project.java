@@ -29,20 +29,24 @@ import java.util.List;
 
 public class Project implements Serializable {
 
+    public static final int INVALID_ID = -1;
     public static final int DEFAULT_BEATS_PER_MINUTE = 60;
     private static final long serialVersionUID = 7396763540934053008L;
 
+    private int idCounter;
     private String name;
     private int beatsPerMinute;
     private List<Track> tracks;
 
     public Project(String name, int beatsPerMinute) {
+        this.idCounter = 0;
         this.name = name;
         this.beatsPerMinute = beatsPerMinute;
         this.tracks = new LinkedList<>();
     }
 
     public Project(Project project) {
+        idCounter = project.idCounter;
         name = project.getName();
         beatsPerMinute = project.getBeatsPerMinute();
         tracks = new LinkedList<>();
@@ -72,6 +76,9 @@ public class Project implements Serializable {
     }
 
     public void addTrack(Track track) {
+        track.setId(idCounter);
+        track.setProject(this);
+        idCounter++;
         tracks.add(track);
     }
 

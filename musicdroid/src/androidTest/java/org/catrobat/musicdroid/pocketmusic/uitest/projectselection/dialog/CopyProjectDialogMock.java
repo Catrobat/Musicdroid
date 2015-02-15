@@ -21,29 +21,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.projectselection.dialog;
+package org.catrobat.musicdroid.pocketmusic.uitest.projectselection.dialog;
 
-import org.catrobat.musicdroid.pocketmusic.R;
-import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
-import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
+import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.CopyProjectDialog;
 
 import java.io.IOException;
 
-public class CopyProjectDialog extends AbstractProjectNameDialog {
-
-    public static String ARGUMENT_PROJECT = "project";
-
-    public CopyProjectDialog() {
-        super(R.string.dialog_project_copy_title, R.string.dialog_project_copy_message, R.string.dialog_project_copy_success, R.string.dialog_project_copy_error, R.string.dialog_project_copy_cancel);
-    }
+public class CopyProjectDialogMock extends CopyProjectDialog {
 
     @Override
-    protected void onNewProjectName(String name) throws IOException, MidiException {
-        Project existingProject = (Project) getArguments().getSerializable(ARGUMENT_PROJECT);
-        Project copyProject = new Project(existingProject, name);
-
-        ProjectToMidiConverter converter = new ProjectToMidiConverter();
-        converter.writeProjectAsMidi(copyProject);
+    public void onNewProjectName(String name) throws IOException, MidiException {
+        super.onNewProjectName(name);
     }
 }

@@ -43,9 +43,6 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        Bundle args = new Bundle();
-        args.putSerializable("project", adapter.getSelectedProject());
-
         switch (item.getItemId()) {
             case R.id.callback_action_edit_project:
                 runEditRoutine();
@@ -56,6 +53,8 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
                 mode.finish();
                 return true;
             case R.id.callback_action_copy_project:
+                Bundle args = new Bundle();
+                args.putSerializable(CopyProjectDialog.ARGUMENT_PROJECT, adapter.getSelectedProject());
                 CopyProjectDialog dialog = new CopyProjectDialog();
                 dialog.setArguments(args);
                 dialog.show(parent.getFragmentManager(), "tag");

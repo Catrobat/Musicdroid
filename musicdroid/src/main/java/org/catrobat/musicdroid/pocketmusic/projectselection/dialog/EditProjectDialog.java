@@ -78,15 +78,15 @@ public class EditProjectDialog extends DialogFragment {
                         } else {
                             onProjectEdit();
 
-                            Toast.makeText(getActivity().getBaseContext(), R.string.edit_successful,
+                            Toast.makeText(getActivity().getBaseContext(), R.string.dialog_project_edit_success,
                                     Toast.LENGTH_LONG).show();
                         }
                     } catch (Exception e) {
-                        Toast.makeText(getActivity().getBaseContext(), R.string.edit_unsuccessful,
+                        Toast.makeText(getActivity().getBaseContext(), R.string.dialog_project_edit_error,
                                 Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(getActivity().getBaseContext(), R.string.edit_canceled,
+                    Toast.makeText(getActivity().getBaseContext(), R.string.dialog_project_edit_cancel,
                             Toast.LENGTH_LONG).show();
                 }
             }
@@ -94,7 +94,7 @@ public class EditProjectDialog extends DialogFragment {
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getActivity().getBaseContext(), R.string.edit_canceled,
+                        Toast.makeText(getActivity().getBaseContext(), R.string.dialog_project_edit_cancel,
                                 Toast.LENGTH_LONG).show();
                     }
                 });

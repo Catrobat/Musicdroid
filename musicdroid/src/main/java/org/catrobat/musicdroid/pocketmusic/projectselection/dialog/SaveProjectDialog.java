@@ -25,25 +25,29 @@ package org.catrobat.musicdroid.pocketmusic.projectselection.dialog;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
+import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 
 import java.io.IOException;
 
-public class CopyProjectDialog extends AbstractProjectNameDialog {
+public class SaveProjectDialog extends AbstractProjectNameDialog {
 
-    public static String ARGUMENT_PROJECT = "project";
+    public static final String ARGUMENT_TRACK = "track";
 
-    public CopyProjectDialog() {
-        super(R.string.dialog_project_copy_title, R.string.dialog_project_copy_message, R.string.dialog_project_copy_success, R.string.dialog_project_copy_error, R.string.dialog_project_copy_cancel);
+    public SaveProjectDialog() {
+        super(R.string.dialog_project_save_title, R.string.dialog_project_save_message, R.string.dialog_project_save_success, R.string.dialog_project_save_error, R.string.dialog_project_save_cancel);
     }
 
     @Override
     protected void onNewProjectName(String name) throws IOException, MidiException {
-        Project existingProject = (Project) getArguments().getSerializable(ARGUMENT_PROJECT);
-        Project copyProject = new Project(existingProject, name);
+        Track track = (Track) getArguments().getSerializable(ARGUMENT_TRACK);
+        int beatsPerMinute = track.getBeatsPerMinute();
+
+        Project project = new Project(name, beatsPerMinute);
+        project.addTrack(track);
 
         ProjectToMidiConverter converter = new ProjectToMidiConverter();
-        converter.writeProjectAsMidi(copyProject);
+        converter.writeProjectAsMidi(project);
     }
 }

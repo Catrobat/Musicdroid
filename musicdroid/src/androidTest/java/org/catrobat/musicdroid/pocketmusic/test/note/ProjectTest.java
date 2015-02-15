@@ -53,9 +53,12 @@ public class ProjectTest extends AndroidTestCase {
 
 	public void testAddTrack() {
 		Project project = ProjectTestDataFactory.createProject();
-		project.addTrack(TrackTestDataFactory.createTrack());
+        Track track = TrackTestDataFactory.createTrack();
+		project.addTrack(track);
 
 		assertEquals(1, project.size());
+        assertEquals(0, track.getId());
+        assertEquals(project, track.getProject());
 	}
 
 	public void testGetTrack() {
