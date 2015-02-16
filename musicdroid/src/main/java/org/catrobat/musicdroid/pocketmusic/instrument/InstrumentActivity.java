@@ -61,7 +61,7 @@ public abstract class InstrumentActivity extends Activity {
     private MidiPlayer midiPlayer;
     private Track track;
     private TickProvider tickProvider;
-    private TrackMementoStack mementoStack;
+    protected TrackMementoStack mementoStack;
 
     private String[] midiFileList;
     private boolean activityInFocus = false;
@@ -110,6 +110,10 @@ public abstract class InstrumentActivity extends Activity {
     public void setTrack(Track track) {
         this.track = track;
         tickProvider.setTickBasedOnTrack(track);
+    }
+
+    public void pushMemento(Track track) {
+        mementoStack.pushMemento(track);
     }
 
     public Track getTrack() {

@@ -91,6 +91,7 @@ public class EditModeContextMenu implements ActionMode.Callback {
         newTrack.setProject(track.getProject());
         newTrack.setId(track.getId());
 
+        parent.pushMemento(track);
         parent.setTrack(newTrack);
 
         noteSheetViewFragment.resetSymbolMarkers();
