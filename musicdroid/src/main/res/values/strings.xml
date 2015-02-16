@@ -70,6 +70,8 @@
     <string name="seconds_short">sec</string>
     <string name="selected">selected</string>
 
+    <string name="piano_edit_mode_delete">Delete marked</string>
+
     <string name="dialog_project_edit_title">Edit project</string>
     <string name="dialog_project_edit_success">Edit was successful!</string>
     <string name="dialog_project_edit_cancel">Edit canceled!</string>

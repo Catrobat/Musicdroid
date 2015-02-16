@@ -29,7 +29,9 @@ import android.view.MenuItem;
 import android.widget.HorizontalScrollView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.instrument.edit.menu.EditModeContextMenu;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
+import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetView;
 import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetViewFragment;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
@@ -38,15 +40,18 @@ import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
-import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionFragment;
 
 import java.io.File;
 import java.io.IOException;
 
 public class PianoActivity extends InstrumentActivity {
 
+    public static boolean inCallback = false;
+
     private PianoViewFragment pianoViewFragment;
     private NoteSheetViewFragment noteSheetViewFragment;
+
+    private EditModeContextMenu editModeContextMenu;
 
     public PianoActivity() {
         super(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
@@ -56,8 +61,17 @@ public class PianoActivity extends InstrumentActivity {
         return pianoViewFragment;
     }
 
+    public NoteSheetView getNoteSheetView() {
+        return noteSheetViewFragment.getNoteSheetView();
+    }
+
     public String getTrackSizeString() {
         return noteSheetViewFragment.getTrackSizeTextViewText();
+    }
+
+    public void startEditMode(){
+        editModeContextMenu = new EditModeContextMenu(this);
+        startActionMode(editModeContextMenu);
     }
 
     @Override
@@ -104,7 +118,6 @@ public class PianoActivity extends InstrumentActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // TODO fw add test for this?!
     @Override
     protected void redraw() {
         noteSheetViewFragment.redraw(getTrack());
@@ -114,7 +127,6 @@ public class PianoActivity extends InstrumentActivity {
     protected void onStart() {
         super.onStart();
         noteSheetViewFragment.redraw(getTrack());
-
     }
 
     @Override
@@ -128,5 +140,9 @@ public class PianoActivity extends InstrumentActivity {
             HorizontalScrollView hv = (HorizontalScrollView) findViewById(R.id.scroll_note_sheet_view);
             hv.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
         }
+    }
+
+    public void resetSymbolMarkers() {
+        noteSheetViewFragment.resetSymbolMarkers();
     }
 }

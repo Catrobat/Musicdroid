@@ -28,12 +28,14 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
+import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 
 public  class NoteSheetViewFragment extends Fragment {
@@ -54,6 +56,27 @@ public  class NoteSheetViewFragment extends Fragment {
         noteSheetView = (NoteSheetView) rootView.findViewById(R.id.note_sheet_view);
         trackSizeTextView = (TextView) rootView.findViewById(R.id.track_size_text_view);
 
+        noteSheetView.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View v) {
+                ((PianoActivity) getActivity()).startEditMode();
+                return false;
+            }
+        });
+
+        noteSheetView.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (PianoActivity.inCallback) {
+                    noteSheetView.onEditMode(motionEvent);
+                }
+
+                return false;
+            }
+        });
+
         return rootView;
     }
 
@@ -72,9 +95,15 @@ public  class NoteSheetViewFragment extends Fragment {
         noteSheetView.redraw(track);
         trackSizeTextView.setText(track.size()/2 +" / " + InstrumentActivity.MAX_TRACK_SIZE_IN_SYMBOLS);
     }
+
     public String getTrackSizeTextViewText(){
         return trackSizeTextView.getText().toString();
     }
+
+    public NoteSheetView getNoteSheetView() {
+        return noteSheetView;
+    }
+
     public int getDisplayWidth() {
         return initializeDisplay()[X_POS];
     }
@@ -85,5 +114,9 @@ public  class NoteSheetViewFragment extends Fragment {
 
     public boolean checkForScrollAndRecalculateWidth() {
         return noteSheetView.checkForScrollAndRecalculateWidth();
+    }
+
+    public void resetSymbolMarkers() {
+        noteSheetView.resetSymbolMarkers();
     }
 }

@@ -22,12 +22,9 @@
  */
 package org.catrobat.musicdroid.pocketmusic.instrument;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.pm.ActivityInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.EditText;
