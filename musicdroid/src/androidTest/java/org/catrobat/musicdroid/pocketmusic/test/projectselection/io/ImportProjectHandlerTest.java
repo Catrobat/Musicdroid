@@ -27,6 +27,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.test.AndroidTestCase;
 
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.projectselection.io.ImportProjectHandler;
@@ -68,5 +69,18 @@ public class ImportProjectHandlerTest extends AndroidTestCase {
         handler.importProject(ImportProjectHandler.PICKFILE_RESULT_CODE, Activity.RESULT_OK, file);
 
         assertTrue(ProjectToMidiConverter.getMidiFileFromProjectName(projectName).exists());
+    }
+
+    public void testImportProjectFailed() throws IOException, MidiException {
+        ProjectToMidiConverter converter = new ProjectToMidiConverter();
+
+        Project project = ProjectTestDataFactory.createProject(projectName);
+        converter.writeProjectAsMidi(project);
+
+        try {
+            handler.importProject(ImportProjectHandler.PICKFILE_RESULT_CODE, Activity.RESULT_OK, ProjectToMidiConverter.getMidiFileFromProjectName(projectName));
+            assertTrue(false);
+        } catch (Exception ignored) {
+        }
     }
 }

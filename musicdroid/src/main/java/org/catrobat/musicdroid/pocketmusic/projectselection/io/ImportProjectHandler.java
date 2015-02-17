@@ -62,6 +62,10 @@ public class ImportProjectHandler {
                     ProjectToMidiConverter projectToMidiConverter = new ProjectToMidiConverter();
 
                     Project project = midiToProjectConverter.convertMidiFileToProject(targetFile);
+                    if ((ProjectToMidiConverter.getMidiFileFromProjectName(project.getName()).exists())) {
+                        throw new IOException();
+                    }
+
                     projectToMidiConverter.writeProjectAsMidi(project);
                 }
                 break;
