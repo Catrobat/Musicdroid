@@ -152,7 +152,7 @@ public abstract class InstrumentActivity extends Activity {
             onActionUndoMidi();
             return true;
         } else if (id == R.id.action_load_midi) {
-          onActionLoadMidi();
+            onActionLoadMidi();
             return true;
         } else if (id == R.id.action_clear_midi) {
             onActionDeleteMidi();
