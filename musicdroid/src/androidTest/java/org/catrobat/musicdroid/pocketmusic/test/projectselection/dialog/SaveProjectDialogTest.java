@@ -21,30 +21,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.uitest.projectselection.dialog;
+package org.catrobat.musicdroid.pocketmusic.test.projectselection.dialog;
 
 import android.os.Bundle;
 import android.test.AndroidTestCase;
 
+import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
-import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.CopyProjectDialog;
-import org.catrobat.musicdroid.pocketmusic.test.note.ProjectTestDataFactory;
+import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.SaveProjectDialog;
+import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
 
-import java.io.File;
 import java.io.IOException;
 
-public class CopyProjectDialogTest extends AndroidTestCase {
+public class SaveProjectDialogTest extends AndroidTestCase {
 
     private String userInput;
-    private CopyProjectDialogMock dialog;
+    private SaveProjectDialogMock dialog;
 
     @Override
     protected void setUp() {
         userInput = "some input";
+        Track track = TrackTestDataFactory.createSimpleTrack();
         Bundle args = new Bundle();
-        args.putSerializable(CopyProjectDialog.ARGUMENT_PROJECT, ProjectTestDataFactory.createProject());
-        dialog = new CopyProjectDialogMock();
+        args.putSerializable(SaveProjectDialog.ARGUMENT_TRACK, track);
+        dialog = new SaveProjectDialogMock();
         dialog.setArguments(args);
     }
 
@@ -53,11 +54,9 @@ public class CopyProjectDialogTest extends AndroidTestCase {
         ProjectToMidiConverter.getMidiFileFromProjectName(userInput).delete();
     }
 
-    public void testOnNewProjectName() throws IOException, MidiException {
+    public void testOnNewProjectName1() throws IOException, MidiException {
         dialog.onNewProjectName(userInput);
 
         assertTrue(ProjectToMidiConverter.getMidiFileFromProjectName(userInput).exists());
     }
-
-
 }

@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.uitest.projectselection.dialog;
+package org.catrobat.musicdroid.pocketmusic.test.projectselection.dialog;
 
 import android.test.AndroidTestCase;
 import android.widget.Toast;

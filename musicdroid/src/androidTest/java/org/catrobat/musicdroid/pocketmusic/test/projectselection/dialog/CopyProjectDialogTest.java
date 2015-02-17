@@ -21,20 +21,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.uitest.projectselection.dialog;
+package org.catrobat.musicdroid.pocketmusic.test.projectselection.dialog;
+
+import android.os.Bundle;
+import android.test.AndroidTestCase;
 
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
+import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.CopyProjectDialog;
+import org.catrobat.musicdroid.pocketmusic.test.note.ProjectTestDataFactory;
 
 import java.io.IOException;
 
-public class CopyProjectDialogMock extends CopyProjectDialog {
+public class CopyProjectDialogTest extends AndroidTestCase {
+
+    private String userInput;
+    private CopyProjectDialogMock dialog;
 
     @Override
-    public void onNewProjectName(String name) throws IOException, MidiException {
-        super.onNewProjectName(name);
+    protected void setUp() {
+        userInput = "some input";
+        Bundle args = new Bundle();
+        args.putSerializable(CopyProjectDialog.ARGUMENT_PROJECT, ProjectTestDataFactory.createProject());
+        dialog = new CopyProjectDialogMock();
+        dialog.setArguments(args);
     }
 
     @Override
-    protected void updateActivity() {}
+    protected void tearDown() throws IOException {
+        ProjectToMidiConverter.getMidiFileFromProjectName(userInput).delete();
+    }
+
+    public void testOnNewProjectName() throws IOException, MidiException {
+        dialog.onNewProjectName(userInput);
+
+        assertTrue(ProjectToMidiConverter.getMidiFileFromProjectName(userInput).exists());
+    }
+
+
 }
