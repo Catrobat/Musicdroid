@@ -47,6 +47,10 @@ public class SymbolsDrawer {
         breakDrawer = new BreakDrawer(noteSheetCanvas, paint, resources, key, drawPosition, distanceBetweenLines);
     }
 
+    public int getWidthForOneSymbol() {
+        return noteDrawer.getWidthForOneSymbol();
+    }
+
 	public void drawSymbols() {
 		for (Symbol symbol : symbols) {
             if (symbol instanceof NoteSymbol) {

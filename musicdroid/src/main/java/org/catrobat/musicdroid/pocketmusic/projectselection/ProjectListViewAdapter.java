@@ -39,6 +39,7 @@ import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
+import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,6 +47,8 @@ import java.util.ArrayList;
 public class ProjectListViewAdapter extends BaseAdapter {
 
     private final Context context;
+
+    private ProjectToMidiConverter projectToMidiConverter;
 
     private ArrayList<Project> projects;
     private ArrayList<Boolean> projectSelectionBackgroundFlags;
@@ -63,6 +66,7 @@ public class ProjectListViewAdapter extends BaseAdapter {
     }
 
     public ProjectListViewAdapter(Context context, ArrayList<Project> projects) {
+        projectToMidiConverter = new ProjectToMidiConverter();
         this.context = context;
         this.projects = projects;
         initViewParameters();
@@ -78,14 +82,30 @@ public class ProjectListViewAdapter extends BaseAdapter {
         }
     }
 
-    public void deleteItemByProjectName(String projectName) {
-        for (int i = 0; i < projects.size(); i++)
-            if (projectName.equals(projects.get(i).getName())) {
-                projects.remove(i);
-                projectSelectionBackgroundFlags.remove(i);
-                projectSelectionTrackIsPlayingFlags.remove(i);
+    public boolean deleteItemByProjectName(String projectName) {
+        if (projectToMidiConverter.deleteMidiByName(projectName)) {
+            for (int i = 0; i < projects.size(); i++) {
+                if (projectName.equals(projects.get(i).getName())) {
+                    projects.remove(i);
+                    projectSelectionBackgroundFlags.remove(i);
+                    projectSelectionTrackIsPlayingFlags.remove(i);
+                }
             }
-        notifyDataSetChanged();
+            notifyDataSetChanged();
+            return true;
+        }
+        return false;
+    }
+
+    public void renameItem(String oldName, String newName) throws IOException, MidiException {
+        for (int i = 0; i < projects.size(); i++)
+            if (oldName.equals(projects.get(i).getName())) {
+                projects.get(i).setName(newName);
+                projectToMidiConverter.writeProjectAsMidi(projects.get(i));
+                if (projectToMidiConverter.deleteMidiByName(oldName)) {
+                    notifyDataSetChanged();
+                }
+            }
     }
 
     @Override
@@ -243,5 +263,15 @@ public class ProjectListViewAdapter extends BaseAdapter {
                 counter++;
             }
         return counter;
+    }
+
+    public Project getSelectedProject() {
+        for (int i = 0; i < projectSelectionBackgroundFlags.size(); i++) {
+            if (projectSelectionBackgroundFlags.get(i)) {
+                return projects.get(i);
+            }
+        }
+
+        return null;
     }
 }

@@ -26,6 +26,7 @@ package org.catrobat.musicdroid.pocketmusic.projectselection;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,13 +80,16 @@ public class ProjectSelectionFragment extends Fragment {
         MidiToProjectConverter midiToProjectConverter = new MidiToProjectConverter();
         projects.clear();
 
-        for (String aMidiFile : midiFileList) {
-            try {
-                projects.add(midiToProjectConverter.convertMidiFileToProject(new File(ProjectToMidiConverter.MIDI_FOLDER, aMidiFile)));
-            } catch (MidiException | IOException e) {
-                e.printStackTrace();
+        if (null != midiFileList) {
+            for (String aMidiFile : midiFileList) {
+                try {
+                    projects.add(midiToProjectConverter.convertMidiFileToProject(new File(ProjectToMidiConverter.MIDI_FOLDER, aMidiFile)));
+                } catch (MidiException | IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
+
         setListAdapter();
         setOnClickListeners();
     }
@@ -148,6 +152,12 @@ public class ProjectSelectionFragment extends Fragment {
         }
 
         return null;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        fetchProjectInformation();
     }
 
     public ProjectListViewAdapter getListViewAdapter() {

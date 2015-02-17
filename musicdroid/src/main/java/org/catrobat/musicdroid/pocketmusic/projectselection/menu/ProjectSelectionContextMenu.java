@@ -23,23 +23,21 @@
 
 package org.catrobat.musicdroid.pocketmusic.projectselection.menu;
 
+import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
-import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectListViewAdapter;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
-
-import java.io.File;
-
+import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.EditProjectDialog;
 
 public abstract class ProjectSelectionContextMenu implements ActionMode.Callback {
     protected ProjectListViewAdapter adapter;
     protected ProjectSelectionActivity parent;
-    private ActionMode actionMode;
+    protected ActionMode actionMode;
 
     @Override
     public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
@@ -52,18 +50,6 @@ public abstract class ProjectSelectionContextMenu implements ActionMode.Callback
     @Override
     public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
         return false;
-    }
-
-    @Override
-    public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.callback_action_delete_project:
-                runDeleteRoutine();
-                actionMode.finish();
-                return true;
-            default:
-                return false;
-        }
     }
 
     @Override
@@ -81,18 +67,26 @@ public abstract class ProjectSelectionContextMenu implements ActionMode.Callback
         for (int i = 0; i < adapter.getCount(); i++)
             if (adapter.getProjectSelectionBackgroundFlags(i)) {
                 String projectName = adapter.getItem(i).getName();
-                File file = new File(ProjectToMidiConverter.MIDI_FOLDER, projectName + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
-                if (file.delete()) {
+                if (adapter.deleteItemByProjectName(projectName)) {
                     Toast.makeText(parent, parent.getString(R.string.project_selection_on_deletion_successful), Toast.LENGTH_LONG).show();
-                    adapter.deleteItemByProjectName(projectName);
                     i--;
-                }
+                } else
+                    Toast.makeText(parent, parent.getString(R.string.delete_unsuccessful), Toast.LENGTH_LONG).show();
             }
+    }
+
+    public void runEditRoutine() {
+        Bundle args = new Bundle();
+        parent.stopPlayingTracks();
+        args.putSerializable("project", adapter.getSelectedProject());
+        EditProjectDialog editProjectDialog = new EditProjectDialog();
+        editProjectDialog.setArguments(args);
+        editProjectDialog.show(parent.getFragmentManager(), "tag");
     }
 
     public void checkedItemStateChanged() {
         if (adapter.getSelectedItemsCount() != 0)
-            getActionMode().setTitle(adapter.getSelectedItemsCount() + " " + parent.getResources().getString(R.string.selected));
+            getActionMode().setTitle(adapter.getSelectedItemsCount()+"");
     }
 
     public ActionMode getActionMode() {

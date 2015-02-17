@@ -29,18 +29,40 @@ import java.util.List;
 
 public class DrawElementsTouchDetector {
 
-    public static final int DEFAULT_TOLERANCE = 100;
     public static final int INVALID_INDEX = -1;
 
-    public int getIndexOfTouchedDrawElement(List<Symbol> symbols, float x, float y, float tolerance) {
-        for (int i = 0; i < symbols.size(); i++) {
-            SymbolPosition element = symbols.get(i).getSymbolPosition();
+    public int getIndexOfTouchedDrawElement(List<Symbol> symbols, float x, float y, float tolerance, float widthForOneSymbol, float xOffset) {
+        if (symbols.isEmpty()) {
+            return INVALID_INDEX;
+        }
 
-            if (((element.getLeft() - tolerance) <= x)
-                    && ((element.getRight() + tolerance) >= x)
-                    && ((element.getTop() - tolerance) <= y)
-                    && ((element.getBottom() + tolerance) >= y)) {
+        int startIndex = (int) Math.floor((x - xOffset) / widthForOneSymbol);
+
+        if (startIndex >= symbols.size()) {
+            startIndex = symbols.size() - 1;
+        } else if (startIndex < 0) {
+            startIndex = 0;
+        }
+
+        SymbolPosition symbolPosition = symbols.get(startIndex).getSymbolPosition();
+        int direction = 1;
+
+        if (x < symbolPosition.getLeft()) {
+            direction = -1;
+        }
+
+        for (int i = startIndex; (i < symbols.size()) && (i >= 0); i = i + direction) {
+            symbolPosition = symbols.get(i).getSymbolPosition();
+
+            if (((symbolPosition.getLeft() - tolerance) <= x)
+                    && ((symbolPosition.getRight() + tolerance) >= x)
+                    && ((symbolPosition.getTop() - tolerance) <= y)
+                    && ((symbolPosition.getBottom() + tolerance) >= y)) {
                 return i;
+            }
+
+            if (((symbolPosition.getLeft() - x) * direction) > 0) {
+                break;
             }
         }
 

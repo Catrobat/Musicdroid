@@ -22,12 +22,9 @@
  */
 package org.catrobat.musicdroid.pocketmusic.instrument;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.pm.ActivityInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -44,6 +41,8 @@ import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
+import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.CopyProjectDialog;
+import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.SaveProjectDialog;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -59,7 +58,6 @@ public abstract class InstrumentActivity extends Activity {
     private static final String SAVED_INSTANCE_TRACK = "SavedTrack";
     private static final String SAVED_INSTANCE_MEMENTO = "SavedMemento";
 
-    private EditText editTextMidiExportNameDialogPrompt;
     private MidiPlayer midiPlayer;
     private Track track;
     private TickProvider tickProvider;
@@ -70,8 +68,6 @@ public abstract class InstrumentActivity extends Activity {
 
 
     public InstrumentActivity(MusicalKey key, MusicalInstrument instrument) {
-        editTextMidiExportNameDialogPrompt = null;
-
         midiPlayer = MidiPlayer.getInstance();
 
         track = new Track(key, instrument, Project.DEFAULT_BEATS_PER_MINUTE);
@@ -149,14 +145,14 @@ public abstract class InstrumentActivity extends Activity {
 
         midiPlayer.stop();
 
-        if (id == R.id.action_export_midi) {
-            onActionExportMidi();
+        if (id == R.id.action_save_midi) {
+            onActionSaveMidi();
             return true;
         } else if (id == R.id.action_undo_midi) {
             onActionUndoMidi();
             return true;
-        } else if (id == R.id.action_import_midi) {
-            onActionImportMidi();
+        } else if (id == R.id.action_load_midi) {
+          onActionLoadMidi();
             return true;
         } else if (id == R.id.action_clear_midi) {
             onActionDeleteMidi();
@@ -169,8 +165,8 @@ public abstract class InstrumentActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void onActionExportMidi() {
-        exportMidiFileByUserInput();
+    private void onActionSaveMidi() {
+        saveMidiFileByUserInput();
     }
 
     private void onActionUndoMidi() {
@@ -180,7 +176,7 @@ public abstract class InstrumentActivity extends Activity {
         }
     }
 
-    private void onActionImportMidi() {
+    private void onActionLoadMidi() {
         if (ProjectToMidiConverter.MIDI_FOLDER.exists()) {
             FilenameFilter filter = new FilenameFilter() {
                 public boolean accept(File dir, String filename) {
@@ -193,7 +189,7 @@ public abstract class InstrumentActivity extends Activity {
 
             removeMidiExtension();
 
-            importMidiFileByUserInput();
+            loadMidiFileByUserInput();
         }
     }
 
@@ -223,10 +219,10 @@ public abstract class InstrumentActivity extends Activity {
         }
     }
 
-    protected void importMidiFileByUserInput() {
+    protected void loadMidiFileByUserInput() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setTitle(R.string.action_import_midi_file_chooser_title);
+        builder.setTitle(R.string.action_load_midi_file_chooser_title);
 
         builder.setItems(midiFileList, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int index) {
@@ -240,14 +236,14 @@ public abstract class InstrumentActivity extends Activity {
                     setTrack(project.getTrack(0));
                     redraw();
 
-                    Toast.makeText(getBaseContext(), R.string.action_import_midi_success,
+                    Toast.makeText(getBaseContext(), R.string.action_load_midi_success,
                             Toast.LENGTH_LONG).show();
                     mementoStack.clear();
                 } catch (MidiException e) {
-                    Toast.makeText(getBaseContext(), R.string.action_import_midi_validation_error,
+                    Toast.makeText(getBaseContext(), R.string.action_load_midi_validation_error,
                             Toast.LENGTH_LONG).show();
                 } catch (IOException e) {
-                    Toast.makeText(getBaseContext(), R.string.action_import_midi_io_error + e.getMessage(),
+                    Toast.makeText(getBaseContext(), R.string.action_load_midi_io_error + e.getMessage(),
                             Toast.LENGTH_LONG).show();
                 }
             }
@@ -256,58 +252,24 @@ public abstract class InstrumentActivity extends Activity {
         builder.show();
     }
 
-    private void exportMidiFileByUserInput() {
-        editTextMidiExportNameDialogPrompt = new EditText(this);
+    private void saveMidiFileByUserInput() {
+        Project project = track.getProject();
+        if (null != project) {
+            ProjectToMidiConverter converter = new ProjectToMidiConverter();
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setTitle(R.string.action_export_dialog_title)
-                .setMessage(R.string.action_export_dialog_message)
-                .setView(editTextMidiExportNameDialogPrompt)
-                .setCancelable(false)
-                .setPositiveButton(R.string.action_export_dialog_positive_button,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String userInput = editTextMidiExportNameDialogPrompt.getText().toString();
-
-                                if ((userInput != null) && (false == userInput.equals(""))) {
-                                    String projectName = userInput.split(ProjectToMidiConverter.MIDI_FILE_EXTENSION)[0];
-
-                                    final ProjectToMidiConverter converter = new ProjectToMidiConverter();
-                                    // TODO fw
-                                    final Project project = new Project(projectName, Project.DEFAULT_BEATS_PER_MINUTE);
-                                    project.addTrack(getTrack());
-
-                                    try {
-                                        converter.writeProjectAsMidi(project);
-
-                                        Toast.makeText(getBaseContext(), R.string.action_export_midi_success,
-                                                Toast.LENGTH_LONG).show();
-                                    } catch (Exception e) {
-                                        Toast.makeText(getBaseContext(), R.string.action_export_midi_error,
-                                                Toast.LENGTH_LONG).show();
-                                    }
-                                } else {
-                                    Toast.makeText(getBaseContext(), R.string.action_export_midi_cancel,
-                                            Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        }
-                )
-                .setNegativeButton(R.string.action_export_dialog_negative_button, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getBaseContext(), R.string.action_export_midi_cancel,
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
-
-        final AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }
-
-    public EditText getEditTextMidiExportNameDialogPrompt() {
-        return editTextMidiExportNameDialogPrompt;
+            try {
+                converter.writeProjectAsMidi(project);
+                Toast.makeText(getBaseContext(), R.string.dialog_project_save_success, Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                Toast.makeText(getBaseContext(), R.string.dialog_project_name_exists_error, Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Bundle args = new Bundle();
+            args.putSerializable(SaveProjectDialog.ARGUMENT_TRACK, getTrack());
+            SaveProjectDialog dialog = new SaveProjectDialog();
+            dialog.setArguments(args);
+            dialog.show(getFragmentManager(), "tag");
+        }
     }
 
     @Override

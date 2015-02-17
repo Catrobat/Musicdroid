@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Musicdroid: An on-device music generator for Android
-  ~ Copyright (C) 2010-2014 The Catrobat Team
+  ~ Copyright (C) 2010-2015 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,5 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/callback_action_delete_project" android:icon="@drawable/ic_action_discard" android:title="@string/action_project_delete" android:orderInCategory="100" android:showAsAction="ifRoom" />
-    <item android:id="@+id/callback_action_edit_project" android:icon="@drawable/ic_action_edit" android:title="@string/action_project_edit" android:orderInCategory="100" android:showAsAction="ifRoom" />
-    <item android:id="@+id/callback_action_copy_project" android:icon="@drawable/ic_action_copy" android:title="@string/project_selection_copy_menu_title" android:orderInCategory="100" android:showAsAction="ifRoom" />
+    <item android:id="@+id/edit_callback_action_delete_project" android:icon="@drawable/ic_action_discard" android:title="@string/piano_edit_mode_delete" android:orderInCategory="100" android:showAsAction="ifRoom" />
 </menu >

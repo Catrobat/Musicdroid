@@ -21,27 +21,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.projectselection.menu;
+package org.catrobat.musicdroid.pocketmusic.instrument.edit.menu;
 
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import org.catrobat.musicdroid.pocketmusic.R;
-import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
+import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 
-public class ProjectSelectionDeleteContextMenu extends ProjectSelectionContextMenu {
+public class EditModeContextMenu implements ActionMode.Callback {
 
-    public ProjectSelectionDeleteContextMenu(ProjectSelectionActivity parentActivity) {
-        parent = parentActivity;
+    private PianoActivity parent;
+
+    public EditModeContextMenu(PianoActivity parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+        parent.getMenuInflater().inflate(R.menu.menu_project_edit_callback, menu);
+
+        PianoActivity.inCallback = true;
+
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+        return false;
     }
 
     @Override
     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-            case R.id.callback_action_delete_project:
-                runDeleteRoutine();
-                actionMode.finish();
+            case R.id.edit_callback_action_delete_project:
+                // TODO
                 return true;
             default:
                 return false;
@@ -49,23 +64,8 @@ public class ProjectSelectionDeleteContextMenu extends ProjectSelectionContextMe
     }
 
     @Override
-    public void onDestroyActionMode(ActionMode mode) {
-        super.onDestroyActionMode(mode);
-    }
-
-    @Override
-    public void enterSingleEditMode() {
-    }
-
-    @Override
-    public void enterMultipleEditMode() {
-    }
-
-    @Override
-    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-        parent.getMenuInflater().inflate(R.menu.menu_project_selection_delete_callback, menu);
-        super.onCreateActionMode(mode, menu);
-        mode.setTitle(R.string.project_selection_delete_menu_title);
-        return true;
+    public void onDestroyActionMode(ActionMode actionMode) {
+        PianoActivity.inCallback = false;
+        parent.resetSymbolMarkers();
     }
 }
