@@ -25,9 +25,7 @@ package org.catrobat.musicdroid.pocketmusic.projectselection.io;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.widget.Toast;
 
-import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
@@ -49,28 +47,24 @@ public class ImportProjectHandler {
     public void handleImportProject() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("audio/midi");
-        projectSelectionActivity.startActivityForResult(intent, PICKFILE_RESULT_CODE);
+        startIntent(intent, PICKFILE_RESULT_CODE);
     }
 
-    public void importProject(int requestCode, int resultCode, Intent data) {
-        try {
-            switch (requestCode) {
-                case PICKFILE_RESULT_CODE:
-                    if (resultCode == Activity.RESULT_OK) {
-                        File targetFile = new File(data.getData().getPath());
-                        MidiToProjectConverter midiToProjectConverter = new MidiToProjectConverter();
-                        ProjectToMidiConverter projectToMidiConverter = new ProjectToMidiConverter();
+    protected void startIntent(Intent intent, int resultCode) {
+        projectSelectionActivity.startActivityForResult(intent, resultCode);
+    }
 
-                        Project project = midiToProjectConverter.convertMidiFileToProject(targetFile);
-                        projectToMidiConverter.writeProjectAsMidi(project);
+    public void importProject(int requestCode, int resultCode, File targetFile) throws IOException, MidiException {
+        switch (requestCode) {
+            case PICKFILE_RESULT_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    MidiToProjectConverter midiToProjectConverter = new MidiToProjectConverter();
+                    ProjectToMidiConverter projectToMidiConverter = new ProjectToMidiConverter();
 
-                        Toast.makeText(projectSelectionActivity, projectSelectionActivity.getResources().getString(R.string.project_import_successful), Toast.LENGTH_LONG).show();
-                    }
-                    break;
-            }
-        } catch (IOException | MidiException e) {
-            Toast.makeText(projectSelectionActivity, projectSelectionActivity.getResources().getString(R.string.project_import_failed), Toast.LENGTH_LONG).show();
-            e.printStackTrace();
+                    Project project = midiToProjectConverter.convertMidiFileToProject(targetFile);
+                    projectToMidiConverter.writeProjectAsMidi(project);
+                }
+                break;
         }
     }
 }

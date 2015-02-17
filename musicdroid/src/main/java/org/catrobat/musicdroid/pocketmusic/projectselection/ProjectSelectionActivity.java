@@ -29,14 +29,19 @@ import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
 import org.catrobat.musicdroid.pocketmusic.projectselection.io.ImportProjectHandler;
 import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionContextMenu;
 import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionDeleteContextMenu;
 import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionEditContextMenu;
 import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionTapAndHoldContextMenu;
+
+import java.io.File;
+import java.io.IOException;
 
 public class ProjectSelectionActivity extends Activity {
     private ProjectSelectionFragment projectSelectionFragment;
@@ -144,6 +149,12 @@ public class ProjectSelectionActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        importProjectHandler.importProject(requestCode, resultCode, data);
+        try {
+            importProjectHandler.importProject(requestCode, resultCode, new File(data.getData().getPath()));
+            Toast.makeText(this, getResources().getString(R.string.project_import_successful), Toast.LENGTH_LONG).show();
+
+        } catch (IOException | MidiException e) {
+            Toast.makeText(this, getResources().getString(R.string.project_import_failed), Toast.LENGTH_LONG).show();
+        }
     }
 }
