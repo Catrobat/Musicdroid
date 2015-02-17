@@ -35,6 +35,8 @@ import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 
+import java.util.List;
+
 public class NoteDrawerMock extends NoteDrawer {
 
     public NoteDrawerMock(NoteSheetCanvas noteSheetCanvas, Paint paint, Resources resources, MusicalKey key, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
@@ -42,8 +44,8 @@ public class NoteDrawerMock extends NoteDrawer {
     }
 
     @Override
-    public void drawCross(NoteSymbol noteSymbol) {
-        super.drawCross(noteSymbol);
+    public List<RectF> drawCross(NoteSymbol noteSymbol, Paint paint) {
+        return super.drawCross(noteSymbol, paint);
     }
 
     @Override

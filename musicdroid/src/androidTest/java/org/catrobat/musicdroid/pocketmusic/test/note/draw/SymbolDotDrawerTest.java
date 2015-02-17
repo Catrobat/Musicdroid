@@ -23,6 +23,7 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
@@ -40,6 +41,14 @@ public class SymbolDotDrawerTest extends AbstractDrawerTest {
     }
 
     public void testDrawDot() {
+        testDrawDot(paintDefault);
+    }
+
+    public void testDrawDotMarked() {
+        testDrawDot(paintMarked);
+    }
+
+    private void testDrawDot(Paint paint) {
         Rect noteRect = new Rect(100, 100, 200, 200);
         int x = noteRect.right + SymbolDotDrawer.DISTANCE_BETWEEN_SYMBOL_AND_DOT;
         int y = noteRect.top + distanceBetweenLines / 4;
@@ -51,6 +60,6 @@ public class SymbolDotDrawerTest extends AbstractDrawerTest {
 
         symbolDotDrawer.drawDot(noteRect, paint);
 
-        assertCanvasElementQueueOval(expectedDotRect.left, expectedDotRect.top, expectedDotRect.right, expectedDotRect.bottom, paint.getStyle());
+        assertCanvasElementQueueOval(expectedDotRect.left, expectedDotRect.top, expectedDotRect.right, expectedDotRect.bottom, paint);
     }
 }

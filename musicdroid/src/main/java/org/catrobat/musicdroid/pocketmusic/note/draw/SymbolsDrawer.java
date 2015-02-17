@@ -47,19 +47,19 @@ public class SymbolsDrawer {
         breakDrawer = new BreakDrawer(noteSheetCanvas, paint, resources, key, drawPosition, distanceBetweenLines);
     }
 
-	public List<SymbolPosition> drawSymbols() {
-        List<SymbolPosition> drawSymbols = new LinkedList<SymbolPosition>();
+    public int getWidthForOneSymbol() {
+        return noteDrawer.getWidthForOneSymbol();
+    }
 
+	public void drawSymbols() {
 		for (Symbol symbol : symbols) {
             if (symbol instanceof NoteSymbol) {
-                drawSymbols.add(noteDrawer.drawSymbol(symbol));
+                noteDrawer.drawSymbol(symbol);
             } else if (symbol instanceof BreakSymbol) {
-                drawSymbols.add(breakDrawer.drawSymbol(symbol));
+                breakDrawer.drawSymbol(symbol);
             } else {
                 throw new IllegalArgumentException("Not supported symbol: " + symbol);
             }
 		}
-
-        return drawSymbols;
 	}
 }

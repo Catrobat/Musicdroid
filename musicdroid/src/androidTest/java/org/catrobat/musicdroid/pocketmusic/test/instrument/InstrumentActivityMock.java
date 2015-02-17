@@ -44,11 +44,6 @@ public class InstrumentActivityMock extends InstrumentActivity {
     }
 
     @Override
-    public void dismissPlayAllDialog() {
-        dismissed = true;
-    }
-
-    @Override
     protected void redraw() {
 
     }

@@ -25,10 +25,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".PianoActivity" >
       <item
-        android:id="@+id/action_import_midi"
+        android:id="@+id/action_load_midi"
         android:icon="@drawable/ic_action_read"
         android:showAsAction="never"
-        android:title="@string/action_import_midi_title" />
+        android:title="@string/action_load_midi_title" />
       <item
         android:id="@+id/action_clear_midi"
         android:icon="@drawable/ic_action_discard"
@@ -45,8 +45,8 @@
         android:showAsAction="ifRoom"
         android:title="@string/action_play_midi" />
     <item
-        android:id="@+id/action_export_midi"
+        android:id="@+id/action_save_midi"
         android:icon="@drawable/ic_action_save"
         android:showAsAction="ifRoom"
-        android:title="@string/action_export_midi_title" />
+        android:title="@string/action_save_midi_title" />
 </menu >

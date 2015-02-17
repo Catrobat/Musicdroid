@@ -55,12 +55,28 @@ public class ProjectToMidiConverter {
 
 	public ProjectToMidiConverter() {
 		eventConverter = new NoteEventToMidiEventConverter();
-		usedChannels = new ArrayList<MusicalInstrument>();
+		usedChannels = new ArrayList<>();
 	}
-    
-	public void writeProjectAsMidi(Project project, String filename) throws IOException, MidiException {
-		MidiFile midi = convertProject(project);
 
+    public boolean deleteMidiByName(String name)
+    {
+        File file = new File(ProjectToMidiConverter.MIDI_FOLDER, name + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
+
+        if(file.delete())
+            return true;
+
+        return false;
+    }
+
+    public void writeProjectAsMidi(Project project) throws IOException, MidiException {
+        MidiFile midiFile = convertProject(project);
+
+        checkMidiFolder();
+
+        midiFile.writeToFile(getMidiFileFromProjectName(project.getName()));
+    }
+
+    private static void checkMidiFolder() throws IOException {
         if (!MIDI_FOLDER.exists()) {
             boolean success = MIDI_FOLDER.mkdir();
 
@@ -68,11 +84,17 @@ public class ProjectToMidiConverter {
                 throw new IOException("Could not create folder: " + MIDI_FOLDER);
             }
         }
+    }
 
-		File file = new File(MIDI_FOLDER + File.separator + filename + MIDI_FILE_EXTENSION);
+    public static File getMidiFileFromProjectName(String name) throws IOException {
+        checkMidiFolder();
 
-		midi.writeToFile(file);
-	}
+        return new File(MIDI_FOLDER + File.separator + name + MIDI_FILE_EXTENSION);
+    }
+
+    public static String removeMidiExtensionFromString(String input) {
+        return input.split(MIDI_FILE_EXTENSION)[0];
+    }
 
     public void writeProjectAsMidi(Project project, File file) throws IOException, MidiException {
         MidiFile midi = convertProject(project);

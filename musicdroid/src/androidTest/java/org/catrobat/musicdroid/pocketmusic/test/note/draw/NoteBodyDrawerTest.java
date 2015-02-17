@@ -40,26 +40,37 @@ import java.util.List;
 public class NoteBodyDrawerTest extends AbstractDrawerTest {
 
     public void testDrawBody1() {
-        assertDrawBody(MusicalKey.VIOLIN);
+        assertDrawBody(MusicalKey.VIOLIN, false);
     }
 
     public void testDrawBody2() {
-        assertDrawBody(MusicalKey.BASS);
+        assertDrawBody(MusicalKey.BASS, false);
     }
 
-    private void assertDrawBody(MusicalKey key) {
+    public void testDrawBodyMarked1() {
+        assertDrawBody(MusicalKey.VIOLIN, true);
+    }
+
+    public void testDrawBodyMarked2() {
+        assertDrawBody(MusicalKey.BASS, true);
+    }
+
+    private void assertDrawBody(MusicalKey key, boolean marked) {
+        Paint paint = marked ? paintMarked : paintDefault;
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol();
+        noteSymbol.setMarked(marked);
         SymbolDrawerMock symbolDrawer = new SymbolDrawerMock(noteSheetCanvas, paint, getContext().getResources(), key, drawPosition, distanceBetweenLines);
         NoteBodyDrawer noteBodyDrawer = new NoteBodyDrawer(symbolDrawer, noteSheetCanvas, key, distanceBetweenLines);
 
         Point centerPointNote = symbolDrawer.getCenterPointForNextSymbolNoDrawPositionChange();
         SymbolPosition positionInformation = noteBodyDrawer.drawBody(noteSymbol, paint);
 
-        assertCanvasElementQueueNoteBody(key, noteSymbol, positionInformation, centerPointNote);
+        assertCanvasElementQueueNoteBody(key, noteSymbol, positionInformation, centerPointNote, paint.getColor());
     }
 
-    private void assertCanvasElementQueueNoteBody(MusicalKey key, NoteSymbol noteSymbol, SymbolPosition actualPositionInformation, Point centerPointNote) {
+    private void assertCanvasElementQueueNoteBody(MusicalKey key, NoteSymbol noteSymbol, SymbolPosition actualPositionInformation, Point centerPointNote, int color) {
         Paint paint = new Paint();
+        paint.setColor(color);
         boolean isStemUpdirected = noteSymbol.isStemUp(key);
         int lineHeight = distanceBetweenLines;
         int noteHeight = lineHeight / 2;
@@ -105,7 +116,7 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
                 paint.setStyle(Paint.Style.STROKE);
             }
 
-            assertCanvasElementQueueOval(left, top, right, bottom, paint.getStyle());
+            assertCanvasElementQueueOval(left, top, right, bottom, paint);
 
             prevNoteName = noteName;
         }
@@ -117,11 +128,11 @@ public class NoteBodyDrawerTest extends AbstractDrawerTest {
 
     public void testDrawBodyDot() {
         MusicalKey key = MusicalKey.VIOLIN;
-        SymbolDrawerMock symbolDrawer = new SymbolDrawerMock(noteSheetCanvas, paint, getContext().getResources(), key, drawPosition, distanceBetweenLines);
+        SymbolDrawerMock symbolDrawer = new SymbolDrawerMock(noteSheetCanvas, paintDefault, getContext().getResources(), key, drawPosition, distanceBetweenLines);
         NoteBodyDrawer noteBodyDrawer = new NoteBodyDrawer(symbolDrawer, noteSheetCanvas, key, distanceBetweenLines);
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER_DOT);
 
-        noteBodyDrawer.drawBody(noteSymbol, paint);
+        noteBodyDrawer.drawBody(noteSymbol, paintDefault);
 
         int bodyCount = 1;
         int dotCount = 1;

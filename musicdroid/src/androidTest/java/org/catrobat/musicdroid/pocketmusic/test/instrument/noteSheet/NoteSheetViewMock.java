@@ -30,6 +30,7 @@ import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetView;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
 import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.test.note.draw.CanvasMock;
 
 public class NoteSheetViewMock extends NoteSheetView {
@@ -42,13 +43,21 @@ public class NoteSheetViewMock extends NoteSheetView {
         return symbols.get(index).isMarked();
     }
 
-    public SymbolPosition getSymbolPosition(int index) {
-        return symbolPositions.get(index);
-    }
-
     public void draw() {
         noteSheetCanvas = new NoteSheetCanvas(new CanvasMock());
         noteSheetDrawer = new NoteSheetDrawer(noteSheetCanvas, getResources(), symbols, key);
-        symbolPositions = noteSheetDrawer.drawNoteSheet();
+        noteSheetDrawer.drawNoteSheet();
+    }
+
+    public int getSymbolsSize() {
+        return symbols.size();
+    }
+
+    public SymbolPosition getSymbolPosition(int elementIndex) {
+        return symbols.get(elementIndex).getSymbolPosition();
+    }
+
+    public Symbol getSymbol(int elementIndex) {
+        return symbols.get(elementIndex);
     }
 }

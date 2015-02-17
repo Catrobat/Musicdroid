@@ -60,6 +60,10 @@ public abstract class SymbolDrawer {
         widthForOneSmallSymbol = widthForOneSymbol / SMALL_SYMBOL_WIDTH_DIVIDOR;
 	}
 
+    public int getWidthForOneSymbol() {
+        return widthForOneSymbol;
+    }
+
     private Point getCenterPointForNextSymbol(int symbolWidth) {
         Point centerPoint = new Point(drawPosition.getStartXPositionForNextElement() + (symbolWidth / 2), noteSheetCanvas.getHeightHalf());
 
@@ -76,13 +80,13 @@ public abstract class SymbolDrawer {
         return getCenterPointForNextSymbol(widthForOneSmallSymbol);
     }
 
-    public SymbolPosition drawSymbol(Symbol symbol) {
+    public void drawSymbol(Symbol symbol) {
         if (symbol.isMarked()) {
-            return drawSymbol(symbol, paintMarked);
+            drawSymbol(symbol, paintMarked);
         } else {
-            return drawSymbol(symbol, paintDefault);
+            drawSymbol(symbol, paintDefault);
         }
     }
 
-    protected abstract SymbolPosition drawSymbol(Symbol symbol, Paint paint);
+    protected abstract void drawSymbol(Symbol symbol, Paint paint);
 }

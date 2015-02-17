@@ -29,20 +29,27 @@ import java.util.List;
 
 public class Project implements Serializable {
 
+    public static final int INVALID_ID = -1;
     public static final int DEFAULT_BEATS_PER_MINUTE = 60;
     private static final long serialVersionUID = 7396763540934053008L;
 
+    private int idCounter;
+    private String name;
     private int beatsPerMinute;
     private List<Track> tracks;
 
-    public Project(int beatsPerMinute) {
+    public Project(String name, int beatsPerMinute) {
+        this.idCounter = 0;
+        this.name = name;
         this.beatsPerMinute = beatsPerMinute;
-        this.tracks = new LinkedList<Track>();
+        this.tracks = new LinkedList<>();
     }
 
     public Project(Project project) {
+        idCounter = project.idCounter;
+        name = project.getName();
         beatsPerMinute = project.getBeatsPerMinute();
-        tracks = new LinkedList<Track>();
+        tracks = new LinkedList<>();
 
         for (int i = 0; i < project.size(); i++) {
             Track track = project.getTrack(i);
@@ -51,11 +58,27 @@ public class Project implements Serializable {
         }
     }
 
+    public Project(Project project, String name) {
+        this(project);
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getBeatsPerMinute() {
         return beatsPerMinute;
     }
 
     public void addTrack(Track track) {
+        track.setId(idCounter);
+        track.setProject(this);
+        idCounter++;
         tracks.add(track);
     }
 
@@ -79,6 +102,14 @@ public class Project implements Serializable {
 
         Project project = (Project) obj;
 
+        if (false == getName().equals(project.getName())) {
+            return false;
+        }
+
+        if (getBeatsPerMinute() != project.getBeatsPerMinute()) {
+            return false;
+        }
+
         if (size() == project.size()) {
             for (int i = 0; i < size(); i++) {
                 if (!getTrack(i).equals(project.getTrack(i))) {
@@ -94,7 +125,6 @@ public class Project implements Serializable {
 
     @Override
     public String toString() {
-        return "[Project] beatsPerMinute=" + beatsPerMinute + " trackCount=" + size();
+        return "[Project] name=" + name + " beatsPerMinute=" + beatsPerMinute + " trackCount=" + size();
     }
 }
-

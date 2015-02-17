@@ -48,7 +48,7 @@ public class SymbolsDrawerTest extends AbstractDrawerTest {
         TrackToSymbolsConverter trackConverter = new TrackToSymbolsConverter();
         track = TrackTestDataFactory.createTrackWithBreak();
         symbols = trackConverter.convertTrack(track);
-        symbolsDrawer = new SymbolsDrawer(noteSheetCanvas, paint, getContext().getResources(), symbols, track.getKey(), drawPosition, distanceBetweenLines);
+        symbolsDrawer = new SymbolsDrawer(noteSheetCanvas, paintDefault, getContext().getResources(), symbols, track.getKey(), drawPosition, distanceBetweenLines);
     }
 
     public void testDrawSymbols1() {
@@ -57,13 +57,6 @@ public class SymbolsDrawerTest extends AbstractDrawerTest {
         symbolsDrawer.drawSymbols();
 
         assertCanvasElementQueueSize(expectedElementCount);
-        clearCanvasElementQueue();
-    }
-
-    public void testDrawSymbols2() {
-        List<SymbolPosition> symbolPositions = symbolsDrawer.drawSymbols();
-
-        assertEquals(symbols.size(), symbolPositions.size());
         clearCanvasElementQueue();
     }
 

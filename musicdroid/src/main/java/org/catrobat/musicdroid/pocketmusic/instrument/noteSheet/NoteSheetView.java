@@ -36,7 +36,6 @@ import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.draw.DrawElementsTouchDetector;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
-import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
 
@@ -49,7 +48,6 @@ public class NoteSheetView extends View {
     protected TrackToSymbolsConverter trackConverter;
     protected List<Symbol> symbols;
     protected MusicalKey key;
-    protected List<SymbolPosition> symbolPositions;
 
     protected NoteSheetCanvas noteSheetCanvas;
     protected NoteSheetDrawer noteSheetDrawer;
@@ -61,7 +59,6 @@ public class NoteSheetView extends View {
         touchDetector = new DrawElementsTouchDetector();
         trackConverter = new TrackToSymbolsConverter();
         symbols = new LinkedList<Symbol>();
-        symbolPositions = new LinkedList<SymbolPosition>();
         key = MusicalKey.VIOLIN;
         widthBeforeResize = getWidth();
 	}
@@ -112,14 +109,15 @@ public class NoteSheetView extends View {
 		noteSheetCanvas = new NoteSheetCanvas(canvas);
         requestLayout();
         noteSheetDrawer = new NoteSheetDrawer(noteSheetCanvas, getResources(), symbols, key);
-        symbolPositions = noteSheetDrawer.drawNoteSheet();
+        noteSheetDrawer.drawNoteSheet();
         ((PianoActivity) getContext()).scrollNoteSheet();
 	}
 
-    @Override
-    public boolean onTouchEvent(MotionEvent e) {
+    public boolean onEditMode(MotionEvent e) {
         if (MotionEvent.ACTION_UP == e.getAction()) {
-            int index = touchDetector.getIndexOfTouchedDrawElement(symbolPositions, e.getX(), e.getY());
+            float widthForOneSymbol = noteSheetDrawer.getWidthForOneSymbol();
+            float tolerance = widthForOneSymbol / 4f;
+            int index = touchDetector.getIndexOfTouchedDrawElement(symbols, e.getX(), e.getY(), tolerance, widthForOneSymbol, noteSheetDrawer.getStartPositionForSymbols());
 
             if (DrawElementsTouchDetector.INVALID_INDEX != index) {
                 Symbol symbol = symbols.get(index);
@@ -129,5 +127,13 @@ public class NoteSheetView extends View {
         }
 
         return true;
+    }
+
+    public void resetSymbolMarkers() {
+        for (Symbol symbol : symbols) {
+            symbol.setMarked(false);
+        }
+
+        invalidate();
     }
 }

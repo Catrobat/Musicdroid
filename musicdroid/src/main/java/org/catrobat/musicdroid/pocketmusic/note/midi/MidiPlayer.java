@@ -23,15 +23,14 @@
 
 package org.catrobat.musicdroid.pocketmusic.note.midi;
 
+import android.app.Activity;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.util.Log;
-import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.ToastDisplayer;
-import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -83,7 +82,7 @@ public class MidiPlayer {
         }
     }
 
-    public void playNote(InstrumentActivity activity, int midiResourceId) {
+    public void playNote(Activity activity, int midiResourceId) {
         synchronized (playQueue) {
             if ((null == player) || (false == player.isPlaying() && playQueue.isEmpty())) {
                 createAndStartPlayer(activity, midiResourceId);
@@ -94,7 +93,7 @@ public class MidiPlayer {
 
     }
 
-    public void playTrack(InstrumentActivity activity, File cacheDirectory, Track track, int beatsPerMinute) throws IOException, MidiException {
+    public void playTrack(Activity activity, File cacheDirectory, Track track, int beatsPerMinute) throws IOException, MidiException {
         synchronized (playQueue) {
             playQueue.clear();
         }
@@ -107,18 +106,18 @@ public class MidiPlayer {
     }
 
     protected void writeTempPlayFile(File tempPlayFile, Track track, int beatsPerMinute) throws IOException, MidiException {
-        Project project = new Project(beatsPerMinute);
+        Project project = new Project("temp", beatsPerMinute);
         project.addTrack(track);
         ProjectToMidiConverter converter = new ProjectToMidiConverter();
         converter.writeProjectAsMidi(project, tempPlayFile);
     }
 
-    private void createAndStartPlayer(final InstrumentActivity activity, final int midiResourceId) {
+    private void createAndStartPlayer(final Activity activity, final int midiResourceId) {
         player = createNotePlayerWithOnCompletionListener(activity, midiResourceId);
         player.start();
     }
 
-    private MediaPlayer createNotePlayerWithOnCompletionListener(final InstrumentActivity activity, final int midiResourceId) {
+    private MediaPlayer createNotePlayerWithOnCompletionListener(final Activity activity, final int midiResourceId) {
         MediaPlayer player = createNotePlayer(activity, midiResourceId);
 
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -131,11 +130,11 @@ public class MidiPlayer {
         return player;
     }
 
-    protected MediaPlayer createNotePlayer(final InstrumentActivity activity, final int midiResourceId) {
+    protected MediaPlayer createNotePlayer(final Activity activity, final int midiResourceId) {
         return MediaPlayer.create(activity, midiResourceId);
     }
 
-    protected void onPlayNoteComplete(final InstrumentActivity activity) {
+    protected void onPlayNoteComplete(final Activity activity) {
         synchronized (playQueue) {
             if (false == playQueue.isEmpty()) {
                 createAndStartPlayer(activity, playQueue.poll());
@@ -143,26 +142,32 @@ public class MidiPlayer {
         }
     }
 
-    private MediaPlayer createTrackPlayerWithOnCompletionListener(final InstrumentActivity activity, final File tempPlayFile) {
+    private MediaPlayer createTrackPlayerWithOnCompletionListener(final Activity activity, final File tempPlayFile) {
         MediaPlayer player = createTrackPlayer(activity, Uri.parse(tempPlayFile.getAbsolutePath()));
 
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                onPlayTrackComplete(activity, tempPlayFile);
+                onPlayTrackComplete(tempPlayFile, activity);
             }
         });
 
         return player;
     }
 
-    protected void onPlayTrackComplete(final InstrumentActivity activity, final File tempPlayFile) {
+    protected void onPlayTrackComplete(File tempPlayFile, Activity activity) {
         tempPlayFile.delete();
         activity.invalidateOptionsMenu();
         ToastDisplayer.showDoneToast(activity.getApplicationContext());
+        try {
+            ProjectSelectionActivity projectSelectionActivity = (ProjectSelectionActivity) activity;
+            projectSelectionActivity.notifyTrackPlayed();
+        }catch (ClassCastException ex){
+
+        }
     }
 
-    protected MediaPlayer createTrackPlayer(final InstrumentActivity activity, final Uri uri) {
+    protected MediaPlayer createTrackPlayer(final Activity activity, final Uri uri) {
         return MediaPlayer.create(activity, uri);
     }
 

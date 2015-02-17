@@ -35,10 +35,8 @@ public class ProjectToMidiConverterTestDataFactory {
     private ProjectToMidiConverterTestDataFactory() {
     }
 
-    public static void writeTestProject(String filename) throws IOException, MidiException {
-        Project project = ProjectTestDataFactory.createProjectWithSemiComplexTracks();
-
+    public static void writeTestProject(Project project) throws IOException, MidiException {
         final ProjectToMidiConverter converter = new ProjectToMidiConverter();
-        converter.writeProjectAsMidi(project, filename);
+        converter.writeProjectAsMidi(project);
     }
 }
