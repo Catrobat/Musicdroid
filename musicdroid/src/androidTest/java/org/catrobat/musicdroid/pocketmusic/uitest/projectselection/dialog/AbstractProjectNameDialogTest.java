@@ -35,28 +35,35 @@ public class AbstractProjectNameDialogTest extends AndroidTestCase {
     @Override
     protected void setUp() {
         dialog = new AbstractProjectNameDialogMock();
+        assertFalse(dialog.isOnDialogCreationCalled());
+        dialog.onCreateDialog(null);
+    }
+
+    @Override
+    protected void tearDown() {
+        assertTrue(dialog.isOnDialogCreationCalled());
+    }
+
+    private void assertDialogState(int expectedToastId, boolean expectedOnProjectNameCalled) {
+        String expectedToastText = dialog.toToastText(expectedToastId, Toast.LENGTH_LONG);
+        String actualToastText = dialog.pollNextToastText();
+
+        assertEquals(expectedToastText, actualToastText);
+        assertEquals(expectedOnProjectNameCalled, dialog.isOnNewProjectNameCalled());
     }
 
     public void testOnPositiveButtonNullString() {
         dialog.setUserInput(null);
         dialog.onPositiveButton();
 
-        String expectedToastText = dialog.toToastText(AbstractProjectNameDialogMock.CANCEL_MESSAGE_ID, Toast.LENGTH_LONG);
-        String actualToastText = dialog.pollNextToastText();
-
-        assertEquals(expectedToastText, actualToastText);
-        assertEquals(false, dialog.isOnNewProjectNameCalled());
+        assertDialogState(AbstractProjectNameDialogMock.CANCEL_MESSAGE_ID, false);
     }
 
     public void testOnPositiveButtonEmptyString() {
         dialog.setUserInput("");
         dialog.onPositiveButton();
 
-        String expectedToastText = dialog.toToastText(AbstractProjectNameDialogMock.CANCEL_MESSAGE_ID, Toast.LENGTH_LONG);
-        String actualToastText = dialog.pollNextToastText();
-
-        assertEquals(expectedToastText, actualToastText);
-        assertEquals(false, dialog.isOnNewProjectNameCalled());
+        assertDialogState(AbstractProjectNameDialogMock.CANCEL_MESSAGE_ID, false);
     }
 
     public void testOnPositiveButtonFileExists() {
@@ -64,11 +71,7 @@ public class AbstractProjectNameDialogTest extends AndroidTestCase {
         dialog.setProjectExists(true);
         dialog.onPositiveButton();
 
-        String expectedToastText = dialog.toToastText(R.string.dialog_project_name_exists_error, Toast.LENGTH_LONG);
-        String actualToastText = dialog.pollNextToastText();
-
-        assertEquals(expectedToastText, actualToastText);
-        assertEquals(false, dialog.isOnNewProjectNameCalled());
+        assertDialogState(R.string.dialog_project_name_exists_error, false);
     }
 
     public void testOnPositiveButton() {
@@ -76,20 +79,12 @@ public class AbstractProjectNameDialogTest extends AndroidTestCase {
         dialog.setProjectExists(false);
         dialog.onPositiveButton();
 
-        String expectedToastText = dialog.toToastText(AbstractProjectNameDialogMock.SUCCESS_MESSAGE_ID, Toast.LENGTH_LONG);
-        String actualToastText = dialog.pollNextToastText();
-
-        assertEquals(expectedToastText, actualToastText);
-        assertEquals(true, dialog.isOnNewProjectNameCalled());
+        assertDialogState(AbstractProjectNameDialogMock.SUCCESS_MESSAGE_ID, true);
     }
 
     public void testOnNegativeButton() {
         dialog.onNegativeButton();
 
-        String expectedToastText = dialog.toToastText(AbstractProjectNameDialogMock.CANCEL_MESSAGE_ID, Toast.LENGTH_LONG);
-        String actualToastText = dialog.pollNextToastText();
-
-        assertEquals(expectedToastText, actualToastText);
-        assertEquals(false, dialog.isOnNewProjectNameCalled());
+        assertDialogState(AbstractProjectNameDialogMock.CANCEL_MESSAGE_ID, false);
     }
 }

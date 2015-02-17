@@ -37,7 +37,6 @@ import java.io.IOException;
 public class SaveProjectDialogTest extends AndroidTestCase {
 
     private String userInput;
-    private Track track;
     private SaveProjectDialogMock dialog;
 
     @Override

@@ -23,41 +23,28 @@
 
 package org.catrobat.musicdroid.pocketmusic.uitest.projectselection.dialog;
 
-import android.os.Bundle;
-import android.test.AndroidTestCase;
-
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
-import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
-import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.CopyProjectDialog;
-import org.catrobat.musicdroid.pocketmusic.test.note.ProjectTestDataFactory;
+import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.EditProjectDialog;
 
-import java.io.File;
 import java.io.IOException;
 
-public class CopyProjectDialogTest extends AndroidTestCase {
+public class EditProjectDialogMock extends EditProjectDialog {
 
-    private String userInput;
-    private CopyProjectDialogMock dialog;
-
-    @Override
-    protected void setUp() {
-        userInput = "some input";
-        Bundle args = new Bundle();
-        args.putSerializable(CopyProjectDialog.ARGUMENT_PROJECT, ProjectTestDataFactory.createProject());
-        dialog = new CopyProjectDialogMock();
-        dialog.setArguments(args);
-    }
+    private String projectName;
 
     @Override
-    protected void tearDown() throws IOException {
-        ProjectToMidiConverter.getMidiFileFromProjectName(userInput).delete();
+    protected void setEditTextProjectName(String projectName) { this.projectName = projectName; }
+
+    public String getEditTextProjectName() { return projectName; }
+
+    @Override
+    public void initDialog() { super.initDialog(); }
+
+    @Override
+    public void onNewProjectName(String name) throws IOException, MidiException {
+        super.onNewProjectName(name);
     }
 
-    public void testOnNewProjectName() throws IOException, MidiException {
-        dialog.onNewProjectName(userInput);
-
-        assertTrue(ProjectToMidiConverter.getMidiFileFromProjectName(userInput).exists());
-    }
-
-
+    @Override
+    protected void updateActivity() {}
 }

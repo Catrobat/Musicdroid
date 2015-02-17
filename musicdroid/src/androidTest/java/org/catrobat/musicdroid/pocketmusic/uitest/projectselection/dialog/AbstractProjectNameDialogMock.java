@@ -23,6 +23,9 @@
 
 package org.catrobat.musicdroid.pocketmusic.uitest.projectselection.dialog;
 
+import android.app.Dialog;
+import android.os.Bundle;
+
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.AbstractProjectNameDialog;
 
@@ -40,6 +43,7 @@ public class AbstractProjectNameDialogMock extends AbstractProjectNameDialog {
 
     private String userInput;
     private boolean projectExists;
+    private boolean onDialogCreationCalled;
     private boolean onNewProjectNameCalled;
     private Queue<String> toastTexts;
 
@@ -59,6 +63,8 @@ public class AbstractProjectNameDialogMock extends AbstractProjectNameDialog {
         this.projectExists = projectExists;
     }
 
+    public boolean isOnDialogCreationCalled() { return onDialogCreationCalled; }
+
     public boolean isOnNewProjectNameCalled() {
         return onNewProjectNameCalled;
     }
@@ -72,7 +78,22 @@ public class AbstractProjectNameDialogMock extends AbstractProjectNameDialog {
     }
 
     @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        initDialog();
+
+        return null;
+    }
+
+    @Override
+    protected void initDialog() {
+        onDialogCreationCalled = true;
+    }
+
+    @Override
     protected void onNewProjectName(String name) throws IOException, MidiException { onNewProjectNameCalled = true; }
+
+    @Override
+    protected void updateActivity() {}
 
     @Override
     public void onPositiveButton() {

@@ -34,4 +34,7 @@ public class CopyProjectDialogMock extends CopyProjectDialog {
     public void onNewProjectName(String name) throws IOException, MidiException {
         super.onNewProjectName(name);
     }
+
+    @Override
+    protected void updateActivity() {}
 }

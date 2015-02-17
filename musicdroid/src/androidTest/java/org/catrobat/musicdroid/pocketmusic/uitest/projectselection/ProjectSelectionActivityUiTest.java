@@ -114,27 +114,6 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         assertEquals(ProjectTestDataFactory.getProjectFilesInStorage(), expectedProjects);
     }
 
-    private void renameEditRoutine(int projectToEditIndex, boolean tapOK, String editAppend) throws IOException, MidiException {
-        solo.clickOnMenuItem(getActivity().getString(R.string.action_project_edit));
-        solo.clickOnText(FILE_NAME + projectToEditIndex);
-        solo.waitForDialogToOpen();
-
-        solo.enterText(0, editAppend);
-
-        if (tapOK) {
-            solo.clickOnButton(getActivity().getString(android.R.string.yes));
-            if (editAppend.equals(""))
-                solo.waitForText(getActivity().getString(R.string.dialog_project_name_exists_error));
-            else
-                solo.waitForText(getActivity().getString(R.string.dialog_project_edit_success));
-            assertTrue(ProjectTestDataFactory.checkIfProjectInStorage(FILE_NAME + projectToEditIndex + editAppend));
-        } else {
-            solo.clickOnButton(getActivity().getString(android.R.string.no));
-            solo.waitForText(getActivity().getString(R.string.dialog_project_edit_cancel));
-            assertTrue(ProjectTestDataFactory.checkIfProjectInStorage(FILE_NAME + projectToEditIndex));
-        }
-    }
-
     private void deleteButtonRoutine(int[] projectIndicesToDelete) throws IOException, MidiException {
         ArrayList<File> expectedProjects = ProjectTestDataFactory.getProjectFilesInStorage();
 
@@ -211,18 +190,6 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         solo.goBack();
         solo.clickOnButton(getActivity().getResources().getString(R.string.action_project_add));
         solo.waitForActivity(PianoActivity.class);
-    }
-
-    public void testRenameFunction() throws IOException, MidiException {
-        renameEditRoutine(NUMBER_OF_SAMPLE_PROJECTS / 2, false, "test");
-    }
-
-    public void testRenameFunction2() throws IOException, MidiException {
-        renameEditRoutine(NUMBER_OF_SAMPLE_PROJECTS / 2, true, "test");
-    }
-
-    public void testRenameFunction3() throws IOException, MidiException {
-        renameEditRoutine(NUMBER_OF_SAMPLE_PROJECTS / 2, true, "");
     }
 
     public void testAutoRefresh() throws IOException, MidiException {

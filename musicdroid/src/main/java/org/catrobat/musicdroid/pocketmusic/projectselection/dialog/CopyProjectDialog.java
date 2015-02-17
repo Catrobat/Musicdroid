@@ -27,6 +27,7 @@ import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
+import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
 
 import java.io.IOException;
 
@@ -39,11 +40,20 @@ public class CopyProjectDialog extends AbstractProjectNameDialog {
     }
 
     @Override
+    protected void initDialog() {
+    }
+
+    @Override
     protected void onNewProjectName(String name) throws IOException, MidiException {
         Project existingProject = (Project) getArguments().getSerializable(ARGUMENT_PROJECT);
         Project copyProject = new Project(existingProject, name);
 
         ProjectToMidiConverter converter = new ProjectToMidiConverter();
         converter.writeProjectAsMidi(copyProject);
+    }
+
+    @Override
+    protected void updateActivity() {
+        ((ProjectSelectionActivity) getActivity()).getProjectSelectionFragment().fetchProjectInformation();
     }
 }

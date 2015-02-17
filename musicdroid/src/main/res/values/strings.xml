@@ -73,6 +73,7 @@
     <string name="piano_edit_mode_delete">Delete marked</string>
 
     <string name="dialog_project_edit_title">Edit project</string>
+    <string name="dialog_project_edit_message">Please enter a name:</string>
     <string name="dialog_project_edit_success">Edit was successful!</string>
     <string name="dialog_project_edit_cancel">Edit canceled!</string>
     <string name="dialog_project_edit_error">Edit failed!</string>
