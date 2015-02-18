@@ -23,49 +23,31 @@
 
 package org.catrobat.musicdroid.pocketmusic.projectselection.io;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 
-import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
-import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
-import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
 
 import java.io.File;
 import java.io.IOException;
 
-public class ImportProjectHandler extends IOHandler {
+public class ShareProjectHandler extends IOHandler {
 
-    public static final int IMPORT_RESULT_CODE = 1;
-
-    public ImportProjectHandler(ProjectSelectionActivity projectSelectionActivity) {
+    public ShareProjectHandler(ProjectSelectionActivity projectSelectionActivity) {
         super(projectSelectionActivity);
     }
 
     @Override
     public void onSend(File file) {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("audio/midi");
-        startIntent(intent, IMPORT_RESULT_CODE);
+        Uri uri = Uri.parse(file.getAbsolutePath());
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("audio/*");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        projectSelectionActivity.startActivity(intent);
     }
 
     @Override
     public void onReceive(int requestCode, int resultCode, File targetFile) throws IOException, MidiException {
-        switch (requestCode) {
-            case IMPORT_RESULT_CODE:
-                if (resultCode == Activity.RESULT_OK) {
-                    MidiToProjectConverter midiToProjectConverter = new MidiToProjectConverter();
-                    ProjectToMidiConverter projectToMidiConverter = new ProjectToMidiConverter();
-
-                    Project project = midiToProjectConverter.convertMidiFileToProject(targetFile);
-                    if ((ProjectToMidiConverter.getMidiFileFromProjectName(project.getName()).exists())) {
-                        throw new IOException();
-                    }
-
-                    projectToMidiConverter.writeProjectAsMidi(project);
-                }
-                break;
-        }
     }
 }

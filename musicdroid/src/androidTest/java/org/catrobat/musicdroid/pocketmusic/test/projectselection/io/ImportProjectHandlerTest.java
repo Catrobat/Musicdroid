@@ -66,7 +66,7 @@ public class ImportProjectHandlerTest extends AndroidTestCase {
         File file = new File(ProjectToMidiConverter.MIDI_FOLDER, projectName);
 
         converter.writeProjectAsMidi(ProjectTestDataFactory.createProject(), file);
-        handler.importProject(ImportProjectHandler.PICKFILE_RESULT_CODE, Activity.RESULT_OK, file);
+        handler.importProject(ImportProjectHandler.IMPORT_RESULT_CODE, Activity.RESULT_OK, file);
 
         assertTrue(ProjectToMidiConverter.getMidiFileFromProjectName(projectName).exists());
     }
@@ -78,7 +78,7 @@ public class ImportProjectHandlerTest extends AndroidTestCase {
         converter.writeProjectAsMidi(project);
 
         try {
-            handler.importProject(ImportProjectHandler.PICKFILE_RESULT_CODE, Activity.RESULT_OK, ProjectToMidiConverter.getMidiFileFromProjectName(projectName));
+            handler.importProject(ImportProjectHandler.IMPORT_RESULT_CODE, Activity.RESULT_OK, ProjectToMidiConverter.getMidiFileFromProjectName(projectName));
             assertTrue(false);
         } catch (Exception ignored) {
         }
