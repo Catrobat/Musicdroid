@@ -24,32 +24,40 @@
 package org.catrobat.musicdroid.pocketmusic.projectselection;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
+import org.catrobat.musicdroid.pocketmusic.projectselection.io.ImportProjectHandler;
 import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionContextMenu;
 import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionDeleteContextMenu;
 import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionEditContextMenu;
 import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionTapAndHoldContextMenu;
 
+import java.io.File;
+import java.io.IOException;
+
 public class ProjectSelectionActivity extends Activity {
     private ProjectSelectionFragment projectSelectionFragment;
     public static boolean inCallback = false;
     private ProjectSelectionContextMenu projectSelectionContextMenu;
-
     private ActionMode actionMode;
-
+    private ImportProjectHandler importProjectHandler;
     public static final String INTENT_EXTRA_FILE_NAME = "fileName";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_selection);
+
         projectSelectionFragment = new ProjectSelectionFragment();
+        importProjectHandler = new ImportProjectHandler(this);
 
         if (savedInstanceState != null) {
             getFragmentManager().beginTransaction().replace(R.id.container, projectSelectionFragment).commit();
@@ -64,12 +72,12 @@ public class ProjectSelectionActivity extends Activity {
         return true;
     }
 
-    public void startTapAndHoldActionMode(){
+    public void startTapAndHoldActionMode() {
         projectSelectionContextMenu = new ProjectSelectionTapAndHoldContextMenu(this);
         actionMode = startActionMode(getProjectSelectionContextMenu());
     }
 
-    private void startDeleteActionMode(){
+    private void startDeleteActionMode() {
         projectSelectionContextMenu = new ProjectSelectionDeleteContextMenu(this);
         actionMode = startActionMode(getProjectSelectionContextMenu());
     }
@@ -82,6 +90,7 @@ public class ProjectSelectionActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        stopPlayingTracks();
 
         if (id == R.id.action_edit_project ) {
             stopPlayingTracks();
@@ -89,25 +98,29 @@ public class ProjectSelectionActivity extends Activity {
             return true;
         }
 
-        if (id == R.id.action_delete_project ) {
-            stopPlayingTracks();
+        if (id == R.id.action_delete_project) {
             startDeleteActionMode();
+            return true;
+        }
+
+        if (id == R.id.action_import_project) {
+            importProjectHandler.handleImportProject();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void stopPlayingTracks(){
+    public void stopPlayingTracks() {
         MidiPlayer.getInstance().stop();
         notifyTrackPlayed();
     }
 
-    public void notifyTrackPlayed(){
+    public void notifyTrackPlayed() {
         projectSelectionFragment.getListViewAdapter().changePlayPauseButtonState();
     }
 
-    public ProjectSelectionFragment getProjectSelectionFragment(){
+    public ProjectSelectionFragment getProjectSelectionFragment() {
         return projectSelectionFragment;
     }
 
@@ -117,10 +130,10 @@ public class ProjectSelectionActivity extends Activity {
         stopPlayingTracks();
     }
 
-    public void notifyNumberOfItemsSelected(int numberOfItems){
-        if(numberOfItems == 0)
+    public void notifyNumberOfItemsSelected(int numberOfItems) {
+        if (numberOfItems == 0)
             actionMode.finish();
-        else if(numberOfItems == 1)
+        else if (numberOfItems == 1)
             getProjectSelectionContextMenu().enterSingleEditMode();
         else
             getProjectSelectionContextMenu().enterMultipleEditMode();
@@ -132,5 +145,16 @@ public class ProjectSelectionActivity extends Activity {
 
     public ProjectSelectionContextMenu getProjectSelectionContextMenu() {
         return projectSelectionContextMenu;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            importProjectHandler.importProject(requestCode, resultCode, new File(data.getData().getPath()));
+            Toast.makeText(this, getResources().getString(R.string.project_import_successful), Toast.LENGTH_LONG).show();
+
+        } catch (IOException | MidiException e) {
+            Toast.makeText(this, getResources().getString(R.string.project_import_failed), Toast.LENGTH_LONG).show();
+        }
     }
 }

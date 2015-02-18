@@ -114,7 +114,6 @@ public class ProjectSelectionFragment extends Fragment {
                     projectSelectionActivity.notifyCheckedItemStateChanged();
                     projectSelectionActivity.notifyNumberOfItemsSelected(listViewAdapter.getProjectSelectionSelectedItemsCount());
                 }
-
             }
         });
 
@@ -124,6 +123,7 @@ public class ProjectSelectionFragment extends Fragment {
                 if (listViewAdapter.getProjectSelectionSelectedItemsCount() == 0) {
                     projectSelectionActivity.startTapAndHoldActionMode();
                 }
+
                 return false;
             }
         });
@@ -163,5 +163,4 @@ public class ProjectSelectionFragment extends Fragment {
     public ProjectListViewAdapter getListViewAdapter() {
         return listViewAdapter;
     }
-
 }
