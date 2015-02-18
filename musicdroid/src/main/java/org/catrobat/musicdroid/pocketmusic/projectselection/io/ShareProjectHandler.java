@@ -42,7 +42,7 @@ public class ShareProjectHandler extends IOHandler {
     public void onSend(File file) {
         Uri uri = Uri.parse(file.getAbsolutePath());
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("audio/*");
+        intent.setType("audio/midi");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         projectSelectionActivity.startActivity(intent);
     }
