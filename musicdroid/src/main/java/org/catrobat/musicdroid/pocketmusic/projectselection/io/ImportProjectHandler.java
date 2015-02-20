@@ -25,7 +25,9 @@ package org.catrobat.musicdroid.pocketmusic.projectselection.io;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.widget.Toast;
 
+import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
@@ -52,20 +54,21 @@ public class ImportProjectHandler extends IOHandler {
 
     @Override
     public void onReceive(int requestCode, int resultCode, File targetFile) throws IOException, MidiException {
-        switch (requestCode) {
-            case IMPORT_RESULT_CODE:
-                if (resultCode == Activity.RESULT_OK) {
-                    MidiToProjectConverter midiToProjectConverter = new MidiToProjectConverter();
-                    ProjectToMidiConverter projectToMidiConverter = new ProjectToMidiConverter();
+            switch (requestCode) {
+                case IMPORT_RESULT_CODE:
+                    if (resultCode == Activity.RESULT_OK) {
+                        MidiToProjectConverter midiToProjectConverter = new MidiToProjectConverter();
+                        ProjectToMidiConverter projectToMidiConverter = new ProjectToMidiConverter();
 
-                    Project project = midiToProjectConverter.convertMidiFileToProject(targetFile);
-                    if ((ProjectToMidiConverter.getMidiFileFromProjectName(project.getName()).exists())) {
-                        throw new IOException();
+                        Project project = midiToProjectConverter.convertMidiFileToProject(targetFile);
+
+                        if ((ProjectToMidiConverter.getMidiFileFromProjectName(project.getName()).exists())) {
+                            throw new IOException();
+                        }
+
+                        projectToMidiConverter.writeProjectAsMidi(project);
                     }
-
-                    projectToMidiConverter.writeProjectAsMidi(project);
-                }
-                break;
-        }
+                    break;
+            }
     }
 }

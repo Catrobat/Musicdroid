@@ -30,6 +30,7 @@ import android.test.AndroidTestCase;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
+import org.catrobat.musicdroid.pocketmusic.projectselection.io.IOHandler;
 import org.catrobat.musicdroid.pocketmusic.projectselection.io.ImportProjectHandler;
 import org.catrobat.musicdroid.pocketmusic.test.note.ProjectTestDataFactory;
 
@@ -38,7 +39,7 @@ import java.io.IOException;
 
 public class ImportProjectHandlerTest extends AndroidTestCase {
 
-    private String projectName = "Bimbo";
+    private String projectName = "TestImport";
     private ImportProjectHandlerMock handler;
 
     @Override
@@ -51,22 +52,12 @@ public class ImportProjectHandlerTest extends AndroidTestCase {
         ProjectToMidiConverter.getMidiFileFromProjectName(projectName).delete();
     }
 
-    public void testStartIntent() {
-        Intent intent = new Intent();
-        int resultCode = 42;
-
-        handler.startIntent(intent, resultCode);
-
-        assertEquals(intent, handler.getIntent());
-        assertEquals(resultCode, handler.getResultCode());
-    }
-
     public void testImportProject() throws IOException, MidiException {
         ProjectToMidiConverter converter = new ProjectToMidiConverter();
         File file = new File(ProjectToMidiConverter.MIDI_FOLDER, projectName);
 
         converter.writeProjectAsMidi(ProjectTestDataFactory.createProject(), file);
-        handler.importProject(ImportProjectHandler.IMPORT_RESULT_CODE, Activity.RESULT_OK, file);
+        handler.onReceive(ImportProjectHandler.IMPORT_RESULT_CODE, Activity.RESULT_OK, file);
 
         assertTrue(ProjectToMidiConverter.getMidiFileFromProjectName(projectName).exists());
     }
@@ -78,7 +69,7 @@ public class ImportProjectHandlerTest extends AndroidTestCase {
         converter.writeProjectAsMidi(project);
 
         try {
-            handler.importProject(ImportProjectHandler.IMPORT_RESULT_CODE, Activity.RESULT_OK, ProjectToMidiConverter.getMidiFileFromProjectName(projectName));
+            handler.onReceive(ImportProjectHandler.IMPORT_RESULT_CODE, Activity.RESULT_OK, ProjectToMidiConverter.getMidiFileFromProjectName(projectName));
             assertTrue(false);
         } catch (Exception ignored) {
         }

@@ -21,34 +21,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.projectselection.io;
+package org.catrobat.musicdroid.pocketmusic.test.projectselection.io;
 
 import android.content.Intent;
-import android.net.Uri;
-
-import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
-
+import org.catrobat.musicdroid.pocketmusic.projectselection.io.IOHandler;
 import java.io.File;
 import java.io.IOException;
 
-public class ShareProjectHandler extends IOHandler {
+public class IOHandlerMock extends IOHandler {
 
-    public static final int SHARE_RESULT_CODE = 2;
+    private Intent intent;
+    private int resultCode;
 
-    public ShareProjectHandler(ProjectSelectionActivity projectSelectionActivity) {
-        super(projectSelectionActivity);
+    protected IOHandlerMock() {
+        super(null);
+    }
+
+    @Override
+    protected void startIntent(Intent intent, int resultCode) {
+        this.intent = intent;
+        this.resultCode = resultCode;
     }
 
     @Override
     public void onSend(File file) {
-        Uri uri = Uri.parse(file.getAbsolutePath());
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("audio/midi");
-        intent.putExtra(Intent.EXTRA_STREAM, uri);
-        startIntent(intent, SHARE_RESULT_CODE);
     }
 
     @Override
     public void onReceive(int requestCode, int resultCode, File targetFile) throws IOException{
+    }
+
+    public Intent getIntent() {
+        return intent;
+    }
+
+    public int getResultCode() {
+        return resultCode;
     }
 }

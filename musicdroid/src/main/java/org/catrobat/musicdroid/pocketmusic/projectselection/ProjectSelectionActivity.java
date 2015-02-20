@@ -166,12 +166,12 @@ public class ProjectSelectionActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        try {
-            ioHandler.onReceive(requestCode, resultCode, new File(data.getData().getPath()));
-            Toast.makeText(this, getResources().getString(R.string.project_import_successful), Toast.LENGTH_LONG).show();
-
-        } catch (IOException | MidiException e) {
-            Toast.makeText(this, getResources().getString(R.string.project_import_failed), Toast.LENGTH_LONG).show();
-        }
+        if (data != null)
+            try {
+                ioHandler.onReceive(requestCode, resultCode, new File(data.getData().getPath()));
+                Toast.makeText(this, getResources().getString(R.string.project_import_successful), Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                Toast.makeText(this, getResources().getString(R.string.project_import_failed), Toast.LENGTH_LONG).show();
+            }
     }
 }
