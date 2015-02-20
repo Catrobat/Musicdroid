@@ -59,6 +59,9 @@ public abstract class AbstractProjectNameDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
         editTextProjectName = new EditText(getActivity());
+
+        initDialog();
+
         return new AlertDialog.Builder(getActivity())
                 .setTitle(titleId)
                 .setMessage(messageId)
@@ -79,7 +82,15 @@ public abstract class AbstractProjectNameDialog extends DialogFragment {
                 .create();
     }
 
+    protected void setEditTextProjectName(String projectName) {
+        editTextProjectName.setText(projectName);
+    }
+
+    protected abstract void initDialog();
+
     protected abstract void onNewProjectName(String name) throws IOException, MidiException;
+
+    protected abstract void updateActivity();
 
     protected void onPositiveButton() {
         String input = getUserInput();
@@ -92,7 +103,7 @@ public abstract class AbstractProjectNameDialog extends DialogFragment {
                     makeToastText(R.string.dialog_project_name_exists_error, Toast.LENGTH_LONG);
                 } else {
                     onNewProjectName(projectName);
-
+                    updateActivity();
                     makeToastText(successMessageId, Toast.LENGTH_LONG);
                 }
             } catch (Exception e) {

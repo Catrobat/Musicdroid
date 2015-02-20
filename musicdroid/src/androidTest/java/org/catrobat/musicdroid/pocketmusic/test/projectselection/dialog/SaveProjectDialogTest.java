@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.uitest.projectselection.dialog;
+package org.catrobat.musicdroid.pocketmusic.test.projectselection.dialog;
 
 import android.os.Bundle;
 import android.test.AndroidTestCase;
@@ -37,7 +37,6 @@ import java.io.IOException;
 public class SaveProjectDialogTest extends AndroidTestCase {
 
     private String userInput;
-    private Track track;
     private SaveProjectDialogMock dialog;
 
     @Override

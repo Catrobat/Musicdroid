@@ -21,41 +21,54 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.uitest.projectselection.dialog;
+package org.catrobat.musicdroid.pocketmusic.test.projectselection.dialog;
 
 import android.os.Bundle;
 import android.test.AndroidTestCase;
 
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
-import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.CopyProjectDialog;
+import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.EditProjectDialog;
 import org.catrobat.musicdroid.pocketmusic.test.note.ProjectTestDataFactory;
 
-import java.io.File;
 import java.io.IOException;
 
-public class CopyProjectDialogTest extends AndroidTestCase {
+public class EditProjectDialogTest extends AndroidTestCase {
 
-    private String userInput;
-    private CopyProjectDialogMock dialog;
+    private String existingProjectName = "Franz";
+    private String newProjectName = "Hans";
+    private EditProjectDialogMock dialog;
 
     @Override
-    protected void setUp() {
-        userInput = "some input";
+    protected void setUp() throws IOException, MidiException {
+        Project project = ProjectTestDataFactory.createProject(existingProjectName);
+        ProjectToMidiConverter converter = new ProjectToMidiConverter();
+        converter.writeProjectAsMidi(project);
+
+        assertTrue(ProjectToMidiConverter.getMidiFileFromProjectName(project.getName()).exists());
+
         Bundle args = new Bundle();
-        args.putSerializable(CopyProjectDialog.ARGUMENT_PROJECT, ProjectTestDataFactory.createProject());
-        dialog = new CopyProjectDialogMock();
+        args.putSerializable(EditProjectDialog.ARGUMENT_PROJECT, project);
+        dialog = new EditProjectDialogMock();
         dialog.setArguments(args);
+        dialog.initDialog();
     }
 
     @Override
     protected void tearDown() throws IOException {
-        ProjectToMidiConverter.getMidiFileFromProjectName(userInput).delete();
+        ProjectToMidiConverter.getMidiFileFromProjectName(existingProjectName).delete();
+        ProjectToMidiConverter.getMidiFileFromProjectName(newProjectName).delete();
+    }
+
+    public void testInitDialog() {
+        assertEquals(existingProjectName, dialog.getEditTextProjectName());
     }
 
     public void testOnNewProjectName() throws IOException, MidiException {
-        dialog.onNewProjectName(userInput);
+        dialog.onNewProjectName(newProjectName);
 
-        assertTrue(ProjectToMidiConverter.getMidiFileFromProjectName(userInput).exists());
+        assertFalse(ProjectToMidiConverter.getMidiFileFromProjectName(existingProjectName).exists());
+        assertTrue(ProjectToMidiConverter.getMidiFileFromProjectName(newProjectName).exists());
     }
 }
