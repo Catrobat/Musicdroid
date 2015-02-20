@@ -77,21 +77,6 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         assertEquals(expectedExistResult, file.exists());
     }
 
-    private void loadMidi(String filename) {
-        solo.clickOnActionBarItem(R.id.action_load_midi);
-        solo.waitForDialogToOpen();
-        solo.clickOnText(filename);
-        assertTrue(solo.waitForText(pianoActivity.getString(R.string.action_load_midi_success)));
-    }
-
-    public void testLoadtMidi() throws IOException, MidiException {
-        boolean expectedFileExists = true;
-        Project project = ProjectTestDataFactory.createProjectWithSemiComplexTracks();
-        ProjectToMidiConverterTestDataFactory.writeTestProject(project);
-        assertFileExists(project.getName(), expectedFileExists);
-        loadMidi(project.getName());
-    }
-
     public void testClear() {
         solo.clickOnButton(PIANO_BUTTON);
         solo.clickOnActionBarItem(R.id.action_clear_midi);
