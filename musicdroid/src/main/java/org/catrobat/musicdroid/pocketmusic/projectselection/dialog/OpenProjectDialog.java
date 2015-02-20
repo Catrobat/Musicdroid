@@ -23,24 +23,33 @@
 
 package org.catrobat.musicdroid.pocketmusic.projectselection.dialog;
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 
-public class OpenProjectDialog extends Activity {
-    private TextView TextViewProjectName;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        TextViewProjectName = new EditText(this);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder
+public class OpenProjectDialog extends DialogFragment {
+
+    private TextView TextViewProjectName;
+    public static OpenProjectDialog newInstance(int title) {
+        OpenProjectDialog frag = new OpenProjectDialog();
+        Bundle args = new Bundle();
+        args.putInt("title", title);
+        frag.setArguments(args);
+        return frag;
+    }
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        int title = getArguments().getInt("title");
+
+        TextViewProjectName = new TextView(getActivity());
+        return new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.app_name)
                 .setView(TextViewProjectName)
                 .setCancelable(false)
@@ -55,10 +64,7 @@ public class OpenProjectDialog extends Activity {
                     public void onClick(DialogInterface dialog, int which) {
 
                     }
-                });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-
+                })
+                .create();
     }
-
 }
