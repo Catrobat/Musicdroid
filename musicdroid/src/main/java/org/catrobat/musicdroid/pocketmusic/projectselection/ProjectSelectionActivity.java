@@ -24,6 +24,7 @@
 package org.catrobat.musicdroid.pocketmusic.projectselection;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ActionMode;
@@ -34,6 +35,7 @@ import android.widget.Toast;
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
+import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.OpenProjectDialog;
 import org.catrobat.musicdroid.pocketmusic.projectselection.io.ImportProjectHandler;
 import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionContextMenu;
 import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionDeleteContextMenu;
@@ -108,6 +110,11 @@ public class ProjectSelectionActivity extends Activity {
             return true;
         }
 
+        if (id == R.id.action_about) {
+            DialogFragment newFragment = OpenProjectDialog.newInstance(R.string.app_name);
+            newFragment.show(getFragmentManager(), "dialog");
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
