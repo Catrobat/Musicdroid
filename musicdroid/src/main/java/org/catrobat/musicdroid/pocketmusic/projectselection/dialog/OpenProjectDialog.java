@@ -28,6 +28,8 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.Window;
 import android.widget.TextView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
@@ -35,6 +37,8 @@ import org.catrobat.musicdroid.pocketmusic.R;
 
 public class OpenProjectDialog extends DialogFragment {
 
+    public static final int dialogWidth = 500;
+    public static final int dialogHeight = 500;
     private TextView TextViewProjectName;
     public static OpenProjectDialog newInstance(int title) {
         OpenProjectDialog frag = new OpenProjectDialog();
@@ -49,22 +53,20 @@ public class OpenProjectDialog extends DialogFragment {
         int title = getArguments().getInt("title");
 
         TextViewProjectName = new TextView(getActivity());
+        TextViewProjectName.setHeight(200);
         return new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.app_name)
                 .setView(TextViewProjectName)
                 .setCancelable(false)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
                 .create();
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
+
     }
 }
