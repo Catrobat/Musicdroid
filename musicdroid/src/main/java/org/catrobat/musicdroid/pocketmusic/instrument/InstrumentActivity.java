@@ -22,8 +22,8 @@
  */
 package org.catrobat.musicdroid.pocketmusic.instrument;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -40,7 +40,7 @@ import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.SaveProjectDi
 
 import java.util.Locale;
 
-public abstract class InstrumentActivity extends Activity {
+public abstract class InstrumentActivity extends FragmentActivity {
 
     public static final int MAX_TRACK_SIZE_IN_SYMBOLS = 60;
     public static final int MAX_TRACK_SIZE_IN_NOTE_EVENTS = MAX_TRACK_SIZE_IN_SYMBOLS * 2;
@@ -55,7 +55,6 @@ public abstract class InstrumentActivity extends Activity {
     private TrackMementoStack mementoStack;
 
     private boolean activityInFocus = false;
-
 
     public InstrumentActivity(MusicalKey key, MusicalInstrument instrument) {
         midiPlayer = MidiPlayer.getInstance();

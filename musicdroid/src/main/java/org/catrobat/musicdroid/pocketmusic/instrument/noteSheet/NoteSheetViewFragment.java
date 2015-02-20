@@ -26,6 +26,7 @@ package org.catrobat.musicdroid.pocketmusic.instrument.noteSheet;
 import android.app.Fragment;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -52,7 +53,7 @@ public  class NoteSheetViewFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         View rootView = inflater.inflate(R.layout.fragment_notesheetview, container, false);
-        rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getDisplayHeight() / 2));
+        rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (getDisplayHeight() - getActionBarHeight()) / 2));
         noteSheetView = (NoteSheetView) rootView.findViewById(R.id.note_sheet_view);
         trackSizeTextView = (TextView) rootView.findViewById(R.id.track_size_text_view);
 
@@ -78,6 +79,12 @@ public  class NoteSheetViewFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    private int getActionBarHeight(){
+        TypedValue tv = new TypedValue();
+        getActivity().getApplicationContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
+        return getResources().getDimensionPixelSize(tv.resourceId);
     }
 
     private int[] initializeDisplay() {

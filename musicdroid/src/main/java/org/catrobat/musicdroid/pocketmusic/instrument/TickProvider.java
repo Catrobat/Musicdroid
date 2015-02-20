@@ -47,7 +47,7 @@ public class TickProvider {
     }
 
     public void stopCounting() {
-        long  difference = currentTimeMillis() - startTimiMillis;
+        long difference = currentTimeMillis() - startTimiMillis;
         NoteLength noteLength = NoteLength.getNoteLengthFromMilliseconds(difference, beatsPerMinute);
         tick += noteLength.toTicks(beatsPerMinute);
     }

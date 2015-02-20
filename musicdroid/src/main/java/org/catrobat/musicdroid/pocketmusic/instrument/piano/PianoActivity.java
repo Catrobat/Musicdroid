@@ -24,6 +24,7 @@
 package org.catrobat.musicdroid.pocketmusic.instrument.piano;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.HorizontalScrollView;
@@ -50,6 +51,7 @@ public class PianoActivity extends InstrumentActivity {
 
     private PianoViewFragment pianoViewFragment;
     private NoteSheetViewFragment noteSheetViewFragment;
+    private AdditionalSettingsFragment additionalSettingsFragment;
 
     private EditModeContextMenu editModeContextMenu;
 
@@ -80,16 +82,18 @@ public class PianoActivity extends InstrumentActivity {
         setContentView(R.layout.activity_piano);
 
         handleExtras();
-
         noteSheetViewFragment = new NoteSheetViewFragment();
         pianoViewFragment = new PianoViewFragment();
+        additionalSettingsFragment = new AdditionalSettingsFragment();
 
         if (savedInstanceState != null) {
-            getFragmentManager().beginTransaction().replace(R.id.container, noteSheetViewFragment).commit();
-            getFragmentManager().beginTransaction().replace(R.id.container, pianoViewFragment).commit();
+            getFragmentManager().beginTransaction().replace(R.id.notesheetview_fragment_holder, noteSheetViewFragment).commit();
+            getFragmentManager().beginTransaction().replace(R.id.additional_options_holder, additionalSettingsFragment).commit();
+            getFragmentManager().beginTransaction().replace(R.id.pianoview_fragment_holder, pianoViewFragment).commit();
         } else {
-            getFragmentManager().beginTransaction().add(R.id.container, noteSheetViewFragment).commit();
-            getFragmentManager().beginTransaction().add(R.id.container, pianoViewFragment).commit();
+            getFragmentManager().beginTransaction().add(R.id.notesheetview_fragment_holder, noteSheetViewFragment).commit();
+            getFragmentManager().beginTransaction().add(R.id.additional_options_holder, additionalSettingsFragment).commit();
+            getFragmentManager().beginTransaction().add(R.id.pianoview_fragment_holder, pianoViewFragment).commit();
         }
     }
 
