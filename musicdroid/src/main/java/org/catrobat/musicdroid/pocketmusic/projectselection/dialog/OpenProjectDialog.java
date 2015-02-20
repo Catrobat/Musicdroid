@@ -27,23 +27,22 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 
 public class OpenProjectDialog extends Activity {
-    private EditText editTextProjectName;
+    private TextView TextViewProjectName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        editTextProjectName = new EditText(this);
+        TextViewProjectName = new EditText(this);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder
                 .setTitle(R.string.app_name)
-                .setView(editTextProjectName)
+                .setView(TextViewProjectName)
                 .setCancelable(false)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override

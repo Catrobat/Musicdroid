@@ -24,21 +24,17 @@
 package org.catrobat.musicdroid.pocketmusic.projectselection;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.FragmentTransaction;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
-import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.AbstractProjectNameDialog;
+import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.OpenProjectDialog;
 import org.catrobat.musicdroid.pocketmusic.projectselection.io.ImportProjectHandler;
 import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionContextMenu;
 import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionDeleteContextMenu;
@@ -55,7 +51,6 @@ public class ProjectSelectionActivity extends Activity {
     private ActionMode actionMode;
     private ImportProjectHandler importProjectHandler;
     public static final String INTENT_EXTRA_FILE_NAME = "fileName";
-    private EditText editTextProjectName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,34 +109,11 @@ public class ProjectSelectionActivity extends Activity {
             return true;
         }
 
-        if(id == R.id.action_about) {
-            displayDialog();
+        if (id == R.id.action_about) {
+            startActivity(new Intent(ProjectSelectionActivity.this, OpenProjectDialog.class));
+            return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void displayDialog() {
-        editTextProjectName = new EditText(this);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-         alertDialogBuilder
-                .setTitle(R.string.app_name)
-                .setView(editTextProjectName)
-                .setCancelable(false)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-
     }
 
     public void stopPlayingTracks() {
