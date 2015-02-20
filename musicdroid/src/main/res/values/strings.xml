@@ -30,11 +30,6 @@
     <string name="action_play_midi_error">Could not start playing</string>
     <string name="action_play_midi_dialog_stop">Stop</string>
     <string name="action_save_midi_title">Save Project</string>
-    <string name="action_load_midi_title">Open Project</string>
-    <string name="action_load_midi_validation_error">The given Project was not created with Musicdroid</string>
-    <string name="action_load_midi_io_error">The device encountered an internal error: </string>
-    <string name="action_load_midi_file_chooser_title">Open Project</string>
-    <string name="action_load_midi_success">Open successful!</string>
     <string name="action_delete_midi_title">Clear Project</string>
     <string name="action_delete_midi_success">Clear successful</string>
     <string name="note_name_simple_c">C</string>
@@ -75,6 +70,7 @@
     <string name="piano_edit_mode_delete">Delete marked</string>
 
     <string name="dialog_project_edit_title">Edit project</string>
+    <string name="dialog_project_edit_message">Please enter a name:</string>
     <string name="dialog_project_edit_success">Edit was successful!</string>
     <string name="dialog_project_edit_cancel">Edit canceled!</string>
     <string name="dialog_project_edit_error">Edit failed!</string>

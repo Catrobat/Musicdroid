@@ -23,87 +23,40 @@
 
 package org.catrobat.musicdroid.pocketmusic.projectselection.dialog;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
-
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
 
-import java.io.File;
 import java.io.IOException;
 
-public class EditProjectDialog extends DialogFragment {
+public class EditProjectDialog extends AbstractProjectNameDialog {
 
-    private EditText renameField;
-    private Project projectToEdit;
+    public static final String ARGUMENT_PROJECT = "project";
 
     public EditProjectDialog() {
+        super(R.string.dialog_project_edit_title, R.string.dialog_project_edit_message, R.string.dialog_project_edit_success, R.string.dialog_project_edit_error, R.string.dialog_project_edit_cancel);
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        projectToEdit = (Project) getArguments().getSerializable("project");
-
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_project_edit, null);
-        dialogBuilder.setView(dialogView);
-        dialogBuilder.setTitle(R.string.dialog_project_edit_title);
-        dialogBuilder.setCancelable(false);
-
-        renameField = (EditText) dialogView.findViewById(R.id.dialog_project_edit_rename_field);
-        renameField.setText(projectToEdit.getName());
-
-        dialogBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String input = renameField.getText().toString();
-
-                if ((input != null) && (false == input.equals(""))) {
-                    try {
-                        File file = ProjectToMidiConverter.getMidiFileFromProjectName(input);
-
-                        if (file.exists()) {
-                            Toast.makeText(getActivity().getBaseContext(), R.string.dialog_project_name_exists_error, Toast.LENGTH_LONG).show();
-                        } else {
-                            onProjectEdit();
-
-                            Toast.makeText(getActivity().getBaseContext(), R.string.dialog_project_edit_success,
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    } catch (Exception e) {
-                        Toast.makeText(getActivity().getBaseContext(), R.string.dialog_project_edit_error,
-                                Toast.LENGTH_LONG).show();
-                    }
-                } else {
-                    Toast.makeText(getActivity().getBaseContext(), R.string.dialog_project_edit_cancel,
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-        })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getActivity().getBaseContext(), R.string.dialog_project_edit_cancel,
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
-
-        return dialogBuilder.create();
+    protected void initDialog() {
+        setEditTextProjectName(((Project) getArguments().getSerializable(ARGUMENT_PROJECT)).getName());
     }
 
-    private void onProjectEdit() throws IOException, MidiException {
-        ProjectSelectionActivity projectSelectionActivity = (ProjectSelectionActivity) getActivity();
-        projectSelectionActivity.getProjectSelectionFragment().getListViewAdapter().renameItem(projectToEdit.getName(), renameField.getText().toString());
+    @Override
+    protected void onNewProjectName(String name) throws IOException, MidiException {
+        Project selectedProject = (Project) getArguments().getSerializable(ARGUMENT_PROJECT);
+        String oldProjectName = selectedProject.getName();
+        selectedProject.setName(name);
+
+        ProjectToMidiConverter converter = new ProjectToMidiConverter();
+        converter.writeProjectAsMidi(selectedProject);
+        converter.deleteMidiByName(oldProjectName);
+    }
+
+    @Override
+    protected void updateActivity() {
+        ((ProjectSelectionActivity) getActivity()).getProjectSelectionFragment().fetchProjectInformation();
     }
 }
