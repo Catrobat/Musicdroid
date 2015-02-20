@@ -124,7 +124,7 @@ public class ProjectSelectionActivity extends Activity {
         editTextProjectName = new EditText(this);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
          alertDialogBuilder
-                .setTitle("Musicdroid")
+                .setTitle(R.string.app_name)
                 .setView(editTextProjectName)
                 .setCancelable(false)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
