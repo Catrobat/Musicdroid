@@ -41,7 +41,6 @@ import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
-import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.CopyProjectDialog;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.SaveProjectDialog;
 
 import java.io.File;
@@ -61,7 +60,7 @@ public abstract class InstrumentActivity extends Activity {
     private MidiPlayer midiPlayer;
     private Track track;
     private TickProvider tickProvider;
-    protected TrackMementoStack mementoStack;
+    private TrackMementoStack mementoStack;
 
     private String[] midiFileList;
     private boolean activityInFocus = false;

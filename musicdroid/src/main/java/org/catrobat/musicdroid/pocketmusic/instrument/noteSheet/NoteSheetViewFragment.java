@@ -128,6 +128,10 @@ public  class NoteSheetViewFragment extends Fragment {
         return noteSheetView.getSymbols();
     }
 
+    public int getMarkedSymbolCount() {
+        return noteSheetView.getMarkedSymbolCount();
+    }
+
     public void deleteMarkedSymbols() {
         noteSheetView.deleteMarkedSymbols();
         setTrackSizeText();
