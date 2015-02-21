@@ -207,25 +207,17 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         assertEquals(expectedTextViewText, actualTextViewText);
     }
 
-    public void testEditMode() {
-        solo.clickOnButton(PIANO_BUTTON);
-        solo.clickLongOnView(pianoActivity.getNoteSheetView());
+    public void testEditModeDelete() {
+        enterEditModeWithOneMarkedSymbol();
 
         assertTrue(PianoActivity.inCallback);
-    }
 
-    public void testEditModeDelete() {
-        solo.clickOnButton(PIANO_BUTTON);
-        pianoActivity.getNoteSheetViewFragment().getSymbols().get(0).setMarked(true);
         Project project = pianoActivity.getTrack().getProject();
         int id = pianoActivity.getTrack().getId();
-        solo.clickLongOnView(pianoActivity.getNoteSheetView());
 
-        View v = getActivity().findViewById(R.id.edit_callback_action_delete_project);
-        solo.clickOnView(v);
+        clickDeleteInEditMode();
 
-        solo.sleep(1000);
-
+        assertFalse(PianoActivity.inCallback);
         assertEquals(0, pianoActivity.getNoteSheetViewFragment().getSymbols().size());
         assertEquals(project, pianoActivity.getTrack().getProject());
         assertEquals(id, pianoActivity.getTrack().getId());
@@ -233,17 +225,27 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     }
 
     public void testEditModeDeleteUndo() {
-        solo.clickOnButton(PIANO_BUTTON);
-        pianoActivity.getNoteSheetViewFragment().getSymbols().get(0).setMarked(true);
-        solo.clickLongOnView(pianoActivity.getNoteSheetView());
-
-        View v = getActivity().findViewById(R.id.edit_callback_action_delete_project);
-        solo.clickOnView(v);
-
-        solo.sleep(1000);
+        enterEditModeWithOneMarkedSymbol();
+        clickDeleteInEditMode();
 
         solo.clickOnActionBarItem(R.id.action_undo_midi);
 
         assertEquals(1, pianoActivity.getNoteSheetViewFragment().getSymbols().size());
+    }
+
+    private void enterEditModeWithOneMarkedSymbol() {
+        solo.clickOnButton(PIANO_BUTTON);
+
+        solo.sleep(1000);
+
+        pianoActivity.getNoteSheetViewFragment().getSymbols().get(0).setMarked(true);
+        solo.clickLongOnView(pianoActivity.getNoteSheetView());
+    }
+
+    private void clickDeleteInEditMode() {
+        View v = getActivity().findViewById(R.id.edit_callback_action_delete_project);
+        solo.clickOnView(v);
+
+        solo.sleep(1000);
     }
 }
