@@ -40,6 +40,10 @@ public class SaveProjectDialog extends AbstractProjectNameDialog {
     }
 
     @Override
+    protected void initDialog() {
+    }
+
+    @Override
     protected void onNewProjectName(String name) throws IOException, MidiException {
         Track track = (Track) getArguments().getSerializable(ARGUMENT_TRACK);
         int beatsPerMinute = track.getBeatsPerMinute();
@@ -49,5 +53,9 @@ public class SaveProjectDialog extends AbstractProjectNameDialog {
 
         ProjectToMidiConverter converter = new ProjectToMidiConverter();
         converter.writeProjectAsMidi(project);
+    }
+
+    @Override
+    protected void updateActivity() {
     }
 }
