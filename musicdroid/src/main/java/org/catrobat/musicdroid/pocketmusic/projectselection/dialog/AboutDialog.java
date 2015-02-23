@@ -37,6 +37,7 @@ public class AboutDialog extends DialogFragment {
 
     private TextView aboutMessageTextView;
     private int screenHeight;
+
     public static AboutDialog newInstance(int title) {
         AboutDialog frag = new AboutDialog();
         Bundle args = new Bundle();
