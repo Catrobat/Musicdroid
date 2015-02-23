@@ -21,32 +21,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.test.projectselection.io;
+package org.catrobat.musicdroid.pocketmusic.projectselection.io;
 
 import android.content.Intent;
 
-import org.catrobat.musicdroid.pocketmusic.projectselection.io.ImportProjectHandler;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
+import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
 
-public class ImportProjectHandlerMock extends ImportProjectHandler{
+import java.io.File;
+import java.io.IOException;
 
-    private Intent intent;
-    private int resultCode;
+public abstract class IOHandler {
 
-    public ImportProjectHandlerMock() {
-        super(null);
+    protected ProjectSelectionActivity projectSelectionActivity;
+
+    protected IOHandler(ProjectSelectionActivity projectSelectionActivity) {
+        this.projectSelectionActivity = projectSelectionActivity;
     }
 
-    @Override
     protected void startIntent(Intent intent, int resultCode) {
-        this.intent = intent;
-        this.resultCode = resultCode;
+        projectSelectionActivity.startActivityForResult(intent, resultCode);
     }
 
-    public Intent getIntent() {
-        return intent;
-    }
+    public abstract void onSend(File file);
 
-    public int getResultCode() {
-        return resultCode;
-    }
+    public abstract void onReceive(int requestCode, int resultCode, File targetFile) throws IOException, MidiException;
 }
