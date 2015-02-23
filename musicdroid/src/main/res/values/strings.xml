@@ -87,4 +87,6 @@
     <string name="dialog_project_save_success">Save successful!</string>
     <string name="dialog_project_save_cancel">Save canceled!</string>
     <string name="dialog_project_save_error">Save failed!</string>
+
+    <string name="midi_open">Could not open MIDI file!</string>
 </resources>

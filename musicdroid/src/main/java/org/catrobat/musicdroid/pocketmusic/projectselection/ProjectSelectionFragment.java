@@ -33,6 +33,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
@@ -85,7 +86,7 @@ public class ProjectSelectionFragment extends Fragment {
                 try {
                     projects.add(midiToProjectConverter.convertMidiFileToProject(new File(ProjectToMidiConverter.MIDI_FOLDER, aMidiFile)));
                 } catch (MidiException | IOException e) {
-                    e.printStackTrace();
+                    Toast.makeText(getActivity().getBaseContext(), R.string.midi_open, Toast.LENGTH_LONG).show();
                 }
             }
         }

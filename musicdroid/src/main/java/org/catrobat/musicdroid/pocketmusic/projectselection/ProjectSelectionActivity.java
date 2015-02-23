@@ -44,6 +44,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class ProjectSelectionActivity extends Activity {
+
     private ProjectSelectionFragment projectSelectionFragment;
     public static boolean inCallback = false;
     private ProjectSelectionContextMenu projectSelectionContextMenu;
@@ -152,7 +153,6 @@ public class ProjectSelectionActivity extends Activity {
         try {
             importProjectHandler.importProject(requestCode, resultCode, new File(data.getData().getPath()));
             Toast.makeText(this, getResources().getString(R.string.project_import_successful), Toast.LENGTH_LONG).show();
-
         } catch (IOException | MidiException e) {
             Toast.makeText(this, getResources().getString(R.string.project_import_failed), Toast.LENGTH_LONG).show();
         }

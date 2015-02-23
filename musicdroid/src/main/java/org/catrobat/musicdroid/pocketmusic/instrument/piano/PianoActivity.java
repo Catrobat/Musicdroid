@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.HorizontalScrollView;
+import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.edit.menu.EditModeContextMenu;
@@ -105,10 +106,8 @@ public class PianoActivity extends InstrumentActivity {
                 Project project = converter.convertMidiFileToProject(midiFile);
                 //TODO: consider more tracks
                 setTrack(project.getTrack(0));
-            } catch (MidiException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (MidiException | IOException e) {
+                Toast.makeText(getBaseContext(), R.string.midi_open, Toast.LENGTH_LONG).show();
             }
         }
     }

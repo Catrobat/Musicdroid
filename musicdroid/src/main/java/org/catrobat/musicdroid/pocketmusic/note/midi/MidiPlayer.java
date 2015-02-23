@@ -156,11 +156,10 @@ public class MidiPlayer {
 
     protected void onPlayTrackComplete(File tempPlayFile, Activity activity) {
         tempPlayFile.delete();
-        try {
+
+        if (activity instanceof ProjectSelectionActivity) {
             ProjectSelectionActivity projectSelectionActivity = (ProjectSelectionActivity) activity;
             projectSelectionActivity.notifyTrackPlayed();
-        }catch (ClassCastException ex){
-
         }
     }
 

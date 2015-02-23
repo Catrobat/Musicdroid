@@ -34,6 +34,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
@@ -173,23 +174,22 @@ public class ProjectListViewAdapter extends BaseAdapter {
         viewHolder.projectPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    if (!playButtonLock) {
-                        playButtonLock = true;
-                        projectSelectionTrackIsPlayingFlags.set(position, true);
+                if (!playButtonLock) {
+                    playButtonLock = true;
+                    projectSelectionTrackIsPlayingFlags.set(position, true);
 
-                        // TODO consider more tracks
+                    // TODO consider more tracks
+                    try {
                         MidiPlayer.getInstance().playTrack((Activity) context,
                                 context.getCacheDir(),
                                 projects.get(position).getTrack(0),
                                 projects.get(position).getBeatsPerMinute());
-
+                    } catch (IOException | MidiException e) {
+                        Toast.makeText(context, R.string.midi_open, Toast.LENGTH_LONG).show();
                     }
-
-                    notifyDataSetChanged();
-                } catch (IOException | MidiException e) {
-                    e.printStackTrace();
                 }
+
+                notifyDataSetChanged();
             }
         });
 
