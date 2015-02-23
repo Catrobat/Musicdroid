@@ -39,6 +39,7 @@ public class AboutDialog extends DialogFragment {
     private int screenHeight;
 
     public static AboutDialog newInstance(int title) {
+
         AboutDialog frag = new AboutDialog();
         Bundle args = new Bundle();
         frag.setArguments(args);
@@ -47,6 +48,7 @@ public class AboutDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         screenHeight = metrics.heightPixels;
