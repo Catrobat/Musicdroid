@@ -29,13 +29,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.CopyProjectDialog;
+
+import java.io.IOException;
 
 public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionContextMenu {
 
     private MenuItem editItem;
     private MenuItem copyItem;
+    private MenuItem shareItem;
+
 
     public ProjectSelectionTapAndHoldContextMenu(ProjectSelectionActivity parentActivity) {
         parent = parentActivity;
@@ -59,7 +64,14 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
                 dialog.setArguments(args);
                 dialog.show(parent.getFragmentManager(), "tag");
                 mode.finish();
-
+                return true;
+            case R.id.callback_action_share_project:
+                try {
+                    runShareRoutine();
+                } catch (IOException | MidiException e) {
+                    e.printStackTrace();
+                }
+                mode.finish();
                 return true;
             default:
                 return false;
@@ -69,11 +81,13 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
     public void enterSingleEditMode() {
         editItem.setVisible(true);
         copyItem.setVisible(true);
+        shareItem.setVisible(true);
     }
 
     public void enterMultipleEditMode() {
         editItem.setVisible(false);
         copyItem.setVisible(false);
+        shareItem.setVisible(false);
     }
 
     @Override
@@ -87,6 +101,7 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
         super.onCreateActionMode(mode, menu);
         editItem = menu.findItem(R.id.callback_action_edit_project);
         copyItem = menu.findItem(R.id.callback_action_copy_project);
+        shareItem = menu.findItem(R.id.callback_action_share_project);
 
         return true;
     }
