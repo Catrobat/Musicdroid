@@ -25,7 +25,9 @@ package org.catrobat.musicdroid.pocketmusic.projectselection.io;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.widget.Toast;
 
+import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
@@ -35,40 +37,38 @@ import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActi
 import java.io.File;
 import java.io.IOException;
 
-public class ImportProjectHandler {
+public class ImportProjectHandler extends IOHandler {
 
-    public static final int PICKFILE_RESULT_CODE = 1;
-    private ProjectSelectionActivity projectSelectionActivity;
+    public static final int IMPORT_RESULT_CODE = 1;
 
     public ImportProjectHandler(ProjectSelectionActivity projectSelectionActivity) {
-        this.projectSelectionActivity = projectSelectionActivity;
+        super(projectSelectionActivity);
     }
 
-    public void handleImportProject() {
+    @Override
+    public void onSend(File file) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("audio/midi");
-        startIntent(intent, PICKFILE_RESULT_CODE);
+        startIntent(intent, IMPORT_RESULT_CODE);
     }
 
-    protected void startIntent(Intent intent, int resultCode) {
-        projectSelectionActivity.startActivityForResult(intent, resultCode);
-    }
+    @Override
+    public void onReceive(int requestCode, int resultCode, File targetFile) throws IOException, MidiException {
+            switch (requestCode) {
+                case IMPORT_RESULT_CODE:
+                    if (resultCode == Activity.RESULT_OK) {
+                        MidiToProjectConverter midiToProjectConverter = new MidiToProjectConverter();
+                        ProjectToMidiConverter projectToMidiConverter = new ProjectToMidiConverter();
 
-    public void importProject(int requestCode, int resultCode, File targetFile) throws IOException, MidiException {
-        switch (requestCode) {
-            case PICKFILE_RESULT_CODE:
-                if (resultCode == Activity.RESULT_OK) {
-                    MidiToProjectConverter midiToProjectConverter = new MidiToProjectConverter();
-                    ProjectToMidiConverter projectToMidiConverter = new ProjectToMidiConverter();
+                        Project project = midiToProjectConverter.convertMidiFileToProject(targetFile);
 
-                    Project project = midiToProjectConverter.convertMidiFileToProject(targetFile);
-                    if ((ProjectToMidiConverter.getMidiFileFromProjectName(project.getName()).exists())) {
-                        throw new IOException();
+                        if ((ProjectToMidiConverter.getMidiFileFromProjectName(project.getName()).exists())) {
+                            throw new IOException();
+                        }
+
+                        projectToMidiConverter.writeProjectAsMidi(project);
                     }
-
-                    projectToMidiConverter.writeProjectAsMidi(project);
-                }
-                break;
-        }
+                    break;
+            }
     }
 }

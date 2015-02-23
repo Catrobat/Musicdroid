@@ -30,9 +30,15 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
+import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectListViewAdapter;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.EditProjectDialog;
+
+import java.io.File;
+import java.io.IOException;
 
 public abstract class ProjectSelectionContextMenu implements ActionMode.Callback {
     protected ProjectListViewAdapter adapter;
@@ -77,11 +83,15 @@ public abstract class ProjectSelectionContextMenu implements ActionMode.Callback
 
     public void runEditRoutine() {
         Bundle args = new Bundle();
-        parent.stopPlayingTracks();
         args.putSerializable(EditProjectDialog.ARGUMENT_PROJECT, adapter.getSelectedProject());
         EditProjectDialog editProjectDialog = new EditProjectDialog();
         editProjectDialog.setArguments(args);
         editProjectDialog.show(parent.getFragmentManager(), "tag");
+    }
+
+    public void runShareRoutine() throws IOException, MidiException {
+        File file = ProjectToMidiConverter.getMidiFileFromProjectName(adapter.getSelectedProject().getName());
+        parent.notifyShareProject(file);
     }
 
     public void checkedItemStateChanged() {
