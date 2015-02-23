@@ -41,7 +41,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoActivity> {
 
     private static final String PIANO_BUTTON = "C";
@@ -131,12 +130,36 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         assertEquals(expectedTrackSize, actualTrackSize);
     }
 
-    public void testPlayMidi() throws InterruptedException {
+    public void testPlayMidi() {
         clickSomePianoButtonsForLargeTrack();
-        solo.clickOnActionBarItem(R.id.action_play_midi);
-        Thread.sleep(100);
-
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
+        solo.waitForText(pianoActivity.getString(R.string.action_midi_playing));
         assertTrue(pianoActivity.getMidiPlayer().isPlaying());
+    }
+
+    public void testPlayButtonShown() {
+        assertTrue(solo.getCurrentActivity().getResources().getDrawable(R.drawable.ic_action_play).isVisible());
+    }
+
+    public void testStopButtonShown() {
+        clickSomePianoButtonsForLargeTrack();
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
+        assertTrue(solo.getCurrentActivity().getResources().getDrawable(R.drawable.ic_action_stop).isVisible());
+    }
+
+    public void testPlayButtonShownAfterStop() {
+        clickSomePianoButtonsForLargeTrack();
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
+        assertTrue(solo.getCurrentActivity().getResources().getDrawable(R.drawable.ic_action_play).isVisible());
+    }
+
+    public void testStopMidi() {
+        clickSomePianoButtonsForLargeTrack();
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
+        solo.waitForText(pianoActivity.getString(R.string.action_midi_stopped));
+        assertFalse(pianoActivity.getMidiPlayer().isPlaying());
     }
 
     private void clickSomePianoButtonsForLargeTrack() {
@@ -148,14 +171,14 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     }
 
     public void testPlayMidiEmptyTrack() {
-        solo.clickOnActionBarItem(R.id.action_play_midi);
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
 
         assertFalse(pianoActivity.getMidiPlayer().isPlaying());
     }
 
     public void testPlayMidiFinishedPlaying() throws InterruptedException {
         solo.clickOnButton(PIANO_BUTTON);
-        solo.clickOnActionBarItem(R.id.action_play_midi);
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
         solo.waitForDialogToOpen();
         solo.waitForDialogToClose();
 
