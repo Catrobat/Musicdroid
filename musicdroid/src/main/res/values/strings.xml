@@ -92,4 +92,5 @@
     <string name="dialog_project_save_error">Save failed!</string>
 
     <string name="midi_open">Could not open MIDI file!</string>
+    <string name="share_error">Could not share file!</string>
 </resources>
