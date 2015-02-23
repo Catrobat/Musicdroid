@@ -26,47 +26,37 @@ package org.catrobat.musicdroid.pocketmusic.projectselection.dialog;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.Window;
+import android.util.DisplayMetrics;
 import android.widget.TextView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 
 
-public class OpenProjectDialog extends DialogFragment {
+public class AboutDialog extends DialogFragment {
 
-    public static final int dialogWidth = 500;
-    public static final int dialogHeight = 500;
-    private TextView TextViewProjectName;
-    public static OpenProjectDialog newInstance(int title) {
-        OpenProjectDialog frag = new OpenProjectDialog();
+    private TextView aboutMessageTextView;
+    private int screenHeight;
+    public static AboutDialog newInstance(int title) {
+        AboutDialog frag = new AboutDialog();
         Bundle args = new Bundle();
-        args.putInt("title", title);
         frag.setArguments(args);
         return frag;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        int title = getArguments().getInt("title");
-
-        TextViewProjectName = new TextView(getActivity());
-        TextViewProjectName.setHeight(200);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        screenHeight = metrics.heightPixels;
+        aboutMessageTextView = new TextView(getActivity());
+        aboutMessageTextView.setHeight(screenHeight/2);
         return new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.app_name)
-                .setView(TextViewProjectName)
+                .setView(aboutMessageTextView)
                 .setCancelable(false)
                 .create();
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
-
-    }
 }
