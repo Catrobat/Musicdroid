@@ -96,9 +96,13 @@ public abstract class InstrumentActivity extends Activity {
         super.onResume();
     }
 
-    protected void setTrack(Track track) {
+    public void setTrack(Track track) {
         this.track = track;
         tickProvider.setTickBasedOnTrack(track);
+    }
+
+    public void pushMemento(Track track) {
+        mementoStack.pushMemento(track);
     }
 
     public Track getTrack() {

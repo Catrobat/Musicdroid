@@ -24,6 +24,7 @@
 package org.catrobat.musicdroid.pocketmusic.uitest.instrument.piano;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.View;
 
 import com.robotium.solo.Solo;
 
@@ -32,6 +33,7 @@ import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.test.note.ProjectTestDataFactory;
@@ -190,10 +192,45 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         assertEquals(expectedTextViewText, actualTextViewText);
     }
 
-    public void testEditMode() {
-        solo.clickOnButton(PIANO_BUTTON);
-        solo.clickLongOnView(pianoActivity.getNoteSheetView());
+    public void testEditModeDelete() {
+        enterEditModeWithOneMarkedSymbol();
 
         assertTrue(PianoActivity.inCallback);
+
+        Project project = pianoActivity.getTrack().getProject();
+        int id = pianoActivity.getTrack().getId();
+
+        clickDeleteInEditMode();
+
+        assertFalse(PianoActivity.inCallback);
+        assertEquals(0, pianoActivity.getNoteSheetViewFragment().getSymbols().size());
+        assertEquals(project, pianoActivity.getTrack().getProject());
+        assertEquals(id, pianoActivity.getTrack().getId());
+        assertEquals(0, pianoActivity.getNoteSheetView().getMarkedSymbolCount());
+    }
+
+    public void testEditModeDeleteUndo() {
+        enterEditModeWithOneMarkedSymbol();
+        clickDeleteInEditMode();
+
+        solo.clickOnActionBarItem(R.id.action_undo_midi);
+
+        assertEquals(1, pianoActivity.getNoteSheetViewFragment().getSymbols().size());
+    }
+
+    private void enterEditModeWithOneMarkedSymbol() {
+        solo.clickOnButton(PIANO_BUTTON);
+
+        solo.sleep(1000);
+
+        pianoActivity.getNoteSheetViewFragment().getSymbols().get(0).setMarked(true);
+        solo.clickLongOnView(pianoActivity.getNoteSheetView());
+    }
+
+    private void clickDeleteInEditMode() {
+        View v = getActivity().findViewById(R.id.edit_callback_action_delete_project);
+        solo.clickOnView(v);
+
+        solo.sleep(1000);
     }
 }
