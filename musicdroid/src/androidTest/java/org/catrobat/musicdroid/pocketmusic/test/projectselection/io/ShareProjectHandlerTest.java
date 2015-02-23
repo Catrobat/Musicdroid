@@ -23,17 +23,34 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.projectselection.io;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.test.AndroidTestCase;
 
-import java.io.IOException;
+import org.catrobat.musicdroid.pocketmusic.projectselection.io.ShareProjectHandler;
 
-public class ExportProjectHandlerTest extends AndroidTestCase {
+import java.io.File;
+
+public class ShareProjectHandlerTest extends AndroidTestCase {
+
+    private ShareProjectHandlerMock handler;
 
     @Override
     protected void setUp() {
+        handler = new ShareProjectHandlerMock();
     }
 
-    @Override
-    protected void tearDown() throws IOException {
+    public void testOnSend() {
+        File file = new File("");
+        handler.onSend(file);
+
+        Uri uri = Uri.parse(file.getAbsolutePath());
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("audio/midi");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        assertEquals(intent.getType(), handler.getIntent().getType());
+        assertEquals(intent.getExtras().getParcelable(Intent.EXTRA_STREAM), uri);
+        assertEquals(ShareProjectHandler.SHARE_RESULT_CODE, handler.getResultCode());
     }
 }

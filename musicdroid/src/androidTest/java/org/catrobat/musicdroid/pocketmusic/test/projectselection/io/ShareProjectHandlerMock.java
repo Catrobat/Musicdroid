@@ -23,11 +23,30 @@
 
 package org.catrobat.musicdroid.pocketmusic.test.projectselection.io;
 
-import org.catrobat.musicdroid.pocketmusic.projectselection.io.ImportProjectHandler;
+import android.content.Intent;
 
-public class ImportProjectHandlerMock extends ImportProjectHandler {
+import org.catrobat.musicdroid.pocketmusic.projectselection.io.ShareProjectHandler;
 
-    public ImportProjectHandlerMock() {
+public class ShareProjectHandlerMock extends ShareProjectHandler {
+
+    private Intent intent;
+    private int resultCode;
+
+    public ShareProjectHandlerMock() {
         super(null);
+    }
+
+    @Override
+    protected void startIntent(Intent intent, int resultCode) {
+        this.intent = intent;
+        this.resultCode = resultCode;
+    }
+
+    public Intent getIntent() {
+        return intent;
+    }
+
+    public int getResultCode() {
+        return resultCode;
     }
 }

@@ -24,13 +24,11 @@
 package org.catrobat.musicdroid.pocketmusic.test.projectselection.io;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.test.AndroidTestCase;
 
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
-import org.catrobat.musicdroid.pocketmusic.projectselection.io.IOHandler;
 import org.catrobat.musicdroid.pocketmusic.projectselection.io.ImportProjectHandler;
 import org.catrobat.musicdroid.pocketmusic.test.note.ProjectTestDataFactory;
 
@@ -40,11 +38,11 @@ import java.io.IOException;
 public class ImportProjectHandlerTest extends AndroidTestCase {
 
     private String projectName = "TestImport";
-    private ImportProjectHandlerMock handler;
+    private ImportProjectHandler handler;
 
     @Override
     protected void setUp() {
-        handler = new ImportProjectHandlerMock();
+        handler = new ImportProjectHandler(null);
     }
 
     @Override
