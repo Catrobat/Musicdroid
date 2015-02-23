@@ -200,4 +200,10 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         solo.goBack();
         assertTrue(solo.searchText(fileName));
     }
+
+    public void testAboutDialog() throws IOException {
+        solo.clickOnMenuItem("About");
+        solo.sleep(2000);
+        assertTrue("Could not find the dialog!", solo.searchText("Musicdroid"));
+    }
 }
