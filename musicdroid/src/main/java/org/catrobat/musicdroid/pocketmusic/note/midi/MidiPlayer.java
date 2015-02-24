@@ -157,12 +157,14 @@ public class MidiPlayer {
 
     protected void onPlayTrackComplete(File tempPlayFile, Activity activity) {
         tempPlayFile.delete();
-        activity.invalidateOptionsMenu();
-        ToastDisplayer.showDoneToast(activity.getApplicationContext());
         try {
+            activity.invalidateOptionsMenu();
+            ToastDisplayer.showDoneToast(activity.getApplicationContext());
             ProjectSelectionActivity projectSelectionActivity = (ProjectSelectionActivity) activity;
             projectSelectionActivity.notifyTrackPlayed();
         }catch (ClassCastException ex){
+
+        } catch (NullPointerException e) {
 
         }
     }
