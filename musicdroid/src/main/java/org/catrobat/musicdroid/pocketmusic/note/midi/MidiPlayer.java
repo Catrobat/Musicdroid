@@ -27,6 +27,7 @@ import android.app.Activity;
 import android.media.MediaPlayer;
 import android.net.Uri;
 
+import org.catrobat.musicdroid.pocketmusic.ToastDisplayer;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
@@ -157,9 +158,13 @@ public class MidiPlayer {
     protected void onPlayTrackComplete(File tempPlayFile, Activity activity) {
         tempPlayFile.delete();
         try {
+            activity.invalidateOptionsMenu();
+            ToastDisplayer.showDoneToast(activity.getApplicationContext());
             ProjectSelectionActivity projectSelectionActivity = (ProjectSelectionActivity) activity;
             projectSelectionActivity.notifyTrackPlayed();
         }catch (ClassCastException ex){
+
+        } catch (NullPointerException e) {
 
         }
     }

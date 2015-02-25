@@ -27,6 +27,10 @@
     <string name="splash_screen_logo_content_description">Logo</string>string>
     <string name="action_undo_midi">Undo</string>
     <string name="action_play_midi">Play</string>
+    <string name="action_stop_midi">Stop</string>
+    <string name="action_midi_playing">Playing</string>
+    <string name="action_midi_stopped">Stopped</string>
+    <string name="action_midi_finished">Done</string>
     <string name="action_play_midi_error">Could not start playing</string>
     <string name="action_play_midi_dialog_stop">Stop</string>
     <string name="action_save_midi_title">Save Project</string>

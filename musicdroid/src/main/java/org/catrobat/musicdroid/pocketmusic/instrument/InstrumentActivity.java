@@ -23,21 +23,31 @@
 package org.catrobat.musicdroid.pocketmusic.instrument;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.ToastDisplayer;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.TrackMementoStack;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
+import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.CopyProjectDialog;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.SaveProjectDialog;
 
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.Locale;
 
 public abstract class InstrumentActivity extends Activity {
@@ -147,8 +157,16 @@ public abstract class InstrumentActivity extends Activity {
         } else if (id == R.id.action_clear_midi) {
             onActionDeleteMidi();
             return true;
-        } else if (id == R.id.action_play_midi) {
-            onActionPlayMidi();
+        } else if (id == R.id.action_play_and_stop_midi) {
+            if(!getMidiPlayer().isPlaying()) {
+                item.setIcon(R.drawable.ic_action_stop);
+                item.setTitle(R.string.action_stop_midi);
+                onActionPlayMidi();
+            } else {
+                item.setIcon(R.drawable.ic_action_play);
+                item.setTitle(R.string.action_play_midi);
+                onActionStopMidi();
+            }
             return true;
         }
 
@@ -181,9 +199,15 @@ public abstract class InstrumentActivity extends Activity {
 
         try {
             midiPlayer.playTrack(this, getCacheDir(), track, Project.DEFAULT_BEATS_PER_MINUTE);
+            ToastDisplayer.showPlayToast(getBaseContext());
         } catch (Exception e) {
             Toast.makeText(getBaseContext(), R.string.action_play_midi_error, Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void onActionStopMidi() {
+        midiPlayer.stop();
+        ToastDisplayer.showStopToast(getBaseContext());
     }
 
     private void saveMidiFileByUserInput() {
