@@ -91,7 +91,7 @@ public class BreakDrawer extends SymbolDrawer {
 
         int startXPositionBreak = getCenterPointForNextSymbol().x;
 
-        Rect breakRect = noteSheetCanvas.drawBitmap(resources, breakId, breakHeight, startXPositionBreak, noteSheetCanvas.getHeightHalf(), paint);
+        Rect breakRect = noteSheetCanvas.drawBitmap(resources, breakId, breakHeight, startXPositionBreak, noteSheetCanvas.getHalfHeight(), paint);
         drawPosition.setStartXPositionForNextElement(breakRect.right);
 
         return breakRect;

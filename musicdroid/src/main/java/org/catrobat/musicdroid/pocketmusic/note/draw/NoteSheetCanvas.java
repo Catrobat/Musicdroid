@@ -41,7 +41,7 @@ public class NoteSheetCanvas {
         this.canvas = canvas;
     }
 
-    public int getHeightHalf() {
+    public int getHalfHeight() {
         return getHeight() / 2;
     }
 

@@ -60,7 +60,7 @@ public class BreakDrawerTest extends AbstractDrawerTest {
 
         breakDrawer.drawSymbol(breakSymbol);
 
-        assertCanvasElementQueueBitmap(R.drawable.break_4, breakHeight, xPosition, noteSheetCanvas.getHeightHalf(), marked ? paintMarked : paintDefault);
+        assertCanvasElementQueueBitmap(R.drawable.break_4, breakHeight, xPosition, noteSheetCanvas.getHalfHeight(), marked ? paintMarked : paintDefault);
     }
 
     public void testDrawSymbolRect() {

@@ -45,14 +45,14 @@ public class SymbolDrawerTest extends AbstractDrawerTest {
     }
 
     public void testGetCenterPointForNextSymbol() {
-        Point expectedPoint = new Point(calculateStartX(symbolDrawer.getWidthForOneSymbol()), noteSheetCanvas.getHeightHalf());
+        Point expectedPoint = new Point(calculateStartX(symbolDrawer.getWidthForOneSymbol()), noteSheetCanvas.getHalfHeight());
         Point actualPoint = symbolDrawer.getCenterPointForNextSymbol();
 
         assertEquals(expectedPoint, actualPoint);
     }
 
     public void testGetCenterPointForNextSmallSymbol() {
-        Point expectedPoint = new Point(calculateStartX(symbolDrawer.getWidthForOneSmallSymbol()), noteSheetCanvas.getHeightHalf());
+        Point expectedPoint = new Point(calculateStartX(symbolDrawer.getWidthForOneSmallSymbol()), noteSheetCanvas.getHalfHeight());
         Point actualPoint = symbolDrawer.getCenterPointForNextSmallSymbol();
 
         assertEquals(expectedPoint, actualPoint);

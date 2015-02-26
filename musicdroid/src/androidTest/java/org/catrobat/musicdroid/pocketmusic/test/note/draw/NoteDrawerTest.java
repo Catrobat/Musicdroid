@@ -52,7 +52,7 @@ public class NoteDrawerTest extends AbstractDrawerTest {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(noteName);
         int xPositionForCross = noteDrawer.getCenterPointForNextSmallSymbolNoDrawPositionChange().x;
         int crossHeight = 2 * distanceBetweenLines;
-        int yPositionForCross = noteSheetCanvas.getHeightHalf() + NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName) * distanceBetweenLines / 2;
+        int yPositionForCross = noteSheetCanvas.getHalfHeight() + NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName) * distanceBetweenLines / 2;
 
         noteDrawer.drawCross(noteSymbol, paintDefault);
 
@@ -123,9 +123,9 @@ public class NoteDrawerTest extends AbstractDrawerTest {
     }
 
     private void assertHelpLines(SymbolPosition symbolPosition, Paint paint) {
-        float topEndOfNoteLines = noteSheetCanvas.getHeightHalf() -
+        float topEndOfNoteLines = noteSheetCanvas.getHalfHeight() -
                 distanceBetweenLines * NoteSheetDrawer.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
-        float bottomEndOfNoteLines = noteSheetCanvas.getHeightHalf() +
+        float bottomEndOfNoteLines = noteSheetCanvas.getHalfHeight() +
                 distanceBetweenLines * NoteSheetDrawer.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
 
         float topEndOfHelpLines = symbolPosition.getTop() + distanceBetweenLines / 2;
