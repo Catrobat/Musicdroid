@@ -20,26 +20,25 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.catrobat.musicdroid.pocketmusic.projectselection.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.TextView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 
-
 public class AboutDialog extends DialogFragment {
 
-    private TextView aboutMessageTextView;
-    private int screenHeight;
-
     public static AboutDialog newInstance(int title) {
-
         AboutDialog frag = new AboutDialog();
         Bundle args = new Bundle();
         frag.setArguments(args);
@@ -47,20 +46,21 @@ public class AboutDialog extends DialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle bundle) {
 
-        DisplayMetrics metrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        screenHeight = metrics.heightPixels;
-        aboutMessageTextView = new TextView(getActivity());
-        aboutMessageTextView.setHeight(screenHeight/2);
-        return new AlertDialog.Builder(getActivity())
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_about, null);
+        Dialog aboutDialog = new AlertDialog.Builder(getActivity())
+                .setView(view)
                 .setTitle(R.string.app_name)
-                .setView(aboutMessageTextView)
-                .setCancelable(false)
-                .create();
+                .setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                }).create();
+        aboutDialog.setCanceledOnTouchOutside(true);
+
+        return aboutDialog;
 
     }
-
 }
-
