@@ -25,6 +25,7 @@ package org.catrobat.musicdroid.pocketmusic.instrument;
 
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 
 public class TickProvider {
 
@@ -60,7 +61,8 @@ public class TickProvider {
         tick = track.getLastTick();
     }
 
-    public void increaseTick(NoteLength noteLength) {
-        tick += noteLength.toTicks(beatsPerMinute);
+    public void increaseTickByBreak(BreakSymbol breakSymbol)
+    {
+        tick += breakSymbol.getNoteLength().toTicks(beatsPerMinute);
     }
 }

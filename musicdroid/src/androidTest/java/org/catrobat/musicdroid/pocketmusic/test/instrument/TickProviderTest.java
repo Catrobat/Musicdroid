@@ -29,7 +29,9 @@ import org.catrobat.musicdroid.pocketmusic.instrument.TickProvider;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
+import org.catrobat.musicdroid.pocketmusic.test.note.symbol.BreakSymbolTestDataFactory;
 
 public class TickProviderTest extends AndroidTestCase {
 
@@ -71,10 +73,11 @@ public class TickProviderTest extends AndroidTestCase {
         assertEquals(expectedTick, actualTick);
     }
 
-    public void testIncreaseTick() {
+    public void testIncreaseTickByBreak() {
         NoteLength noteLength = NoteLength.QUARTER;
+        BreakSymbol breakSymbol = BreakSymbolTestDataFactory.createBreakSymbol(noteLength);
 
-        tickProvider.increaseTick(noteLength);
+        tickProvider.increaseTickByBreak(breakSymbol);
 
         assertEquals(noteLength.toTicks(Project.DEFAULT_BEATS_PER_MINUTE), tickProvider.getTick());
     }
