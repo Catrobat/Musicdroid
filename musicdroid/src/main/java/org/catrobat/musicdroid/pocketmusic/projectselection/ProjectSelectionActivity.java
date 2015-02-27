@@ -123,9 +123,9 @@ public class ProjectSelectionActivity extends Activity {
         }
 
         if (id == R.id.action_about) {
-             DialogFragment newFragment = AboutDialog.newInstance(R.string.app_name);
-             newFragment.show(getFragmentManager(), "dialog");
-             return true;
+            AboutDialog aboutDialog = new AboutDialog();
+            aboutDialog.show(getFragmentManager(), "dialog");
+            return true;
          }
 
         return super.onOptionsItemSelected(item);

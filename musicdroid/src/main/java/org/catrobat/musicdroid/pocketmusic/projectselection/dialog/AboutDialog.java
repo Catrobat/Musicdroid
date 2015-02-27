@@ -34,13 +34,6 @@ import org.catrobat.musicdroid.pocketmusic.R;
 
 public class AboutDialog extends DialogFragment {
 
-    public static AboutDialog newInstance(int title) {
-        AboutDialog frag = new AboutDialog();
-        Bundle args = new Bundle();
-        frag.setArguments(args);
-        return frag;
-    }
-
     @Override
     public Dialog onCreateDialog(Bundle bundle) {
 
@@ -48,7 +41,7 @@ public class AboutDialog extends DialogFragment {
         Dialog aboutDialog = new AlertDialog.Builder(getActivity())
                 .setView(view)
                 .setTitle(R.string.app_name)
-                .setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
+                .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
