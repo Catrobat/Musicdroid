@@ -29,6 +29,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.error.ErrorDialog;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.CopyProjectDialog;
@@ -40,7 +41,6 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
     private MenuItem editItem;
     private MenuItem copyItem;
     private MenuItem shareItem;
-
 
     public ProjectSelectionTapAndHoldContextMenu(ProjectSelectionActivity parentActivity) {
         parent = parentActivity;
@@ -69,7 +69,7 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
                 try {
                     runShareRoutine();
                 } catch (IOException | MidiException e) {
-                    e.printStackTrace();
+                    ErrorDialog.createDialog(R.string.share_error, e).show(parent.getFragmentManager(), "tag");
                 }
                 mode.finish();
                 return true;

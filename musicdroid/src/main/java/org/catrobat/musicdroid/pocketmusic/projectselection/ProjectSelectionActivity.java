@@ -32,6 +32,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.error.ErrorDialog;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
 import org.catrobat.musicdroid.pocketmusic.projectselection.io.IOHandler;
@@ -47,6 +48,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class ProjectSelectionActivity extends Activity {
+
     private ProjectSelectionFragment projectSelectionFragment;
     public static boolean inCallback = false;
     private ProjectSelectionContextMenu projectSelectionContextMenu;
@@ -166,12 +168,13 @@ public class ProjectSelectionActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data != null)
+        if (data != null) {
             try {
                 ioHandler.onReceive(requestCode, resultCode, new File(data.getData().getPath()));
                 Toast.makeText(this, getResources().getString(R.string.project_import_successful), Toast.LENGTH_LONG).show();
             } catch (Exception e) {
-                Toast.makeText(this, getResources().getString(R.string.project_import_failed), Toast.LENGTH_LONG).show();
+                ErrorDialog.createDialog(R.string.project_import_failed, e).show(getFragmentManager(), "tag");
             }
+        }
     }
 }

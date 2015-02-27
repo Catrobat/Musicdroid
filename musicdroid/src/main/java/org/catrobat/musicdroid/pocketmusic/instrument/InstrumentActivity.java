@@ -23,31 +23,23 @@
 package org.catrobat.musicdroid.pocketmusic.instrument;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.ToastDisplayer;
+import org.catrobat.musicdroid.pocketmusic.error.ErrorDialog;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.TrackMementoStack;
-import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
-import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
-import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.CopyProjectDialog;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.SaveProjectDialog;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
 import java.util.Locale;
 
 public abstract class InstrumentActivity extends Activity {
@@ -201,7 +193,7 @@ public abstract class InstrumentActivity extends Activity {
             midiPlayer.playTrack(this, getCacheDir(), track, Project.DEFAULT_BEATS_PER_MINUTE);
             ToastDisplayer.showPlayToast(getBaseContext());
         } catch (Exception e) {
-            Toast.makeText(getBaseContext(), R.string.action_play_midi_error, Toast.LENGTH_LONG).show();
+            ErrorDialog.createDialog(R.string.action_play_midi_error, e).show(getFragmentManager(), "tag");
         }
     }
 
@@ -219,7 +211,7 @@ public abstract class InstrumentActivity extends Activity {
                 converter.writeProjectAsMidi(project);
                 Toast.makeText(getBaseContext(), R.string.dialog_project_save_success, Toast.LENGTH_LONG).show();
             } catch (Exception e) {
-                Toast.makeText(getBaseContext(), R.string.dialog_project_name_exists_error, Toast.LENGTH_LONG).show();
+                ErrorDialog.createDialog(R.string.dialog_project_name_exists_error, e).show(getFragmentManager(), "tag");
             }
         } else {
             Bundle args = new Bundle();

@@ -26,7 +26,6 @@ package org.catrobat.musicdroid.pocketmusic.projectselection;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +34,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.error.ErrorDialog;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
@@ -85,7 +85,7 @@ public class ProjectSelectionFragment extends Fragment {
                 try {
                     projects.add(midiToProjectConverter.convertMidiFileToProject(new File(ProjectToMidiConverter.MIDI_FOLDER, aMidiFile)));
                 } catch (MidiException | IOException e) {
-                    e.printStackTrace();
+                    ErrorDialog.createDialog(R.string.midi_open, e).show(getFragmentManager(), "tag");
                 }
             }
         }

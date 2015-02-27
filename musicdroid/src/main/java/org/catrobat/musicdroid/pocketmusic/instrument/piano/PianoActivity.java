@@ -29,6 +29,7 @@ import android.view.MenuItem;
 import android.widget.HorizontalScrollView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.error.ErrorDialog;
 import org.catrobat.musicdroid.pocketmusic.instrument.edit.menu.EditModeContextMenu;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetView;
@@ -111,10 +112,8 @@ public class PianoActivity extends InstrumentActivity {
                 Project project = converter.convertMidiFileToProject(midiFile);
                 //TODO: consider more tracks
                 setTrack(project.getTrack(0));
-            } catch (MidiException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (MidiException | IOException e) {
+                ErrorDialog.createDialog(R.string.midi_open, e).show(getFragmentManager(), "tag");
             }
         }
     }
