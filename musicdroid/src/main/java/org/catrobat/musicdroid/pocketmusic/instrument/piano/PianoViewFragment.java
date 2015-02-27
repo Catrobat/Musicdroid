@@ -1,5 +1,6 @@
 package org.catrobat.musicdroid.pocketmusic.instrument.piano;
 
+import android.app.Fragment;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,23 +11,25 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import org.catrobat.musicdroid.pocketmusic.R;
-import org.catrobat.musicdroid.pocketmusic.instrument.AbstractPocketMusicFragment;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.Octave;
+import org.catrobat.musicdroid.pocketmusic.tools.DisplayMeasurements;
 
 import java.util.ArrayList;
 
-public class PianoViewFragment extends AbstractPocketMusicFragment {
+public class PianoViewFragment extends Fragment {
 
     public static int DEFAULT_INACTIVE_BLACK_KEY = 2;
     public static int DEFAULT_BLACK_KEY_HEIGHT_SCALE_FACTOR = 6;
     public static int DEFAULT_PIANO_KEY_WIDTH_SCALE_FACTOR = 0;
     public static int DEFAULT_LANDSCAPE_KEY_WIDTH_SCALE_FACTOR = 1;
 
-    protected ArrayList<Button> whiteButtons;
-    protected ArrayList<Button> blackButtons;
-    protected NoteName[] noteNames;
+    private ArrayList<Button> whiteButtons;
+    private ArrayList<Button> blackButtons;
+    private NoteName[] noteNames;
+
+    private DisplayMeasurements displayMeasurements;
 
     public PianoViewFragment() {
         whiteButtons = new ArrayList<>();
@@ -42,8 +45,9 @@ public class PianoViewFragment extends AbstractPocketMusicFragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         View rootView = inflater.inflate(R.layout.fragment_piano, container, false);
+        displayMeasurements = new DisplayMeasurements(getActivity());
 
-        rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (getDisplayHeight() - getActionBarHeight()) / 2));
+        rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, displayMeasurements.getHalfDisplayHeight()));
 
         findViewsById(rootView);
         prepareViewDependingOnOrientation();
@@ -52,7 +56,7 @@ public class PianoViewFragment extends AbstractPocketMusicFragment {
         return rootView;
     }
 
-    public void prepareViewDependingOnOrientation(){
+    public void prepareViewDependingOnOrientation() {
         if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
             calculatePianoKeyPositions(DEFAULT_LANDSCAPE_KEY_WIDTH_SCALE_FACTOR,
                     DEFAULT_BLACK_KEY_HEIGHT_SCALE_FACTOR);
@@ -101,7 +105,7 @@ public class PianoViewFragment extends AbstractPocketMusicFragment {
 
     public void calculatePianoKeyPositions(int pianoKeyWidthScaleFactor, int pianoBlackKeyHeightScaleFactor) {
 
-        int buttonWidth = getDisplayWidth() / (Octave.NUMBER_OF_UNSIGNED_HALF_TONE_STEPS_PER_OCTAVE + pianoKeyWidthScaleFactor);
+        int buttonWidth = displayMeasurements.getDisplayWidth() / (Octave.NUMBER_OF_UNSIGNED_HALF_TONE_STEPS_PER_OCTAVE + pianoKeyWidthScaleFactor);
 
         ArrayList<RelativeLayout.LayoutParams> blackKeyLayoutParams = new ArrayList<>();
         ArrayList<RelativeLayout.LayoutParams> whiteKeyLayoutParams = new ArrayList<>();
@@ -110,7 +114,7 @@ public class PianoViewFragment extends AbstractPocketMusicFragment {
         for (int i = 0; i < blackButtons.size(); i++) {
             blackKeyLayoutParams.add(new RelativeLayout.LayoutParams(
                     buttonWidth,
-                    getDisplayHeight() / pianoBlackKeyHeightScaleFactor
+                    displayMeasurements.getDisplayHeight() / pianoBlackKeyHeightScaleFactor
             ));
 
             blackKeyLayoutParams.get(i).setMargins((buttonWidth / 2) * ((i * 2) + 1), 0, 0, 0);

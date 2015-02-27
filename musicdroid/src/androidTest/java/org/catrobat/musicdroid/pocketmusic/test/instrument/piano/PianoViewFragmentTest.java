@@ -29,6 +29,7 @@ import android.widget.Button;
 
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoViewFragment;
+import org.catrobat.musicdroid.pocketmusic.tools.DisplayMeasurements;
 
 public class PianoViewFragmentTest extends ActivityInstrumentationTestCase2<PianoActivity> {
 
@@ -56,7 +57,8 @@ public class PianoViewFragmentTest extends ActivityInstrumentationTestCase2<Pian
     }
 
     private void assertButtonPosition(int keyWidthScaleFactor, int keysPerOctave) {
-        int buttonWidth = pianoViewFragment.getDisplayWidth() / (keysPerOctave + keyWidthScaleFactor);
+        DisplayMeasurements displayMeasurements = new DisplayMeasurements(getActivity());
+        int buttonWidth = displayMeasurements.getDisplayWidth() / (keysPerOctave + keyWidthScaleFactor);
 
         for (int i = 0; i < pianoViewFragment.getBlackButtonCount(); i++)
             assertEquals(pianoViewFragment.getBlackButtonAtIndex(i).getWidth(), buttonWidth);
