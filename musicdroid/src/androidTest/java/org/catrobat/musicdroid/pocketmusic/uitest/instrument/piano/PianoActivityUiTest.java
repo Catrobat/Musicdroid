@@ -24,6 +24,7 @@
 package org.catrobat.musicdroid.pocketmusic.uitest.instrument.piano;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.View;
 
 import com.robotium.solo.Solo;
 
@@ -32,6 +33,7 @@ import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.test.note.ProjectTestDataFactory;
@@ -41,7 +43,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoActivity> {
 
     private static final String PIANO_BUTTON = "C";
@@ -133,10 +134,34 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
     public void testPlayMidi() throws InterruptedException {
         clickSomePianoButtonsForLargeTrack();
-        solo.clickOnActionBarItem(R.id.action_play_midi);
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
         Thread.sleep(100);
-
         assertTrue(pianoActivity.getMidiPlayer().isPlaying());
+    }
+
+    public void testPlayButtonShown() {
+        assertTrue(solo.getCurrentActivity().getResources().getDrawable(R.drawable.ic_action_play).isVisible());
+    }
+
+    public void testStopButtonShown() {
+        clickSomePianoButtonsForLargeTrack();
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
+        assertTrue(solo.getCurrentActivity().getResources().getDrawable(R.drawable.ic_action_stop).isVisible());
+    }
+
+    public void testPlayButtonShownAfterStop() {
+        clickSomePianoButtonsForLargeTrack();
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
+        assertTrue(solo.getCurrentActivity().getResources().getDrawable(R.drawable.ic_action_play).isVisible());
+    }
+
+    public void testStopMidi() {
+        clickSomePianoButtonsForLargeTrack();
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
+        solo.waitForText(pianoActivity.getString(R.string.action_midi_stopped));
+        assertFalse(pianoActivity.getMidiPlayer().isPlaying());
     }
 
     private void clickSomePianoButtonsForLargeTrack() {
@@ -148,14 +173,14 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     }
 
     public void testPlayMidiEmptyTrack() {
-        solo.clickOnActionBarItem(R.id.action_play_midi);
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
 
         assertFalse(pianoActivity.getMidiPlayer().isPlaying());
     }
 
     public void testPlayMidiFinishedPlaying() throws InterruptedException {
         solo.clickOnButton(PIANO_BUTTON);
-        solo.clickOnActionBarItem(R.id.action_play_midi);
+        solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
         solo.waitForDialogToOpen();
         solo.waitForDialogToClose();
 
@@ -190,10 +215,45 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         assertEquals(expectedTextViewText, actualTextViewText);
     }
 
-    public void testEditMode() {
-        solo.clickOnButton(PIANO_BUTTON);
-        solo.clickLongOnView(pianoActivity.getNoteSheetView());
+    public void testEditModeDelete() {
+        enterEditModeWithOneMarkedSymbol();
 
         assertTrue(PianoActivity.inCallback);
+
+        Project project = pianoActivity.getTrack().getProject();
+        int id = pianoActivity.getTrack().getId();
+
+        clickDeleteInEditMode();
+
+        assertFalse(PianoActivity.inCallback);
+        assertEquals(0, pianoActivity.getNoteSheetViewFragment().getSymbols().size());
+        assertEquals(project, pianoActivity.getTrack().getProject());
+        assertEquals(id, pianoActivity.getTrack().getId());
+        assertEquals(0, pianoActivity.getNoteSheetView().getMarkedSymbolCount());
+    }
+
+    public void testEditModeDeleteUndo() {
+        enterEditModeWithOneMarkedSymbol();
+        clickDeleteInEditMode();
+
+        solo.clickOnActionBarItem(R.id.action_undo_midi);
+
+        assertEquals(1, pianoActivity.getNoteSheetViewFragment().getSymbols().size());
+    }
+
+    private void enterEditModeWithOneMarkedSymbol() {
+        solo.clickOnButton(PIANO_BUTTON);
+
+        solo.sleep(1000);
+
+        pianoActivity.getNoteSheetViewFragment().getSymbols().get(0).setMarked(true);
+        solo.clickLongOnView(pianoActivity.getNoteSheetView());
+    }
+
+    private void clickDeleteInEditMode() {
+        View v = getActivity().findViewById(R.id.edit_callback_action_delete_project);
+        solo.clickOnView(v);
+
+        solo.sleep(1000);
     }
 }

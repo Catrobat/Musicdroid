@@ -28,6 +28,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.ToastDisplayer;
 import org.catrobat.musicdroid.pocketmusic.error.ErrorDialog;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
@@ -97,9 +98,13 @@ public abstract class InstrumentActivity extends Activity {
         super.onResume();
     }
 
-    protected void setTrack(Track track) {
+    public void setTrack(Track track) {
         this.track = track;
         tickProvider.setTickBasedOnTrack(track);
+    }
+
+    public void pushMemento(Track track) {
+        mementoStack.pushMemento(track);
     }
 
     public Track getTrack() {
@@ -144,8 +149,16 @@ public abstract class InstrumentActivity extends Activity {
         } else if (id == R.id.action_clear_midi) {
             onActionDeleteMidi();
             return true;
-        } else if (id == R.id.action_play_midi) {
-            onActionPlayMidi();
+        } else if (id == R.id.action_play_and_stop_midi) {
+            if(!getMidiPlayer().isPlaying()) {
+                item.setIcon(R.drawable.ic_action_stop);
+                item.setTitle(R.string.action_stop_midi);
+                onActionPlayMidi();
+            } else {
+                item.setIcon(R.drawable.ic_action_play);
+                item.setTitle(R.string.action_play_midi);
+                onActionStopMidi();
+            }
             return true;
         }
 
@@ -178,9 +191,15 @@ public abstract class InstrumentActivity extends Activity {
 
         try {
             midiPlayer.playTrack(this, getCacheDir(), track, Project.DEFAULT_BEATS_PER_MINUTE);
+            ToastDisplayer.showPlayToast(getBaseContext());
         } catch (Exception e) {
             ErrorDialog.createDialog(R.string.action_play_midi_error, e).show(getFragmentManager(), "tag");
         }
+    }
+
+    private void onActionStopMidi() {
+        midiPlayer.stop();
+        ToastDisplayer.showStopToast(getBaseContext());
     }
 
     private void saveMidiFileByUserInput() {

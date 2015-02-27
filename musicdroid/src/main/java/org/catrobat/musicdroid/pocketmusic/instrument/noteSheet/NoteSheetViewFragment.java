@@ -37,6 +37,9 @@ import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+
+import java.util.List;
 
 public  class NoteSheetViewFragment extends Fragment {
 
@@ -71,6 +74,7 @@ public  class NoteSheetViewFragment extends Fragment {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (PianoActivity.inCallback) {
                     noteSheetView.onEditMode(motionEvent);
+                    ((PianoActivity) getActivity()).notifyCheckedItemStateChanged();
                 }
 
                 return false;
@@ -93,7 +97,7 @@ public  class NoteSheetViewFragment extends Fragment {
 
     public void redraw(Track track) {
         noteSheetView.redraw(track);
-        trackSizeTextView.setText(track.size()/2 +" / " + InstrumentActivity.MAX_TRACK_SIZE_IN_SYMBOLS);
+        setTrackSizeText();
     }
 
     public String getTrackSizeTextViewText(){
@@ -118,5 +122,22 @@ public  class NoteSheetViewFragment extends Fragment {
 
     public void resetSymbolMarkers() {
         noteSheetView.resetSymbolMarkers();
+    }
+
+    public List<Symbol> getSymbols() {
+        return noteSheetView.getSymbols();
+    }
+
+    public int getMarkedSymbolCount() {
+        return noteSheetView.getMarkedSymbolCount();
+    }
+
+    public void deleteMarkedSymbols() {
+        noteSheetView.deleteMarkedSymbols();
+        setTrackSizeText();
+    }
+
+    private void setTrackSizeText() {
+        trackSizeTextView.setText(noteSheetView.getSymbols().size() +" / " + InstrumentActivity.MAX_TRACK_SIZE_IN_SYMBOLS);
     }
 }

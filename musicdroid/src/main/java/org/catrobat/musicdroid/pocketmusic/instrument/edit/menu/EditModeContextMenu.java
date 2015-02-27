@@ -28,11 +28,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetViewFragment;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
+import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolsToTrackConverter;
 
 public class EditModeContextMenu implements ActionMode.Callback {
 
     private PianoActivity parent;
+    private ActionMode actionMode;
 
     public EditModeContextMenu(PianoActivity parent) {
         this.parent = parent;
@@ -40,6 +44,7 @@ public class EditModeContextMenu implements ActionMode.Callback {
 
     @Override
     public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+        this.actionMode = actionMode;
         parent.getMenuInflater().inflate(R.menu.menu_project_edit_callback, menu);
 
         PianoActivity.inCallback = true;
@@ -56,7 +61,8 @@ public class EditModeContextMenu implements ActionMode.Callback {
     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.edit_callback_action_delete_project:
-                // TODO
+                onActionDelete();
+                actionMode.finish();
                 return true;
             default:
                 return false;
@@ -67,5 +73,26 @@ public class EditModeContextMenu implements ActionMode.Callback {
     public void onDestroyActionMode(ActionMode actionMode) {
         PianoActivity.inCallback = false;
         parent.resetSymbolMarkers();
+    }
+
+    public void checkedItemStateChanged() {
+        actionMode.setTitle("" + parent.getNoteSheetViewFragment().getMarkedSymbolCount());
+    }
+
+    private void onActionDelete() {
+        NoteSheetViewFragment noteSheetViewFragment = parent.getNoteSheetViewFragment();
+        Track track = parent.getTrack();
+        SymbolsToTrackConverter converter = new SymbolsToTrackConverter();
+
+        noteSheetViewFragment.deleteMarkedSymbols();
+
+        Track newTrack = converter.convertSymbols(noteSheetViewFragment.getSymbols(), track.getKey(), track.getInstrument(), track.getBeatsPerMinute());
+        newTrack.setProject(track.getProject());
+        newTrack.setId(track.getId());
+
+        parent.pushMemento(track);
+        parent.setTrack(newTrack);
+
+        noteSheetViewFragment.resetSymbolMarkers();
     }
 }
