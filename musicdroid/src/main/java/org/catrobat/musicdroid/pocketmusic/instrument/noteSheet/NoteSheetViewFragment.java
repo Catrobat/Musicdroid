@@ -23,12 +23,7 @@
 
 package org.catrobat.musicdroid.pocketmusic.instrument.noteSheet;
 
-import android.app.Fragment;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.TypedValue;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,14 +31,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.instrument.AbstractPocketMusicFragment;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 
-public  class NoteSheetViewFragment extends Fragment {
-
-    public static int X_POS = 0;
-    public static int Y_POS = 1;
+public class NoteSheetViewFragment extends AbstractPocketMusicFragment {
 
     private NoteSheetView noteSheetView;
     private TextView trackSizeTextView;
@@ -82,42 +75,17 @@ public  class NoteSheetViewFragment extends Fragment {
         return rootView;
     }
 
-    private int getActionBarHeight(){
-        TypedValue tv = new TypedValue();
-        getActivity().getApplicationContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
-        return getResources().getDimensionPixelSize(tv.resourceId);
-    }
-
-    private int[] initializeDisplay() {
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int[] widthAndHeight = new int[2];
-        widthAndHeight[0] = size.x;
-        widthAndHeight[1] = size.y;
-
-        return widthAndHeight;
-    }
-
     public void redraw(Track track) {
         noteSheetView.redraw(track);
-        trackSizeTextView.setText(track.size()/2 +" / " + InstrumentActivity.MAX_TRACK_SIZE_IN_SYMBOLS);
+        trackSizeTextView.setText(track.size() / 2 + " / " + InstrumentActivity.MAX_TRACK_SIZE_IN_SYMBOLS);
     }
 
-    public String getTrackSizeTextViewText(){
+    public String getTrackSizeTextViewText() {
         return trackSizeTextView.getText().toString();
     }
 
     public NoteSheetView getNoteSheetView() {
         return noteSheetView;
-    }
-
-    public int getDisplayWidth() {
-        return initializeDisplay()[X_POS];
-    }
-
-    public int getDisplayHeight() {
-        return initializeDisplay()[Y_POS];
     }
 
     public boolean checkForScrollAndRecalculateWidth() {

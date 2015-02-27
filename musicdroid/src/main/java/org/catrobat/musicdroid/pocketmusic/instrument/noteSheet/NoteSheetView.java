@@ -92,7 +92,7 @@ public class NoteSheetView extends View {
         int screenHeight = displayMetrics.heightPixels;
 
         if(noteSheetDrawer == null) {
-            setMeasuredDimension(screenWidth, screenHeight / 2);
+            setMeasuredDimension(screenWidth, (screenHeight / 2) - 100);
         } else {
             int trackWidth = noteSheetDrawer.getWidthForDrawingTrack();
             if (trackWidth < screenWidth) {
