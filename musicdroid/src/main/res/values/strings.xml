@@ -93,4 +93,7 @@
 
     <string name="midi_open">Could not open MIDI file!</string>
     <string name="share_error">Could not share file!</string>
+
+    <string name="error_dialog_title">Error</string>
+    <string name="error_dialog_detail">Detail:</string>
 </resources>

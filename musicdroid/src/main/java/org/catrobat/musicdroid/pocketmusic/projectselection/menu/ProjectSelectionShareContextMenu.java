@@ -26,9 +26,9 @@ package org.catrobat.musicdroid.pocketmusic.projectselection.menu;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.error.ErrorDialog;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
 
@@ -45,7 +45,7 @@ public class ProjectSelectionShareContextMenu extends ProjectSelectionContextMen
         try {
             runShareRoutine();
         } catch (IOException | MidiException e) {
-            Toast.makeText(parent.getBaseContext(), R.string.share_error, Toast.LENGTH_LONG).show();
+            ErrorDialog.createDialog(R.string.share_error, e).show(parent.getFragmentManager(), "tag");
         }
         actionMode.finish();
     }

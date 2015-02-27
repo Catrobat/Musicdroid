@@ -116,7 +116,7 @@ public class AbstractProjectNameDialogMock extends AbstractProjectNameDialog {
     }
 
     @Override
-    public void makeToastText(int resId, int toastLength) {
+    protected void makeToastText(int resId, int toastLength) {
         toastTexts.add(toToastText(resId, toastLength));
     }
 }

@@ -32,6 +32,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.error.ErrorDialog;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
 import org.catrobat.musicdroid.pocketmusic.projectselection.io.IOHandler;
@@ -172,7 +173,7 @@ public class ProjectSelectionActivity extends Activity {
                 ioHandler.onReceive(requestCode, resultCode, new File(data.getData().getPath()));
                 Toast.makeText(this, getResources().getString(R.string.project_import_successful), Toast.LENGTH_LONG).show();
             } catch (Exception e) {
-                Toast.makeText(this, getResources().getString(R.string.project_import_failed), Toast.LENGTH_LONG).show();
+                ErrorDialog.createDialog(R.string.project_import_failed, e).show(getFragmentManager(), "tag");
             }
         }
     }
