@@ -202,9 +202,8 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
     }
 
     public void testAboutDialog() throws IOException {
-        String appName="Musicdroid";
-        solo.clickOnMenuItem("About");
+        solo.clickOnMenuItem(getActivity().getResources().getString(R.string.action_project_about));
         solo.waitForDialogToOpen();
-        assertTrue(solo.searchText(appName));
+        assertTrue(solo.searchText(getActivity().getResources().getString(R.string.about_Dialog)));
     }
 }
