@@ -52,6 +52,7 @@ public class PianoActivity extends InstrumentActivity {
     private PianoViewFragment pianoViewFragment;
     private NoteSheetViewFragment noteSheetViewFragment;
     private AdditionalSettingsFragment additionalSettingsFragment;
+    private BreakViewFragment breakViewFragment;
 
     private EditModeContextMenu editModeContextMenu;
 
@@ -84,17 +85,27 @@ public class PianoActivity extends InstrumentActivity {
         handleExtras();
         noteSheetViewFragment = new NoteSheetViewFragment();
         pianoViewFragment = new PianoViewFragment();
+        breakViewFragment = new BreakViewFragment();
         additionalSettingsFragment = new AdditionalSettingsFragment();
 
         if (savedInstanceState != null) {
             getFragmentManager().beginTransaction().replace(R.id.notesheetview_fragment_holder, noteSheetViewFragment).commit();
             getFragmentManager().beginTransaction().replace(R.id.additional_options_holder, additionalSettingsFragment).commit();
             getFragmentManager().beginTransaction().replace(R.id.pianoview_fragment_holder, pianoViewFragment).commit();
+
         } else {
             getFragmentManager().beginTransaction().add(R.id.notesheetview_fragment_holder, noteSheetViewFragment).commit();
             getFragmentManager().beginTransaction().add(R.id.additional_options_holder, additionalSettingsFragment).commit();
             getFragmentManager().beginTransaction().add(R.id.pianoview_fragment_holder, pianoViewFragment).commit();
         }
+    }
+
+    public void switchToBreakView(){
+        getFragmentManager().beginTransaction().replace(R.id.pianoview_fragment_holder, breakViewFragment).commit();
+    }
+
+    public void switchToPianoView(){
+        getFragmentManager().beginTransaction().replace(R.id.pianoview_fragment_holder, pianoViewFragment).commit();
     }
 
     private void handleExtras() {

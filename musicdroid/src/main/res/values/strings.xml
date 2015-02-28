@@ -24,6 +24,8 @@
 <resources>
 
     <string name="app_name">Musicdroid</string>
+    <string name="arrow_down">v</string>
+    <string name="arrow_left">&#60;</string>
     <string name="splash_screen_logo_content_description">Logo</string>string>
     <string name="action_undo_midi">Undo</string>
     <string name="action_play_midi">Play</string>
@@ -87,4 +89,9 @@
     <string name="dialog_project_save_success">Save successful!</string>
     <string name="dialog_project_save_cancel">Save canceled!</string>
     <string name="dialog_project_save_error">Save failed!</string>
+
+    <string name="break_1_4">1/4</string>
+    <string name="break_1_8">1/8</string>
+    <string name="break_1_16">1/16</string>
+
 </resources>

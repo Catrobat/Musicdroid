@@ -32,9 +32,6 @@ public class PianoViewFragment extends Fragment {
     private DisplayMeasurements displayMeasurements;
 
     public PianoViewFragment() {
-        whiteButtons = new ArrayList<>();
-        blackButtons = new ArrayList<>();
-
         Octave octave = Octave.createOneLineOctave();
         noteNames = octave.getNoteNames();
     }
@@ -46,6 +43,9 @@ public class PianoViewFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_piano, container, false);
         displayMeasurements = new DisplayMeasurements(getActivity());
+        whiteButtons = new ArrayList<>();
+        blackButtons = new ArrayList<>();
+
 
         rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, displayMeasurements.getHalfDisplayHeight()));
 

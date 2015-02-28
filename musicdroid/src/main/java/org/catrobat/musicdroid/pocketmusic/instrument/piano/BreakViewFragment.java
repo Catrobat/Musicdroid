@@ -24,46 +24,24 @@
 package org.catrobat.musicdroid.pocketmusic.instrument.piano;
 
 import android.app.Fragment;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 
-public class AdditionalSettingsFragment extends Fragment {
+public class BreakViewFragment extends Fragment {
 
-    private Button switchToBreakViewButton;
-    private boolean pianoViewVisible = true;
-    private PianoActivity pianoActivity;
-
-    public AdditionalSettingsFragment() {
+    public BreakViewFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View rootView = inflater.inflate(R.layout.fragment_additional_piano_settings, container, false);
-        pianoActivity = (PianoActivity) getActivity();
 
-        switchToBreakViewButton = (Button) rootView.findViewById(R.id.switch_to_break_button);
-        switchToBreakViewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(pianoViewVisible) {
-                    pianoActivity.switchToBreakView();
-                    pianoViewVisible = false;
-                }
-                else {
-                    pianoActivity.switchToPianoView();
-                    pianoViewVisible = true;
-                }
-            }
-        });
+        View rootView = inflater.inflate(R.layout.fragment_break, container, false);
 
         return rootView;
     }

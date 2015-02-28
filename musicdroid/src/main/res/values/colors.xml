@@ -24,6 +24,7 @@
 
 <resources >
     <color name="list_view_item_background_color_selected" >#4D7F8F</color >
-        <color name="list_view_item_background_color" >#ff000000</color >
+    <color name="additional_settings_button_background" >#ff1f4e8f</color >
+    <color name="list_view_item_background_color" >#ff000000</color >
 
 </resources >

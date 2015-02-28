@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Musicdroid: An on-device music generator for Android
+  ~ Copyright (C) 2010-2015 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false" >
+    <RelativeLayout
+        android:layout_weight="0.33"
+        android:layout_height="match_parent"
+        android:layout_width="0dp">
+        <ImageButton android:id="@+id/break_4_button"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/break_4"
+            android:layout_centerInParent="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/break_1_4"/>
+    </RelativeLayout>
+        <RelativeLayout
+            android:layout_weight="0.33"
+            android:layout_height="match_parent"
+            android:layout_width="0dp">
+            <ImageButton android:id="@+id/break_8_button"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/break_8"
+                android:layout_centerInParent="true"/>
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_centerHorizontal="true"
+                 android:text="@string/break_1_8"/>
+    </RelativeLayout>
+        <RelativeLayout
+            android:layout_weight="0.33"
+            android:layout_height="match_parent"
+            android:layout_width="0dp">
+            <ImageButton android:id="@+id/break_16_button"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/break_16"
+                android:layout_centerInParent="true"/>
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_centerHorizontal="true"
+                 android:text="@string/break_1_16"/>
+    </RelativeLayout>
+</LinearLayout >
