@@ -25,13 +25,23 @@ package org.catrobat.musicdroid.pocketmusic.instrument.piano;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
+import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 
 public class BreakViewFragment extends Fragment {
+
+    private ImageButton break14Button;
+    private ImageButton break18Button;
+    private ImageButton break116Button;
 
     public BreakViewFragment() {
     }
@@ -43,6 +53,24 @@ public class BreakViewFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_break, container, false);
 
+        break14Button = (ImageButton) rootView.findViewById(R.id.break_4_button);
+        break18Button = (ImageButton) rootView.findViewById(R.id.break_8_button);
+        break116Button = (ImageButton) rootView.findViewById(R.id.break_16_button);
+
+        setOnTouchListeners();
+
         return rootView;
     }
+
+    public void setOnTouchListeners() {
+        break14Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PianoActivity pianoActivity = (PianoActivity)getActivity();
+                pianoActivity.addBreak(new BreakSymbol(NoteLength.QUARTER), pianoActivity.getNoteSheetView());
+            }
+        });
+    }
+
+
 }

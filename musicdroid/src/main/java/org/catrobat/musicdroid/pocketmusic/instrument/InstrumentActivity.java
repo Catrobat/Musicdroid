@@ -28,6 +28,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetView;
+import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
@@ -36,6 +38,7 @@ import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.TrackMementoStack;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.SaveProjectDialog;
 
 import java.util.Locale;
@@ -95,7 +98,7 @@ public abstract class InstrumentActivity extends FragmentActivity {
         super.onResume();
     }
 
-    protected void setTrack(Track track) {
+    public void setTrack(Track track) {
         this.track = track;
         tickProvider.setTickBasedOnTrack(track);
     }
@@ -125,6 +128,11 @@ public abstract class InstrumentActivity extends FragmentActivity {
 
         track.addNoteEvent(tickProvider.getTick(), noteEvent);
         redraw();
+    }
+
+    public void addBreak(BreakSymbol breakSymbol, NoteSheetView noteSheetView) {
+        noteSheetView.addBreakToSymbols(breakSymbol, track);
+        tickProvider.increaseTickByBreak(breakSymbol);
     }
 
     @Override
@@ -217,5 +225,9 @@ public abstract class InstrumentActivity extends FragmentActivity {
         }
     }
 
-    protected abstract void redraw();
+    public abstract void redraw();
+
+    public void pushMemento(Track track) {
+        mementoStack.pushMemento(track);
+    }
 }

@@ -134,7 +134,7 @@ public class PianoActivity extends InstrumentActivity {
     }
 
     @Override
-    protected void redraw() {
+    public void redraw() {
         noteSheetViewFragment.redraw(getTrack());
     }
 

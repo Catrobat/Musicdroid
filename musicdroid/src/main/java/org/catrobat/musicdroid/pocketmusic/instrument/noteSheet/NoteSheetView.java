@@ -27,6 +27,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -37,7 +38,9 @@ import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.draw.DrawElementsTouchDetector;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolsToTrackConverter;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
 import org.catrobat.musicdroid.pocketmusic.tools.DisplayMeasurements;
 
@@ -133,5 +136,21 @@ public class NoteSheetView extends View {
         }
 
         invalidate();
+    }
+
+    public void addBreakToSymbols(BreakSymbol breakSymbol, Track track){
+
+        symbols.add(breakSymbol);
+
+        SymbolsToTrackConverter converter = new SymbolsToTrackConverter();
+
+        Track newTrack = converter.convertSymbols(symbols, track.getKey(), track.getInstrument(), track.getBeatsPerMinute());
+        newTrack.setProject(track.getProject());
+        newTrack.setId(track.getId());
+
+        ((PianoActivity)getContext()).pushMemento(track);
+        ((PianoActivity)getContext()).setTrack(newTrack);
+        ((PianoActivity)getContext()).redraw();
+
     }
 }
