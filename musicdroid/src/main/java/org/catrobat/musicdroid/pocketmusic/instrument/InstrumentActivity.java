@@ -39,6 +39,7 @@ import org.catrobat.musicdroid.pocketmusic.note.TrackMementoStack;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolsToTrackConverter;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.SaveProjectDialog;
 
 import java.util.Locale;
@@ -131,7 +132,16 @@ public abstract class InstrumentActivity extends FragmentActivity {
     }
 
     public void addBreak(BreakSymbol breakSymbol, NoteSheetView noteSheetView) {
-        noteSheetView.addBreakToSymbols(breakSymbol, track);
+        mementoStack.pushMemento(track);
+        noteSheetView.addBreak(breakSymbol);
+
+        SymbolsToTrackConverter converter = new SymbolsToTrackConverter();
+
+        Track newTrack = converter.convertSymbols(noteSheetView.getSymbols(), track.getKey(), track.getInstrument(), track.getBeatsPerMinute());
+        newTrack.setProject(track.getProject());
+        newTrack.setId(track.getId());
+
+        track = newTrack;
         tickProvider.increaseTickByBreak(breakSymbol);
     }
 
@@ -225,9 +235,5 @@ public abstract class InstrumentActivity extends FragmentActivity {
         }
     }
 
-    public abstract void redraw();
-
-    public void pushMemento(Track track) {
-        mementoStack.pushMemento(track);
-    }
+    protected abstract void redraw();
 }

@@ -63,14 +63,27 @@ public class BreakViewFragment extends Fragment {
     }
 
     public void setOnTouchListeners() {
+        final PianoActivity pianoActivity = (PianoActivity) getActivity();
+
         break14Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PianoActivity pianoActivity = (PianoActivity)getActivity();
                 pianoActivity.addBreak(new BreakSymbol(NoteLength.QUARTER), pianoActivity.getNoteSheetView());
             }
         });
+
+        break18Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pianoActivity.addBreak(new BreakSymbol(NoteLength.EIGHT), pianoActivity.getNoteSheetView());
+            }
+        });
+
+        break116Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pianoActivity.addBreak(new BreakSymbol(NoteLength.SIXTEENTH), pianoActivity.getNoteSheetView());
+            }
+        });
     }
-
-
 }

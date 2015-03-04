@@ -68,7 +68,10 @@ public class NoteSheetView extends View {
         symbols = new LinkedList<Symbol>();
         key = MusicalKey.VIOLIN;
         widthBeforeResize = getWidth();
-        displayMeasurements = new DisplayMeasurements((Activity) getContext());
+
+        if (context instanceof Activity) {
+            displayMeasurements = new DisplayMeasurements((Activity) getContext());
+        }
     }
 
     public boolean checkForScrollAndRecalculateWidth() {
@@ -138,19 +141,13 @@ public class NoteSheetView extends View {
         invalidate();
     }
 
-    public void addBreakToSymbols(BreakSymbol breakSymbol, Track track){
-
+    public void addBreak(BreakSymbol breakSymbol){
         symbols.add(breakSymbol);
 
-        SymbolsToTrackConverter converter = new SymbolsToTrackConverter();
+        invalidate();
+    }
 
-        Track newTrack = converter.convertSymbols(symbols, track.getKey(), track.getInstrument(), track.getBeatsPerMinute());
-        newTrack.setProject(track.getProject());
-        newTrack.setId(track.getId());
-
-        ((PianoActivity)getContext()).pushMemento(track);
-        ((PianoActivity)getContext()).setTrack(newTrack);
-        ((PianoActivity)getContext()).redraw();
-
+    public List<Symbol> getSymbols() {
+        return symbols;
     }
 }

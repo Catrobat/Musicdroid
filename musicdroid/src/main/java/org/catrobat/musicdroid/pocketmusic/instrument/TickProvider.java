@@ -61,8 +61,7 @@ public class TickProvider {
         tick = track.getLastTick();
     }
 
-    public void increaseTickByBreak(BreakSymbol breakSymbol)
-    {
+    public void increaseTickByBreak(BreakSymbol breakSymbol) {
         tick += breakSymbol.getNoteLength().toTicks(beatsPerMinute);
     }
 }
