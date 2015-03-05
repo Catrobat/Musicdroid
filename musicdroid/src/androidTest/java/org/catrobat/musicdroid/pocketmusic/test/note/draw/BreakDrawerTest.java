@@ -64,23 +64,41 @@ public class BreakDrawerTest extends AbstractDrawerTest {
     }
 
     public void testDrawSymbolRect() {
-        testDrawSymbolRect(false);
+        testDrawSymbolRect(NoteLength.HALF, false);
+    }
+
+    public void testDrawSymbolRect2() {
+        testDrawSymbolRect(NoteLength.WHOLE, false);
     }
 
     public void testDrawSymbolRectMarked() {
-        testDrawSymbolRect(true);
+        testDrawSymbolRect(NoteLength.HALF, true);
     }
 
-    private void testDrawSymbolRect(boolean marked) {
-        BreakSymbol breakSymbol = BreakSymbolTestDataFactory.createBreakSymbol(NoteLength.HALF);
+    public void testDrawSymbolRectMarked2() {
+        testDrawSymbolRect(NoteLength.WHOLE, true);
+    }
+
+    private void testDrawSymbolRect(NoteLength noteLength, boolean marked) {
+        BreakSymbol breakSymbol = BreakSymbolTestDataFactory.createBreakSymbol(noteLength);
         breakSymbol.setMarked(marked);
 
         Point centerPoint = breakDrawer.getCenterPointForNextSymbolNoDrawPositionChange();
         int breakWidthHalf = distanceBetweenLines / 2;
         int startX = centerPoint.x - breakWidthHalf;
-        int startY = centerPoint.y - breakWidthHalf;
         int stopX = centerPoint.x + breakWidthHalf;
-        int stopY = centerPoint.y;
+
+        int startY = 0;
+        int stopY = 0;
+
+        if (NoteLength.HALF == noteLength) {
+            startY = centerPoint.y - breakWidthHalf;
+            stopY = centerPoint.y;
+        } else if (NoteLength.WHOLE == noteLength) {
+            startY = centerPoint.y;
+            stopY = centerPoint.y + breakWidthHalf;
+        }
+
 
         breakDrawer.drawSymbol(breakSymbol);
 
