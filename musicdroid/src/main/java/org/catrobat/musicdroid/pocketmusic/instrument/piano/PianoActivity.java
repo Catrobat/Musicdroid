@@ -29,6 +29,7 @@ import android.view.MenuItem;
 import android.widget.HorizontalScrollView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.error.ErrorDialog;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.edit.menu.EditModeContextMenu;
 import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetView;
@@ -72,6 +73,10 @@ public class PianoActivity extends InstrumentActivity {
         return noteSheetViewFragment.getNoteSheetView();
     }
 
+    public NoteSheetViewFragment getNoteSheetViewFragment() {
+        return noteSheetViewFragment;
+    }
+
     public String getTrackSizeString() {
         return noteSheetViewFragment.getTrackSizeTextViewText();
     }
@@ -79,6 +84,10 @@ public class PianoActivity extends InstrumentActivity {
     public void startEditMode() {
         editModeContextMenu = new EditModeContextMenu(this);
         startActionMode(editModeContextMenu);
+    }
+
+    public void notifyCheckedItemStateChanged() {
+        editModeContextMenu.checkedItemStateChanged();
     }
 
     @Override
@@ -142,10 +151,8 @@ public class PianoActivity extends InstrumentActivity {
                     Project project = converter.convertMidiFileToProject(midiFile);
                     //TODO: consider more tracks
                     setTrack(project.getTrack(0));
-                } catch (MidiException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (MidiException | IOException e) {
+                    ErrorDialog.createDialog(R.string.midi_open, e).show(getFragmentManager(), "tag");
                 }
                 getIntent().removeExtra(ProjectSelectionActivity.INTENT_EXTRA_FILE_NAME);
             }

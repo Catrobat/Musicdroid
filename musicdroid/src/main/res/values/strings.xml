@@ -29,6 +29,10 @@
     <string name="splash_screen_logo_content_description">Logo</string>string>
     <string name="action_undo_midi">Undo</string>
     <string name="action_play_midi">Play</string>
+    <string name="action_stop_midi">Stop</string>
+    <string name="action_midi_playing">Playing</string>
+    <string name="action_midi_stopped">Stopped</string>
+    <string name="action_midi_finished">Done</string>
     <string name="action_play_midi_error">Could not start playing</string>
     <string name="action_play_midi_dialog_stop">Stop</string>
     <string name="action_save_midi_title">Save Project</string>
@@ -52,13 +56,15 @@
     <string name="action_project_edit">Edit</string>
     <string name="action_project_about">About</string>
     <string name="action_project_import">Import</string>
-    <string name="action_project_export">Export</string>
+    <string name="action_project_share">Share</string>
     <string name="action_project_delete">Delete</string>
     <string name="action_project_refresh">Refresh</string>
     <string name="project_name">Project name:&#160;</string>
     <string name="project_duration">Duration:&#160;</string>
     <string name="project_selection_delete_menu_title">Select items to delete</string>
     <string name="project_selection_edit_menu_title">Select an item to edit</string>
+    <string name="project_selection_share_menu_title">Select an item to share</string>
+
     <string name="project_selection_copy_menu_title">Copy</string>
     <string name="project_selection_on_deletion_successful">Delete was successful.</string>
     <string name="delete_unsuccessful">Delete failed.</string>
@@ -67,9 +73,12 @@
     <string name="seconds_short">sec</string>
     <string name="selected">selected</string>
     <string name="project_import_successful">Project import successful!</string>
+    <string name="project_shared">Project sharing successful!</string>
     <string name="project_import_failed">Project import failed!</string>
 
     <string name="piano_edit_mode_delete">Delete marked</string>
+
+    <string name="about_Dialog">About Dialog</string>
 
     <string name="dialog_project_edit_title">Edit project</string>
     <string name="dialog_project_edit_message">Please enter a name:</string>
@@ -95,4 +104,10 @@
     <string name="break_1_16">1/16</string>
     <string name="break_1_2">1/2</string>
     <string name="break_1_1">1</string>
+
+    <string name="midi_open">Could not open MIDI file!</string>
+    <string name="share_error">Could not share file!</string>
+
+    <string name="error_dialog_title">Error</string>
+    <string name="error_dialog_detail">Detail:</string>
 </resources>

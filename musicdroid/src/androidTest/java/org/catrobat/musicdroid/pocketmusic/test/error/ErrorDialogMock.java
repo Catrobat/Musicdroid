@@ -21,32 +21,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.test.projectselection.io;
+package org.catrobat.musicdroid.pocketmusic.test.error;
 
-import android.content.Intent;
+import org.catrobat.musicdroid.pocketmusic.error.ErrorDialog;
 
-import org.catrobat.musicdroid.pocketmusic.projectselection.io.ImportProjectHandler;
-
-public class ImportProjectHandlerMock extends ImportProjectHandler{
-
-    private Intent intent;
-    private int resultCode;
-
-    public ImportProjectHandlerMock() {
-        super(null);
-    }
+public class ErrorDialogMock extends ErrorDialog {
 
     @Override
-    protected void startIntent(Intent intent, int resultCode) {
-        this.intent = intent;
-        this.resultCode = resultCode;
-    }
-
-    public Intent getIntent() {
-        return intent;
-    }
-
-    public int getResultCode() {
-        return resultCode;
+    public String getMessage(String errorMessage, Exception e, String errorDetail) {
+        return super.getMessage(errorMessage, e, errorDetail);
     }
 }

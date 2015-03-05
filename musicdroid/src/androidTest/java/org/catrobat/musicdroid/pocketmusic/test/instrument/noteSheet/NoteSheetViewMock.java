@@ -56,8 +56,4 @@ public class NoteSheetViewMock extends NoteSheetView {
     public SymbolPosition getSymbolPosition(int elementIndex) {
         return symbols.get(elementIndex).getSymbolPosition();
     }
-
-    public Symbol getSymbol(int elementIndex) {
-        return symbols.get(elementIndex);
-    }
 }

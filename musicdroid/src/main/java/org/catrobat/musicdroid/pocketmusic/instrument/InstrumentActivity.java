@@ -28,6 +28,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.ToastDisplayer;
+import org.catrobat.musicdroid.pocketmusic.error.ErrorDialog;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
@@ -111,6 +113,10 @@ public abstract class InstrumentActivity extends FragmentActivity {
         symbols = trackConverter.convertTrack(track);
     }
 
+    public void pushMemento(Track track) {
+        mementoStack.pushMemento(track);
+    }
+
     public Track getTrack() {
         return track;
     }
@@ -175,8 +181,16 @@ public abstract class InstrumentActivity extends FragmentActivity {
         } else if (id == R.id.action_clear_midi) {
             onActionDeleteMidi();
             return true;
-        } else if (id == R.id.action_play_midi) {
-            onActionPlayMidi();
+        } else if (id == R.id.action_play_and_stop_midi) {
+            if(!getMidiPlayer().isPlaying()) {
+                item.setIcon(R.drawable.ic_action_stop);
+                item.setTitle(R.string.action_stop_midi);
+                onActionPlayMidi();
+            } else {
+                item.setIcon(R.drawable.ic_action_play);
+                item.setTitle(R.string.action_play_midi);
+                onActionStopMidi();
+            }
             return true;
         }
 
@@ -209,9 +223,15 @@ public abstract class InstrumentActivity extends FragmentActivity {
 
         try {
             midiPlayer.playTrack(this, getCacheDir(), track, Project.DEFAULT_BEATS_PER_MINUTE);
+            ToastDisplayer.showPlayToast(getBaseContext());
         } catch (Exception e) {
-            Toast.makeText(getBaseContext(), R.string.action_play_midi_error, Toast.LENGTH_LONG).show();
+            ErrorDialog.createDialog(R.string.action_play_midi_error, e).show(getFragmentManager(), "tag");
         }
+    }
+
+    private void onActionStopMidi() {
+        midiPlayer.stop();
+        ToastDisplayer.showStopToast(getBaseContext());
     }
 
     private void saveMidiFileByUserInput() {
@@ -223,7 +243,7 @@ public abstract class InstrumentActivity extends FragmentActivity {
                 converter.writeProjectAsMidi(project);
                 Toast.makeText(getBaseContext(), R.string.dialog_project_save_success, Toast.LENGTH_LONG).show();
             } catch (Exception e) {
-                Toast.makeText(getBaseContext(), R.string.dialog_project_name_exists_error, Toast.LENGTH_LONG).show();
+                ErrorDialog.createDialog(R.string.dialog_project_name_exists_error, e).show(getFragmentManager(), "tag");
             }
         } else {
             Bundle args = new Bundle();

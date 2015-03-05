@@ -36,6 +36,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.error.ErrorDialog;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
@@ -46,7 +47,7 @@ import java.util.ArrayList;
 
 public class ProjectListViewAdapter extends BaseAdapter {
 
-    private final Context context;
+    private final Activity activity;
 
     private ProjectToMidiConverter projectToMidiConverter;
 
@@ -65,9 +66,9 @@ public class ProjectListViewAdapter extends BaseAdapter {
         public RelativeLayout projectListItemLayout;
     }
 
-    public ProjectListViewAdapter(Context context, ArrayList<Project> projects) {
+    public ProjectListViewAdapter(Activity activity, ArrayList<Project> projects) {
         projectToMidiConverter = new ProjectToMidiConverter();
-        this.context = context;
+        this.activity = activity;
         this.projects = projects;
         initViewParameters();
     }
@@ -125,7 +126,7 @@ public class ProjectListViewAdapter extends BaseAdapter {
         viewHolder = new ViewHolder();
 
         if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) context
+            LayoutInflater inflater = (LayoutInflater) activity
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.project_selection_list_item, null);
 
@@ -154,7 +155,7 @@ public class ProjectListViewAdapter extends BaseAdapter {
 
     private void initBackgroundBehavior(int position) {
         if (getProjectSelectionBackgroundFlags(position))
-            viewHolder.projectListItemLayout.setBackgroundColor(context.getResources().getColor(R.color.list_view_item_background_color_selected));
+            viewHolder.projectListItemLayout.setBackgroundColor(activity.getResources().getColor(R.color.list_view_item_background_color_selected));
         else
             viewHolder.projectListItemLayout.setBackgroundColor(Color.TRANSPARENT);
 
@@ -173,23 +174,22 @@ public class ProjectListViewAdapter extends BaseAdapter {
         viewHolder.projectPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    if (!playButtonLock) {
-                        playButtonLock = true;
-                        projectSelectionTrackIsPlayingFlags.set(position, true);
+                if (!playButtonLock) {
+                    playButtonLock = true;
+                    projectSelectionTrackIsPlayingFlags.set(position, true);
 
-                        // TODO consider more tracks
-                        MidiPlayer.getInstance().playTrack((Activity) context,
-                                context.getCacheDir(),
+                    // TODO consider more tracks
+                    try {
+                        MidiPlayer.getInstance().playTrack(activity,
+                                activity.getCacheDir(),
                                 projects.get(position).getTrack(0),
                                 projects.get(position).getBeatsPerMinute());
-
+                    } catch (IOException | MidiException e) {
+                        ErrorDialog.createDialog(R.string.midi_open, e).show(activity.getFragmentManager(), "tag");
                     }
-
-                    notifyDataSetChanged();
-                } catch (IOException | MidiException e) {
-                    e.printStackTrace();
                 }
+
+                notifyDataSetChanged();
             }
         });
 
@@ -206,18 +206,18 @@ public class ProjectListViewAdapter extends BaseAdapter {
     }
 
     private void initTextViews(int actualPosition) {
-        viewHolder.projectNameTextView.setText(context.getResources().getText(R.string.project_name)
+        viewHolder.projectNameTextView.setText(activity.getResources().getText(R.string.project_name)
                 + projects.get(actualPosition).getName());
         viewHolder.projectDurationTextView.setText(getDurationTextViewText(actualPosition, 0));
     }
 
     private String getDurationTextViewText(int actualPosition, int trackPosition) {
         long timeInMilliseconds = projects.get(actualPosition).getTrack(trackPosition).getTotalTimeInMilliseconds();
-        return context.getResources().getText(R.string.project_duration)
+        return activity.getResources().getText(R.string.project_duration)
                 + String.format("%02d", (timeInMilliseconds / 1000) / 60)
-                + context.getResources().getString(R.string.minutes_short) + " "
+                + activity.getResources().getString(R.string.minutes_short) + " "
                 + String.format("%02d", timeInMilliseconds / 1000)
-                + context.getResources().getString(R.string.seconds_short);
+                + activity.getResources().getString(R.string.seconds_short);
     }
 
     public void changePlayPauseButtonState() {

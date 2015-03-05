@@ -74,6 +74,7 @@ public class NoteSheetViewFragment extends Fragment {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (PianoActivity.inCallback) {
                     noteSheetView.onEditMode(motionEvent);
+                    ((PianoActivity) getActivity()).notifyCheckedItemStateChanged();
                 }
 
                 return false;
@@ -85,10 +86,10 @@ public class NoteSheetViewFragment extends Fragment {
 
     public void redraw(List<Symbol> symbols, MusicalKey key) {
         noteSheetView.redraw(symbols, key);
-        trackSizeTextView.setText(symbols.size() + " / " + InstrumentActivity.MAX_TRACK_SIZE_IN_SYMBOLS);
+        setTrackSizeText(symbols.size());
     }
 
-    public String getTrackSizeTextViewText() {
+    public String getTrackSizeTextViewText(){
         return trackSizeTextView.getText().toString();
     }
 
@@ -102,5 +103,22 @@ public class NoteSheetViewFragment extends Fragment {
 
     public void resetSymbolMarkers() {
         noteSheetView.resetSymbolMarkers();
+    }
+
+    public List<Symbol> getSymbols() {
+        return noteSheetView.getSymbols();
+    }
+
+    public int getMarkedSymbolCount() {
+        return noteSheetView.getMarkedSymbolCount();
+    }
+
+    public void deleteMarkedSymbols() {
+        noteSheetView.deleteMarkedSymbols();
+        setTrackSizeText(noteSheetView.getSymbols().size());
+    }
+
+    private void setTrackSizeText(int symbolCount) {
+        trackSizeTextView.setText(symbolCount + " / " + InstrumentActivity.MAX_TRACK_SIZE_IN_SYMBOLS);
     }
 }

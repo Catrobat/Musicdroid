@@ -200,4 +200,10 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         solo.goBack();
         assertTrue(solo.searchText(fileName));
     }
+
+    public void testAboutDialog() throws IOException {
+        solo.clickOnMenuItem(getActivity().getResources().getString(R.string.action_project_about));
+        solo.waitForDialogToOpen();
+        assertTrue(solo.searchText(getActivity().getResources().getString(R.string.about_Dialog)));
+    }
 }

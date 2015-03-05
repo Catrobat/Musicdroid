@@ -24,6 +24,7 @@
 package org.catrobat.musicdroid.pocketmusic.projectselection;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ActionMode;
@@ -32,23 +33,29 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.error.ErrorDialog;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
+import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.AboutDialog;
+import org.catrobat.musicdroid.pocketmusic.projectselection.io.IOHandler;
 import org.catrobat.musicdroid.pocketmusic.projectselection.io.ImportProjectHandler;
+import org.catrobat.musicdroid.pocketmusic.projectselection.io.ShareProjectHandler;
 import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionContextMenu;
 import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionDeleteContextMenu;
 import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionEditContextMenu;
+import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionShareContextMenu;
 import org.catrobat.musicdroid.pocketmusic.projectselection.menu.ProjectSelectionTapAndHoldContextMenu;
 
 import java.io.File;
 import java.io.IOException;
 
 public class ProjectSelectionActivity extends Activity {
+
     private ProjectSelectionFragment projectSelectionFragment;
     public static boolean inCallback = false;
     private ProjectSelectionContextMenu projectSelectionContextMenu;
     private ActionMode actionMode;
-    private ImportProjectHandler importProjectHandler;
+    private IOHandler ioHandler;
     public static final String INTENT_EXTRA_FILE_NAME = "fileName";
 
     @Override
@@ -57,7 +64,6 @@ public class ProjectSelectionActivity extends Activity {
         setContentView(R.layout.activity_project_selection);
 
         projectSelectionFragment = new ProjectSelectionFragment();
-        importProjectHandler = new ImportProjectHandler(this);
 
         if (savedInstanceState != null) {
             getFragmentManager().beginTransaction().replace(R.id.container, projectSelectionFragment).commit();
@@ -82,8 +88,13 @@ public class ProjectSelectionActivity extends Activity {
         actionMode = startActionMode(getProjectSelectionContextMenu());
     }
 
-    private void startEditActionMode(){
+    private void startEditActionMode() {
         projectSelectionContextMenu = new ProjectSelectionEditContextMenu(this);
+        actionMode = startActionMode(getProjectSelectionContextMenu());
+    }
+
+    private void startShareActionMode() {
+        projectSelectionContextMenu = new ProjectSelectionShareContextMenu(this);
         actionMode = startActionMode(getProjectSelectionContextMenu());
     }
 
@@ -92,8 +103,7 @@ public class ProjectSelectionActivity extends Activity {
         int id = item.getItemId();
         stopPlayingTracks();
 
-        if (id == R.id.action_edit_project ) {
-            stopPlayingTracks();
+        if (id == R.id.action_edit_project) {
             startEditActionMode();
             return true;
         }
@@ -104,9 +114,21 @@ public class ProjectSelectionActivity extends Activity {
         }
 
         if (id == R.id.action_import_project) {
-            importProjectHandler.handleImportProject();
+            ioHandler = new ImportProjectHandler(this);
+            ioHandler.onSend(null);
             return true;
         }
+
+        if (id == R.id.action_share_project) {
+            startShareActionMode();
+            return true;
+        }
+
+        if (id == R.id.action_about) {
+            AboutDialog aboutDialog = new AboutDialog();
+            aboutDialog.show(getFragmentManager(), "dialog");
+            return true;
+         }
 
         return super.onOptionsItemSelected(item);
     }
@@ -143,18 +165,24 @@ public class ProjectSelectionActivity extends Activity {
         getProjectSelectionContextMenu().checkedItemStateChanged();
     }
 
+    public void notifyShareProject(File file) throws IOException, MidiException {
+        ioHandler = new ShareProjectHandler(this);
+        ioHandler.onSend(file);
+    }
+
     public ProjectSelectionContextMenu getProjectSelectionContextMenu() {
         return projectSelectionContextMenu;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        try {
-            importProjectHandler.importProject(requestCode, resultCode, new File(data.getData().getPath()));
-            Toast.makeText(this, getResources().getString(R.string.project_import_successful), Toast.LENGTH_LONG).show();
-
-        } catch (IOException | MidiException e) {
-            Toast.makeText(this, getResources().getString(R.string.project_import_failed), Toast.LENGTH_LONG).show();
+        if (data != null) {
+            try {
+                ioHandler.onReceive(requestCode, resultCode, new File(data.getData().getPath()));
+                Toast.makeText(this, getResources().getString(R.string.project_import_successful), Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                ErrorDialog.createDialog(R.string.project_import_failed, e).show(getFragmentManager(), "tag");
+            }
         }
     }
 }

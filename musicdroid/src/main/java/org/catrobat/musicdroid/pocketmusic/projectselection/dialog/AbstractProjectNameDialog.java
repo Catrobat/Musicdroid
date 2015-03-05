@@ -32,6 +32,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.error.ErrorDialog;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 
@@ -107,7 +108,7 @@ public abstract class AbstractProjectNameDialog extends DialogFragment {
                     makeToastText(successMessageId, Toast.LENGTH_LONG);
                 }
             } catch (Exception e) {
-                makeToastText(errorMessageId, Toast.LENGTH_LONG);
+                ErrorDialog.createDialog(errorMessageId, e).show(getFragmentManager(), "tag");
             }
         } else {
             makeToastText(cancelMessageId, Toast.LENGTH_LONG);
