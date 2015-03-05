@@ -49,7 +49,6 @@ import java.util.Locale;
 public abstract class InstrumentActivity extends FragmentActivity {
 
     public static final int MAX_TRACK_SIZE_IN_SYMBOLS = 60;
-    public static final int MAX_TRACK_SIZE_IN_NOTE_EVENTS = MAX_TRACK_SIZE_IN_SYMBOLS * 2;
 
     private static final String R_RAW = "raw";
     private static final String SAVED_INSTANCE_TRACK = "SavedTrack";
@@ -123,7 +122,7 @@ public abstract class InstrumentActivity extends FragmentActivity {
     }
 
     public void addNoteEvent(NoteEvent noteEvent) {
-        if (track.size() >= MAX_TRACK_SIZE_IN_NOTE_EVENTS) {
+        if (symbols.size() >= MAX_TRACK_SIZE_IN_SYMBOLS) {
             return;
         }
 
@@ -143,6 +142,10 @@ public abstract class InstrumentActivity extends FragmentActivity {
     }
 
     public void addBreak(BreakSymbol breakSymbol) {
+        if (symbols.size() >= MAX_TRACK_SIZE_IN_SYMBOLS) {
+            return;
+        }
+
         mementoStack.pushMemento(track);
         symbols.add(breakSymbol);
         redraw();
