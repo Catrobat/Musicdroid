@@ -25,15 +25,12 @@ package org.catrobat.musicdroid.pocketmusic.instrument.piano;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import org.catrobat.musicdroid.pocketmusic.R;
-import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 
@@ -68,21 +65,21 @@ public class BreakViewFragment extends Fragment {
         break14Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pianoActivity.addBreak(new BreakSymbol(NoteLength.QUARTER), pianoActivity.getNoteSheetView());
+                pianoActivity.addBreak(new BreakSymbol(NoteLength.QUARTER));
             }
         });
 
         break18Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pianoActivity.addBreak(new BreakSymbol(NoteLength.EIGHT), pianoActivity.getNoteSheetView());
+                pianoActivity.addBreak(new BreakSymbol(NoteLength.EIGHT));
             }
         });
 
         break116Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pianoActivity.addBreak(new BreakSymbol(NoteLength.SIXTEENTH), pianoActivity.getNoteSheetView());
+                pianoActivity.addBreak(new BreakSymbol(NoteLength.SIXTEENTH));
             }
         });
     }

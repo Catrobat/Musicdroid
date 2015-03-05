@@ -28,8 +28,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.catrobat.musicdroid.pocketmusic.R;
-import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetView;
-import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
@@ -39,9 +37,13 @@ import org.catrobat.musicdroid.pocketmusic.note.TrackMementoStack;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolsToTrackConverter;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.SaveProjectDialog;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
 public abstract class InstrumentActivity extends FragmentActivity {
@@ -55,6 +57,8 @@ public abstract class InstrumentActivity extends FragmentActivity {
 
     private MidiPlayer midiPlayer;
     private Track track;
+    private List<Symbol> symbols;
+    private TrackToSymbolsConverter trackConverter;
     private TickProvider tickProvider;
     private TrackMementoStack mementoStack;
 
@@ -64,6 +68,8 @@ public abstract class InstrumentActivity extends FragmentActivity {
         midiPlayer = MidiPlayer.getInstance();
 
         track = new Track(key, instrument, Project.DEFAULT_BEATS_PER_MINUTE);
+        symbols = new LinkedList<Symbol>();
+        trackConverter = new TrackToSymbolsConverter();
         tickProvider = new TickProvider(track.getBeatsPerMinute());
 
         mementoStack = new TrackMementoStack();
@@ -102,11 +108,15 @@ public abstract class InstrumentActivity extends FragmentActivity {
     public void setTrack(Track track) {
         this.track = track;
         tickProvider.setTickBasedOnTrack(track);
+
+        symbols = trackConverter.convertTrack(track);
     }
 
     public Track getTrack() {
         return track;
     }
+
+    public List<Symbol> getSymbols() { return symbols; }
 
     public MidiPlayer getMidiPlayer() {
         return midiPlayer;
@@ -128,16 +138,18 @@ public abstract class InstrumentActivity extends FragmentActivity {
         }
 
         track.addNoteEvent(tickProvider.getTick(), noteEvent);
+        symbols = trackConverter.convertTrack(track);
         redraw();
     }
 
-    public void addBreak(BreakSymbol breakSymbol, NoteSheetView noteSheetView) {
+    public void addBreak(BreakSymbol breakSymbol) {
         mementoStack.pushMemento(track);
-        noteSheetView.addBreak(breakSymbol);
+        symbols.add(breakSymbol);
+        redraw();
 
         SymbolsToTrackConverter converter = new SymbolsToTrackConverter();
 
-        Track newTrack = converter.convertSymbols(noteSheetView.getSymbols(), track.getKey(), track.getInstrument(), track.getBeatsPerMinute());
+        Track newTrack = converter.convertSymbols(symbols, track.getKey(), track.getInstrument(), track.getBeatsPerMinute());
         newTrack.setProject(track.getProject());
         newTrack.setId(track.getId());
 

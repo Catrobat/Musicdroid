@@ -34,8 +34,11 @@ import android.widget.TextView;
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
-import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.tools.DisplayMeasurements;
+
+import java.util.List;
 
 public class NoteSheetViewFragment extends Fragment {
 
@@ -80,9 +83,9 @@ public class NoteSheetViewFragment extends Fragment {
         return rootView;
     }
 
-    public void redraw(Track track) {
-        noteSheetView.redraw(track);
-        trackSizeTextView.setText(track.size() / 2 + " / " + InstrumentActivity.MAX_TRACK_SIZE_IN_SYMBOLS);
+    public void redraw(List<Symbol> symbols, MusicalKey key) {
+        noteSheetView.redraw(symbols, key);
+        trackSizeTextView.setText(symbols.size() + " / " + InstrumentActivity.MAX_TRACK_SIZE_IN_SYMBOLS);
     }
 
     public String getTrackSizeTextViewText() {

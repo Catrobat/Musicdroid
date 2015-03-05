@@ -24,7 +24,6 @@
 package org.catrobat.musicdroid.pocketmusic.instrument.piano;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.HorizontalScrollView;
@@ -135,13 +134,13 @@ public class PianoActivity extends InstrumentActivity {
 
     @Override
     public void redraw() {
-        noteSheetViewFragment.redraw(getTrack());
+        noteSheetViewFragment.redraw(getSymbols(), getTrack().getKey());
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        noteSheetViewFragment.redraw(getTrack());
+        redraw();
     }
 
     @Override

@@ -26,22 +26,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
-import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.draw.DrawElementsTouchDetector;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolsToTrackConverter;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
 import org.catrobat.musicdroid.pocketmusic.tools.DisplayMeasurements;
 
 import java.util.LinkedList;
@@ -50,7 +43,7 @@ import java.util.List;
 public class NoteSheetView extends View {
 
     protected DrawElementsTouchDetector touchDetector;
-    protected TrackToSymbolsConverter trackConverter;
+
     protected List<Symbol> symbols;
     protected MusicalKey key;
 
@@ -64,7 +57,6 @@ public class NoteSheetView extends View {
         super(context, attrs);
 
         touchDetector = new DrawElementsTouchDetector();
-        trackConverter = new TrackToSymbolsConverter();
         symbols = new LinkedList<Symbol>();
         key = MusicalKey.VIOLIN;
         widthBeforeResize = getWidth();
@@ -83,9 +75,9 @@ public class NoteSheetView extends View {
         return false;
     }
 
-    public void redraw(Track track) {
-        key = track.getKey();
-        symbols = trackConverter.convertTrack(track);
+    public void redraw(List<Symbol> symbols, MusicalKey key) {
+        this.symbols = symbols;
+        this.key = key;
         invalidate();
     }
 
@@ -139,15 +131,5 @@ public class NoteSheetView extends View {
         }
 
         invalidate();
-    }
-
-    public void addBreak(BreakSymbol breakSymbol){
-        symbols.add(breakSymbol);
-
-        invalidate();
-    }
-
-    public List<Symbol> getSymbols() {
-        return symbols;
     }
 }
