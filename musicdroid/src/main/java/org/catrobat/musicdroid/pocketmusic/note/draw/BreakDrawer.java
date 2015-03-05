@@ -106,12 +106,13 @@ public class BreakDrawer extends SymbolDrawer {
 
         if ((NoteLength.HALF == noteLength) || (NoteLength.HALF_DOT == noteLength)) {
             breakRect.top = centerPoint.y - breakWidthHalf;
+            breakRect.bottom = centerPoint.y;
         } else {
-            breakRect.top = centerPoint.y + breakWidthHalf;
+            breakRect.top = centerPoint.y;
+            breakRect.bottom = centerPoint.y + breakWidthHalf;
         }
 
         breakRect.right = centerPoint.x + breakWidthHalf;
-        breakRect.bottom = centerPoint.y;
 
         noteSheetCanvas.drawRect(breakRect, paint);
 
