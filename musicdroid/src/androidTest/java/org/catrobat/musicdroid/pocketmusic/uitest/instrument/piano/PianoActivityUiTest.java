@@ -33,19 +33,13 @@ import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
-import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
-import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
-import org.catrobat.musicdroid.pocketmusic.test.note.ProjectTestDataFactory;
-import org.catrobat.musicdroid.pocketmusic.test.note.midi.ProjectToMidiConverterTestDataFactory;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
 public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoActivity> {
 
-    private static final String PIANO_BUTTON = "C";
+    private static final String PIANO_BUTTON_TEXT = "C";
 
     private PianoActivity pianoActivity;
     private Solo solo;
@@ -63,7 +57,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     @Override
     protected void tearDown() {
         if (ProjectToMidiConverter.MIDI_FOLDER.isDirectory()) {
-            for(File file: ProjectToMidiConverter.MIDI_FOLDER.listFiles())
+            for (File file : ProjectToMidiConverter.MIDI_FOLDER.listFiles())
                 file.delete();
         }
 
@@ -79,7 +73,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     }
 
     public void testClear() {
-        solo.clickOnButton(PIANO_BUTTON);
+        solo.clickOnButton(PIANO_BUTTON_TEXT);
         solo.clickOnActionBarItem(R.id.action_clear_midi);
         assertTrue(solo.waitForText(pianoActivity.getString(R.string.action_delete_midi_success)));
 
@@ -91,7 +85,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     public void testUndo() {
         int expectedTrackSize = 0;
 
-        solo.clickOnButton(PIANO_BUTTON);
+        solo.clickOnButton(PIANO_BUTTON_TEXT);
         solo.clickOnActionBarItem(R.id.action_undo_midi);
 
         assertEquals(expectedTrackSize, pianoActivity.getTrack().size());
@@ -100,9 +94,9 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     public void testRotateWithSymbolsDrawn() {
         int expectedTrackSize = 4;
 
-        solo.clickOnButton(PIANO_BUTTON);
+        solo.clickOnButton(PIANO_BUTTON_TEXT);
         rotateAndReturnActivity(Solo.LANDSCAPE);
-        solo.clickOnButton(PIANO_BUTTON);
+        solo.clickOnButton(PIANO_BUTTON_TEXT);
 
         int actualTrackSize = pianoActivity.getTrack().size();
 
@@ -119,9 +113,9 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     public void testRotateAndUndo() {
         int expectedTrackSize = 0;
 
-        solo.clickOnButton(PIANO_BUTTON);
+        solo.clickOnButton(PIANO_BUTTON_TEXT);
         rotateAndReturnActivity(Solo.LANDSCAPE);
-        solo.clickOnButton(PIANO_BUTTON);
+        solo.clickOnButton(PIANO_BUTTON_TEXT);
         rotateAndReturnActivity(Solo.PORTRAIT);
 
         solo.clickOnActionBarItem(R.id.action_undo_midi);
@@ -168,7 +162,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         int numberOfNotes = 5;
 
         for (int i = 0; i < numberOfNotes; i++) {
-            solo.clickOnButton(PIANO_BUTTON);
+            solo.clickOnButton(PIANO_BUTTON_TEXT);
         }
     }
 
@@ -179,7 +173,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     }
 
     public void testPlayMidiFinishedPlaying() throws InterruptedException {
-        solo.clickOnButton(PIANO_BUTTON);
+        solo.clickOnButton(PIANO_BUTTON_TEXT);
         solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
         solo.waitForDialogToOpen();
         solo.waitForDialogToClose();
@@ -191,10 +185,10 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         int buttonPressCount = InstrumentActivity.MAX_TRACK_SIZE_IN_SYMBOLS;
 
         for (int i = 0; i < buttonPressCount; i++) {
-            solo.clickOnButton(PIANO_BUTTON);
+            solo.clickOnButton(PIANO_BUTTON_TEXT);
         }
 
-        solo.clickOnButton(PIANO_BUTTON);
+        solo.clickOnButton(PIANO_BUTTON_TEXT);
 
         int expectedTrackCount = InstrumentActivity.MAX_TRACK_SIZE_IN_SYMBOLS * 2;
         int actualTrackCount = pianoActivity.getTrack().size();
@@ -206,7 +200,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         int buttonPressCount = 6;
 
         for (int i = 0; i < buttonPressCount; i++) {
-            solo.clickOnButton(PIANO_BUTTON);
+            solo.clickOnButton(PIANO_BUTTON_TEXT);
         }
 
         String expectedTextViewText = buttonPressCount + " / " + InstrumentActivity.MAX_TRACK_SIZE_IN_SYMBOLS;
@@ -242,7 +236,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     }
 
     private void enterEditModeWithOneMarkedSymbol() {
-        solo.clickOnButton(PIANO_BUTTON);
+        solo.clickOnButton(PIANO_BUTTON_TEXT);
 
         solo.sleep(1000);
 
@@ -255,5 +249,16 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         solo.clickOnView(v);
 
         solo.sleep(1000);
+    }
+
+    public void testClickBreak() {
+        solo.setActivityOrientation(Solo.PORTRAIT);
+        solo.clickOnButton(0);
+        solo.clickOnImageButton(1);
+
+        solo.sleep(1000);
+
+        assertEquals(1, pianoActivity.getSymbols().size());
+        assertTrue(pianoActivity.getAdditionalSettingsFragment().isPianoViewVisible());
     }
 }

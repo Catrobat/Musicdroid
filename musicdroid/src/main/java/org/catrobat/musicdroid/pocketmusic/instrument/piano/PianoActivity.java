@@ -103,11 +103,11 @@ public class PianoActivity extends InstrumentActivity {
 
         if (savedInstanceState != null) {
             getFragmentManager().beginTransaction().replace(R.id.notesheetview_fragment_holder, noteSheetViewFragment).commit();
-            getFragmentManager().beginTransaction().replace(R.id.additional_options_holder, additionalSettingsFragment).commit();
+            getFragmentManager().beginTransaction().replace(R.id.additional_options_holder, getAdditionalSettingsFragment()).commit();
 
-            additionalSettingsFragment.setPianoViewVisible(savedInstanceState.getBoolean(SAVED_INSTANCE_PIANO_VISIBLE));
+            getAdditionalSettingsFragment().setPianoViewVisible(savedInstanceState.getBoolean(SAVED_INSTANCE_PIANO_VISIBLE));
 
-            if (additionalSettingsFragment.isPianoViewVisible()) {
+            if (getAdditionalSettingsFragment().isPianoViewVisible()) {
                 getFragmentManager().beginTransaction().replace(R.id.pianoview_fragment_holder, pianoViewFragment).commit();
             } else {
                 getFragmentManager().beginTransaction().replace(R.id.pianoview_fragment_holder, breakViewFragment).commit();
@@ -121,19 +121,19 @@ public class PianoActivity extends InstrumentActivity {
 
         } else {
             getFragmentManager().beginTransaction().add(R.id.notesheetview_fragment_holder, noteSheetViewFragment).commit();
-            getFragmentManager().beginTransaction().add(R.id.additional_options_holder, additionalSettingsFragment).commit();
+            getFragmentManager().beginTransaction().add(R.id.additional_options_holder, getAdditionalSettingsFragment()).commit();
             getFragmentManager().beginTransaction().add(R.id.pianoview_fragment_holder, pianoViewFragment).commit();
         }
     }
 
     public void switchToBreakView() {
         getFragmentManager().beginTransaction().replace(R.id.pianoview_fragment_holder, breakViewFragment).commit();
-        additionalSettingsFragment.setPianoViewVisible(false);
+        getAdditionalSettingsFragment().setPianoViewVisible(false);
     }
 
     public void switchToPianoView() {
         getFragmentManager().beginTransaction().replace(R.id.pianoview_fragment_holder, pianoViewFragment).commit();
-        additionalSettingsFragment.setPianoViewVisible(true);
+        getAdditionalSettingsFragment().setPianoViewVisible(true);
     }
 
     private void handleExtras() {
@@ -185,7 +185,7 @@ public class PianoActivity extends InstrumentActivity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putString(SAVED_INSTANCE_PIANO_TITLE, projectName);
-        savedInstanceState.putSerializable(SAVED_INSTANCE_PIANO_VISIBLE, additionalSettingsFragment.isPianoViewVisible());
+        savedInstanceState.putSerializable(SAVED_INSTANCE_PIANO_VISIBLE, getAdditionalSettingsFragment().isPianoViewVisible());
     }
 
     public void scrollNoteSheet() {
@@ -197,5 +197,9 @@ public class PianoActivity extends InstrumentActivity {
 
     public void resetSymbolMarkers() {
         noteSheetViewFragment.resetSymbolMarkers();
+    }
+
+    public AdditionalSettingsFragment getAdditionalSettingsFragment() {
+        return additionalSettingsFragment;
     }
 }

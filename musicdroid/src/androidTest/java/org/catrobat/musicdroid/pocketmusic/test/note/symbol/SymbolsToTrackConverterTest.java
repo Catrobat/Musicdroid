@@ -36,7 +36,7 @@ public class SymbolsToTrackConverterTest extends AndroidTestCase {
 
     public void testConvertSymbols() {
         SymbolsToTrackConverter converter = new SymbolsToTrackConverter();
-        List<Symbol> symbols = TrackToSymbolsConverterTest.createSymbolListWithBreak();
+        List<Symbol> symbols = SymbolsTestDataFactory.createSymbolsWithBreak();
         Track expectedTrack = TrackTestDataFactory.createTrackWithBreak();
 
         assertEquals(expectedTrack, converter.convertSymbols(symbols, expectedTrack.getKey(), expectedTrack.getInstrument(), expectedTrack.getBeatsPerMinute()));

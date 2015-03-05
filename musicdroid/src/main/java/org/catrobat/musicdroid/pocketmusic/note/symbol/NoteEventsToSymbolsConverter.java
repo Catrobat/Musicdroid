@@ -51,8 +51,13 @@ public class NoteEventsToSymbolsConverter {
 
 			if (noteEvent.isNoteOn()) {
 				if (lastTick != tick) {
-					NoteLength noteLength = NoteLength.getNoteLengthFromTickDuration(tick - lastTick, beatsPerMinute);
-					symbols.add(new BreakSymbol(noteLength));
+                    long difference = tick - lastTick;
+
+                    do {
+                        NoteLength noteLength = NoteLength.getNoteLengthFromTickDuration(difference, beatsPerMinute);
+                        symbols.add(new BreakSymbol(noteLength));
+                        difference = difference - noteLength.toTicks(beatsPerMinute);
+                    } while(difference > 0);
 				}
 
 				if (openNotes.isEmpty()) {

@@ -25,35 +25,28 @@ package org.catrobat.musicdroid.pocketmusic.test.note.symbol;
 
 import android.test.AndroidTestCase;
 
-import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
-import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
-import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
 import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class TrackToSymbolsConverterTest extends AndroidTestCase {
 
-    public void testConvertTrack() {
+    public void testConvertTrack1() {
         TrackToSymbolsConverter converter = new TrackToSymbolsConverter();
         Track track = TrackTestDataFactory.createTrackWithBreak();
-        List<Symbol> expectedSymbols = createSymbolListWithBreak();
+        List<Symbol> expectedSymbols = SymbolsTestDataFactory.createSymbolsWithBreak();
 
         assertEquals(expectedSymbols, converter.convertTrack(track));
     }
 
-    public static List<Symbol> createSymbolListWithBreak() {
-        List<Symbol> symbols = new LinkedList<Symbol>();
+    public void testConvertTrack2() {
+        TrackToSymbolsConverter converter = new TrackToSymbolsConverter();
+        Track track = TrackTestDataFactory.createTrackWithSeveralBreaks();
+        List<Symbol> expectedSymbols = SymbolsTestDataFactory.createSymbolsWithSeveralBreaks();
 
-        symbols.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C4, NoteName.D4));
-        symbols.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.E4));
-        symbols.add(BreakSymbolTestDataFactory.createBreakSymbol(NoteLength.QUARTER));
-        symbols.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C4));
-
-        return symbols;
+        assertEquals(expectedSymbols, converter.convertTrack(track));
     }
 }
