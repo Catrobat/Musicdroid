@@ -42,6 +42,8 @@ public class BreakViewFragment extends Fragment {
     private ImageButton break18Button;
     private ImageButton break116Button;
 
+    private PianoActivity pianoActivity;
+
     public BreakViewFragment() {
     }
 
@@ -58,46 +60,27 @@ public class BreakViewFragment extends Fragment {
         break18Button = (ImageButton) rootView.findViewById(R.id.break_8_button);
         break116Button = (ImageButton) rootView.findViewById(R.id.break_16_button);
 
+        pianoActivity = (PianoActivity) getActivity();
+
         setOnTouchListeners();
 
         return rootView;
     }
 
     public void setOnTouchListeners() {
-        final PianoActivity pianoActivity = (PianoActivity) getActivity();
+        setBreakButtonOnClickListener(break11Button, NoteLength.WHOLE);
+        setBreakButtonOnClickListener(break12Button, NoteLength.HALF);
+        setBreakButtonOnClickListener(break14Button, NoteLength.QUARTER);
+        setBreakButtonOnClickListener(break18Button, NoteLength.EIGHT);
+        setBreakButtonOnClickListener(break116Button, NoteLength.SIXTEENTH);
+    }
 
-        break11Button.setOnClickListener(new View.OnClickListener() {
+    public void setBreakButtonOnClickListener(ImageButton breakButton, final NoteLength noteLength){
+        breakButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pianoActivity.addBreak(new BreakSymbol(NoteLength.WHOLE));
-            }
-        });
-
-        break12Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pianoActivity.addBreak(new BreakSymbol(NoteLength.HALF));
-            }
-        });
-
-        break14Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pianoActivity.addBreak(new BreakSymbol(NoteLength.QUARTER));
-            }
-        });
-
-        break18Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pianoActivity.addBreak(new BreakSymbol(NoteLength.EIGHT));
-            }
-        });
-
-        break116Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pianoActivity.addBreak(new BreakSymbol(NoteLength.SIXTEENTH));
+                pianoActivity.addBreak(new BreakSymbol(noteLength));
+                pianoActivity.switchToPianoView();
             }
         });
     }

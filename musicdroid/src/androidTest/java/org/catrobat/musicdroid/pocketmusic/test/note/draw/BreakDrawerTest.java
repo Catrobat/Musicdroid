@@ -99,7 +99,6 @@ public class BreakDrawerTest extends AbstractDrawerTest {
             stopY = centerPoint.y + breakWidthHalf;
         }
 
-
         breakDrawer.drawSymbol(breakSymbol);
 
         assertCanvasElementQueueRect(startX, startY, stopX, stopY, marked ? paintMarked : paintDefault);

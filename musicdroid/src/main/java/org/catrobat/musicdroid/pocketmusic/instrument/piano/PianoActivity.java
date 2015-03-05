@@ -47,6 +47,7 @@ import java.io.IOException;
 public class PianoActivity extends InstrumentActivity {
 
     public static boolean inCallback = false;
+    private static final String SAVED_INSTANCE_PIANO_VISIBLE= "pianoVisible";
 
     private PianoViewFragment pianoViewFragment;
     private NoteSheetViewFragment noteSheetViewFragment;
@@ -90,8 +91,14 @@ public class PianoActivity extends InstrumentActivity {
         if (savedInstanceState != null) {
             getFragmentManager().beginTransaction().replace(R.id.notesheetview_fragment_holder, noteSheetViewFragment).commit();
             getFragmentManager().beginTransaction().replace(R.id.additional_options_holder, additionalSettingsFragment).commit();
-            getFragmentManager().beginTransaction().replace(R.id.pianoview_fragment_holder, pianoViewFragment).commit();
 
+            additionalSettingsFragment.setPianoViewVisible(savedInstanceState.getBoolean(SAVED_INSTANCE_PIANO_VISIBLE));
+
+            if (additionalSettingsFragment.isPianoViewVisible()) {
+                getFragmentManager().beginTransaction().replace(R.id.pianoview_fragment_holder, pianoViewFragment).commit();
+            }else {
+                getFragmentManager().beginTransaction().replace(R.id.pianoview_fragment_holder, breakViewFragment).commit();
+            }
         } else {
             getFragmentManager().beginTransaction().add(R.id.notesheetview_fragment_holder, noteSheetViewFragment).commit();
             getFragmentManager().beginTransaction().add(R.id.additional_options_holder, additionalSettingsFragment).commit();
@@ -101,10 +108,12 @@ public class PianoActivity extends InstrumentActivity {
 
     public void switchToBreakView(){
         getFragmentManager().beginTransaction().replace(R.id.pianoview_fragment_holder, breakViewFragment).commit();
+        additionalSettingsFragment.setPianoViewVisible(false);
     }
 
     public void switchToPianoView(){
         getFragmentManager().beginTransaction().replace(R.id.pianoview_fragment_holder, pianoViewFragment).commit();
+        additionalSettingsFragment.setPianoViewVisible(true);
     }
 
     private void handleExtras() {
@@ -147,6 +156,13 @@ public class PianoActivity extends InstrumentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.piano, menu);
         return true;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+
+        savedInstanceState.putSerializable(SAVED_INSTANCE_PIANO_VISIBLE, additionalSettingsFragment.isPianoViewVisible());
     }
 
     public void scrollNoteSheet() {

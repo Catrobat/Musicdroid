@@ -24,9 +24,7 @@
 package org.catrobat.musicdroid.pocketmusic.instrument.piano;
 
 import android.app.Fragment;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,20 +49,30 @@ public class AdditionalSettingsFragment extends Fragment {
         pianoActivity = (PianoActivity) getActivity();
 
         switchToBreakViewButton = (Button) rootView.findViewById(R.id.switch_to_break_button);
+        setSwitchToBreakViewButtonOnClickListener();
+
+        return rootView;
+    }
+
+    public void setSwitchToBreakViewButtonOnClickListener(){
         switchToBreakViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(pianoViewVisible) {
+                if(isPianoViewVisible()) {
                     pianoActivity.switchToBreakView();
-                    pianoViewVisible = false;
                 }
                 else {
                     pianoActivity.switchToPianoView();
-                    pianoViewVisible = true;
                 }
             }
         });
+    }
 
-        return rootView;
+    public void setPianoViewVisible(boolean pianoViewVisible) {
+        this.pianoViewVisible = pianoViewVisible;
+    }
+
+    public boolean isPianoViewVisible() {
+        return pianoViewVisible;
     }
 }
