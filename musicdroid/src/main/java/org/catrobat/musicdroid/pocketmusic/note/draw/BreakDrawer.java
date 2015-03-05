@@ -91,7 +91,7 @@ public class BreakDrawer extends SymbolDrawer {
 
         int startXPositionBreak = getCenterPointForNextSymbol().x;
 
-        Rect breakRect = noteSheetCanvas.drawBitmap(resources, breakId, breakHeight, startXPositionBreak, noteSheetCanvas.getHeightHalf(), paint);
+        Rect breakRect = noteSheetCanvas.drawBitmap(resources, breakId, breakHeight, startXPositionBreak, noteSheetCanvas.getHalfHeight(), paint);
         drawPosition.setStartXPositionForNextElement(breakRect.right);
 
         return breakRect;
@@ -106,12 +106,13 @@ public class BreakDrawer extends SymbolDrawer {
 
         if ((NoteLength.HALF == noteLength) || (NoteLength.HALF_DOT == noteLength)) {
             breakRect.top = centerPoint.y - breakWidthHalf;
+            breakRect.bottom = centerPoint.y;
         } else {
-            breakRect.top = centerPoint.y + breakWidthHalf;
+            breakRect.top = centerPoint.y;
+            breakRect.bottom = centerPoint.y + breakWidthHalf;
         }
 
         breakRect.right = centerPoint.x + breakWidthHalf;
-        breakRect.bottom = centerPoint.y;
 
         noteSheetCanvas.drawRect(breakRect, paint);
 

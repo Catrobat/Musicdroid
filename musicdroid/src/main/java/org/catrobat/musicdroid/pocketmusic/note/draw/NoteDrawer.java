@@ -83,7 +83,7 @@ public class NoteDrawer extends SymbolDrawer {
                     xPositionForCross = getCenterPointForNextSmallSymbol().x;
                 }
 
-                int yPositionForCross = noteSheetCanvas.getHeightHalf() + NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName) * distanceBetweenLines / 2;
+                int yPositionForCross = noteSheetCanvas.getHalfHeight() + NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName) * distanceBetweenLines / 2;
 
                 crossRects.add(noteCrossDrawer.drawCross(xPositionForCross, yPositionForCross, paint));
             }
@@ -105,9 +105,9 @@ public class NoteDrawer extends SymbolDrawer {
     }
 
     protected void drawHelpLines(SymbolPosition symbolPosition, Paint paint) {
-        float topEndOfNoteLines = noteSheetCanvas.getHeightHalf() -
+        float topEndOfNoteLines = noteSheetCanvas.getHalfHeight() -
                 distanceBetweenLines * NoteSheetDrawer.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
-        float bottomEndOfNoteLines = noteSheetCanvas.getHeightHalf() +
+        float bottomEndOfNoteLines = noteSheetCanvas.getHalfHeight() +
                 distanceBetweenLines * NoteSheetDrawer.NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS;
 
         float topEndOfHelpLines = symbolPosition.getTop() + distanceBetweenLines / 2;

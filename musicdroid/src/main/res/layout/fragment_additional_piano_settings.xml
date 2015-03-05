@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Musicdroid: An on-device music generator for Android
-  ~ Copyright (C) 2010-2014 The Catrobat Team
+  ~ Copyright (C) 2010-2015 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -22,9 +21,16 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources >
-    <color name="list_view_item_background_color_selected" >#4D7F8F</color >
-    <color name="additional_settings_button_background" >#ff1f4e8f</color >
-    <color name="list_view_item_background_color" >#ff000000</color >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
 
-</resources >
+    <Button
+        android:id="@+id/switch_to_break_button"
+        android:background="@color/additional_settings_button_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/arrow_down" />
+
+</LinearLayout >

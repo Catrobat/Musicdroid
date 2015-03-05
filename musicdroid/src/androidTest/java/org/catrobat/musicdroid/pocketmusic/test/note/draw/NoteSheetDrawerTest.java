@@ -76,7 +76,7 @@ public class NoteSheetDrawerTest extends AbstractDrawerTest {
 
         int expectedHeight = noteSheetDrawer.getDistanceBetweenLines() * NoteSheetDrawer.HEIGHT_OF_KEY_IN_LINE_SPACES;
 
-        assertCanvasElementQueueBitmap(R.drawable.violine, expectedHeight, drawPosition.getStartXPositionForNextElement(), noteSheetCanvas.getHeightHalf(), paintDefault);
+        assertCanvasElementQueueBitmap(R.drawable.violine, expectedHeight, drawPosition.getStartXPositionForNextElement(), noteSheetCanvas.getHalfHeight(), paintDefault);
     }
 
     public void testDrawNoteSheet() {

@@ -29,42 +29,24 @@ import android.widget.Button;
 
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoViewFragment;
+import org.catrobat.musicdroid.pocketmusic.tools.DisplayMeasurements;
 
-public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoActivity> {
+public class PianoViewFragmentTest extends ActivityInstrumentationTestCase2<PianoActivity> {
 
-    private static final int MIN_WIDTH = 240;
-    private static final int MAX_WIDTH = 2000;
-
-    private static final int MIN_HEIGHT = 240;
-    private static final int MAX_HEIGHT = 2000;
-
-    private PianoActivity pianoActivity;
     private PianoViewFragment pianoViewFragment;
 
-    public PianoActivityTest(){
+    public PianoViewFragmentTest() {
         super(PianoActivity.class);
     }
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        pianoActivity = getActivity();
-        pianoViewFragment = pianoActivity.getPianoViewFragment();
-    }
-
-    //---------------------------- FRAGMENT TESTS --------------------------------------------------
-    public void testGetDisplayWidth() {
-        assertTrue(pianoViewFragment.getDisplayWidth() > MIN_WIDTH);
-        assertTrue(pianoViewFragment.getDisplayWidth() < MAX_WIDTH);
-    }
-
-    public void testGetDisplayHeight() {
-        assertTrue(pianoViewFragment.getDisplayHeight() > MIN_HEIGHT);
-        assertTrue(pianoViewFragment.getDisplayHeight() < MAX_HEIGHT);
+        pianoViewFragment = getActivity().getPianoViewFragment();
     }
 
     @UiThreadTest
-    public void testCalculatePianoKeyPositions(){
+    public void testCalculatePianoKeyPositions() {
         int blackKeyHeightScaleFactor = 6;
         int keyWidthScaleFactor = 0;
         int keysPerOctave = 7;
@@ -75,17 +57,18 @@ public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoAct
     }
 
     private void assertButtonPosition(int keyWidthScaleFactor, int keysPerOctave) {
-        int buttonWidth = pianoViewFragment.getDisplayWidth() / (keysPerOctave + keyWidthScaleFactor);
+        DisplayMeasurements displayMeasurements = new DisplayMeasurements(getActivity());
+        int buttonWidth = displayMeasurements.getDisplayWidth() / (keysPerOctave + keyWidthScaleFactor);
 
-        for(int i = 0 ; i < pianoViewFragment.getBlackButtonCount(); i++)
+        for (int i = 0; i < pianoViewFragment.getBlackButtonCount(); i++)
             assertEquals(pianoViewFragment.getBlackButtonAtIndex(i).getWidth(), buttonWidth);
-        for(int i = 0 ; i < pianoViewFragment.getWhiteButtonCount(); i++)
+        for (int i = 0; i < pianoViewFragment.getWhiteButtonCount(); i++)
             assertEquals(pianoViewFragment.getWhiteButtonAtIndex(i).getWidth(), buttonWidth);
 
         assertEquals((buttonWidth / 2), pianoViewFragment.getBlackButtonAtIndex(0).getLeft());
         assertEquals((buttonWidth / 2 * 3), pianoViewFragment.getBlackButtonAtIndex(1).getLeft());
 
-        assertEquals(0 , pianoViewFragment.getWhiteButtonAtIndex(0).getLeft());
+        assertEquals(0, pianoViewFragment.getWhiteButtonAtIndex(0).getLeft());
         assertEquals(buttonWidth, pianoViewFragment.getWhiteButtonAtIndex(1).getLeft());
     }
 
@@ -108,27 +91,27 @@ public class PianoActivityTest extends ActivityInstrumentationTestCase2<PianoAct
     }
 
     @UiThreadTest
-    public void testDisableBlackKey1(){
+    public void testDisableBlackKey1() {
         disableKeyAndAssertVisibility(1);
     }
 
     @UiThreadTest
-    public void testDisableBlackKey2(){
+    public void testDisableBlackKey2() {
         disableKeyAndAssertVisibility(3);
     }
 
     @UiThreadTest
-    public void testDisableBlackKey3(){
+    public void testDisableBlackKey3() {
         disableKeyAndAssertVisibility(100);
     }
 
     @UiThreadTest
-    public void testDisableBlackKey4(){
+    public void testDisableBlackKey4() {
         disableKeyAndAssertVisibility(-1);
     }
 
     private void disableKeyAndAssertVisibility(int index) {
-        pianoViewFragment.setBlackKeyInvisibilityAtIndex(index);
+        pianoViewFragment.setBlackKeyInvisible(index);
 
         Button button = pianoViewFragment.getBlackButtonAtIndex(index);
 

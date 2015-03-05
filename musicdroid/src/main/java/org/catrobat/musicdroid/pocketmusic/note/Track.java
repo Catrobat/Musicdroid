@@ -187,4 +187,8 @@ public class Track implements Serializable {
 
         return "[Track] id=" + id + " projectName=" + projectName + " instrument=" + instrument + " key=" + key + " beatsPerMinute=" + beatsPerMinute + " size=" + size();
     }
+
+    public void increaseLastTick(long difference) {
+        lastTick += difference;
+    }
 }

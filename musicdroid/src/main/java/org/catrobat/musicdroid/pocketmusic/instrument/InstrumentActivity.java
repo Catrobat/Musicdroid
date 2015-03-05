@@ -22,8 +22,8 @@
  */
 package org.catrobat.musicdroid.pocketmusic.instrument;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -38,14 +38,19 @@ import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.TrackMementoStack;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolsToTrackConverter;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.SaveProjectDialog;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
-public abstract class InstrumentActivity extends Activity {
+public abstract class InstrumentActivity extends FragmentActivity {
 
     public static final int MAX_TRACK_SIZE_IN_SYMBOLS = 60;
-    public static final int MAX_TRACK_SIZE_IN_NOTE_EVENTS = MAX_TRACK_SIZE_IN_SYMBOLS * 2;
 
     private static final String R_RAW = "raw";
     private static final String SAVED_INSTANCE_TRACK = "SavedTrack";
@@ -53,16 +58,19 @@ public abstract class InstrumentActivity extends Activity {
 
     private MidiPlayer midiPlayer;
     private Track track;
+    private List<Symbol> symbols;
+    private TrackToSymbolsConverter trackConverter;
     private TickProvider tickProvider;
     private TrackMementoStack mementoStack;
 
     private boolean activityInFocus = false;
 
-
     public InstrumentActivity(MusicalKey key, MusicalInstrument instrument) {
         midiPlayer = MidiPlayer.getInstance();
 
         track = new Track(key, instrument, Project.DEFAULT_BEATS_PER_MINUTE);
+        symbols = new LinkedList<Symbol>();
+        trackConverter = new TrackToSymbolsConverter();
         tickProvider = new TickProvider(track.getBeatsPerMinute());
 
         mementoStack = new TrackMementoStack();
@@ -101,6 +109,8 @@ public abstract class InstrumentActivity extends Activity {
     public void setTrack(Track track) {
         this.track = track;
         tickProvider.setTickBasedOnTrack(track);
+
+        symbols = trackConverter.convertTrack(track);
     }
 
     public void pushMemento(Track track) {
@@ -111,12 +121,14 @@ public abstract class InstrumentActivity extends Activity {
         return track;
     }
 
+    public List<Symbol> getSymbols() { return symbols; }
+
     public MidiPlayer getMidiPlayer() {
         return midiPlayer;
     }
 
     public void addNoteEvent(NoteEvent noteEvent) {
-        if (track.size() >= MAX_TRACK_SIZE_IN_NOTE_EVENTS) {
+        if (symbols.size() >= MAX_TRACK_SIZE_IN_SYMBOLS) {
             return;
         }
 
@@ -131,7 +143,27 @@ public abstract class InstrumentActivity extends Activity {
         }
 
         track.addNoteEvent(tickProvider.getTick(), noteEvent);
+        symbols = trackConverter.convertTrack(track);
         redraw();
+    }
+
+    public void addBreak(BreakSymbol breakSymbol) {
+        if (symbols.size() >= MAX_TRACK_SIZE_IN_SYMBOLS) {
+            return;
+        }
+
+        mementoStack.pushMemento(track);
+        symbols.add(breakSymbol);
+        redraw();
+
+        SymbolsToTrackConverter converter = new SymbolsToTrackConverter();
+
+        Track newTrack = converter.convertSymbols(symbols, track.getKey(), track.getInstrument(), track.getBeatsPerMinute());
+        newTrack.setProject(track.getProject());
+        newTrack.setId(track.getId());
+
+        track = newTrack;
+        tickProvider.increaseTickByBreak(breakSymbol);
     }
 
     @Override

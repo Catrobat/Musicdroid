@@ -114,6 +114,22 @@ public final class TrackTestDataFactory {
         return track;
     }
 
+    public static Track createTrackWithSeveralBreaks() {
+        Track track = TrackTestDataFactory.createTrack();
+        long tick = 0;
+
+        tick += NoteLength.HALF.toTicks(track.getBeatsPerMinute());
+        tick += NoteLength.SIXTEENTH.toTicks(track.getBeatsPerMinute());
+
+        track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
+
+        tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
+
+        track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
+
+        return track;
+    }
+
 	public static Track createSemiComplexTrack(MusicalInstrument instrument) {
 		Track track = new Track(MusicalKey.VIOLIN, instrument, Project.DEFAULT_BEATS_PER_MINUTE);
 

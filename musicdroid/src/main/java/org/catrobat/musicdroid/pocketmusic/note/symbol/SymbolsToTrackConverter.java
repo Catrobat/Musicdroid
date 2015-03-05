@@ -57,7 +57,11 @@ public class SymbolsToTrackConverter {
 
                 tick += currentMaxTickOffset;
             } else if (symbol instanceof BreakSymbol) {
-                tick += ((BreakSymbol) symbol).getNoteLength().toTicks(beatsPerMinute);
+                long difference = ((BreakSymbol) symbol).getNoteLength().toTicks(beatsPerMinute);
+
+                track.increaseLastTick(difference);
+
+                tick += difference;
             } else {
                 throw new IllegalArgumentException("Illegal symbol: " + symbol);
             }

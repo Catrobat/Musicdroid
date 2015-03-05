@@ -25,6 +25,9 @@ package org.catrobat.musicdroid.pocketmusic.test.note.symbol;
 
 import android.test.AndroidTestCase;
 
+import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
+import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolsToTrackConverter;
@@ -34,11 +37,21 @@ import java.util.List;
 
 public class SymbolsToTrackConverterTest extends AndroidTestCase {
 
-    public void testConvertSymbols() {
+    public void testConvertSymbols1() {
         SymbolsToTrackConverter converter = new SymbolsToTrackConverter();
-        List<Symbol> symbols = TrackToSymbolsConverterTest.createSymbolListWithBreak();
+        List<Symbol> symbols = SymbolsTestDataFactory.createSymbolsWithBreak();
         Track expectedTrack = TrackTestDataFactory.createTrackWithBreak();
 
         assertEquals(expectedTrack, converter.convertSymbols(symbols, expectedTrack.getKey(), expectedTrack.getInstrument(), expectedTrack.getBeatsPerMinute()));
+    }
+
+    public void testConvertSymbols2() {
+        SymbolsToTrackConverter converter = new SymbolsToTrackConverter();
+        List<Symbol> symbols = SymbolsTestDataFactory.createSymbolsWithBreakAtTheEnd();
+        Track track = converter.convertSymbols(symbols, MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_BASS, Project.DEFAULT_BEATS_PER_MINUTE);
+
+        for (long tick : track.getSortedTicks()) {
+            assertTrue(tick != track.getLastTick());
+        }
     }
 }

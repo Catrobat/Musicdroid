@@ -22,22 +22,20 @@
  */
 package org.catrobat.musicdroid.pocketmusic.instrument.noteSheet;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
-import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.draw.DrawElementsTouchDetector;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
+import org.catrobat.musicdroid.pocketmusic.tools.DisplayMeasurements;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -45,7 +43,7 @@ import java.util.List;
 public class NoteSheetView extends View {
 
     protected DrawElementsTouchDetector touchDetector;
-    protected TrackToSymbolsConverter trackConverter;
+
     protected List<Symbol> symbols;
     protected MusicalKey key;
 
@@ -53,15 +51,20 @@ public class NoteSheetView extends View {
     protected NoteSheetDrawer noteSheetDrawer;
     protected int widthBeforeResize;
 
-	public NoteSheetView(Context context, AttributeSet attrs) {
-		super(context, attrs);
+    private DisplayMeasurements displayMeasurements;
+
+    public NoteSheetView(Context context, AttributeSet attrs) {
+        super(context, attrs);
 
         touchDetector = new DrawElementsTouchDetector();
-        trackConverter = new TrackToSymbolsConverter();
         symbols = new LinkedList<Symbol>();
         key = MusicalKey.VIOLIN;
         widthBeforeResize = getWidth();
-	}
+
+        if (context instanceof Activity) {
+            displayMeasurements = new DisplayMeasurements((Activity) getContext());
+        }
+    }
 
     public boolean checkForScrollAndRecalculateWidth() {
         if (widthBeforeResize != getWidth()) {
@@ -72,11 +75,11 @@ public class NoteSheetView extends View {
         return false;
     }
 
-	public void redraw(Track track) {
-        key = track.getKey();
-        symbols = trackConverter.convertTrack(track);
+    public void redraw(List<Symbol> symbols, MusicalKey key) {
+        this.symbols = symbols;
+        this.key = key;
         invalidate();
-	}
+    }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -84,34 +87,27 @@ public class NoteSheetView extends View {
     }
 
     private void remeasureDisplayForDrawing() {
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-
-        int screenWidth = displayMetrics.widthPixels;
-        int screenHeight = displayMetrics.heightPixels;
-
-        if(noteSheetDrawer == null) {
-            setMeasuredDimension(screenWidth, screenHeight / 2);
+        if (noteSheetDrawer == null) {
+            setMeasuredDimension(displayMeasurements.getDisplayWidth(), displayMeasurements.getHalfDisplayHeight());
         } else {
             int trackWidth = noteSheetDrawer.getWidthForDrawingTrack();
-            if (trackWidth < screenWidth) {
-                setMeasuredDimension(screenWidth, getHeight());
+            if (trackWidth < displayMeasurements.getDisplayWidth()) {
+                setMeasuredDimension(displayMeasurements.getDisplayWidth(), getHeight());
             } else {
-                setMeasuredDimension(trackWidth, getHeight());
+                setMeasuredDimension(trackWidth,getHeight());
             }
         }
     }
 
-	@Override
-	protected void onDraw(Canvas canvas) {
-		super.onDraw(canvas);
-		noteSheetCanvas = new NoteSheetCanvas(canvas);
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        noteSheetCanvas = new NoteSheetCanvas(canvas);
         requestLayout();
         noteSheetDrawer = new NoteSheetDrawer(noteSheetCanvas, getResources(), symbols, key);
         noteSheetDrawer.drawNoteSheet();
         ((PianoActivity) getContext()).scrollNoteSheet();
-	}
+    }
 
     public boolean onEditMode(MotionEvent e) {
         if (MotionEvent.ACTION_UP == e.getAction()) {

@@ -30,8 +30,8 @@ import android.widget.HorizontalScrollView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.error.ErrorDialog;
-import org.catrobat.musicdroid.pocketmusic.instrument.edit.menu.EditModeContextMenu;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
+import org.catrobat.musicdroid.pocketmusic.instrument.edit.menu.EditModeContextMenu;
 import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetView;
 import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetViewFragment;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
@@ -48,14 +48,21 @@ import java.io.IOException;
 public class PianoActivity extends InstrumentActivity {
 
     public static boolean inCallback = false;
+    private static final String SAVED_INSTANCE_PIANO_VISIBLE = "pianoVisible";
+    private static final String SAVED_INSTANCE_PIANO_TITLE = "pianoTitle";
 
     private PianoViewFragment pianoViewFragment;
     private NoteSheetViewFragment noteSheetViewFragment;
+    private AdditionalSettingsFragment additionalSettingsFragment;
+    private BreakViewFragment breakViewFragment;
+    private String projectName;
 
     private EditModeContextMenu editModeContextMenu;
 
     public PianoActivity() {
         super(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
+
+        projectName = null;
     }
 
     public PianoViewFragment getPianoViewFragment() {
@@ -66,13 +73,15 @@ public class PianoActivity extends InstrumentActivity {
         return noteSheetViewFragment.getNoteSheetView();
     }
 
-    public NoteSheetViewFragment getNoteSheetViewFragment() { return noteSheetViewFragment; }
+    public NoteSheetViewFragment getNoteSheetViewFragment() {
+        return noteSheetViewFragment;
+    }
 
     public String getTrackSizeString() {
         return noteSheetViewFragment.getTrackSizeTextViewText();
     }
 
-    public void startEditMode(){
+    public void startEditMode() {
         editModeContextMenu = new EditModeContextMenu(this);
         startActionMode(editModeContextMenu);
     }
@@ -87,33 +96,65 @@ public class PianoActivity extends InstrumentActivity {
         setContentView(R.layout.activity_piano);
 
         handleExtras();
-
         noteSheetViewFragment = new NoteSheetViewFragment();
         pianoViewFragment = new PianoViewFragment();
+        breakViewFragment = new BreakViewFragment();
+        additionalSettingsFragment = new AdditionalSettingsFragment();
 
         if (savedInstanceState != null) {
-            getFragmentManager().beginTransaction().replace(R.id.container, noteSheetViewFragment).commit();
-            getFragmentManager().beginTransaction().replace(R.id.container, pianoViewFragment).commit();
+            getFragmentManager().beginTransaction().replace(R.id.notesheetview_fragment_holder, noteSheetViewFragment).commit();
+            getFragmentManager().beginTransaction().replace(R.id.additional_options_holder, getAdditionalSettingsFragment()).commit();
+
+            getAdditionalSettingsFragment().setPianoViewVisible(savedInstanceState.getBoolean(SAVED_INSTANCE_PIANO_VISIBLE));
+
+            if (getAdditionalSettingsFragment().isPianoViewVisible()) {
+                getFragmentManager().beginTransaction().replace(R.id.pianoview_fragment_holder, pianoViewFragment).commit();
+            } else {
+                getFragmentManager().beginTransaction().replace(R.id.pianoview_fragment_holder, breakViewFragment).commit();
+            }
+
+            projectName = savedInstanceState.getString(SAVED_INSTANCE_PIANO_TITLE);
+
+            if (null != projectName) {
+                setTitle(projectName);
+            }
+
         } else {
-            getFragmentManager().beginTransaction().add(R.id.container, noteSheetViewFragment).commit();
-            getFragmentManager().beginTransaction().add(R.id.container, pianoViewFragment).commit();
+            getFragmentManager().beginTransaction().add(R.id.notesheetview_fragment_holder, noteSheetViewFragment).commit();
+            getFragmentManager().beginTransaction().add(R.id.additional_options_holder, getAdditionalSettingsFragment()).commit();
+            getFragmentManager().beginTransaction().add(R.id.pianoview_fragment_holder, pianoViewFragment).commit();
         }
+    }
+
+    public void switchToBreakView() {
+        getFragmentManager().beginTransaction().replace(R.id.pianoview_fragment_holder, breakViewFragment).commit();
+        getAdditionalSettingsFragment().setPianoViewVisible(false);
+    }
+
+    public void switchToPianoView() {
+        getFragmentManager().beginTransaction().replace(R.id.pianoview_fragment_holder, pianoViewFragment).commit();
+        getAdditionalSettingsFragment().setPianoViewVisible(true);
     }
 
     private void handleExtras() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            MidiToProjectConverter converter = new MidiToProjectConverter();
-            File midiFile = new File(ProjectToMidiConverter.MIDI_FOLDER,
-                                extras.getString(ProjectSelectionActivity.INTENT_EXTRA_FILE_NAME) +
+            if (extras.containsKey(ProjectSelectionActivity.INTENT_EXTRA_FILE_NAME)) {
+                MidiToProjectConverter converter = new MidiToProjectConverter();
+                File midiFile = new File(ProjectToMidiConverter.MIDI_FOLDER,
+                        extras.getString(ProjectSelectionActivity.INTENT_EXTRA_FILE_NAME) +
                                 ProjectToMidiConverter.MIDI_FILE_EXTENSION);
-            setTitle(extras.getString(ProjectSelectionActivity.INTENT_EXTRA_FILE_NAME));
-            try {
-                Project project = converter.convertMidiFileToProject(midiFile);
-                //TODO: consider more tracks
-                setTrack(project.getTrack(0));
-            } catch (MidiException | IOException e) {
-                ErrorDialog.createDialog(R.string.midi_open, e).show(getFragmentManager(), "tag");
+                projectName = extras.getString(ProjectSelectionActivity.INTENT_EXTRA_FILE_NAME);
+                setTitle(projectName);
+
+                try {
+                    Project project = converter.convertMidiFileToProject(midiFile);
+                    //TODO: consider more tracks
+                    setTrack(project.getTrack(0));
+                } catch (MidiException | IOException e) {
+                    ErrorDialog.createDialog(R.string.midi_open, e).show(getFragmentManager(), "tag");
+                }
+                getIntent().removeExtra(ProjectSelectionActivity.INTENT_EXTRA_FILE_NAME);
             }
         }
     }
@@ -124,20 +165,27 @@ public class PianoActivity extends InstrumentActivity {
     }
 
     @Override
-    protected void redraw() {
-        noteSheetViewFragment.redraw(getTrack());
+    public void redraw() {
+        noteSheetViewFragment.redraw(getSymbols(), getTrack().getKey());
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        noteSheetViewFragment.redraw(getTrack());
+        redraw();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.piano, menu);
         return true;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putString(SAVED_INSTANCE_PIANO_TITLE, projectName);
+        savedInstanceState.putSerializable(SAVED_INSTANCE_PIANO_VISIBLE, getAdditionalSettingsFragment().isPianoViewVisible());
     }
 
     public void scrollNoteSheet() {
@@ -149,5 +197,9 @@ public class PianoActivity extends InstrumentActivity {
 
     public void resetSymbolMarkers() {
         noteSheetViewFragment.resetSymbolMarkers();
+    }
+
+    public AdditionalSettingsFragment getAdditionalSettingsFragment() {
+        return additionalSettingsFragment;
     }
 }

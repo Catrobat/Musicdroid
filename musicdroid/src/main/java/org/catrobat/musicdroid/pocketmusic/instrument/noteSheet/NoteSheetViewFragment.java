@@ -24,9 +24,7 @@
 package org.catrobat.musicdroid.pocketmusic.instrument.noteSheet;
 
 import android.app.Fragment;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,26 +34,28 @@ import android.widget.TextView;
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
-import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+import org.catrobat.musicdroid.pocketmusic.tools.DisplayMeasurements;
 
 import java.util.List;
 
-public  class NoteSheetViewFragment extends Fragment {
-
-    public static int X_POS = 0;
-    public static int Y_POS = 1;
+public class NoteSheetViewFragment extends Fragment {
 
     private NoteSheetView noteSheetView;
     private TextView trackSizeTextView;
+
+    private DisplayMeasurements displayMeasurements;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-
         View rootView = inflater.inflate(R.layout.fragment_notesheetview, container, false);
-        rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getDisplayHeight() / 2));
+
+        displayMeasurements = new DisplayMeasurements(getActivity());
+        rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, displayMeasurements.getHalfDisplayHeight()));
+
         noteSheetView = (NoteSheetView) rootView.findViewById(R.id.note_sheet_view);
         trackSizeTextView = (TextView) rootView.findViewById(R.id.track_size_text_view);
 
@@ -84,20 +84,9 @@ public  class NoteSheetViewFragment extends Fragment {
         return rootView;
     }
 
-    private int[] initializeDisplay() {
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int[] widthAndHeight = new int[2];
-        widthAndHeight[0] = size.x;
-        widthAndHeight[1] = size.y;
-
-        return widthAndHeight;
-    }
-
-    public void redraw(Track track) {
-        noteSheetView.redraw(track);
-        setTrackSizeText();
+    public void redraw(List<Symbol> symbols, MusicalKey key) {
+        noteSheetView.redraw(symbols, key);
+        setTrackSizeText(symbols.size());
     }
 
     public String getTrackSizeTextViewText(){
@@ -106,14 +95,6 @@ public  class NoteSheetViewFragment extends Fragment {
 
     public NoteSheetView getNoteSheetView() {
         return noteSheetView;
-    }
-
-    public int getDisplayWidth() {
-        return initializeDisplay()[X_POS];
-    }
-
-    public int getDisplayHeight() {
-        return initializeDisplay()[Y_POS];
     }
 
     public boolean checkForScrollAndRecalculateWidth() {
@@ -134,10 +115,10 @@ public  class NoteSheetViewFragment extends Fragment {
 
     public void deleteMarkedSymbols() {
         noteSheetView.deleteMarkedSymbols();
-        setTrackSizeText();
+        setTrackSizeText(noteSheetView.getSymbols().size());
     }
 
-    private void setTrackSizeText() {
-        trackSizeTextView.setText(noteSheetView.getSymbols().size() +" / " + InstrumentActivity.MAX_TRACK_SIZE_IN_SYMBOLS);
+    private void setTrackSizeText(int symbolCount) {
+        trackSizeTextView.setText(symbolCount + " / " + InstrumentActivity.MAX_TRACK_SIZE_IN_SYMBOLS);
     }
 }

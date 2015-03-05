@@ -70,8 +70,8 @@ public class NoteSheetDrawer {
         drawPosition = new NoteSheetDrawPosition(NOTE_SHEET_PADDING, noteSheetCanvas.getWidth() - NOTE_SHEET_PADDING);
         startPositionForSymbols = 0;
         distanceBetweenLines = calculateDistanceBetweenLines();
-        yPositionOfBarTop = noteSheetCanvas.getHeightHalf() - NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS * distanceBetweenLines;
-        yPositionOfBarBottom = noteSheetCanvas.getHeightHalf() + NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS * distanceBetweenLines;
+        yPositionOfBarTop = noteSheetCanvas.getHalfHeight() - NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS * distanceBetweenLines;
+        yPositionOfBarBottom = noteSheetCanvas.getHalfHeight() + NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS * distanceBetweenLines;
 
         symbolsDrawer = new SymbolsDrawer(noteSheetCanvas, paint, resources, symbols, key, drawPosition, distanceBetweenLines);
     }
@@ -141,7 +141,7 @@ public class NoteSheetDrawer {
 
         int keyPictureHeight = distanceBetweenLines * HEIGHT_OF_KEY_IN_LINE_SPACES;
 
-        Rect keyRect = noteSheetCanvas.drawBitmap(resources, R.drawable.violine, keyPictureHeight, drawPosition.getStartXPositionForNextElement(), noteSheetCanvas.getHeightHalf(), paint);
+        Rect keyRect = noteSheetCanvas.drawBitmap(resources, R.drawable.violine, keyPictureHeight, drawPosition.getStartXPositionForNextElement(), noteSheetCanvas.getHalfHeight(), paint);
         startPositionForSymbols = keyRect.right;
         drawPosition.setStartXPositionForNextElement(startPositionForSymbols);
     }

@@ -65,7 +65,7 @@ public abstract class SymbolDrawer {
     }
 
     private Point getCenterPointForNextSymbol(int symbolWidth) {
-        Point centerPoint = new Point(drawPosition.getStartXPositionForNextElement() + (symbolWidth / 2), noteSheetCanvas.getHeightHalf());
+        Point centerPoint = new Point(drawPosition.getStartXPositionForNextElement() + (symbolWidth / 2), noteSheetCanvas.getHalfHeight());
 
         drawPosition.increasesStartXPositionForNextElement(symbolWidth);
 
