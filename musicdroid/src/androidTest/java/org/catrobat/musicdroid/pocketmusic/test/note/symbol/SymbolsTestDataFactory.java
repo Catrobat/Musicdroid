@@ -54,4 +54,13 @@ public class SymbolsTestDataFactory {
 
         return symbols;
     }
+
+    public static List<Symbol> createSymbolsWithBreakAtTheEnd() {
+        List<Symbol> symbols = new LinkedList<Symbol>();
+
+        symbols.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C4));
+        symbols.add(BreakSymbolTestDataFactory.createBreakSymbol(NoteLength.QUARTER));
+
+        return symbols;
+    }
 }
