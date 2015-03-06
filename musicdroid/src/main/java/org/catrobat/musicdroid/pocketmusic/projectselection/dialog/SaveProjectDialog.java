@@ -30,7 +30,7 @@ import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolsToTrackConverter;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainerToTrackConverter;
 
 import java.io.IOException;
 
@@ -54,8 +54,8 @@ public class SaveProjectDialog extends AbstractProjectNameDialog {
     protected void onNewProjectName(String name) throws IOException, MidiException {
         SymbolContainer symbolContainer = (SymbolContainer) getArguments().getSerializable(ARGUMENT_SYMBOLS);
         int beatsPerMinute = getArguments().getInt(ARGUMENTS_BPM);
-        SymbolsToTrackConverter symbolsConverter = new SymbolsToTrackConverter();
-        Track track = symbolsConverter.convertSymbols(symbolContainer.getSymbols(), symbolContainer.getKey(), symbolContainer.getInstrument(), beatsPerMinute);
+        SymbolContainerToTrackConverter symbolsConverter = new SymbolContainerToTrackConverter();
+        Track track = symbolsConverter.convertSymbols(symbolContainer, beatsPerMinute);
 
         project = new Project(name, beatsPerMinute);
         project.addTrack(track);

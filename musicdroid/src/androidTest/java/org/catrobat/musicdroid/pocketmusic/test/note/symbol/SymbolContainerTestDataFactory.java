@@ -25,9 +25,14 @@ package org.catrobat.musicdroid.pocketmusic.test.note.symbol;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
+import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class SymbolContainerTestDataFactory {
 
@@ -68,6 +73,36 @@ public class SymbolContainerTestDataFactory {
     public static SymbolContainer createSymbolContainerWithOneNoteSymbol(NoteName noteName) {
         SymbolContainer symbolContainer = createSymbolContainer();
         symbolContainer.add(NoteSymbolTestDataFactory.createNoteSymbol(noteName));
+
+        return symbolContainer;
+    }
+
+    public static SymbolContainer createSymbolsWithBreak() {
+        SymbolContainer symbolContainer = createSymbolContainer();
+
+        symbolContainer.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C4));
+        symbolContainer.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.E4));
+        symbolContainer.add(BreakSymbolTestDataFactory.createBreakSymbol(NoteLength.QUARTER));
+        symbolContainer.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C4));
+
+        return symbolContainer;
+    }
+
+    public static SymbolContainer createSymbolsWithSeveralBreaks() {
+        SymbolContainer symbolContainer = createSymbolContainer();
+
+        symbolContainer.add(BreakSymbolTestDataFactory.createBreakSymbol(NoteLength.HALF));
+        symbolContainer.add(BreakSymbolTestDataFactory.createBreakSymbol(NoteLength.SIXTEENTH));
+        symbolContainer.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C4));
+
+        return symbolContainer;
+    }
+
+    public static SymbolContainer createSymbolsWithBreakAtTheEnd() {
+        SymbolContainer symbolContainer = createSymbolContainer();
+
+        symbolContainer.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C4));
+        symbolContainer.add(BreakSymbolTestDataFactory.createBreakSymbol(NoteLength.QUARTER));
 
         return symbolContainer;
     }

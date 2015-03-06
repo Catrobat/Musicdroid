@@ -69,6 +69,10 @@ public class SymbolContainer implements Serializable {
         symbols.clear();
     }
 
+    public Symbol get(int index) {
+        return symbols.get(index);
+    }
+
     public List<Symbol> getSymbols() {
         return symbols;
     }

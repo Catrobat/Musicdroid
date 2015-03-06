@@ -32,6 +32,7 @@ import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+import org.catrobat.musicdroid.pocketmusic.test.note.symbol.SymbolContainerTestDataFactory;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -43,13 +44,7 @@ public class NoteSheetViewTest extends AndroidTestCase {
     @Override
     protected void setUp() {
         noteSheetView = new NoteSheetViewMock(getContext(), null);
-
-        List<Symbol> symbols = new LinkedList<Symbol>();
-        NoteSymbol noteSymbol = new NoteSymbol();
-        noteSymbol.addNote(NoteName.C4, NoteLength.QUARTER);
-        symbols.add(noteSymbol);
-
-        noteSheetView.redraw(symbols, MusicalKey.VIOLIN);
+        noteSheetView.redraw(SymbolContainerTestDataFactory.createSimpleSymbolContainer());
         noteSheetView.draw();
     }
 

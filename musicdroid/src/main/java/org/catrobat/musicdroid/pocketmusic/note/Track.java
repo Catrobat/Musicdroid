@@ -70,6 +70,7 @@ public class Track implements Serializable {
         return key;
     }
 
+
     public void addNoteEvent(long tick, NoteEvent noteEvent) {
         List<NoteEvent> noteEventList = null;
 

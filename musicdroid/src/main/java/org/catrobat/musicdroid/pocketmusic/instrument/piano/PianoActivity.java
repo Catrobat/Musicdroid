@@ -122,7 +122,7 @@ public class PianoActivity extends InstrumentActivity {
 
     @Override
     public void redraw() {
-        noteSheetViewFragment.redraw(getSymbolContainer().getSymbols(), getSymbolContainer().getKey());
+        noteSheetViewFragment.redraw(getSymbolContainer());
     }
 
     @Override

@@ -28,6 +28,7 @@ import android.test.AndroidTestCase;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
 
@@ -39,7 +40,6 @@ public class SymbolContainerTest extends AndroidTestCase {
     public void testGetAttributes() {
         MusicalKey key = MusicalKey.VIOLIN;
         MusicalInstrument instrument = MusicalInstrument.ACOUSTIC_BASS;
-        int beatsPerMinute = 50;
         SymbolContainer symbolContainer = new SymbolContainer(key, instrument);
 
         assertEquals(key, symbolContainer.getKey());
@@ -73,6 +73,15 @@ public class SymbolContainerTest extends AndroidTestCase {
         symbolContainer.clear();
 
         assertEquals(0, symbolContainer.size());
+    }
+
+    public void testGet() {
+        SymbolContainer symbolContainer = SymbolContainerTestDataFactory.createSymbolContainer();
+        NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol();
+
+        symbolContainer.add(noteSymbol);
+
+        assertEquals(noteSymbol, symbolContainer.get(0));
     }
 
     public void testEquals1() {

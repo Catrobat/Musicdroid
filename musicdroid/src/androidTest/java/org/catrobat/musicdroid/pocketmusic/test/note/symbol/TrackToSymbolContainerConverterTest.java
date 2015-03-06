@@ -27,27 +27,25 @@ import android.test.AndroidTestCase;
 
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolContainerConverter;
 import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
 
-import java.util.List;
-
-public class TrackToSymbolsConverterTest extends AndroidTestCase {
+public class TrackToSymbolContainerConverterTest extends AndroidTestCase {
 
     public void testConvertTrack1() {
-        TrackToSymbolsConverter converter = new TrackToSymbolsConverter();
+        TrackToSymbolContainerConverter converter = new TrackToSymbolContainerConverter();
         Track track = TrackTestDataFactory.createTrackWithBreak();
-        List<Symbol> expectedSymbols = SymbolsTestDataFactory.createSymbolsWithBreak();
+        SymbolContainer symbolContainer = SymbolContainerTestDataFactory.createSymbolsWithBreak();
 
-        assertEquals(expectedSymbols, converter.convertTrack(track, Project.DEFAULT_BEATS_PER_MINUTE));
+        assertEquals(symbolContainer, converter.convertTrack(track, Project.DEFAULT_BEATS_PER_MINUTE));
     }
 
     public void testConvertTrack2() {
-        TrackToSymbolsConverter converter = new TrackToSymbolsConverter();
+        TrackToSymbolContainerConverter converter = new TrackToSymbolContainerConverter();
         Track track = TrackTestDataFactory.createTrackWithSeveralBreaks();
-        List<Symbol> expectedSymbols = SymbolsTestDataFactory.createSymbolsWithSeveralBreaks();
+        SymbolContainer symbolContainer = SymbolContainerTestDataFactory.createSymbolsWithSeveralBreaks();
 
-        assertEquals(expectedSymbols, converter.convertTrack(track, Project.DEFAULT_BEATS_PER_MINUTE));
+        assertEquals(symbolContainer, converter.convertTrack(track, Project.DEFAULT_BEATS_PER_MINUTE));
     }
 }

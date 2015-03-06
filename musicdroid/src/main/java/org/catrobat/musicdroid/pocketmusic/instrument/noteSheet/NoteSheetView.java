@@ -35,6 +35,7 @@ import org.catrobat.musicdroid.pocketmusic.note.draw.DrawElementsTouchDetector;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
 import org.catrobat.musicdroid.pocketmusic.tools.DisplayMeasurements;
 
 import java.util.LinkedList;
@@ -75,9 +76,9 @@ public class NoteSheetView extends View {
         return false;
     }
 
-    public void redraw(List<Symbol> symbols, MusicalKey key) {
-        this.symbols = symbols;
-        this.key = key;
+    public void redraw(SymbolContainer symbolContainer) {
+        this.symbols = symbolContainer.getSymbols();
+        this.key = symbolContainer.getKey();
         invalidate();
     }
 

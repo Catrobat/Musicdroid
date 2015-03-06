@@ -43,8 +43,8 @@ import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteEventsToSymbolsConverter;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolsToTrackConverter;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainerToTrackConverter;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolContainerConverter;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.SaveProjectDialog;
 
@@ -130,14 +130,6 @@ public abstract class InstrumentActivity extends FragmentActivity {
     public void onResume() {
         super.onResume();
     }
-
-    // TODO fw remove me
-    /*public void setTrack(Track track) {
-        this.track = track;
-        tickProvider.setTickBasedOnTrack(track);
-
-        symbols = trackConverter.convertTrack(track);
-    }*/
 
     public void pushMemento(Track track) {
         mementoStack.pushMemento(track);
@@ -252,9 +244,9 @@ public abstract class InstrumentActivity extends FragmentActivity {
 
             try {
                 // TODO fw refactor for several tracks
-                SymbolsToTrackConverter symbolsConverter = new SymbolsToTrackConverter();
+                SymbolContainerToTrackConverter symbolsConverter = new SymbolContainerToTrackConverter();
                 project.clear();
-                project.addTrack(symbolsConverter.convertSymbols(symbolContainer.getSymbols(), symbolContainer.getKey(), symbolContainer.getInstrument(), beatsPerMinute));
+                project.addTrack(symbolsConverter.convertSymbols(symbolContainer, beatsPerMinute));
                 converter.writeProjectAsMidi(project);
                 Toast.makeText(getBaseContext(), R.string.dialog_project_save_success, Toast.LENGTH_LONG).show();
             } catch (MidiException e) {
@@ -303,9 +295,8 @@ public abstract class InstrumentActivity extends FragmentActivity {
                     //TODO: consider more tracks
                     project = midiConverter.convertMidiFileToProject(midiFile);
                     Track track = project.getTrack(0);
-                    TrackToSymbolsConverter trackConverter = new TrackToSymbolsConverter();
-                    symbolContainer = new SymbolContainer(track.getKey(), track.getInstrument());
-                    symbolContainer.addAll(trackConverter.convertTrack(track, beatsPerMinute));
+                    TrackToSymbolContainerConverter trackConverter = new TrackToSymbolContainerConverter();
+                    symbolContainer = trackConverter.convertTrack(track, beatsPerMinute);
                 } catch (MidiException | IOException e) {
                     ErrorDialog.createDialog(R.string.midi_open, e).show(getFragmentManager(), "tag");
                 }

@@ -30,8 +30,7 @@ import android.view.MenuItem;
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetViewFragment;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
-import org.catrobat.musicdroid.pocketmusic.note.Track;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolsToTrackConverter;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainerToTrackConverter;
 
 public class EditModeContextMenu implements ActionMode.Callback {
 
@@ -81,7 +80,7 @@ public class EditModeContextMenu implements ActionMode.Callback {
 
     private void onActionDelete() {
         NoteSheetViewFragment noteSheetViewFragment = parent.getNoteSheetViewFragment();
-        SymbolsToTrackConverter converter = new SymbolsToTrackConverter();
+        SymbolContainerToTrackConverter converter = new SymbolContainerToTrackConverter();
 
         noteSheetViewFragment.deleteMarkedSymbols();
 
