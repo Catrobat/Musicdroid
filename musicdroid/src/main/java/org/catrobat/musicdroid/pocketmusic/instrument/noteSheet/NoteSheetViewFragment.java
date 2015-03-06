@@ -119,6 +119,6 @@ public class NoteSheetViewFragment extends Fragment {
     }
 
     private void setTrackSizeText(int symbolCount) {
-        trackSizeTextView.setText(symbolCount + " / " + InstrumentActivity.MAX_TRACK_SIZE_IN_SYMBOLS);
+        trackSizeTextView.setText(symbolCount + " / " + InstrumentActivity.MAX_SYMBOLS_SIZE);
     }
 }

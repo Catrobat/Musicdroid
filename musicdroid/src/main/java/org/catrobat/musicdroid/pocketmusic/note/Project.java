@@ -105,7 +105,7 @@ public class Project implements Serializable {
 
         if (size() == project.size()) {
             for (int i = 0; i < size(); i++) {
-                if (!getTrack(i).equals(project.getTrack(i))) {
+                if (false == getTrack(i).equals(project.getTrack(i))) {
                     return false;
                 }
             }
@@ -119,5 +119,10 @@ public class Project implements Serializable {
     @Override
     public String toString() {
         return "[Project] name=" + name + " beatsPerMinute=" + beatsPerMinute + " trackCount=" + size();
+    }
+
+    // TODO fw remove me. Pls.
+    public void clear() {
+        tracks.clear();
     }
 }

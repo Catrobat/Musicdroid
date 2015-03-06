@@ -91,12 +91,10 @@ public final class TrackTestDataFactory {
         long tick = 0;
 
         track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
-        track.addNoteEvent(tick, new NoteEvent(NoteName.D4, true));
 
         tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
 
         track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
-        track.addNoteEvent(tick, new NoteEvent(NoteName.D4, false));
         track.addNoteEvent(tick, new NoteEvent(NoteName.E4, true));
 
         tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());

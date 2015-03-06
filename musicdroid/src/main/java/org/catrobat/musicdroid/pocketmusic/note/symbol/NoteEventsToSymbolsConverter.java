@@ -33,56 +33,64 @@ import java.util.Map;
 
 public class NoteEventsToSymbolsConverter {
 
-	private long lastTick;
-	private Map<NoteName, Long> openNotes;
-	private Symbol currentSymbol;
+    private long lastTick;
+    private Map<NoteName, Long> openNotes;
+    private Symbol currentSymbol;
 
-	public NoteEventsToSymbolsConverter() {
-		lastTick = 0;
-		openNotes = new HashMap<NoteName, Long>();
-		currentSymbol = null;
-	}
+    public NoteEventsToSymbolsConverter() {
+        lastTick = 0;
+        openNotes = new HashMap<NoteName, Long>();
+        currentSymbol = null;
+    }
 
-	public List<Symbol> convertNoteEventList(long tick, List<NoteEvent> noteEvents, int beatsPerMinute) {
-		List<Symbol> symbols = new LinkedList<Symbol>();
+    public List<Symbol> convertNoteEventList(long tick, List<NoteEvent> noteEvents, int beatsPerMinute) {
+        List<Symbol> symbols = new LinkedList<Symbol>();
 
-		for (NoteEvent noteEvent : noteEvents) {
-			NoteName noteName = noteEvent.getNoteName();
+        for (NoteEvent noteEvent : noteEvents) {
+            symbols.addAll(convertNoteEvent(tick, noteEvent, beatsPerMinute));
+        }
 
-			if (noteEvent.isNoteOn()) {
-				if (lastTick != tick) {
-                    long difference = tick - lastTick;
+        return symbols;
+    }
 
-                    do {
-                        NoteLength noteLength = NoteLength.getNoteLengthFromTickDuration(difference, beatsPerMinute);
-                        symbols.add(new BreakSymbol(noteLength));
-                        difference = difference - noteLength.toTicks(beatsPerMinute);
-                    } while(difference > 0);
-				}
+    public List<Symbol> convertNoteEvent(long tick, NoteEvent noteEvent, int beatsPerMinute) {
+        List<Symbol> symbols = new LinkedList<Symbol>();
 
-				if (openNotes.isEmpty()) {
-					currentSymbol = new NoteSymbol();
-				}
+        NoteName noteName = noteEvent.getNoteName();
 
-				openNotes.put(noteName, tick);
-			} else {
-				long lastTickForNote = openNotes.get(noteName);
-				NoteLength noteLength = NoteLength.getNoteLengthFromTickDuration(tick - lastTickForNote, beatsPerMinute);
+        if (noteEvent.isNoteOn()) {
+            if (lastTick != tick) {
+                long difference = tick - lastTick;
 
-				if (currentSymbol instanceof NoteSymbol) {
-					((NoteSymbol) currentSymbol).addNote(noteName, noteLength);
-				}
+                do {
+                    NoteLength noteLength = NoteLength.getNoteLengthFromTickDuration(difference, beatsPerMinute);
+                    symbols.add(new BreakSymbol(noteLength));
+                    difference = difference - noteLength.toTicks(beatsPerMinute);
+                } while (difference > 0);
+            }
 
-				openNotes.remove(noteName);
+            if (openNotes.isEmpty()) {
+                currentSymbol = new NoteSymbol();
+            }
 
-				if (false == symbols.contains(currentSymbol)) {
-					symbols.add(currentSymbol);
-				}
-			}
+            openNotes.put(noteName, tick);
+        } else {
+            long lastTickForNote = openNotes.get(noteName);
+            NoteLength noteLength = NoteLength.getNoteLengthFromTickDuration(tick - lastTickForNote, beatsPerMinute);
 
-			lastTick = tick;
-		}
+            if (currentSymbol instanceof NoteSymbol) {
+                ((NoteSymbol) currentSymbol).addNote(noteName, noteLength);
+            }
 
-		return symbols;
-	}
+            openNotes.remove(noteName);
+
+            if (false == symbols.contains(currentSymbol)) {
+                symbols.add(currentSymbol);
+            }
+
+            lastTick = tick;
+        }
+
+        return symbols;
+    }
 }
