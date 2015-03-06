@@ -214,15 +214,10 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
         assertTrue(PianoActivity.inCallback);
 
-        Project project = pianoActivity.getTrack().getProject();
-        int id = pianoActivity.getTrack().getId();
-
         clickDeleteInEditMode();
 
         assertFalse(PianoActivity.inCallback);
         assertEquals(0, pianoActivity.getNoteSheetViewFragment().getSymbols().size());
-        assertEquals(project, pianoActivity.getTrack().getProject());
-        assertEquals(id, pianoActivity.getTrack().getId());
         assertEquals(0, pianoActivity.getNoteSheetView().getMarkedSymbolCount());
     }
 

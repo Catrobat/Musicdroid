@@ -87,8 +87,6 @@ public class EditModeContextMenu implements ActionMode.Callback {
         noteSheetViewFragment.deleteMarkedSymbols();
 
         Track newTrack = converter.convertSymbols(noteSheetViewFragment.getSymbols(), track.getKey(), track.getInstrument(), track.getBeatsPerMinute());
-        newTrack.setProject(track.getProject());
-        newTrack.setId(track.getId());
 
         parent.pushMemento(track);
         parent.setTrack(newTrack);

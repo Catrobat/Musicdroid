@@ -36,14 +36,19 @@ import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.TrackMementoStack;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
+import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolsToTrackConverter;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
+import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.SaveProjectDialog;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -55,8 +60,10 @@ public abstract class InstrumentActivity extends FragmentActivity {
     private static final String R_RAW = "raw";
     private static final String SAVED_INSTANCE_TRACK = "SavedTrack";
     private static final String SAVED_INSTANCE_MEMENTO = "SavedMemento";
+    private static final String SAVED_INSTANCE_PROJECT = "SavedProject";
 
     private MidiPlayer midiPlayer;
+    private Project project;
     private Track track;
     private List<Symbol> symbols;
     private TrackToSymbolsConverter trackConverter;
@@ -68,6 +75,7 @@ public abstract class InstrumentActivity extends FragmentActivity {
     public InstrumentActivity(MusicalKey key, MusicalInstrument instrument) {
         midiPlayer = MidiPlayer.getInstance();
 
+        project = null;
         track = new Track(key, instrument, Project.DEFAULT_BEATS_PER_MINUTE);
         symbols = new LinkedList<Symbol>();
         trackConverter = new TrackToSymbolsConverter();
@@ -80,10 +88,17 @@ public abstract class InstrumentActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if ((null != savedInstanceState) && savedInstanceState.containsKey(SAVED_INSTANCE_TRACK) && savedInstanceState.containsKey(SAVED_INSTANCE_MEMENTO)) {
+        if (null != savedInstanceState) {
             setTrack((Track) savedInstanceState.getSerializable(SAVED_INSTANCE_TRACK));
             mementoStack = (TrackMementoStack) savedInstanceState.getSerializable(SAVED_INSTANCE_MEMENTO);
+            project = (Project) savedInstanceState.getSerializable(SAVED_INSTANCE_PROJECT);
+
+            if (null != project) {
+                setTitle(project.getName());
+            }
         }
+
+        handleExtras();
     }
 
     @Override
@@ -92,6 +107,10 @@ public abstract class InstrumentActivity extends FragmentActivity {
 
         savedInstanceState.putSerializable(SAVED_INSTANCE_TRACK, track);
         savedInstanceState.putSerializable(SAVED_INSTANCE_MEMENTO, mementoStack);
+
+        if (null != project) {
+            savedInstanceState.putSerializable(SAVED_INSTANCE_PROJECT, project);
+        }
     }
 
     @Override
@@ -159,8 +178,6 @@ public abstract class InstrumentActivity extends FragmentActivity {
         SymbolsToTrackConverter converter = new SymbolsToTrackConverter();
 
         Track newTrack = converter.convertSymbols(symbols, track.getKey(), track.getInstrument(), track.getBeatsPerMinute());
-        newTrack.setProject(track.getProject());
-        newTrack.setId(track.getId());
 
         track = newTrack;
         tickProvider.increaseTickByBreak(breakSymbol);
@@ -235,7 +252,6 @@ public abstract class InstrumentActivity extends FragmentActivity {
     }
 
     private void saveMidiFileByUserInput() {
-        Project project = track.getProject();
         if (null != project) {
             ProjectToMidiConverter converter = new ProjectToMidiConverter();
 
@@ -267,6 +283,29 @@ public abstract class InstrumentActivity extends FragmentActivity {
         if (!activityInFocus) {
             midiPlayer.stop();
             midiPlayer.clearPlayQueue();
+        }
+    }
+
+
+    private void handleExtras() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            if (extras.containsKey(ProjectSelectionActivity.INTENT_EXTRA_FILE_NAME)) {
+                final String projectName = extras.getString(ProjectSelectionActivity.INTENT_EXTRA_FILE_NAME);
+                MidiToProjectConverter converter = new MidiToProjectConverter();
+                File midiFile = new File(ProjectToMidiConverter.MIDI_FOLDER,
+                        projectName + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
+                setTitle(projectName);
+
+                try {
+                    project = converter.convertMidiFileToProject(midiFile);
+                    //TODO: consider more tracks
+                    setTrack(project.getTrack(0));
+                } catch (MidiException | IOException e) {
+                    ErrorDialog.createDialog(R.string.midi_open, e).show(getFragmentManager(), "tag");
+                }
+                getIntent().removeExtra(ProjectSelectionActivity.INTENT_EXTRA_FILE_NAME);
+            }
         }
     }
 

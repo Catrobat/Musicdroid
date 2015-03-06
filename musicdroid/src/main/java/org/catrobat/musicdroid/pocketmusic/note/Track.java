@@ -34,8 +34,6 @@ public class Track implements Serializable {
 
     private static final long serialVersionUID = 7483021689872527955L;
 
-    private int id;
-    private Project project;
     private MusicalInstrument instrument;
     private HashMap<Long, List<NoteEvent>> events;
     private MusicalKey key;
@@ -43,8 +41,6 @@ public class Track implements Serializable {
     private long lastTick;
 
     public Track(MusicalKey key, MusicalInstrument instrument, int beatsPerMinute) {
-        this.id = Project.INVALID_ID;
-        this.project = null;
         this.events = new HashMap<Long, List<NoteEvent>>();
         this.instrument = instrument;
         this.key = key;
@@ -53,8 +49,6 @@ public class Track implements Serializable {
     }
 
     public Track(Track track) {
-        this.id = track.getId();
-        this.project = track.getProject();
         this.events = new HashMap<Long, List<NoteEvent>>();
         this.instrument = track.getInstrument();
         this.key = track.getKey();
@@ -70,14 +64,6 @@ public class Track implements Serializable {
             }
         }
     }
-
-    public int getId() { return id; }
-
-    public void setId(int id) { this.id = id; }
-
-    public Project getProject() { return project; }
-
-    public void setProject(Project project) { this.project = project; }
 
     public MusicalInstrument getInstrument() {
         return instrument;
@@ -142,10 +128,6 @@ public class Track implements Serializable {
 
         Track track = (Track) obj;
 
-        if (track.getId() != getId()) {
-            return false;
-        }
-
         if (track.getInstrument() != getInstrument()) {
             return false;
         }
@@ -179,13 +161,7 @@ public class Track implements Serializable {
 
     @Override
     public String toString() {
-        String projectName = "empty";
-
-        if (null != project) {
-            projectName = project.getName();
-        }
-
-        return "[Track] id=" + id + " projectName=" + projectName + " instrument=" + instrument + " key=" + key + " beatsPerMinute=" + beatsPerMinute + " size=" + size();
+        return "[Track] instrument=" + instrument + " key=" + key + " beatsPerMinute=" + beatsPerMinute + " size=" + size();
     }
 
     public void increaseLastTick(long difference) {
