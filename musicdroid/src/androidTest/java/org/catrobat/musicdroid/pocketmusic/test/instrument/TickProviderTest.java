@@ -50,17 +50,6 @@ public class TickProviderTest extends AndroidTestCase {
         }
     }
 
-    public void testSetTickBasedOnTrack() {
-        Track track = TrackTestDataFactory.createSimpleTrack();
-
-        tickProvider.setTickBasedOnTrack(track);
-
-        long expectedTick = track.getLastTick();
-        long actualTick = tickProvider.getTick();
-
-        assertEquals(expectedTick, actualTick);
-    }
-
     public void testCounting() {
         tickProvider.startCounting();
         tickProvider.stopCounting();
@@ -71,15 +60,6 @@ public class TickProviderTest extends AndroidTestCase {
         long actualTick = tickProvider.getTick();
 
         assertEquals(expectedTick, actualTick);
-    }
-
-    public void testIncreaseTickByBreak() {
-        NoteLength noteLength = NoteLength.QUARTER;
-        BreakSymbol breakSymbol = BreakSymbolTestDataFactory.createBreakSymbol(noteLength);
-
-        tickProvider.increaseTickByBreak(breakSymbol);
-
-        assertEquals(noteLength.toTicks(Project.DEFAULT_BEATS_PER_MINUTE), tickProvider.getTick());
     }
 
     private class TickProviderMock extends TickProvider {

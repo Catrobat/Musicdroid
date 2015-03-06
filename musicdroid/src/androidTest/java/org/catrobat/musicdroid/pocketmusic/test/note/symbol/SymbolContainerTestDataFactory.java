@@ -25,6 +25,7 @@ package org.catrobat.musicdroid.pocketmusic.test.note.symbol;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
+import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
 
@@ -33,8 +34,32 @@ public class SymbolContainerTestDataFactory {
     private SymbolContainerTestDataFactory() {
     }
 
+    public static SymbolContainer createSymbolContainer(MusicalKey key, MusicalInstrument instrument, int beatsPerMinute) {
+        SymbolContainer symbolContainer = new SymbolContainer(key, instrument, beatsPerMinute);
+
+        return symbolContainer;
+    }
+
+    public static SymbolContainer createSymbolContainer(MusicalKey key) {
+        SymbolContainer symbolContainer = createSymbolContainer(key, MusicalInstrument.ACOUSTIC_GRAND_PIANO, Project.DEFAULT_BEATS_PER_MINUTE);
+
+        return symbolContainer;
+    }
+
+    public static SymbolContainer createSymbolContainer(MusicalInstrument instrument) {
+        SymbolContainer symbolContainer = createSymbolContainer(MusicalKey.VIOLIN, instrument, Project.DEFAULT_BEATS_PER_MINUTE);
+
+        return symbolContainer;
+    }
+
+    public static SymbolContainer createSymbolContainer(int beatsPerMinute) {
+        SymbolContainer symbolContainer = createSymbolContainer(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO, beatsPerMinute);
+
+        return symbolContainer;
+    }
+
     public static SymbolContainer createSymbolContainer() {
-        SymbolContainer symbolContainer = new SymbolContainer(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO, Project.DEFAULT_BEATS_PER_MINUTE);
+        SymbolContainer symbolContainer = createSymbolContainer(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO, Project.DEFAULT_BEATS_PER_MINUTE);
 
         return symbolContainer;
     }
@@ -42,6 +67,13 @@ public class SymbolContainerTestDataFactory {
     public static SymbolContainer createSimpleSymbolContainer() {
         SymbolContainer symbolContainer = createSymbolContainer();
         symbolContainer.add(NoteSymbolTestDataFactory.createNoteSymbol());
+
+        return symbolContainer;
+    }
+
+    public static SymbolContainer createSymbolContainerWithOneNoteSymbol(NoteName noteName) {
+        SymbolContainer symbolContainer = createSymbolContainer();
+        symbolContainer.add(NoteSymbolTestDataFactory.createNoteSymbol(noteName));
 
         return symbolContainer;
     }

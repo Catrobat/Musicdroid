@@ -27,6 +27,7 @@ import android.test.AndroidTestCase;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
+import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
 
@@ -73,5 +74,59 @@ public class SymbolContainerTest extends AndroidTestCase {
         symbolContainer.clear();
 
         assertEquals(0, symbolContainer.size());
+    }
+
+    public void testEquals1() {
+        SymbolContainer symbolContainer1 = SymbolContainerTestDataFactory.createSimpleSymbolContainer();
+        SymbolContainer symbolContainer2 = SymbolContainerTestDataFactory.createSimpleSymbolContainer();
+
+        assertTrue(symbolContainer1.equals(symbolContainer2));
+    }
+
+    public void testEquals2() {
+        SymbolContainer symbolContainer1 = SymbolContainerTestDataFactory.createSymbolContainer(MusicalKey.VIOLIN);
+        SymbolContainer symbolContainer2 = SymbolContainerTestDataFactory.createSymbolContainer(MusicalKey.BASS);
+
+        assertFalse(symbolContainer1.equals(symbolContainer2));
+    }
+
+    public void testEquals3() {
+        SymbolContainer symbolContainer1 = SymbolContainerTestDataFactory.createSymbolContainer(MusicalInstrument.ACOUSTIC_BASS);
+        SymbolContainer symbolContainer2 = SymbolContainerTestDataFactory.createSymbolContainer(MusicalInstrument.APPLAUSE);
+
+        assertFalse(symbolContainer1.equals(symbolContainer2));
+    }
+
+    public void testEquals4() {
+        SymbolContainer symbolContainer1 = SymbolContainerTestDataFactory.createSymbolContainer(100);
+        SymbolContainer symbolContainer2 = SymbolContainerTestDataFactory.createSymbolContainer(80);
+
+        assertFalse(symbolContainer1.equals(symbolContainer2));
+    }
+
+    public void testEquals5() {
+        SymbolContainer symbolContainer1 = SymbolContainerTestDataFactory.createSymbolContainerWithOneNoteSymbol(NoteName.A1);
+        SymbolContainer symbolContainer2 = SymbolContainerTestDataFactory.createSymbolContainerWithOneNoteSymbol(NoteName.C4);
+
+        assertFalse(symbolContainer1.equals(symbolContainer2));
+    }
+
+    public void testEquals6() {
+        SymbolContainer symbolContainer1 = SymbolContainerTestDataFactory.createSymbolContainer();
+        SymbolContainer symbolContainer2 = SymbolContainerTestDataFactory.createSymbolContainerWithOneNoteSymbol(NoteName.C4);
+
+        assertFalse(symbolContainer1.equals(symbolContainer2));
+    }
+
+    public void testEquals7() {
+        SymbolContainer symbolContainer = SymbolContainerTestDataFactory.createSymbolContainer();
+
+        assertFalse(symbolContainer.equals(null));
+    }
+
+    public void testEquals8() {
+        SymbolContainer symbolContainer = SymbolContainerTestDataFactory.createSymbolContainer();
+
+        assertFalse(symbolContainer.equals(""));
     }
 }

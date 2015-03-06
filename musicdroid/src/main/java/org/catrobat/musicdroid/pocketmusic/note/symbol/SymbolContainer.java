@@ -81,7 +81,7 @@ public class SymbolContainer implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if ((obj == null) && (obj instanceof SymbolContainer)) {
+        if ((obj == null) || !(obj instanceof SymbolContainer)) {
             return false;
         }
 
@@ -99,7 +99,7 @@ public class SymbolContainer implements Serializable {
             return false;
         }
 
-        if (size() == symbols.size()) {
+        if (size() == symbolContainer.size()) {
             for (int i = 0; i < size(); i++) {
                 if (false == getSymbols().get(i).equals(symbolContainer.getSymbols().get(i))) {
                     return false;
