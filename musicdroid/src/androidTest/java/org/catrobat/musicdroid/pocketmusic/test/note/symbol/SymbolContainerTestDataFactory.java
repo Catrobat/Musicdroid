@@ -34,32 +34,26 @@ public class SymbolContainerTestDataFactory {
     private SymbolContainerTestDataFactory() {
     }
 
-    public static SymbolContainer createSymbolContainer(MusicalKey key, MusicalInstrument instrument, int beatsPerMinute) {
-        SymbolContainer symbolContainer = new SymbolContainer(key, instrument, beatsPerMinute);
+    public static SymbolContainer createSymbolContainer(MusicalKey key, MusicalInstrument instrument) {
+        SymbolContainer symbolContainer = new SymbolContainer(key, instrument);
 
         return symbolContainer;
     }
 
     public static SymbolContainer createSymbolContainer(MusicalKey key) {
-        SymbolContainer symbolContainer = createSymbolContainer(key, MusicalInstrument.ACOUSTIC_GRAND_PIANO, Project.DEFAULT_BEATS_PER_MINUTE);
+        SymbolContainer symbolContainer = createSymbolContainer(key, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 
         return symbolContainer;
     }
 
     public static SymbolContainer createSymbolContainer(MusicalInstrument instrument) {
-        SymbolContainer symbolContainer = createSymbolContainer(MusicalKey.VIOLIN, instrument, Project.DEFAULT_BEATS_PER_MINUTE);
-
-        return symbolContainer;
-    }
-
-    public static SymbolContainer createSymbolContainer(int beatsPerMinute) {
-        SymbolContainer symbolContainer = createSymbolContainer(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO, beatsPerMinute);
+        SymbolContainer symbolContainer = createSymbolContainer(MusicalKey.VIOLIN, instrument);
 
         return symbolContainer;
     }
 
     public static SymbolContainer createSymbolContainer() {
-        SymbolContainer symbolContainer = createSymbolContainer(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO, Project.DEFAULT_BEATS_PER_MINUTE);
+        SymbolContainer symbolContainer = createSymbolContainer(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 
         return symbolContainer;
     }

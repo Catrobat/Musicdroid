@@ -35,7 +35,7 @@ import java.util.List;
 public class SymbolsToTrackConverter {
 
     public Track convertSymbols(List<Symbol> symbols, MusicalKey key, MusicalInstrument instrument, int beatsPerMinute) {
-        Track track = new Track(key, instrument, beatsPerMinute);
+        Track track = new Track(key, instrument);
         long tick = 0;
 
         for (Symbol symbol : symbols) {

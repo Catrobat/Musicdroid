@@ -26,6 +26,7 @@ package org.catrobat.musicdroid.pocketmusic.test.projectselection.dialog;
 import android.os.Bundle;
 import android.test.AndroidTestCase;
 
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.SaveProjectDialog;
@@ -43,6 +44,7 @@ public class SaveProjectDialogTest extends AndroidTestCase {
         userInput = "some input";
         Bundle args = new Bundle();
         args.putSerializable(SaveProjectDialog.ARGUMENT_SYMBOLS, SymbolContainerTestDataFactory.createSimpleSymbolContainer());
+        args.putInt(SaveProjectDialog.ARGUMENTS_BPM, Project.DEFAULT_BEATS_PER_MINUTE);
         dialog = new SaveProjectDialogMock();
         dialog.setArguments(args);
     }

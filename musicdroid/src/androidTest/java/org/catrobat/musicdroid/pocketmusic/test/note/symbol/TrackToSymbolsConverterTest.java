@@ -25,6 +25,7 @@ package org.catrobat.musicdroid.pocketmusic.test.note.symbol;
 
 import android.test.AndroidTestCase;
 
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
@@ -39,7 +40,7 @@ public class TrackToSymbolsConverterTest extends AndroidTestCase {
         Track track = TrackTestDataFactory.createTrackWithBreak();
         List<Symbol> expectedSymbols = SymbolsTestDataFactory.createSymbolsWithBreak();
 
-        assertEquals(expectedSymbols, converter.convertTrack(track));
+        assertEquals(expectedSymbols, converter.convertTrack(track, Project.DEFAULT_BEATS_PER_MINUTE));
     }
 
     public void testConvertTrack2() {
@@ -47,6 +48,6 @@ public class TrackToSymbolsConverterTest extends AndroidTestCase {
         Track track = TrackTestDataFactory.createTrackWithSeveralBreaks();
         List<Symbol> expectedSymbols = SymbolsTestDataFactory.createSymbolsWithSeveralBreaks();
 
-        assertEquals(expectedSymbols, converter.convertTrack(track));
+        assertEquals(expectedSymbols, converter.convertTrack(track, Project.DEFAULT_BEATS_PER_MINUTE));
     }
 }

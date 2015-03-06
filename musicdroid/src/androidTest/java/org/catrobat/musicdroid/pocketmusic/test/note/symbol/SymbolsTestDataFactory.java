@@ -37,7 +37,7 @@ public class SymbolsTestDataFactory {
     public static List<Symbol> createSymbolsWithBreak() {
         List<Symbol> symbols = new LinkedList<Symbol>();
 
-        symbols.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C4, NoteName.D4));
+        symbols.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C4));
         symbols.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.E4));
         symbols.add(BreakSymbolTestDataFactory.createBreakSymbol(NoteLength.QUARTER));
         symbols.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C4));

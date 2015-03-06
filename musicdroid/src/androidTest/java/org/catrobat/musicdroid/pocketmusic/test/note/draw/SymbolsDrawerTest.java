@@ -24,6 +24,7 @@
 package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolsDrawer;
@@ -47,7 +48,7 @@ public class SymbolsDrawerTest extends AbstractDrawerTest {
 
         TrackToSymbolsConverter trackConverter = new TrackToSymbolsConverter();
         track = TrackTestDataFactory.createTrackWithBreak();
-        symbols = trackConverter.convertTrack(track);
+        symbols = trackConverter.convertTrack(track, Project.DEFAULT_BEATS_PER_MINUTE);
         symbolsDrawer = new SymbolsDrawer(noteSheetCanvas, paintDefault, getContext().getResources(), symbols, track.getKey(), drawPosition, distanceBetweenLines);
     }
 
@@ -62,7 +63,7 @@ public class SymbolsDrawerTest extends AbstractDrawerTest {
 
     private int getSymbolCountFromTrack(Track track) {
         TrackToSymbolsConverter converter = new TrackToSymbolsConverter();
-        List<Symbol> symbols = converter.convertTrack(track);
+        List<Symbol> symbols = converter.convertTrack(track, Project.DEFAULT_BEATS_PER_MINUTE);
         int distanceWhenHelpLinesStart = 5;
 
         int count = 0;

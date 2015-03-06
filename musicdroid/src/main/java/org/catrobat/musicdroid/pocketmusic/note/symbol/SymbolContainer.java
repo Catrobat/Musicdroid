@@ -36,13 +36,11 @@ public class SymbolContainer implements Serializable {
 
     private MusicalKey key;
     private MusicalInstrument instrument;
-    private int beatsPerMinute;
     private LinkedList<Symbol> symbols;
 
-    public SymbolContainer(MusicalKey key, MusicalInstrument instrument, int beatsPerMinute) {
+    public SymbolContainer(MusicalKey key, MusicalInstrument instrument) {
         this.key = key;
         this.instrument = instrument;
-        this.beatsPerMinute = beatsPerMinute;
 
         symbols = new LinkedList<Symbol>();
     }
@@ -53,10 +51,6 @@ public class SymbolContainer implements Serializable {
 
     public MusicalInstrument getInstrument() {
         return instrument;
-    }
-
-    public int getBeatsPerMinute() {
-        return beatsPerMinute;
     }
 
     public int size() {
@@ -92,10 +86,6 @@ public class SymbolContainer implements Serializable {
         }
 
         if (symbolContainer.getInstrument() != getInstrument()) {
-            return false;
-        }
-
-        if (symbolContainer.getBeatsPerMinute() != getBeatsPerMinute()) {
             return false;
         }
 

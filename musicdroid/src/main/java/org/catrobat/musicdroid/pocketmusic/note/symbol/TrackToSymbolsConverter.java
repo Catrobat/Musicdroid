@@ -29,12 +29,12 @@ import java.util.List;
 
 public class TrackToSymbolsConverter {
 
-	public List<Symbol> convertTrack(Track track) {
+	public List<Symbol> convertTrack(Track track, int beatsPerMinute) {
 		NoteEventsToSymbolsConverter noteEventListConverter = new NoteEventsToSymbolsConverter();
 		List<Symbol> symbols = new LinkedList<Symbol>();
 
 		for (long tick : track.getSortedTicks()) {
-			symbols.addAll(noteEventListConverter.convertNoteEventList(tick, track.getNoteEventsForTick(tick), track.getBeatsPerMinute()));
+			symbols.addAll(noteEventListConverter.convertNoteEventList(tick, track.getNoteEventsForTick(tick), beatsPerMinute));
 		}
 
 		return symbols;

@@ -24,6 +24,7 @@
 package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
@@ -40,7 +41,7 @@ public class NoteSheetDrawerTest extends AbstractDrawerTest {
 
         Track track = TrackTestDataFactory.createTrack();
         TrackToSymbolsConverter trackConverter = new TrackToSymbolsConverter();
-        noteSheetDrawer = new NoteSheetDrawerMock(noteSheetCanvas, getContext().getResources(), trackConverter.convertTrack(track), track.getKey());
+        noteSheetDrawer = new NoteSheetDrawerMock(noteSheetCanvas, getContext().getResources(), trackConverter.convertTrack(track, Project.DEFAULT_BEATS_PER_MINUTE), track.getKey());
         drawPosition = new NoteSheetDrawPosition(NoteSheetDrawer.NOTE_SHEET_PADDING, canvas.getWidth() - NoteSheetDrawer.NOTE_SHEET_PADDING);
     }
 

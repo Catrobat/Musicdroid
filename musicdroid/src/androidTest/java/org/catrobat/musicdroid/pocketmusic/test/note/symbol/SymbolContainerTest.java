@@ -40,11 +40,10 @@ public class SymbolContainerTest extends AndroidTestCase {
         MusicalKey key = MusicalKey.VIOLIN;
         MusicalInstrument instrument = MusicalInstrument.ACOUSTIC_BASS;
         int beatsPerMinute = 50;
-        SymbolContainer symbolContainer = new SymbolContainer(key, instrument, beatsPerMinute);
+        SymbolContainer symbolContainer = new SymbolContainer(key, instrument);
 
         assertEquals(key, symbolContainer.getKey());
         assertEquals(instrument, symbolContainer.getInstrument());
-        assertEquals(beatsPerMinute, symbolContainer.getBeatsPerMinute());
     }
 
     public void testAdd() {
@@ -98,33 +97,26 @@ public class SymbolContainerTest extends AndroidTestCase {
     }
 
     public void testEquals4() {
-        SymbolContainer symbolContainer1 = SymbolContainerTestDataFactory.createSymbolContainer(100);
-        SymbolContainer symbolContainer2 = SymbolContainerTestDataFactory.createSymbolContainer(80);
-
-        assertFalse(symbolContainer1.equals(symbolContainer2));
-    }
-
-    public void testEquals5() {
         SymbolContainer symbolContainer1 = SymbolContainerTestDataFactory.createSymbolContainerWithOneNoteSymbol(NoteName.A1);
         SymbolContainer symbolContainer2 = SymbolContainerTestDataFactory.createSymbolContainerWithOneNoteSymbol(NoteName.C4);
 
         assertFalse(symbolContainer1.equals(symbolContainer2));
     }
 
-    public void testEquals6() {
+    public void testEquals5() {
         SymbolContainer symbolContainer1 = SymbolContainerTestDataFactory.createSymbolContainer();
         SymbolContainer symbolContainer2 = SymbolContainerTestDataFactory.createSymbolContainerWithOneNoteSymbol(NoteName.C4);
 
         assertFalse(symbolContainer1.equals(symbolContainer2));
     }
 
-    public void testEquals7() {
+    public void testEquals6() {
         SymbolContainer symbolContainer = SymbolContainerTestDataFactory.createSymbolContainer();
 
         assertFalse(symbolContainer.equals(null));
     }
 
-    public void testEquals8() {
+    public void testEquals7() {
         SymbolContainer symbolContainer = SymbolContainerTestDataFactory.createSymbolContainer();
 
         assertFalse(symbolContainer.equals(""));

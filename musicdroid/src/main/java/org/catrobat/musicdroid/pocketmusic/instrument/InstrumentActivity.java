@@ -61,6 +61,7 @@ public abstract class InstrumentActivity extends FragmentActivity {
     private static final String SAVED_INSTANCE_MEMENTO = "SavedMemento";
     private static final String SAVED_INSTANCE_PROJECT = "SavedProject";
 
+    private int beatsPerMinute;
     private MidiPlayer midiPlayer;
     private Project project;
     private SymbolContainer symbolContainer;
@@ -71,12 +72,12 @@ public abstract class InstrumentActivity extends FragmentActivity {
     private boolean activityInFocus = false;
 
     public InstrumentActivity(MusicalKey key, MusicalInstrument instrument) {
+        beatsPerMinute = Project.DEFAULT_BEATS_PER_MINUTE;
         midiPlayer = MidiPlayer.getInstance();
-
         project = null;
-        symbolContainer = new SymbolContainer(key, instrument, Project.DEFAULT_BEATS_PER_MINUTE);
+        symbolContainer = new SymbolContainer(key, instrument);
         noteEventsConverter = new NoteEventsToSymbolsConverter();
-        tickProvider = new TickProvider(symbolContainer.getBeatsPerMinute());
+        tickProvider = new TickProvider(beatsPerMinute);
 
         mementoStack = new TrackMementoStack();
     }
@@ -161,7 +162,7 @@ public abstract class InstrumentActivity extends FragmentActivity {
             tickProvider.stopCounting();
         }
 
-        symbolContainer.addAll(noteEventsConverter.convertNoteEvent(tickProvider.getTick(), noteEvent, symbolContainer.getBeatsPerMinute()));
+        symbolContainer.addAll(noteEventsConverter.convertNoteEvent(tickProvider.getTick(), noteEvent, beatsPerMinute));
         redraw();
     }
 
@@ -253,7 +254,7 @@ public abstract class InstrumentActivity extends FragmentActivity {
                 // TODO fw refactor for several tracks
                 SymbolsToTrackConverter symbolsConverter = new SymbolsToTrackConverter();
                 project.clear();
-                project.addTrack(symbolsConverter.convertSymbols(symbolContainer.getSymbols(), symbolContainer.getKey(), symbolContainer.getInstrument(), symbolContainer.getBeatsPerMinute()));
+                project.addTrack(symbolsConverter.convertSymbols(symbolContainer.getSymbols(), symbolContainer.getKey(), symbolContainer.getInstrument(), beatsPerMinute));
                 converter.writeProjectAsMidi(project);
                 Toast.makeText(getBaseContext(), R.string.dialog_project_save_success, Toast.LENGTH_LONG).show();
             } catch (MidiException e) {
@@ -264,6 +265,7 @@ public abstract class InstrumentActivity extends FragmentActivity {
         } else {
             Bundle args = new Bundle();
             args.putSerializable(SaveProjectDialog.ARGUMENT_SYMBOLS, symbolContainer);
+            args.putInt(SaveProjectDialog.ARGUMENTS_BPM, beatsPerMinute);
             SaveProjectDialog dialog = new SaveProjectDialog();
             dialog.setArguments(args);
             dialog.show(getFragmentManager(), "tag");
@@ -302,8 +304,8 @@ public abstract class InstrumentActivity extends FragmentActivity {
                     project = midiConverter.convertMidiFileToProject(midiFile);
                     Track track = project.getTrack(0);
                     TrackToSymbolsConverter trackConverter = new TrackToSymbolsConverter();
-                    symbolContainer = new SymbolContainer(track.getKey(), track.getInstrument(), track.getBeatsPerMinute());
-                    symbolContainer.addAll(trackConverter.convertTrack(track));
+                    symbolContainer = new SymbolContainer(track.getKey(), track.getInstrument());
+                    symbolContainer.addAll(trackConverter.convertTrack(track, beatsPerMinute));
                 } catch (MidiException | IOException e) {
                     ErrorDialog.createDialog(R.string.midi_open, e).show(getFragmentManager(), "tag");
                 }

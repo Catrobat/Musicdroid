@@ -37,14 +37,12 @@ public class Track implements Serializable {
     private MusicalInstrument instrument;
     private HashMap<Long, List<NoteEvent>> events;
     private MusicalKey key;
-    private int beatsPerMinute;
     private long lastTick;
 
-    public Track(MusicalKey key, MusicalInstrument instrument, int beatsPerMinute) {
+    public Track(MusicalKey key, MusicalInstrument instrument) {
         this.events = new HashMap<Long, List<NoteEvent>>();
         this.instrument = instrument;
         this.key = key;
-        this.beatsPerMinute = beatsPerMinute;
         this.lastTick = 0;
     }
 
@@ -52,7 +50,6 @@ public class Track implements Serializable {
         this.events = new HashMap<Long, List<NoteEvent>>();
         this.instrument = track.getInstrument();
         this.key = track.getKey();
-        this.beatsPerMinute = track.getBeatsPerMinute();
         this.lastTick = track.getLastTick();
 
         for (long tick : track.getSortedTicks()) {
@@ -72,8 +69,6 @@ public class Track implements Serializable {
     public MusicalKey getKey() {
         return key;
     }
-
-    public int getBeatsPerMinute() { return beatsPerMinute; }
 
     public void addNoteEvent(long tick, NoteEvent noteEvent) {
         List<NoteEvent> noteEventList = null;
@@ -136,10 +131,6 @@ public class Track implements Serializable {
             return false;
         }
 
-        if (track.getBeatsPerMinute() != getBeatsPerMinute()) {
-            return false;
-        }
-
         Set<Long> ownTrackTicks = getSortedTicks();
         Set<Long> otherTrackTicks = track.getSortedTicks();
 
@@ -161,7 +152,7 @@ public class Track implements Serializable {
 
     @Override
     public String toString() {
-        return "[Track] instrument=" + instrument + " key=" + key + " beatsPerMinute=" + beatsPerMinute + " size=" + size();
+        return "[Track] instrument=" + instrument + " key=" + key + " size=" + size();
     }
 
     public void increaseLastTick(long difference) {

@@ -107,19 +107,12 @@ public class TrackTest extends AndroidTestCase {
     }
 
     public void testEquals6() {
-        Track track1 = TrackTestDataFactory.createTrack(60);
-        Track track2 = TrackTestDataFactory.createTrack(100);
-
-        assertFalse(track1.equals(track2));
-    }
-
-    public void testEquals7() {
         Track track = TrackTestDataFactory.createTrack();
 
         assertFalse(track.equals(null));
     }
 
-    public void testEquals8() {
+    public void testEquals7() {
         Track track = TrackTestDataFactory.createTrack();
 
         assertFalse(track.equals(""));
@@ -129,7 +122,6 @@ public class TrackTest extends AndroidTestCase {
 		Track track = TrackTestDataFactory.createTrack();
 		String expectedString = "[Track] instrument=" + MusicalInstrument.ACOUSTIC_GRAND_PIANO
                 + " key=" + track.getKey()
-                + " beatsPerMinute=" + track.getBeatsPerMinute()
                 + " size=" + track.size();
 
 		assertEquals(expectedString, track.toString());
@@ -146,7 +138,7 @@ public class TrackTest extends AndroidTestCase {
         long tick = 0;
 
         track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(true));
-        tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
+        tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
         track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(false));
 
         assertEquals(tick, track.getLastTick());
@@ -178,11 +170,11 @@ public class TrackTest extends AndroidTestCase {
     public void testGetTotalTimeInMilliseconds() {
         Track track = TrackTestDataFactory.createTrack();
         NoteLength noteLength = NoteLength.QUARTER;
-        long expecteTotalTime = noteLength.toMilliseconds(track.getBeatsPerMinute());
+        long expecteTotalTime = noteLength.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
         long tick = 0;
 
         track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(true));
-        tick += noteLength.toTicks(track.getBeatsPerMinute());
+        tick += noteLength.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
         track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(false));
 
         assertEquals(expecteTotalTime, track.getTotalTimeInMilliseconds());

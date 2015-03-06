@@ -37,6 +37,7 @@ import java.io.IOException;
 public class SaveProjectDialog extends AbstractProjectNameDialog {
 
     public static final String ARGUMENT_SYMBOLS = "SavedSymbols";
+    public static final String ARGUMENTS_BPM = "SavedBPM";
 
     private Project project;
 
@@ -52,9 +53,9 @@ public class SaveProjectDialog extends AbstractProjectNameDialog {
     @Override
     protected void onNewProjectName(String name) throws IOException, MidiException {
         SymbolContainer symbolContainer = (SymbolContainer) getArguments().getSerializable(ARGUMENT_SYMBOLS);
+        int beatsPerMinute = getArguments().getInt(ARGUMENTS_BPM);
         SymbolsToTrackConverter symbolsConverter = new SymbolsToTrackConverter();
-        Track track = symbolsConverter.convertSymbols(symbolContainer.getSymbols(), symbolContainer.getKey(), symbolContainer.getInstrument(), symbolContainer.getBeatsPerMinute());
-        int beatsPerMinute = track.getBeatsPerMinute();
+        Track track = symbolsConverter.convertSymbols(symbolContainer.getSymbols(), symbolContainer.getKey(), symbolContainer.getInstrument(), beatsPerMinute);
 
         project = new Project(name, beatsPerMinute);
         project.addTrack(track);
