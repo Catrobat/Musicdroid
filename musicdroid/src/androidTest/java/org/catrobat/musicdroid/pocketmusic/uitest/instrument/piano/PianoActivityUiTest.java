@@ -204,7 +204,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
         solo.clickOnActionBarItem(R.id.action_undo_midi);
 
-        assertEquals(1, pianoActivity.getNoteSheetViewFragment().getSymbols().size());
+        assertEquals(0, pianoActivity.getNoteSheetViewFragment().getSymbols().size());
     }
 
     private void enterEditModeWithOneMarkedSymbol() {

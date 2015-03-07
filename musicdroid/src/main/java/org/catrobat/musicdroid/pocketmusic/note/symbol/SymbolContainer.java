@@ -77,6 +77,10 @@ public class SymbolContainer implements Serializable {
         return symbols;
     }
 
+    public void removeLastSymbol() {
+        symbols.removeLast();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if ((obj == null) || !(obj instanceof SymbolContainer)) {

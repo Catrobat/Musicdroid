@@ -35,7 +35,6 @@ import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
-import org.catrobat.musicdroid.pocketmusic.note.TrackMementoStack;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiPlayer;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
@@ -58,7 +57,6 @@ public abstract class InstrumentActivity extends FragmentActivity {
 
     private static final String R_RAW = "raw";
     private static final String SAVED_INSTANCE_SYMBOLS = "SavedSymbols";
-    private static final String SAVED_INSTANCE_MEMENTO = "SavedMemento";
     private static final String SAVED_INSTANCE_PROJECT = "SavedProject";
 
     private int beatsPerMinute;
@@ -67,7 +65,6 @@ public abstract class InstrumentActivity extends FragmentActivity {
     private SymbolContainer symbolContainer;
     private NoteEventsToSymbolsConverter noteEventsConverter;
     private TickProvider tickProvider;
-    private TrackMementoStack mementoStack;
 
     private boolean activityInFocus = false;
 
@@ -78,8 +75,6 @@ public abstract class InstrumentActivity extends FragmentActivity {
         symbolContainer = new SymbolContainer(key, instrument);
         noteEventsConverter = new NoteEventsToSymbolsConverter();
         tickProvider = new TickProvider(beatsPerMinute);
-
-        mementoStack = new TrackMementoStack();
     }
 
     public SymbolContainer getSymbolContainer() {
@@ -96,7 +91,6 @@ public abstract class InstrumentActivity extends FragmentActivity {
 
         if (null != savedInstanceState) {
             symbolContainer = (SymbolContainer) savedInstanceState.getSerializable(SAVED_INSTANCE_SYMBOLS);
-            mementoStack = (TrackMementoStack) savedInstanceState.getSerializable(SAVED_INSTANCE_MEMENTO);
             project = (Project) savedInstanceState.getSerializable(SAVED_INSTANCE_PROJECT);
 
             if (null != project) {
@@ -112,7 +106,6 @@ public abstract class InstrumentActivity extends FragmentActivity {
         super.onSaveInstanceState(savedInstanceState);
 
         savedInstanceState.putSerializable(SAVED_INSTANCE_SYMBOLS, symbolContainer);
-        savedInstanceState.putSerializable(SAVED_INSTANCE_MEMENTO, mementoStack);
 
         if (null != project) {
             savedInstanceState.putSerializable(SAVED_INSTANCE_PROJECT, project);
@@ -131,10 +124,6 @@ public abstract class InstrumentActivity extends FragmentActivity {
         super.onResume();
     }
 
-    public void pushMemento(Track track) {
-        mementoStack.pushMemento(track);
-    }
-
     public MidiPlayer getMidiPlayer() {
         return midiPlayer;
     }
@@ -145,8 +134,6 @@ public abstract class InstrumentActivity extends FragmentActivity {
         }
 
         if (noteEvent.isNoteOn()) {
-            // TODO fw memento push
-
             int midiResourceId = getResources().getIdentifier(noteEvent.getNoteName().toString().toLowerCase(Locale.getDefault()), R_RAW, getPackageName());
             midiPlayer.playNote(this, midiResourceId);
             tickProvider.startCounting();
@@ -163,11 +150,8 @@ public abstract class InstrumentActivity extends FragmentActivity {
             return;
         }
 
-        // TODO fw memento push
         symbolContainer.add(breakSymbol);
         redraw();
-
-        // TODO fw tickProvider.increaseTickByBreak(breakSymbol);
     }
 
     @Override
@@ -206,15 +190,14 @@ public abstract class InstrumentActivity extends FragmentActivity {
     }
 
     private void onActionUndo() {
-        if (false == mementoStack.isEmpty()) {
-            // TODO fw setTrack(mementoStack.popMementoAsTrack());
+        if (symbolContainer.size() > 0) {
+            symbolContainer.removeLastSymbol();
             redraw();
         }
     }
 
     private void onActionClear() {
         symbolContainer.clear();
-        mementoStack.clear();
         redraw();
 
         Toast.makeText(getBaseContext(), R.string.action_delete_midi_success, Toast.LENGTH_LONG).show();
@@ -226,7 +209,8 @@ public abstract class InstrumentActivity extends FragmentActivity {
         }
 
         try {
-            // TODO fw play some midi shit
+            SymbolContainerToTrackConverter converter = new SymbolContainerToTrackConverter();
+            midiPlayer.playTrack(this, getCacheDir(), converter.convertSymbols(symbolContainer, beatsPerMinute), beatsPerMinute);
             ToastDisplayer.showPlayToast(getBaseContext());
         } catch (Exception e) {
             ErrorDialog.createDialog(R.string.action_play_midi_error, e).show(getFragmentManager(), "tag");
@@ -292,7 +276,7 @@ public abstract class InstrumentActivity extends FragmentActivity {
                 setTitle(projectName);
 
                 try {
-                    //TODO: consider more tracks
+                    //TODO fw consider more tracks
                     project = midiConverter.convertMidiFileToProject(midiFile);
                     Track track = project.getTrack(0);
                     TrackToSymbolContainerConverter trackConverter = new TrackToSymbolContainerConverter();
