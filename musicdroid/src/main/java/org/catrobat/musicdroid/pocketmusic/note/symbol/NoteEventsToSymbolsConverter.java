@@ -26,12 +26,15 @@ import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class NoteEventsToSymbolsConverter {
+public class NoteEventsToSymbolsConverter implements Serializable {
+
+    private static final long serialVersionUID = 15687589879927955L;
 
     private long lastTick;
     private Map<NoteName, Long> openNotes;

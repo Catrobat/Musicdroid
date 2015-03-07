@@ -58,6 +58,8 @@ public abstract class InstrumentActivity extends FragmentActivity {
     private static final String R_RAW = "raw";
     private static final String SAVED_INSTANCE_SYMBOLS = "SavedSymbols";
     private static final String SAVED_INSTANCE_PROJECT = "SavedProject";
+    private static final String SAVED_INSTANCE_CONVERTER = "SavedConverter";
+    private static final String SAVED_INSTANCE_PROVIDER = "SavedProvider";
 
     private int beatsPerMinute;
     private MidiPlayer midiPlayer;
@@ -96,6 +98,9 @@ public abstract class InstrumentActivity extends FragmentActivity {
             if (null != project) {
                 setTitle(project.getName());
             }
+
+            noteEventsConverter = (NoteEventsToSymbolsConverter) savedInstanceState.getSerializable(SAVED_INSTANCE_CONVERTER);
+            tickProvider = (TickProvider) savedInstanceState.getSerializable(SAVED_INSTANCE_PROVIDER);
         }
 
         handleExtras();
@@ -110,6 +115,9 @@ public abstract class InstrumentActivity extends FragmentActivity {
         if (null != project) {
             savedInstanceState.putSerializable(SAVED_INSTANCE_PROJECT, project);
         }
+
+        savedInstanceState.putSerializable(SAVED_INSTANCE_CONVERTER, noteEventsConverter);
+        savedInstanceState.putSerializable(SAVED_INSTANCE_PROVIDER, tickProvider);
     }
 
     @Override
