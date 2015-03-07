@@ -51,6 +51,7 @@ public class MidiToProjectConverter {
 	private int beatsPerMinute;
 
 	public MidiToProjectConverter() {
+        // TODO fw consider other BPM
 		beatsPerMinute = Project.DEFAULT_BEATS_PER_MINUTE;
 	}
 

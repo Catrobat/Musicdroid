@@ -71,6 +71,7 @@ public abstract class InstrumentActivity extends FragmentActivity {
     private boolean activityInFocus = false;
 
     public InstrumentActivity(MusicalKey key, MusicalInstrument instrument) {
+        // TODO fw consider other BPM
         beatsPerMinute = Project.DEFAULT_BEATS_PER_MINUTE;
         midiPlayer = MidiPlayer.getInstance();
         project = null;
