@@ -22,8 +22,6 @@
  */
 package org.catrobat.musicdroid.pocketmusic.note.symbol;
 
-import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
-
 import java.io.Serializable;
 
 public abstract class Symbol implements Serializable {

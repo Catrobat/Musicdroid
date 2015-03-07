@@ -21,12 +21,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.test.note.draw;
+package org.catrobat.musicdroid.pocketmusic.test.note.symbol;
 
 import android.graphics.RectF;
 import android.test.AndroidTestCase;
 
-import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolPosition;
 
 public class SymbolPositionTest extends AndroidTestCase {
 

@@ -29,6 +29,7 @@ import android.graphics.RectF;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteFlag;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolPosition;
 
 public class NoteStemDrawer {
 
