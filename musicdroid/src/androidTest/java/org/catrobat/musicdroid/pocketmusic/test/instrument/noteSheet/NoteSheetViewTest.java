@@ -83,11 +83,4 @@ public class NoteSheetViewTest extends AndroidTestCase {
 
         assertEquals(expectedSize, noteSheetView.getSymbolsSize());
     }
-
-    public void testGetMarkedSymbolCount() {
-        int expectedCount = 1;
-        noteSheetView.getSymbols().get(0).setMarked(true);
-
-        assertEquals(expectedCount, noteSheetView.getMarkedSymbolCount());
-    }
 }

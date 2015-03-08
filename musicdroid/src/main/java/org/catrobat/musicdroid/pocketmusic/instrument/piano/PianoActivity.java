@@ -98,6 +98,11 @@ public class PianoActivity extends InstrumentActivity {
             } else {
                 getFragmentManager().beginTransaction().replace(R.id.pianoview_fragment_holder, breakViewFragment).commit();
             }
+
+            if (inCallback) {
+                startEditMode();
+                editModeContextMenu.checkedItemStateChanged();
+            }
         } else {
             getFragmentManager().beginTransaction().add(R.id.notesheetview_fragment_holder, noteSheetViewFragment).commit();
             getFragmentManager().beginTransaction().add(R.id.additional_options_holder, getAdditionalSettingsFragment()).commit();

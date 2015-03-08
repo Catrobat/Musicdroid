@@ -151,18 +151,6 @@ public class NoteSheetView extends View {
         }
     }
 
-    public int getMarkedSymbolCount() {
-        int count = 0;
-
-        for (Symbol symbol : symbols) {
-            if (symbol.isMarked()) {
-                count++;
-            }
-        }
-
-        return count;
-    }
-
     public List<Symbol> getSymbols() {
         return symbols;
     }

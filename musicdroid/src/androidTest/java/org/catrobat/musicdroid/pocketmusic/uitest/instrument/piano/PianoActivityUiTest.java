@@ -195,7 +195,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
         assertFalse(PianoActivity.inCallback);
         assertEquals(0, pianoActivity.getNoteSheetViewFragment().getSymbols().size());
-        assertEquals(0, pianoActivity.getNoteSheetView().getMarkedSymbolCount());
+        assertEquals(0, pianoActivity.getSymbolContainer().getMarkedSymbolCount());
     }
 
     public void testEditModeDeleteUndo() {

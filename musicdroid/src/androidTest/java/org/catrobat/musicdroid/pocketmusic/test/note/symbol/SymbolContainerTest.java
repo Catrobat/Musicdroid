@@ -84,6 +84,14 @@ public class SymbolContainerTest extends AndroidTestCase {
         assertEquals(noteSymbol, symbolContainer.get(0));
     }
 
+    public void testGetMarkedSymbolCount() {
+        SymbolContainer symbolContainer = SymbolContainerTestDataFactory.createSimpleSymbolContainer();
+        int expectedCount = 1;
+        symbolContainer.get(0).setMarked(true);
+
+        assertEquals(expectedCount, symbolContainer.getMarkedSymbolCount());
+    }
+
     public void testEquals1() {
         SymbolContainer symbolContainer1 = SymbolContainerTestDataFactory.createSimpleSymbolContainer();
         SymbolContainer symbolContainer2 = SymbolContainerTestDataFactory.createSimpleSymbolContainer();

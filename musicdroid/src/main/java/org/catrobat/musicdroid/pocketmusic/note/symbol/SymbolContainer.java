@@ -81,6 +81,18 @@ public class SymbolContainer implements Serializable {
         symbols.removeLast();
     }
 
+    public int getMarkedSymbolCount() {
+        int count = 0;
+
+        for (Symbol symbol : symbols) {
+            if (symbol.isMarked()) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if ((obj == null) || !(obj instanceof SymbolContainer)) {

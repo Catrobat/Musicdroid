@@ -74,7 +74,7 @@ public class EditModeContextMenu implements ActionMode.Callback {
     }
 
     public void checkedItemStateChanged() {
-        actionMode.setTitle("" + parent.getNoteSheetViewFragment().getMarkedSymbolCount());
+        actionMode.setTitle("" + parent.getSymbolContainer().getMarkedSymbolCount());
     }
 
     private void onActionDelete() {
