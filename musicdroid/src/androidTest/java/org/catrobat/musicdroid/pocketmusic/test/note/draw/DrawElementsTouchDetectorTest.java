@@ -27,7 +27,7 @@ import android.graphics.RectF;
 import android.test.AndroidTestCase;
 
 import org.catrobat.musicdroid.pocketmusic.note.draw.DrawElementsTouchDetector;
-import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.test.note.symbol.NoteSymbolTestDataFactory;
 

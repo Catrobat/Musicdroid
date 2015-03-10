@@ -22,9 +22,11 @@
  */
 package org.catrobat.musicdroid.pocketmusic.note.symbol;
 
-import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
+import java.io.Serializable;
 
-public abstract class Symbol {
+public abstract class Symbol implements Serializable {
+
+    private static final long serialVersionUID = 1433119569871427915L;
 
     protected boolean marked;
     protected SymbolPosition symbolPosition;

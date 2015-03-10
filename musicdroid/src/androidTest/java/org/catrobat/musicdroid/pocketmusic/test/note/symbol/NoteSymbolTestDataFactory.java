@@ -25,7 +25,7 @@ package org.catrobat.musicdroid.pocketmusic.test.note.symbol;
 
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
-import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 
 public class NoteSymbolTestDataFactory {

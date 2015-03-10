@@ -26,11 +26,11 @@ package org.catrobat.musicdroid.pocketmusic.test.projectselection.dialog;
 import android.os.Bundle;
 import android.test.AndroidTestCase;
 
-import org.catrobat.musicdroid.pocketmusic.note.Track;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.SaveProjectDialog;
-import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
+import org.catrobat.musicdroid.pocketmusic.test.note.symbol.SymbolContainerTestDataFactory;
 
 import java.io.IOException;
 
@@ -42,9 +42,9 @@ public class SaveProjectDialogTest extends AndroidTestCase {
     @Override
     protected void setUp() {
         userInput = "some input";
-        Track track = TrackTestDataFactory.createSimpleTrack();
         Bundle args = new Bundle();
-        args.putSerializable(SaveProjectDialog.ARGUMENT_TRACK, track);
+        args.putSerializable(SaveProjectDialog.ARGUMENT_SYMBOLS, SymbolContainerTestDataFactory.createSimpleSymbolContainer());
+        args.putInt(SaveProjectDialog.ARGUMENTS_BPM, Project.DEFAULT_BEATS_PER_MINUTE);
         dialog = new SaveProjectDialogMock();
         dialog.setArguments(args);
     }

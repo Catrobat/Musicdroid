@@ -34,15 +34,6 @@ import org.catrobat.musicdroid.pocketmusic.note.Track;
 
 public class TrackTest extends AndroidTestCase {
 
-    public void testSetId() {
-        Track track = TrackTestDataFactory.createTrack();
-        int newId = track.getId() + 1;
-
-        track.setId(newId);
-
-        assertEquals(newId, track.getId());
-    }
-
 	public void testGetInstrument() {
 		Track track = TrackTestDataFactory.createTrack();
 
@@ -116,57 +107,25 @@ public class TrackTest extends AndroidTestCase {
     }
 
     public void testEquals6() {
-        Track track1 = TrackTestDataFactory.createTrack(60);
-        Track track2 = TrackTestDataFactory.createTrack(100);
-
-        assertFalse(track1.equals(track2));
-    }
-
-    public void testEquals7() {
-        Track track1 = TrackTestDataFactory.createTrack();
-        Track track2 = TrackTestDataFactory.createTrack();
-        track2.setId(track2.getId() + 1);
-
-        assertFalse(track1.equals(track2));
-    }
-
-    public void testEquals8() {
         Track track = TrackTestDataFactory.createTrack();
 
         assertFalse(track.equals(null));
     }
 
-    public void testEquals9() {
+    public void testEquals7() {
         Track track = TrackTestDataFactory.createTrack();
 
         assertFalse(track.equals(""));
     }
 
-	public void testToString1() {
+	public void testToString() {
 		Track track = TrackTestDataFactory.createTrack();
-		String expectedString = "[Track] id=" + track.getId()
-                + " projectName=empty"
-                + " instrument=" + MusicalInstrument.ACOUSTIC_GRAND_PIANO
+		String expectedString = "[Track] instrument=" + MusicalInstrument.ACOUSTIC_GRAND_PIANO
                 + " key=" + track.getKey()
-                + " beatsPerMinute=" + track.getBeatsPerMinute()
                 + " size=" + track.size();
 
 		assertEquals(expectedString, track.toString());
 	}
-
-    public void testToString2() {
-        Track track = TrackTestDataFactory.createTrack();
-        Project project = ProjectTestDataFactory.createProject();
-        track.setProject(project);
-        String expectedString = "[Track] id=" + track.getId()
-                + " projectName=" + project.getName()
-                + " instrument=" + MusicalInstrument.ACOUSTIC_GRAND_PIANO
-                + " key=" + track.getKey()
-                + " beatsPerMinute=" + track.getBeatsPerMinute()
-                + " size=" + track.size();
-
-        assertEquals(expectedString, track.toString());
-    }
 
     public void testSetTickBasedOnTrack1() {
         Track track = TrackTestDataFactory.createTrack();
@@ -179,7 +138,7 @@ public class TrackTest extends AndroidTestCase {
         long tick = 0;
 
         track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(true));
-        tick += NoteLength.QUARTER.toTicks(track.getBeatsPerMinute());
+        tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
         track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(false));
 
         assertEquals(tick, track.getLastTick());
@@ -211,11 +170,11 @@ public class TrackTest extends AndroidTestCase {
     public void testGetTotalTimeInMilliseconds() {
         Track track = TrackTestDataFactory.createTrack();
         NoteLength noteLength = NoteLength.QUARTER;
-        long expecteTotalTime = noteLength.toMilliseconds(track.getBeatsPerMinute());
+        long expecteTotalTime = noteLength.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
         long tick = 0;
 
         track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(true));
-        tick += noteLength.toTicks(track.getBeatsPerMinute());
+        tick += noteLength.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
         track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(false));
 
         assertEquals(expecteTotalTime, track.getTotalTimeInMilliseconds());

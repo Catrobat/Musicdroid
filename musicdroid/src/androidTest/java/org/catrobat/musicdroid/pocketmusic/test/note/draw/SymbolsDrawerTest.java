@@ -24,13 +24,13 @@
 package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
+import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
-import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolsDrawer;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolsConverter;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolContainerConverter;
 import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
 
 import java.util.List;
@@ -45,9 +45,9 @@ public class SymbolsDrawerTest extends AbstractDrawerTest {
     protected void setUp() {
         super.setUp();
 
-        TrackToSymbolsConverter trackConverter = new TrackToSymbolsConverter();
+        TrackToSymbolContainerConverter trackConverter = new TrackToSymbolContainerConverter();
         track = TrackTestDataFactory.createTrackWithBreak();
-        symbols = trackConverter.convertTrack(track);
+        symbols = trackConverter.convertTrack(track, Project.DEFAULT_BEATS_PER_MINUTE).getSymbols();
         symbolsDrawer = new SymbolsDrawer(noteSheetCanvas, paintDefault, getContext().getResources(), symbols, track.getKey(), drawPosition, distanceBetweenLines);
     }
 
@@ -61,8 +61,8 @@ public class SymbolsDrawerTest extends AbstractDrawerTest {
     }
 
     private int getSymbolCountFromTrack(Track track) {
-        TrackToSymbolsConverter converter = new TrackToSymbolsConverter();
-        List<Symbol> symbols = converter.convertTrack(track);
+        TrackToSymbolContainerConverter converter = new TrackToSymbolContainerConverter();
+        List<Symbol> symbols = converter.convertTrack(track, Project.DEFAULT_BEATS_PER_MINUTE).getSymbols();
         int distanceWhenHelpLinesStart = 5;
 
         int count = 0;

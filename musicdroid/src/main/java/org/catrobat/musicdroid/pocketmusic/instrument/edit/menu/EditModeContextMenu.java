@@ -30,8 +30,6 @@ import android.view.MenuItem;
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetViewFragment;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
-import org.catrobat.musicdroid.pocketmusic.note.Track;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolsToTrackConverter;
 
 public class EditModeContextMenu implements ActionMode.Callback {
 
@@ -76,23 +74,13 @@ public class EditModeContextMenu implements ActionMode.Callback {
     }
 
     public void checkedItemStateChanged() {
-        actionMode.setTitle("" + parent.getNoteSheetViewFragment().getMarkedSymbolCount());
+        actionMode.setTitle("" + parent.getSymbolContainer().getMarkedSymbolCount());
     }
 
     private void onActionDelete() {
         NoteSheetViewFragment noteSheetViewFragment = parent.getNoteSheetViewFragment();
-        Track track = parent.getTrack();
-        SymbolsToTrackConverter converter = new SymbolsToTrackConverter();
 
         noteSheetViewFragment.deleteMarkedSymbols();
-
-        Track newTrack = converter.convertSymbols(noteSheetViewFragment.getSymbols(), track.getKey(), track.getInstrument(), track.getBeatsPerMinute());
-        newTrack.setProject(track.getProject());
-        newTrack.setId(track.getId());
-
-        parent.pushMemento(track);
-        parent.setTrack(newTrack);
-
         noteSheetViewFragment.resetSymbolMarkers();
     }
 }

@@ -26,15 +26,8 @@ package org.catrobat.musicdroid.pocketmusic.test.instrument.noteSheet;
 import android.test.AndroidTestCase;
 import android.view.MotionEvent;
 
-import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
-import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
-import org.catrobat.musicdroid.pocketmusic.note.NoteName;
-import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolPosition;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
-
-import java.util.LinkedList;
-import java.util.List;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolPosition;
+import org.catrobat.musicdroid.pocketmusic.test.note.symbol.SymbolContainerTestDataFactory;
 
 public class NoteSheetViewTest extends AndroidTestCase {
 
@@ -43,13 +36,7 @@ public class NoteSheetViewTest extends AndroidTestCase {
     @Override
     protected void setUp() {
         noteSheetView = new NoteSheetViewMock(getContext(), null);
-
-        List<Symbol> symbols = new LinkedList<Symbol>();
-        NoteSymbol noteSymbol = new NoteSymbol();
-        noteSymbol.addNote(NoteName.C4, NoteLength.QUARTER);
-        symbols.add(noteSymbol);
-
-        noteSheetView.redraw(symbols, MusicalKey.VIOLIN);
+        noteSheetView.redraw(SymbolContainerTestDataFactory.createSimpleSymbolContainer());
         noteSheetView.draw();
     }
 
@@ -95,12 +82,5 @@ public class NoteSheetViewTest extends AndroidTestCase {
         noteSheetView.deleteMarkedSymbols();
 
         assertEquals(expectedSize, noteSheetView.getSymbolsSize());
-    }
-
-    public void testGetMarkedSymbolCount() {
-        int expectedCount = 1;
-        noteSheetView.getSymbols().get(0).setMarked(true);
-
-        assertEquals(expectedCount, noteSheetView.getMarkedSymbolCount());
     }
 }

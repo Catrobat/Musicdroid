@@ -27,16 +27,16 @@ import org.catrobat.musicdroid.pocketmusic.note.Track;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TrackToSymbolsConverter {
+public class TrackToSymbolContainerConverter {
 
-	public List<Symbol> convertTrack(Track track) {
+	public SymbolContainer convertTrack(Track track, int beatsPerMinute) {
 		NoteEventsToSymbolsConverter noteEventListConverter = new NoteEventsToSymbolsConverter();
-		List<Symbol> symbols = new LinkedList<Symbol>();
+        SymbolContainer symbolContainer = new SymbolContainer(track.getKey(), track.getInstrument());
 
 		for (long tick : track.getSortedTicks()) {
-			symbols.addAll(noteEventListConverter.convertNoteEventList(tick, track.getNoteEventsForTick(tick), track.getBeatsPerMinute()));
+            symbolContainer.addAll(noteEventListConverter.convertNoteEventList(tick, track.getNoteEventsForTick(tick), beatsPerMinute));
 		}
 
-		return symbols;
+		return symbolContainer;
 	}
 }

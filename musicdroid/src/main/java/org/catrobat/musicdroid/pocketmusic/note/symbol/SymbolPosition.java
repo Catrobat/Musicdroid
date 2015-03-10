@@ -21,57 +21,72 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.musicdroid.pocketmusic.note.draw;
+package org.catrobat.musicdroid.pocketmusic.note.symbol;
 
 import android.graphics.RectF;
 
-public class SymbolPosition {
+import java.io.Serializable;
 
-    private RectF boundaryRect;
+public class SymbolPosition implements Serializable {
+
+    private static final long serialVersionUID = 84839216898727244L;
+    private static final int INVALID_INT = -1;
+
+    private float left;
+    private float top;
+    private float right;
+    private float bottom;
 
     public SymbolPosition(RectF... rects) {
-        boundaryRect = null;
         calculatePosition(rects);
     }
 
     public void calculatePosition(RectF... rects) {
+        left = INVALID_INT;
+        top = INVALID_INT;
+        right = INVALID_INT;
+        bottom = INVALID_INT;
+
         for(RectF rect : rects) {
-            if (null == boundaryRect) {
-                boundaryRect = new RectF(rect);
+            if ((INVALID_INT == left) && (INVALID_INT == top) && (INVALID_INT == right) && (INVALID_INT == bottom)) {
+                left = rect.left;
+                top = rect.top;
+                right = rect.right;
+                bottom = rect.bottom;
             }
 
-            if (boundaryRect.left > rect.left) {
-                boundaryRect.left = rect.left;
+            if (left > rect.left) {
+                left = rect.left;
             }
 
-            if (boundaryRect.top > rect.top) {
-                boundaryRect.top = rect.top;
+            if (top > rect.top) {
+                top = rect.top;
             }
 
-            if (boundaryRect.right < rect.right) {
-                boundaryRect.right = rect.right;
+            if (right < rect.right) {
+                right = rect.right;
             }
 
-            if (boundaryRect.bottom < rect.bottom) {
-                boundaryRect.bottom = rect.bottom;
+            if (bottom < rect.bottom) {
+                bottom = rect.bottom;
             }
         }
     }
 
     public float getLeft() {
-        return boundaryRect.left;
+        return left;
     }
 
     public float getTop() {
-        return boundaryRect.top;
+        return top;
     }
 
     public float getRight() {
-        return boundaryRect.right;
+        return right;
     }
 
     public float getBottom() {
-        return  boundaryRect.bottom;
+        return  bottom;
     }
 
     public RectF toRectF() {

@@ -24,6 +24,7 @@
 package org.catrobat.musicdroid.pocketmusic.note.draw;
 
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolPosition;
 
 import java.util.List;
 

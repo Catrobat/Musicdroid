@@ -25,33 +25,27 @@ package org.catrobat.musicdroid.pocketmusic.test.note.symbol;
 
 import android.test.AndroidTestCase;
 
-import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
-import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolsToTrackConverter;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolContainerConverter;
 import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
 
-import java.util.List;
+public class TrackToSymbolContainerConverterTest extends AndroidTestCase {
 
-public class SymbolsToTrackConverterTest extends AndroidTestCase {
+    public void testConvertTrack1() {
+        TrackToSymbolContainerConverter converter = new TrackToSymbolContainerConverter();
+        Track track = TrackTestDataFactory.createTrackWithBreak();
+        SymbolContainer symbolContainer = SymbolContainerTestDataFactory.createSymbolsWithBreak();
 
-    public void testConvertSymbols1() {
-        SymbolsToTrackConverter converter = new SymbolsToTrackConverter();
-        List<Symbol> symbols = SymbolsTestDataFactory.createSymbolsWithBreak();
-        Track expectedTrack = TrackTestDataFactory.createTrackWithBreak();
-
-        assertEquals(expectedTrack, converter.convertSymbols(symbols, expectedTrack.getKey(), expectedTrack.getInstrument(), expectedTrack.getBeatsPerMinute()));
+        assertEquals(symbolContainer, converter.convertTrack(track, Project.DEFAULT_BEATS_PER_MINUTE));
     }
 
-    public void testConvertSymbols2() {
-        SymbolsToTrackConverter converter = new SymbolsToTrackConverter();
-        List<Symbol> symbols = SymbolsTestDataFactory.createSymbolsWithBreakAtTheEnd();
-        Track track = converter.convertSymbols(symbols, MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_BASS, Project.DEFAULT_BEATS_PER_MINUTE);
+    public void testConvertTrack2() {
+        TrackToSymbolContainerConverter converter = new TrackToSymbolContainerConverter();
+        Track track = TrackTestDataFactory.createTrackWithSeveralBreaks();
+        SymbolContainer symbolContainer = SymbolContainerTestDataFactory.createSymbolsWithSeveralBreaks();
 
-        for (long tick : track.getSortedTicks()) {
-            assertTrue(tick != track.getLastTick());
-        }
+        assertEquals(symbolContainer, converter.convertTrack(track, Project.DEFAULT_BEATS_PER_MINUTE));
     }
 }

@@ -26,63 +26,74 @@ import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class NoteEventsToSymbolsConverter {
+public class NoteEventsToSymbolsConverter implements Serializable {
 
-	private long lastTick;
-	private Map<NoteName, Long> openNotes;
-	private Symbol currentSymbol;
+    private static final long serialVersionUID = 15687589879927955L;
 
-	public NoteEventsToSymbolsConverter() {
-		lastTick = 0;
-		openNotes = new HashMap<NoteName, Long>();
-		currentSymbol = null;
-	}
+    private long lastTick;
+    private Map<NoteName, Long> openNotes;
+    private Symbol currentSymbol;
 
-	public List<Symbol> convertNoteEventList(long tick, List<NoteEvent> noteEvents, int beatsPerMinute) {
-		List<Symbol> symbols = new LinkedList<Symbol>();
+    public NoteEventsToSymbolsConverter() {
+        lastTick = 0;
+        openNotes = new HashMap<NoteName, Long>();
+        currentSymbol = null;
+    }
 
-		for (NoteEvent noteEvent : noteEvents) {
-			NoteName noteName = noteEvent.getNoteName();
+    public List<Symbol> convertNoteEventList(long tick, List<NoteEvent> noteEvents, int beatsPerMinute) {
+        List<Symbol> symbols = new LinkedList<Symbol>();
 
-			if (noteEvent.isNoteOn()) {
-				if (lastTick != tick) {
-                    long difference = tick - lastTick;
+        for (NoteEvent noteEvent : noteEvents) {
+            symbols.addAll(convertNoteEvent(tick, noteEvent, beatsPerMinute));
+        }
 
-                    do {
-                        NoteLength noteLength = NoteLength.getNoteLengthFromTickDuration(difference, beatsPerMinute);
-                        symbols.add(new BreakSymbol(noteLength));
-                        difference = difference - noteLength.toTicks(beatsPerMinute);
-                    } while(difference > 0);
-				}
+        return symbols;
+    }
 
-				if (openNotes.isEmpty()) {
-					currentSymbol = new NoteSymbol();
-				}
+    public List<Symbol> convertNoteEvent(long tick, NoteEvent noteEvent, int beatsPerMinute) {
+        List<Symbol> symbols = new LinkedList<Symbol>();
 
-				openNotes.put(noteName, tick);
-			} else {
-				long lastTickForNote = openNotes.get(noteName);
-				NoteLength noteLength = NoteLength.getNoteLengthFromTickDuration(tick - lastTickForNote, beatsPerMinute);
+        NoteName noteName = noteEvent.getNoteName();
 
-				if (currentSymbol instanceof NoteSymbol) {
-					((NoteSymbol) currentSymbol).addNote(noteName, noteLength);
-				}
+        if (noteEvent.isNoteOn()) {
+            if (lastTick != tick) {
+                long difference = tick - lastTick;
 
-				openNotes.remove(noteName);
+                do {
+                    NoteLength noteLength = NoteLength.getNoteLengthFromTickDuration(difference, beatsPerMinute);
+                    symbols.add(new BreakSymbol(noteLength));
+                    difference = difference - noteLength.toTicks(beatsPerMinute);
+                } while (difference > 0);
+            }
 
-				if (false == symbols.contains(currentSymbol)) {
-					symbols.add(currentSymbol);
-				}
-			}
+            if (openNotes.isEmpty()) {
+                currentSymbol = new NoteSymbol();
+            }
 
-			lastTick = tick;
-		}
+            openNotes.put(noteName, tick);
+        } else {
+            long lastTickForNote = openNotes.get(noteName);
+            NoteLength noteLength = NoteLength.getNoteLengthFromTickDuration(tick - lastTickForNote, beatsPerMinute);
 
-		return symbols;
-	}
+            if (currentSymbol instanceof NoteSymbol) {
+                ((NoteSymbol) currentSymbol).addNote(noteName, noteLength);
+            }
+
+            openNotes.remove(noteName);
+
+            if (false == symbols.contains(currentSymbol)) {
+                symbols.add(currentSymbol);
+            }
+
+            lastTick = tick;
+        }
+
+        return symbols;
+    }
 }

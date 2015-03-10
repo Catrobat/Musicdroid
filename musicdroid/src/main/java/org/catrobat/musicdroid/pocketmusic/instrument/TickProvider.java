@@ -24,10 +24,12 @@
 package org.catrobat.musicdroid.pocketmusic.instrument;
 
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
-import org.catrobat.musicdroid.pocketmusic.note.Track;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 
-public class TickProvider {
+import java.io.Serializable;
+
+public class TickProvider implements Serializable {
+
+    private static final long serialVersionUID = 7483485485128791645L;
 
     protected int beatsPerMinute;
     protected long tick;
@@ -55,13 +57,5 @@ public class TickProvider {
 
     public long getTick() {
         return tick;
-    }
-
-    public void setTickBasedOnTrack(Track track) {
-        tick = track.getLastTick();
-    }
-
-    public void increaseTickByBreak(BreakSymbol breakSymbol) {
-        tick += breakSymbol.getNoteLength().toTicks(beatsPerMinute);
     }
 }

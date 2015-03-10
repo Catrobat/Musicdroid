@@ -23,22 +23,20 @@
 
 package org.catrobat.musicdroid.pocketmusic.note.symbol;
 
-import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
-import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 
-import java.util.List;
+public class SymbolContainerToTrackConverter {
 
-public class SymbolsToTrackConverter {
-
-    public Track convertSymbols(List<Symbol> symbols, MusicalKey key, MusicalInstrument instrument, int beatsPerMinute) {
-        Track track = new Track(key, instrument, beatsPerMinute);
+    public Track convertSymbols(SymbolContainer symbolContainer, int beatsPerMinute) {
+        Track track = new Track(symbolContainer.getKey(), symbolContainer.getInstrument());
         long tick = 0;
 
-        for (Symbol symbol : symbols) {
+        for (int i = 0; i < symbolContainer.size(); i++) {
+            Symbol symbol = symbolContainer.get(i);
+
             if (symbol instanceof NoteSymbol) {
                 NoteSymbol noteSymbol = (NoteSymbol) symbol;
                 long currentMaxTickOffset = 0;

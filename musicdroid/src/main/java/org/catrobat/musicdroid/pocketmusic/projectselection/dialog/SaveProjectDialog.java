@@ -24,19 +24,26 @@
 package org.catrobat.musicdroid.pocketmusic.projectselection.dialog;
 
 import org.catrobat.musicdroid.pocketmusic.R;
+import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainerToTrackConverter;
 
 import java.io.IOException;
 
 public class SaveProjectDialog extends AbstractProjectNameDialog {
 
-    public static final String ARGUMENT_TRACK = "track";
+    public static final String ARGUMENT_SYMBOLS = "SavedSymbols";
+    public static final String ARGUMENTS_BPM = "SavedBPM";
+
+    private Project project;
 
     public SaveProjectDialog() {
         super(R.string.dialog_project_save_title, R.string.dialog_project_save_message, R.string.dialog_project_save_success, R.string.dialog_project_save_error, R.string.dialog_project_save_cancel);
+        project = null;
     }
 
     @Override
@@ -45,17 +52,21 @@ public class SaveProjectDialog extends AbstractProjectNameDialog {
 
     @Override
     protected void onNewProjectName(String name) throws IOException, MidiException {
-        Track track = (Track) getArguments().getSerializable(ARGUMENT_TRACK);
-        int beatsPerMinute = track.getBeatsPerMinute();
+        SymbolContainer symbolContainer = (SymbolContainer) getArguments().getSerializable(ARGUMENT_SYMBOLS);
+        int beatsPerMinute = getArguments().getInt(ARGUMENTS_BPM);
+        SymbolContainerToTrackConverter symbolsConverter = new SymbolContainerToTrackConverter();
+        Track track = symbolsConverter.convertSymbols(symbolContainer, beatsPerMinute);
 
-        Project project = new Project(name, beatsPerMinute);
+        project = new Project(name, beatsPerMinute);
         project.addTrack(track);
 
-        ProjectToMidiConverter converter = new ProjectToMidiConverter();
-        converter.writeProjectAsMidi(project);
+        ProjectToMidiConverter projectConverter = new ProjectToMidiConverter();
+        projectConverter.writeProjectAsMidi(project);
     }
 
     @Override
     protected void updateActivity() {
+        InstrumentActivity instrumentActivity = (InstrumentActivity) getActivity();
+        instrumentActivity.setProject(project);
     }
 }

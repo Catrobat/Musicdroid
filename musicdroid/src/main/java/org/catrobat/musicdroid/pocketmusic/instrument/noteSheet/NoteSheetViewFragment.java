@@ -36,6 +36,7 @@ import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
 import org.catrobat.musicdroid.pocketmusic.tools.DisplayMeasurements;
 
 import java.util.List;
@@ -84,9 +85,9 @@ public class NoteSheetViewFragment extends Fragment {
         return rootView;
     }
 
-    public void redraw(List<Symbol> symbols, MusicalKey key) {
-        noteSheetView.redraw(symbols, key);
-        setTrackSizeText(symbols.size());
+    public void redraw(SymbolContainer symbolContainer) {
+        noteSheetView.redraw(symbolContainer);
+        setTrackSizeText(symbolContainer.size());
     }
 
     public String getTrackSizeTextViewText(){
@@ -109,16 +110,12 @@ public class NoteSheetViewFragment extends Fragment {
         return noteSheetView.getSymbols();
     }
 
-    public int getMarkedSymbolCount() {
-        return noteSheetView.getMarkedSymbolCount();
-    }
-
     public void deleteMarkedSymbols() {
         noteSheetView.deleteMarkedSymbols();
         setTrackSizeText(noteSheetView.getSymbols().size());
     }
 
     private void setTrackSizeText(int symbolCount) {
-        trackSizeTextView.setText(symbolCount + " / " + InstrumentActivity.MAX_TRACK_SIZE_IN_SYMBOLS);
+        trackSizeTextView.setText(symbolCount + " / " + InstrumentActivity.MAX_SYMBOLS_SIZE);
     }
 }
