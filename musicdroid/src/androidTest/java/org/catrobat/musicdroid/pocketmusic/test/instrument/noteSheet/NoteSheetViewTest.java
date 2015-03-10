@@ -65,19 +65,19 @@ public class NoteSheetViewTest extends AndroidTestCase {
 
     public void testResetSymbolMarkers() {
         for (int i = 0; i < noteSheetView.getSymbolsSize(); i++) {
-            noteSheetView.getSymbols().get(i).setMarked(true);
+            noteSheetView.setSymbolMarked(i);
         }
 
         noteSheetView.resetSymbolMarkers();
 
         for (int i = 0; i < noteSheetView.getSymbolsSize(); i++) {
-            assertFalse(noteSheetView.getSymbols().get(i).isMarked());
+            assertFalse(noteSheetView.isSymbolMarked(i));
         }
     }
 
     public void testDeleteMarkedSymbols() {
         int expectedSize = noteSheetView.getSymbolsSize() - 1;
-        noteSheetView.getSymbols().get(0).setMarked(true);
+        noteSheetView.setSymbolMarked(0);
 
         noteSheetView.deleteMarkedSymbols();
 

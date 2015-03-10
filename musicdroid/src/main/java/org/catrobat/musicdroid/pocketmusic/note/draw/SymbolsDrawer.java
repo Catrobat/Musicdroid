@@ -29,22 +29,23 @@ import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class SymbolsDrawer {
 
-    private List<Symbol> symbols;
+    private SymbolContainer symbolContainer;
 
     private NoteDrawer noteDrawer;
     private BreakDrawer breakDrawer;
 
-    public SymbolsDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, Resources resources, List<Symbol> symbols, MusicalKey key, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
-        this.symbols = symbols;
+    public SymbolsDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, Resources resources, SymbolContainer symbolContainer, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
+        this.symbolContainer = symbolContainer;
 
-        noteDrawer = new NoteDrawer(noteSheetCanvas, paint, resources, key, drawPosition, distanceBetweenLines);
-        breakDrawer = new BreakDrawer(noteSheetCanvas, paint, resources, key, drawPosition, distanceBetweenLines);
+        noteDrawer = new NoteDrawer(noteSheetCanvas, paint, resources, symbolContainer.getKey(), drawPosition, distanceBetweenLines);
+        breakDrawer = new BreakDrawer(noteSheetCanvas, paint, resources, symbolContainer.getKey(), drawPosition, distanceBetweenLines);
     }
 
     public int getWidthForOneSymbol() {
@@ -52,7 +53,9 @@ public class SymbolsDrawer {
     }
 
 	public void drawSymbols() {
-		for (Symbol symbol : symbols) {
+		for (int i = 0; i < symbolContainer.size(); i++) {
+            Symbol symbol = symbolContainer.get(i);
+
             if (symbol instanceof NoteSymbol) {
                 noteDrawer.drawSymbol(symbol);
             } else if (symbol instanceof BreakSymbol) {

@@ -87,7 +87,7 @@ public class NoteSheetViewFragment extends Fragment {
 
     public void redraw(SymbolContainer symbolContainer) {
         noteSheetView.redraw(symbolContainer);
-        setTrackSizeText(symbolContainer.size());
+        setSymbolCountText(symbolContainer.size());
     }
 
     public String getTrackSizeTextViewText(){
@@ -102,20 +102,7 @@ public class NoteSheetViewFragment extends Fragment {
         return noteSheetView.checkForScrollAndRecalculateWidth();
     }
 
-    public void resetSymbolMarkers() {
-        noteSheetView.resetSymbolMarkers();
-    }
-
-    public List<Symbol> getSymbols() {
-        return noteSheetView.getSymbols();
-    }
-
-    public void deleteMarkedSymbols() {
-        noteSheetView.deleteMarkedSymbols();
-        setTrackSizeText(noteSheetView.getSymbols().size());
-    }
-
-    private void setTrackSizeText(int symbolCount) {
+    public void setSymbolCountText(int symbolCount) {
         trackSizeTextView.setText(symbolCount + " / " + InstrumentActivity.MAX_SYMBOLS_SIZE);
     }
 }

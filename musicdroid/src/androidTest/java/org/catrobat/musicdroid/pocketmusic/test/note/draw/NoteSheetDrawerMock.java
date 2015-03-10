@@ -25,26 +25,27 @@ package org.catrobat.musicdroid.pocketmusic.test.note.draw;
 
 import android.content.res.Resources;
 
-import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
-
-import java.util.List;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
 
 public class NoteSheetDrawerMock extends NoteSheetDrawer {
 
-    public NoteSheetDrawerMock(NoteSheetCanvas canvas, Resources resources, List<Symbol> symbols, MusicalKey key) {
-        super(canvas, resources, symbols, key);
+    public NoteSheetDrawerMock(NoteSheetCanvas canvas, Resources resources, SymbolContainer symbolContainer) {
+        super(canvas, resources, symbolContainer);
     }
 
     public int getDistanceBetweenLines() {
         return distanceBetweenLines;
     }
 
-    public int getYPositionOfBarTop() { return yPositionOfBarTop; }
+    public int getYPositionOfBarTop() {
+        return yPositionOfBarTop;
+    }
 
-    public int getYPositionOfBarBottom() { return yPositionOfBarBottom; }
+    public int getYPositionOfBarBottom() {
+        return yPositionOfBarBottom;
+    }
 
     @Override
     public void drawLines() {
@@ -52,8 +53,12 @@ public class NoteSheetDrawerMock extends NoteSheetDrawer {
     }
 
     @Override
-    public void drawBars() { super.drawBars(); }
+    public void drawBars() {
+        super.drawBars();
+    }
 
     @Override
-    public void drawKey() { super.drawKey(); }
+    public void drawKey() {
+        super.drawKey();
+    }
 }

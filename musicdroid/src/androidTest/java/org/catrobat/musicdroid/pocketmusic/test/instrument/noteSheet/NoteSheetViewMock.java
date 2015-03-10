@@ -39,20 +39,32 @@ public class NoteSheetViewMock extends NoteSheetView {
     }
 
     public boolean isSymbolMarked(int index) {
-        return symbols.get(index).isMarked();
+        return symbolContainer.get(index).isMarked();
+    }
+
+    public void setSymbolMarked(int index) {
+        symbolContainer.get(index).setMarked(true);
+    }
+
+    public void resetSymbolMarkers() {
+        symbolContainer.resetSymbolMarkers();
+    }
+
+    public void deleteMarkedSymbols() {
+        symbolContainer.deleteMarkedSymbols();
     }
 
     public void draw() {
         noteSheetCanvas = new NoteSheetCanvas(new CanvasMock());
-        noteSheetDrawer = new NoteSheetDrawer(noteSheetCanvas, getResources(), symbols, key);
+        noteSheetDrawer = new NoteSheetDrawer(noteSheetCanvas, getResources(), symbolContainer);
         noteSheetDrawer.drawNoteSheet();
     }
 
     public int getSymbolsSize() {
-        return symbols.size();
+        return symbolContainer.size();
     }
 
     public SymbolPosition getSymbolPosition(int elementIndex) {
-        return symbols.get(elementIndex).getSymbolPosition();
+        return symbolContainer.get(elementIndex).getSymbolPosition();
     }
 }
