@@ -114,7 +114,6 @@ public class SymbolContainer implements Serializable {
         }
     }
 
-    // TODO fw test
     public void resetSymbolMarkers() {
         for (Symbol symbol : symbols) {
             symbol.setMarked(false);

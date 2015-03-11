@@ -72,6 +72,7 @@ public class EditModeContextMenu implements ActionMode.Callback {
     public void onDestroyActionMode(ActionMode actionMode) {
         PianoActivity.inCallback = false;
         parent.getSymbolContainer().resetSymbolMarkers();
+        parent.getNoteSheetView().invalidate();
     }
 
     public void checkedItemStateChanged() {
@@ -84,5 +85,6 @@ public class EditModeContextMenu implements ActionMode.Callback {
         symbolContainer.deleteMarkedSymbols();
         symbolContainer.resetSymbolMarkers();
         parent.getNoteSheetViewFragment().setSymbolCountText(symbolContainer.size());
+        parent.getNoteSheetView().invalidate();
     }
 }

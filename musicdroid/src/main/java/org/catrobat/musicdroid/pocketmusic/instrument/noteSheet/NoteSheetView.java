@@ -117,6 +117,4 @@ public class NoteSheetView extends View {
 
         return true;
     }
-
-    // TODO fw invalidate bei resetSymbolMarkers
 }
