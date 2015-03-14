@@ -27,20 +27,20 @@ import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 
 public class NoteEventTestDataFactory {
 
-	private NoteEventTestDataFactory() {
-	}
+    private NoteEventTestDataFactory() {
+    }
 
-	public static NoteEvent createNoteEvent() {
+    public static NoteEvent createNoteEvent() {
         return createNoteEvent(NoteName.C4, true);
-	}
+    }
 
-	public static NoteEvent createNoteEvent(NoteName noteName) {
-		return createNoteEvent(noteName, true);
-	}
+    public static NoteEvent createNoteEvent(NoteName noteName) {
+        return createNoteEvent(noteName, true);
+    }
 
-	public static NoteEvent createNoteEvent(NoteName noteName, boolean noteOn) {
-		return new NoteEvent(noteName, noteOn);
-	}
+    public static NoteEvent createNoteEvent(NoteName noteName, boolean noteOn) {
+        return new NoteEvent(noteName, noteOn);
+    }
 
     public static NoteEvent createNoteEvent(boolean noteOn) {
         return new NoteEvent(NoteName.C4, noteOn);

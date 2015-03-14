@@ -26,7 +26,7 @@ package org.catrobat.musicdroid.pocketmusic.test.projectselection.io;
 import android.content.Intent;
 import android.test.AndroidTestCase;
 
-public class IOHandlerTest extends AndroidTestCase{
+public class IOHandlerTest extends AndroidTestCase {
 
     private IOHandlerMock handler;
 

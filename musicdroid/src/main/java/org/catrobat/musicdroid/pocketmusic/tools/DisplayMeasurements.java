@@ -1,9 +1,7 @@
 package org.catrobat.musicdroid.pocketmusic.tools;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.graphics.Point;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
 
@@ -14,7 +12,7 @@ public class DisplayMeasurements {
 
     private Activity activity;
 
-    public DisplayMeasurements(Activity activity){
+    public DisplayMeasurements(Activity activity) {
         this.activity = activity;
     }
 
@@ -43,7 +41,7 @@ public class DisplayMeasurements {
         return initializeDisplay()[Y_INDEX];
     }
 
-    public int getHalfDisplayHeight(){
+    public int getHalfDisplayHeight() {
         return (getDisplayHeight() - getActionBarHeight()) / 2;
     }
 }

@@ -33,9 +33,6 @@ import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.test.note.symbol.NoteSymbolTestDataFactory;
 import org.catrobat.musicdroid.pocketmusic.test.note.symbol.SymbolContainerTestDataFactory;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class DrawElementsTouchDetectorTest extends AndroidTestCase {
 
     private DrawElementsTouchDetector touchDetector;

@@ -47,7 +47,7 @@ public class SymbolPosition implements Serializable {
         right = INVALID_INT;
         bottom = INVALID_INT;
 
-        for(RectF rect : rects) {
+        for (RectF rect : rects) {
             if ((INVALID_INT == left) && (INVALID_INT == top) && (INVALID_INT == right) && (INVALID_INT == bottom)) {
                 left = rect.left;
                 top = rect.top;
@@ -86,7 +86,7 @@ public class SymbolPosition implements Serializable {
     }
 
     public float getBottom() {
-        return  bottom;
+        return bottom;
     }
 
     public RectF toRectF() {

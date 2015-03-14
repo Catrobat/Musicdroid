@@ -71,7 +71,7 @@ public class ProjectToMidiConverterTest extends AndroidTestCase {
         Project project = ProjectTestDataFactory.createProject();
         ProjectToMidiConverter converter = new ProjectToMidiConverter();
         converter.writeProjectAsMidi(project);
-        if(converter.deleteMidiByName(ProjectToMidiConverter.removeMidiExtensionFromString(project.getName())))
+        if (converter.deleteMidiByName(ProjectToMidiConverter.removeMidiExtensionFromString(project.getName())))
             assertFalse(ProjectTestDataFactory.checkIfProjectInStorage(project.getName()));
         else
             assertTrue(ProjectTestDataFactory.checkIfProjectInStorage(project.getName()));

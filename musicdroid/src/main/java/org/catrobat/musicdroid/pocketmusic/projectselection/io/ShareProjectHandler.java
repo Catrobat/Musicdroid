@@ -49,6 +49,6 @@ public class ShareProjectHandler extends IOHandler {
     }
 
     @Override
-    public void onReceive(int requestCode, int resultCode, File targetFile) throws IOException{
+    public void onReceive(int requestCode, int resultCode, File targetFile) throws IOException {
     }
 }

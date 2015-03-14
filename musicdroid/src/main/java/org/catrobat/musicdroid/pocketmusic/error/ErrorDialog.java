@@ -37,8 +37,7 @@ public class ErrorDialog extends DialogFragment {
     public static final String ARGUMENT_EXCEPTION = "EXCEPTION";
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState)
-    {
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         return new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.error_dialog_title)
                 .setMessage(getMessage(getString(getArguments().getInt(ARGUMENT_ERROR_MESSAGE_ID)), (Exception) getArguments().getSerializable(ARGUMENT_EXCEPTION), getString(R.string.error_dialog_detail)))

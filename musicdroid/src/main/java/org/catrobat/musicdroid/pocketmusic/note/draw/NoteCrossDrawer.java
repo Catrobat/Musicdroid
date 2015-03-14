@@ -35,17 +35,17 @@ public class NoteCrossDrawer {
     private Resources resources;
     private int distanceBetweenLines;
 
-	public NoteCrossDrawer(NoteSheetCanvas noteSheetCanvas, Resources resources, int distanceBetweenLines) {
+    public NoteCrossDrawer(NoteSheetCanvas noteSheetCanvas, Resources resources, int distanceBetweenLines) {
         this.noteSheetCanvas = noteSheetCanvas;
         this.resources = resources;
         this.distanceBetweenLines = distanceBetweenLines;
-	}
+    }
 
-	public RectF drawCross(int xPosition, int yPosition, Paint paint) {
-		int crossHeight = 2 * distanceBetweenLines;
+    public RectF drawCross(int xPosition, int yPosition, Paint paint) {
+        int crossHeight = 2 * distanceBetweenLines;
 
         Rect crossRect = noteSheetCanvas.drawBitmap(resources, R.drawable.cross, crossHeight, xPosition, yPosition, paint);
 
         return new RectF(crossRect.left, crossRect.top, crossRect.right, crossRect.bottom);
-	}
+    }
 }

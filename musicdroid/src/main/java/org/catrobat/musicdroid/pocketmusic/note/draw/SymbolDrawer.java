@@ -46,8 +46,8 @@ public abstract class SymbolDrawer {
     protected final int widthForOneSymbol;
     protected final int widthForOneSmallSymbol;
 
-	public SymbolDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, Resources resources, MusicalKey key, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
-		this.noteSheetCanvas = noteSheetCanvas;
+    public SymbolDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, Resources resources, MusicalKey key, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
+        this.noteSheetCanvas = noteSheetCanvas;
         paintDefault = paint;
         paintMarked = new Paint(paint);
         paintMarked.setColor(NoteSheetDrawer.COLOR_MARKED);
@@ -58,7 +58,7 @@ public abstract class SymbolDrawer {
 
         widthForOneSymbol = distanceBetweenLines * SYMBOL_WIDTH_MULTIPLIER;
         widthForOneSmallSymbol = widthForOneSymbol / SMALL_SYMBOL_WIDTH_DIVIDOR;
-	}
+    }
 
     public int getWidthForOneSymbol() {
         return widthForOneSymbol;

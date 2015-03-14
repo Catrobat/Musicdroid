@@ -57,8 +57,7 @@ public abstract class AbstractProjectNameDialog extends DialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState)
-    {
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         editTextProjectName = new EditText(getActivity());
 
         initDialog();

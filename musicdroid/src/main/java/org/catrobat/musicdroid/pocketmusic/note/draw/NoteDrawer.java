@@ -41,17 +41,17 @@ public class NoteDrawer extends SymbolDrawer {
     private NoteStemDrawer noteStemDrawer;
     private NoteBodyDrawer noteBodyDrawer;
 
-	public NoteDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, Resources resources, MusicalKey key, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
+    public NoteDrawer(NoteSheetCanvas noteSheetCanvas, Paint paint, Resources resources, MusicalKey key, NoteSheetDrawPosition drawPosition, int distanceBetweenLines) {
         super(noteSheetCanvas, paint, resources, key, drawPosition, distanceBetweenLines);
 
         noteCrossDrawer = new NoteCrossDrawer(noteSheetCanvas, resources, distanceBetweenLines);
         noteStemDrawer = new NoteStemDrawer(noteSheetCanvas, distanceBetweenLines);
         noteBodyDrawer = new NoteBodyDrawer(this, noteSheetCanvas, key, distanceBetweenLines);
-	}
+    }
 
     @Override
     protected void drawSymbol(Symbol symbol, Paint paint) {
-        if (false == (symbol instanceof  NoteSymbol)) {
+        if (false == (symbol instanceof NoteSymbol)) {
             throw new IllegalArgumentException("Symbol is not of type NoteSymbol: " + symbol);
         }
 
@@ -117,7 +117,7 @@ public class NoteDrawer extends SymbolDrawer {
         int lengthOfHelpLine = ((int) symbolPosition.getRight() - (int) symbolPosition.getLeft()) / 3;
 
         topEndOfNoteLines -= distanceBetweenLines;
-        while(topEndOfHelpLines <= topEndOfNoteLines) {
+        while (topEndOfHelpLines <= topEndOfNoteLines) {
             int startX = (int) (symbolPosition.getLeft() - lengthOfHelpLine);
             int stopX = (int) (symbolPosition.getRight() + lengthOfHelpLine);
             int startY = (int) topEndOfNoteLines;
@@ -128,7 +128,7 @@ public class NoteDrawer extends SymbolDrawer {
         }
 
         bottomEndOfNoteLines += distanceBetweenLines;
-        while(bottomEndOfHelpLines >= bottomEndOfNoteLines) {
+        while (bottomEndOfHelpLines >= bottomEndOfNoteLines) {
             int startX = (int) (symbolPosition.getLeft() - lengthOfHelpLine);
             int stopX = (int) (symbolPosition.getRight() + lengthOfHelpLine);
             int startY = (int) bottomEndOfNoteLines;

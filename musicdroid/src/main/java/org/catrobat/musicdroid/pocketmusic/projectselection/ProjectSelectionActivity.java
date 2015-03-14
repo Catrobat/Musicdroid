@@ -24,7 +24,6 @@
 package org.catrobat.musicdroid.pocketmusic.projectselection;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ActionMode;
@@ -128,7 +127,7 @@ public class ProjectSelectionActivity extends Activity {
             AboutDialog aboutDialog = new AboutDialog();
             aboutDialog.show(getFragmentManager(), "dialog");
             return true;
-         }
+        }
 
         return super.onOptionsItemSelected(item);
     }

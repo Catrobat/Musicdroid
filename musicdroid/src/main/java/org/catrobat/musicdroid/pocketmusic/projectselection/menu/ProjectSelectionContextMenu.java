@@ -96,7 +96,7 @@ public abstract class ProjectSelectionContextMenu implements ActionMode.Callback
 
     public void checkedItemStateChanged() {
         if (adapter.getSelectedItemsCount() != 0)
-            getActionMode().setTitle(adapter.getSelectedItemsCount()+"");
+            getActionMode().setTitle(adapter.getSelectedItemsCount() + "");
     }
 
     public ActionMode getActionMode() {

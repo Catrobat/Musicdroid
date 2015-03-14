@@ -45,54 +45,54 @@ public final class NoteBodyDrawer {
     private MusicalKey key;
     private int distanceBetweenLines;
 
-	public NoteBodyDrawer(SymbolDrawer symbolDrawer, NoteSheetCanvas noteSheetCanvas, MusicalKey key, int distanceBetweenLines) {
+    public NoteBodyDrawer(SymbolDrawer symbolDrawer, NoteSheetCanvas noteSheetCanvas, MusicalKey key, int distanceBetweenLines) {
         this.symbolDrawer = symbolDrawer;
         this.symbolDotDrawer = new SymbolDotDrawer(noteSheetCanvas, distanceBetweenLines);
         this.noteSheetCanvas = noteSheetCanvas;
         this.key = key;
         this.distanceBetweenLines = distanceBetweenLines;
-	}
+    }
 
-	public SymbolPosition drawBody(NoteSymbol noteSymbol, Paint paint) {
-		boolean isStemUpdirected = noteSymbol.isStemUp(key);
+    public SymbolPosition drawBody(NoteSymbol noteSymbol, Paint paint) {
+        boolean isStemUpdirected = noteSymbol.isStemUp(key);
         int lineHeight = distanceBetweenLines;
-		int noteHeight = lineHeight / 2;
-		int noteWidth = noteHeight * NOTE_WIDTH_SCALE;
+        int noteHeight = lineHeight / 2;
+        int noteWidth = noteHeight * NOTE_WIDTH_SCALE;
 
-		Point centerPointOfSpaceForNote = symbolDrawer.getCenterPointForNextSymbol();
+        Point centerPointOfSpaceForNote = symbolDrawer.getCenterPointForNextSymbol();
         List<NoteName> sortedNoteNames = noteSymbol.getNoteNamesSorted();
-		RectF[] noteSurroundingRects = new RectF[sortedNoteNames.size()];
-		NoteName prevNoteName = null;
+        RectF[] noteSurroundingRects = new RectF[sortedNoteNames.size()];
+        NoteName prevNoteName = null;
 
-		for (int i = 0; i < sortedNoteNames.size(); i++) {
+        for (int i = 0; i < sortedNoteNames.size(); i++) {
             NoteName noteName = sortedNoteNames.get(i);
             NoteLength noteLength = noteSymbol.getNoteLength(noteName);
-			Point centerPointOfActualNote = new Point(centerPointOfSpaceForNote);
-			centerPointOfActualNote.y += NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName)
-					* noteHeight;
-			int left = centerPointOfActualNote.x - noteWidth;
-			int top = centerPointOfActualNote.y - noteHeight;
-			int right = centerPointOfActualNote.x + noteWidth;
-			int bottom = centerPointOfActualNote.y + noteHeight;
+            Point centerPointOfActualNote = new Point(centerPointOfSpaceForNote);
+            centerPointOfActualNote.y += NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName)
+                    * noteHeight;
+            int left = centerPointOfActualNote.x - noteWidth;
+            int top = centerPointOfActualNote.y - noteHeight;
+            int right = centerPointOfActualNote.x + noteWidth;
+            int bottom = centerPointOfActualNote.y + noteHeight;
 
-			if (prevNoteName != null) {
-				int differenceBetweenNotesInHalfTones = Math.abs(NoteName.calculateDistanceCountingNoneSignedNotesOnly(
-						prevNoteName, noteName));
+            if (prevNoteName != null) {
+                int differenceBetweenNotesInHalfTones = Math.abs(NoteName.calculateDistanceCountingNoneSignedNotesOnly(
+                        prevNoteName, noteName));
 
-				if (differenceBetweenNotesInHalfTones == 1) {
-					if (isStemUpdirected) {
-						right += 2 * noteWidth;
+                if (differenceBetweenNotesInHalfTones == 1) {
+                    if (isStemUpdirected) {
+                        right += 2 * noteWidth;
                         left += 2 * noteWidth;
                     } else {
                         left -= 2 * noteWidth;
-						right -= 2 * noteWidth;
-					}
-				}
-			}
+                        right -= 2 * noteWidth;
+                    }
+                }
+            }
 
-			RectF noteRect = new RectF(left, top, right, bottom);
+            RectF noteRect = new RectF(left, top, right, bottom);
 
-			noteSurroundingRects[i] = noteRect;
+            noteSurroundingRects[i] = noteRect;
             Paint.Style savedStyle = paint.getStyle();
 
             if (noteLength.isFilled()) {
@@ -110,9 +110,9 @@ public final class NoteBodyDrawer {
                 symbolDotDrawer.drawDot(new Rect(roundedNoteRect), paint);
             }
 
-			prevNoteName = noteName;
-		}
+            prevNoteName = noteName;
+        }
 
-		return new SymbolPosition(noteSurroundingRects);
-	}
+        return new SymbolPosition(noteSurroundingRects);
+    }
 }

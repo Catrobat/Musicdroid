@@ -29,9 +29,9 @@ import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.test.note.symbol.NoteSymbolTestDataFactory;
 
 public class NoteDrawerTest extends AbstractDrawerTest {
@@ -134,7 +134,7 @@ public class NoteDrawerTest extends AbstractDrawerTest {
         int lengthOfHelpLine = ((int) symbolPosition.getRight() - (int) symbolPosition.getLeft()) / 3;
 
         topEndOfNoteLines -= distanceBetweenLines;
-        while(topEndOfHelpLines <= topEndOfNoteLines) {
+        while (topEndOfHelpLines <= topEndOfNoteLines) {
             int startX = (int) (symbolPosition.getLeft() - lengthOfHelpLine);
             int stopX = (int) (symbolPosition.getRight() + lengthOfHelpLine);
             int startY = (int) topEndOfNoteLines;
@@ -146,7 +146,7 @@ public class NoteDrawerTest extends AbstractDrawerTest {
         }
 
         bottomEndOfNoteLines += distanceBetweenLines;
-        while(bottomEndOfHelpLines >= bottomEndOfNoteLines) {
+        while (bottomEndOfHelpLines >= bottomEndOfNoteLines) {
             int startX = (int) (symbolPosition.getLeft() - lengthOfHelpLine);
             int stopX = (int) (symbolPosition.getRight() + lengthOfHelpLine);
             int startY = (int) bottomEndOfNoteLines;

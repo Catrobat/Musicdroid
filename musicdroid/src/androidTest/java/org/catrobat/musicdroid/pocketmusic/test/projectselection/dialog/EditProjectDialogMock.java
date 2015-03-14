@@ -33,12 +33,18 @@ public class EditProjectDialogMock extends EditProjectDialog {
     private String projectName;
 
     @Override
-    protected void setEditTextProjectName(String projectName) { this.projectName = projectName; }
+    protected void setEditTextProjectName(String projectName) {
+        this.projectName = projectName;
+    }
 
-    public String getEditTextProjectName() { return projectName; }
+    public String getEditTextProjectName() {
+        return projectName;
+    }
 
     @Override
-    public void initDialog() { super.initDialog(); }
+    public void initDialog() {
+        super.initDialog();
+    }
 
     @Override
     public void onNewProjectName(String name) throws IOException, MidiException {
@@ -46,5 +52,6 @@ public class EditProjectDialogMock extends EditProjectDialog {
     }
 
     @Override
-    protected void updateActivity() {}
+    protected void updateActivity() {
+    }
 }

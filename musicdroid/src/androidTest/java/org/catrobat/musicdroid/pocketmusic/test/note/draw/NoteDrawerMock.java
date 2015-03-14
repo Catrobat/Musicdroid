@@ -30,10 +30,10 @@ import android.graphics.RectF;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteDrawer;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawPosition;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolPosition;
 
 import java.util.List;
 

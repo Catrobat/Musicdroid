@@ -36,5 +36,6 @@ public class CopyProjectDialogMock extends CopyProjectDialog {
     }
 
     @Override
-    protected void updateActivity() {}
+    protected void updateActivity() {
+    }
 }

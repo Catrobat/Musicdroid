@@ -155,7 +155,7 @@ public class ProjectSelectionFragment extends Fragment {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         fetchProjectInformation();
     }

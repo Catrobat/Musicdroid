@@ -54,14 +54,13 @@ public class AdditionalSettingsFragment extends Fragment {
         return rootView;
     }
 
-    public void setSwitchToBreakViewButtonOnClickListener(){
+    public void setSwitchToBreakViewButtonOnClickListener() {
         switchToBreakViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isPianoViewVisible()) {
+                if (isPianoViewVisible()) {
                     pianoActivity.switchToBreakView();
-                }
-                else {
+                } else {
                     pianoActivity.switchToPianoView();
                 }
             }
