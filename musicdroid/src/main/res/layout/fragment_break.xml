@@ -27,51 +27,64 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:baselineAligned="false" >
-    <RelativeLayout
-            android:layout_weight="0.33"
-            android:layout_height="match_parent"
-            android:layout_width="0dp">
-            <ImageButton android:id="@+id/break_1_button"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/break_1"
-                android:layout_centerInParent="true"/>
-            <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_centerHorizontal="true"
-                 android:text="@string/break_1_1"/>
-    </RelativeLayout>
+    android:baselineAligned="false">
+
     <RelativeLayout
         android:layout_weight="0.33"
         android:layout_height="match_parent"
         android:layout_width="0dp">
-            <ImageButton android:id="@+id/break_2_button"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/break_2"
-                android:layout_centerInParent="true"/>
-            <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_centerHorizontal="true"
-                 android:text="@string/break_1_2"/>
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_weight="0.33"
-        android:layout_height="match_parent"
-        android:layout_width="0dp">
-        <ImageButton android:id="@+id/break_4_button"
+
+        <ImageButton
+            android:id="@+id/break_1_button"
+            android:contentDescription="@string/whole_break"
             android:layout_height="match_parent"
             android:layout_width="match_parent"/>
         <ImageView
+            android:contentDescription="@string/whole_break"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/break_1"
+            android:layout_centerInParent="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/break_1_1"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_weight="0.33"
+        android:layout_height="match_parent"
+        android:layout_width="0dp">
+
+        <ImageButton
+            android:id="@+id/break_2_button"
+            android:contentDescription="@string/half_break"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
+        <ImageView
+            android:contentDescription="@string/half_break"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/break_2"
+            android:layout_centerInParent="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/break_1_2"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_weight="0.33"
+        android:layout_height="match_parent"
+        android:layout_width="0dp">
+
+        <ImageButton
+            android:id="@+id/break_4_button"
+            android:contentDescription="@string/quarter_break"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
+        <ImageView
+            android:contentDescription="@string/quarter_break"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/break_4"
@@ -83,39 +96,46 @@
             android:text="@string/break_1_4"/>
     </RelativeLayout>
     <RelativeLayout
-            android:layout_weight="0.33"
+        android:layout_weight="0.33"
+        android:layout_height="match_parent"
+        android:layout_width="0dp">
+
+        <ImageButton android:id="@+id/break_8_button"
+            android:contentDescription="@string/eight_break"
             android:layout_height="match_parent"
-            android:layout_width="0dp">
-            <ImageButton android:id="@+id/break_8_button"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/break_8"
-                android:layout_centerInParent="true"/>
-            <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_centerHorizontal="true"
-                 android:text="@string/break_1_8"/>
+            android:layout_width="match_parent"/>
+        <ImageView
+            android:contentDescription="@string/eight_break"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/break_8"
+            android:layout_centerInParent="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/break_1_8"/>
     </RelativeLayout>
     <RelativeLayout
-            android:layout_weight="0.33"
+        android:layout_weight="0.33"
+        android:layout_height="match_parent"
+        android:layout_width="0dp">
+
+        <ImageButton
+            android:id="@+id/break_16_button"
+            android:contentDescription="@string/sixteenth_break"
             android:layout_height="match_parent"
-            android:layout_width="0dp">
-            <ImageButton android:id="@+id/break_16_button"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/break_16"
-                android:layout_centerInParent="true"/>
-            <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_centerHorizontal="true"
-                 android:text="@string/break_1_16"/>
+            android:layout_width="match_parent"/>
+        <ImageView
+            android:contentDescription="@string/sixteenth_break"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/break_16"
+            android:layout_centerInParent="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/break_1_16"/>
     </RelativeLayout>
 </LinearLayout >

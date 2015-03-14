@@ -24,9 +24,21 @@
 <resources>
 
     <string name="app_name">Musicdroid</string>
-    <string name="arrow_down">v</string>
-    <string name="arrow_left">&#60;</string>
-    <string name="splash_screen_logo_content_description">Logo</string>string>
+
+    <string name="breaks">B</string>
+    <string name="whole_break">whole break</string>
+    <string name="half_break">half break</string>
+    <string name="quarter_break">quarter break</string>
+    <string name="eight_break">eight break</string>
+    <string name="sixteenth_break">sixteenth break</string>
+
+    <string name="break_1_4">1/4</string>
+    <string name="break_1_8">1/8</string>
+    <string name="break_1_16">1/16</string>
+    <string name="break_1_2">1/2</string>
+    <string name="break_1_1">1</string>
+
+    <string name="splash_screen_logo_content_description">Logo</string>
     <string name="action_undo_midi">Undo</string>
     <string name="action_play_midi">Play</string>
     <string name="action_stop_midi">Stop</string>
@@ -99,11 +111,7 @@
     <string name="dialog_project_save_cancel">Save canceled!</string>
     <string name="dialog_project_save_error">Save failed!</string>
 
-    <string name="break_1_4">1/4</string>
-    <string name="break_1_8">1/8</string>
-    <string name="break_1_16">1/16</string>
-    <string name="break_1_2">1/2</string>
-    <string name="break_1_1">1</string>
+
 
     <string name="midi_open">Could not open MIDI file!</string>
     <string name="share_error">Could not share file!</string>

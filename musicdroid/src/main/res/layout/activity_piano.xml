@@ -31,25 +31,25 @@
     tools:context=".PianoActivity"
     tools:ignore="MergeRootFrame" >
 
-  <FrameLayout
-      android:id="@+id/notesheetview_fragment_holder"
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:layout_weight="0.9" >
-  </FrameLayout >
+    <FrameLayout
+        android:id="@+id/notesheetview_fragment_holder"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.9" >
+    </FrameLayout >
 
-  <FrameLayout
-          android:id="@+id/additional_options_holder"
-          android:layout_width="match_parent"
-          android:layout_height="0dp"
-          android:layout_weight="0.2" >
-   </FrameLayout >
+    <FrameLayout
+        android:id="@+id/additional_options_holder"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2" >
+    </FrameLayout >
 
-   <FrameLayout
-       android:id="@+id/pianoview_fragment_holder"
-       android:layout_width="match_parent"
-       android:layout_height="0dp"
-       android:layout_weight="0.9" >
-   </FrameLayout >
+    <FrameLayout
+        android:id="@+id/pianoview_fragment_holder"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.9" >
+    </FrameLayout >
 
 </LinearLayout >
