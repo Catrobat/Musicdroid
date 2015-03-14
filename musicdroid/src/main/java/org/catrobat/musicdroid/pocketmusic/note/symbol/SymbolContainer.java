@@ -65,16 +65,20 @@ public class SymbolContainer implements Serializable {
         this.symbols.addAll(symbols);
     }
 
+    public void addAll(SymbolContainer symbolContainer) {
+        addAll(symbolContainer.symbols);
+    }
+
+    public void removeAll(SymbolContainer symbolContainer) {
+        this.symbols.removeAll(symbolContainer.symbols);
+    }
+
     public void clear() {
         symbols.clear();
     }
 
     public Symbol get(int index) {
         return symbols.get(index);
-    }
-
-    public List<Symbol> getSymbols() {
-        return symbols;
     }
 
     public void removeLastSymbol() {
@@ -91,6 +95,33 @@ public class SymbolContainer implements Serializable {
         }
 
         return count;
+    }
+
+    public void deleteMarkedSymbols() {
+        List<Integer> deletedIndices = new LinkedList<Integer>();
+
+        for (int i = 0; i < symbols.size(); i++) {
+            Symbol symbol = symbols.get(i);
+
+            if (symbol.isMarked()) {
+                deletedIndices.add(i);
+            }
+        }
+
+        for (int i = deletedIndices.size() - 1; i >= 0; i--) {
+            int index = deletedIndices.get(i);
+            symbols.remove(index);
+        }
+    }
+
+    public void resetSymbolMarkers() {
+        for (Symbol symbol : symbols) {
+            symbol.setMarked(false);
+        }
+    }
+
+    public boolean isEmpty() {
+        return symbols.isEmpty();
     }
 
     @Override
@@ -111,7 +142,7 @@ public class SymbolContainer implements Serializable {
 
         if (size() == symbolContainer.size()) {
             for (int i = 0; i < size(); i++) {
-                if (false == getSymbols().get(i).equals(symbolContainer.getSymbols().get(i))) {
+                if (false == get(i).equals(symbolContainer.get(i))) {
                     return false;
                 }
             }

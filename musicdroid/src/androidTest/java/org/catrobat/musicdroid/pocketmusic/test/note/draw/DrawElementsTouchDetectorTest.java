@@ -27,9 +27,11 @@ import android.graphics.RectF;
 import android.test.AndroidTestCase;
 
 import org.catrobat.musicdroid.pocketmusic.note.draw.DrawElementsTouchDetector;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolPosition;
 import org.catrobat.musicdroid.pocketmusic.test.note.symbol.NoteSymbolTestDataFactory;
+import org.catrobat.musicdroid.pocketmusic.test.note.symbol.SymbolContainerTestDataFactory;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -37,7 +39,7 @@ import java.util.List;
 public class DrawElementsTouchDetectorTest extends AndroidTestCase {
 
     private DrawElementsTouchDetector touchDetector;
-    private List<Symbol> symbols;
+    private SymbolContainer symbolContainer;
 
     private float widthForOneSymbol;
     private float spaceBetweenSymbols;
@@ -46,11 +48,11 @@ public class DrawElementsTouchDetectorTest extends AndroidTestCase {
 
     public DrawElementsTouchDetectorTest() {
         touchDetector = new DrawElementsTouchDetector();
-        symbols = new LinkedList<Symbol>();
+        symbolContainer = SymbolContainerTestDataFactory.createSymbolContainer();
         widthForOneSymbol = 100;
         spaceBetweenSymbols = 50;
 
-        notePosition = new RectF(0,0,widthForOneSymbol, widthForOneSymbol);
+        notePosition = new RectF(0, 0, widthForOneSymbol, widthForOneSymbol);
 
         Symbol symbol1 = NoteSymbolTestDataFactory.createNoteSymbol();
         symbol1.setSymbolPosition(new SymbolPosition(notePosition));
@@ -61,50 +63,50 @@ public class DrawElementsTouchDetectorTest extends AndroidTestCase {
         Symbol symbol2 = NoteSymbolTestDataFactory.createNoteSymbol();
         symbol2.setSymbolPosition(new SymbolPosition(notePosition));
 
-        symbols.add(symbol1);
-        symbols.add(symbol2);
+        symbolContainer.add(symbol1);
+        symbolContainer.add(symbol2);
 
         xOffset = 0;
     }
 
     public void testGetIndexOfTouchedDrawElement1() {
-        assertElementTouch(0, symbols.get(0).getSymbolPosition());
+        assertElementTouch(0, symbolContainer.get(0).getSymbolPosition());
     }
 
     public void testGetIndexOfTouchedDrawElement2() {
-        assertElementNoTouch(symbols.get(0).getSymbolPosition());
+        assertElementNoTouch(symbolContainer.get(0).getSymbolPosition());
     }
 
     public void testGetIndexOfTouchedDrawElement3() {
-        assertElementNoTouch(symbols.get(1).getSymbolPosition());
+        assertElementNoTouch(symbolContainer.get(1).getSymbolPosition());
     }
 
     public void testGetIndexOfTouchedDrawElement4() {
-        assertElementTouch(1, symbols.get(1).getSymbolPosition());
+        assertElementTouch(1, symbolContainer.get(1).getSymbolPosition());
     }
 
     public void testGetIndexOfTouchedDrawElement5() {
-        List<Symbol> oldList = new LinkedList<Symbol>();
-        oldList.addAll(this.symbols);
-        this.addAddidionalSymbols(20);
-        assertElementTouch(16, symbols.get(16).getSymbolPosition());
-        this.symbols = oldList;
+        SymbolContainer oldSymbolContainer = SymbolContainerTestDataFactory.createSymbolContainer();
+        oldSymbolContainer.addAll(this.symbolContainer);
+        addAddidionalSymbols(20);
+        assertElementTouch(16, symbolContainer.get(16).getSymbolPosition());
+        symbolContainer = oldSymbolContainer;
     }
 
     public void testGetIndexOfTouchedDrawElement6() {
-        List<Symbol> oldList = new LinkedList<Symbol>();
-        oldList.addAll(this.symbols);
-        this.symbols.removeAll(oldList);
-        assertElementNoTouch(oldList.get(0).getSymbolPosition());
-        this.symbols = oldList;
+        SymbolContainer oldSymbolContainer = SymbolContainerTestDataFactory.createSymbolContainer();
+        oldSymbolContainer.addAll(symbolContainer);
+        symbolContainer.removeAll(oldSymbolContainer);
+        assertElementNoTouch(oldSymbolContainer.get(0).getSymbolPosition());
+        symbolContainer = oldSymbolContainer;
     }
 
     public void testGetIndexOfTouchedDrawElement7() {
-        List<Symbol> oldList = new LinkedList<Symbol>();
-        oldList.addAll(this.symbols);
-        this.addAddidionalSymbols(20);
-        assertElementTouch(19, symbols.get(19).getSymbolPosition());
-        this.symbols = oldList;
+        SymbolContainer oldSymbolContainer = SymbolContainerTestDataFactory.createSymbolContainer();
+        oldSymbolContainer.addAll(symbolContainer);
+        addAddidionalSymbols(20);
+        assertElementTouch(19, symbolContainer.get(19).getSymbolPosition());
+        symbolContainer = oldSymbolContainer;
     }
 
     private void assertElementTouch(int expectedIndex, SymbolPosition symbolPosition) {
@@ -123,7 +125,7 @@ public class DrawElementsTouchDetectorTest extends AndroidTestCase {
     }
 
     private void assertElementTouch(int expectedIndex, float x, float y, float tolerance) {
-        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(symbols, x, y, tolerance, widthForOneSymbol, xOffset));
+        assertEquals(expectedIndex, touchDetector.getIndexOfTouchedDrawElement(symbolContainer, x, y, tolerance, widthForOneSymbol, xOffset));
     }
 
     private void assertElementNoTouch(SymbolPosition symbolPosition) {
@@ -137,12 +139,12 @@ public class DrawElementsTouchDetectorTest extends AndroidTestCase {
 
     private void addAddidionalSymbols(int number) {
 
-        for(int i = 0; i < number ; i++ ) {
+        for (int i = 0; i < number; i++) {
             Symbol symbol = NoteSymbolTestDataFactory.createNoteSymbol();
             notePosition.left += widthForOneSymbol + spaceBetweenSymbols;
             notePosition.right += widthForOneSymbol + spaceBetweenSymbols;
             symbol.setSymbolPosition(new SymbolPosition(notePosition));
-            symbols.add(symbol);
+            symbolContainer.add(symbol);
         }
     }
 }

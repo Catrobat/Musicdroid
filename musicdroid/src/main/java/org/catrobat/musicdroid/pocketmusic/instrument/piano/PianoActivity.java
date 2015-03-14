@@ -155,10 +155,6 @@ public class PianoActivity extends InstrumentActivity {
         }
     }
 
-    public void resetSymbolMarkers() {
-        noteSheetViewFragment.resetSymbolMarkers();
-    }
-
     public AdditionalSettingsFragment getAdditionalSettingsFragment() {
         return additionalSettingsFragment;
     }

@@ -23,37 +23,35 @@
 
 package org.catrobat.musicdroid.pocketmusic.note.draw;
 
-import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolPosition;
-
-import java.util.List;
 
 public class DrawElementsTouchDetector {
 
     public static final int INVALID_INDEX = -1;
 
-    public int getIndexOfTouchedDrawElement(List<Symbol> symbols, float x, float y, float tolerance, float widthForOneSymbol, float xOffset) {
-        if (symbols.isEmpty()) {
+    public int getIndexOfTouchedDrawElement(SymbolContainer symbolContainer, float x, float y, float tolerance, float widthForOneSymbol, float xOffset) {
+        if (symbolContainer.isEmpty()) {
             return INVALID_INDEX;
         }
 
         int startIndex = (int) Math.floor((x - xOffset) / widthForOneSymbol);
 
-        if (startIndex >= symbols.size()) {
-            startIndex = symbols.size() - 1;
+        if (startIndex >= symbolContainer.size()) {
+            startIndex = symbolContainer.size() - 1;
         } else if (startIndex < 0) {
             startIndex = 0;
         }
 
-        SymbolPosition symbolPosition = symbols.get(startIndex).getSymbolPosition();
+        SymbolPosition symbolPosition = symbolContainer.get(startIndex).getSymbolPosition();
         int direction = 1;
 
         if (x < symbolPosition.getLeft()) {
             direction = -1;
         }
 
-        for (int i = startIndex; (i < symbols.size()) && (i >= 0); i = i + direction) {
-            symbolPosition = symbols.get(i).getSymbolPosition();
+        for (int i = startIndex; (i < symbolContainer.size()) && (i >= 0); i = i + direction) {
+            symbolPosition = symbolContainer.get(i).getSymbolPosition();
 
             if (((symbolPosition.getLeft() - tolerance) <= x)
                     && ((symbolPosition.getRight() + tolerance) >= x)

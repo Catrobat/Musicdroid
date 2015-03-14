@@ -41,7 +41,7 @@ public class NoteSheetDrawerTest extends AbstractDrawerTest {
 
         Track track = TrackTestDataFactory.createTrack();
         TrackToSymbolContainerConverter trackConverter = new TrackToSymbolContainerConverter();
-        noteSheetDrawer = new NoteSheetDrawerMock(noteSheetCanvas, getContext().getResources(), trackConverter.convertTrack(track, Project.DEFAULT_BEATS_PER_MINUTE).getSymbols(), track.getKey());
+        noteSheetDrawer = new NoteSheetDrawerMock(noteSheetCanvas, getContext().getResources(), trackConverter.convertTrack(track, Project.DEFAULT_BEATS_PER_MINUTE));
         drawPosition = new NoteSheetDrawPosition(NoteSheetDrawer.NOTE_SHEET_PADDING, canvas.getWidth() - NoteSheetDrawer.NOTE_SHEET_PADDING);
     }
 

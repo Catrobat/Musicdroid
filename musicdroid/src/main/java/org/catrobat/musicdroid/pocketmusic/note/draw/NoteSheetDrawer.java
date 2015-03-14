@@ -31,6 +31,7 @@ import android.graphics.Rect;
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
 
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class NoteSheetDrawer {
 
     private NoteSheetCanvas noteSheetCanvas;
     private Resources resources;
-    private MusicalKey key;
+    private SymbolContainer symbolContainer;
 
     private Paint paint;
     private NoteSheetDrawPosition drawPosition;
@@ -61,10 +62,10 @@ public class NoteSheetDrawer {
 
     private SymbolsDrawer symbolsDrawer;
 
-    public NoteSheetDrawer(NoteSheetCanvas noteSheetCanvas, Resources resources, List<Symbol> symbols, MusicalKey key) {
+    public NoteSheetDrawer(NoteSheetCanvas noteSheetCanvas, Resources resources, SymbolContainer symbolContainer) {
         this.noteSheetCanvas = noteSheetCanvas;
         this.resources = resources;
-        this.key = key;
+        this.symbolContainer = symbolContainer;
 
         paint = createPaint();
         drawPosition = new NoteSheetDrawPosition(NOTE_SHEET_PADDING, noteSheetCanvas.getWidth() - NOTE_SHEET_PADDING);
@@ -73,7 +74,7 @@ public class NoteSheetDrawer {
         yPositionOfBarTop = noteSheetCanvas.getHalfHeight() - NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS * distanceBetweenLines;
         yPositionOfBarBottom = noteSheetCanvas.getHalfHeight() + NUMBER_OF_LINES_FROM_CENTER_LINE_IN_BOTH_DIRECTIONS * distanceBetweenLines;
 
-        symbolsDrawer = new SymbolsDrawer(noteSheetCanvas, paint, resources, symbols, key, drawPosition, distanceBetweenLines);
+        symbolsDrawer = new SymbolsDrawer(noteSheetCanvas, paint, resources, symbolContainer, drawPosition, distanceBetweenLines);
     }
 
     private Paint createPaint() {
@@ -135,7 +136,7 @@ public class NoteSheetDrawer {
     }
 
     protected void drawKey() {
-        if (key != MusicalKey.VIOLIN) {
+        if (symbolContainer.getKey() != MusicalKey.VIOLIN) {
             throw new UnsupportedOperationException();
         }
 

@@ -30,7 +30,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
-import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.draw.DrawElementsTouchDetector;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetCanvas;
 import org.catrobat.musicdroid.pocketmusic.note.draw.NoteSheetDrawer;
@@ -38,15 +37,11 @@ import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
 import org.catrobat.musicdroid.pocketmusic.tools.DisplayMeasurements;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class NoteSheetView extends View {
 
     protected DrawElementsTouchDetector touchDetector;
 
-    protected List<Symbol> symbols;
-    protected MusicalKey key;
+    protected SymbolContainer symbolContainer;
 
     protected NoteSheetCanvas noteSheetCanvas;
     protected NoteSheetDrawer noteSheetDrawer;
@@ -58,8 +53,6 @@ public class NoteSheetView extends View {
         super(context, attrs);
 
         touchDetector = new DrawElementsTouchDetector();
-        symbols = new LinkedList<Symbol>();
-        key = MusicalKey.VIOLIN;
         widthBeforeResize = getWidth();
 
         if (context instanceof Activity) {
@@ -77,8 +70,7 @@ public class NoteSheetView extends View {
     }
 
     public void redraw(SymbolContainer symbolContainer) {
-        this.symbols = symbolContainer.getSymbols();
-        this.key = symbolContainer.getKey();
+        this.symbolContainer = symbolContainer;
         invalidate();
     }
 
@@ -95,7 +87,7 @@ public class NoteSheetView extends View {
             if (trackWidth < displayMeasurements.getDisplayWidth()) {
                 setMeasuredDimension(displayMeasurements.getDisplayWidth(), getHeight());
             } else {
-                setMeasuredDimension(trackWidth,getHeight());
+                setMeasuredDimension(trackWidth, getHeight());
             }
         }
     }
@@ -105,7 +97,7 @@ public class NoteSheetView extends View {
         super.onDraw(canvas);
         noteSheetCanvas = new NoteSheetCanvas(canvas);
         requestLayout();
-        noteSheetDrawer = new NoteSheetDrawer(noteSheetCanvas, getResources(), symbols, key);
+        noteSheetDrawer = new NoteSheetDrawer(noteSheetCanvas, getResources(), symbolContainer);
         noteSheetDrawer.drawNoteSheet();
         ((PianoActivity) getContext()).scrollNoteSheet();
     }
@@ -114,44 +106,15 @@ public class NoteSheetView extends View {
         if (MotionEvent.ACTION_UP == e.getAction()) {
             float widthForOneSymbol = noteSheetDrawer.getWidthForOneSymbol();
             float tolerance = widthForOneSymbol / 4f;
-            int index = touchDetector.getIndexOfTouchedDrawElement(symbols, e.getX(), e.getY(), tolerance, widthForOneSymbol, noteSheetDrawer.getStartPositionForSymbols());
+            int index = touchDetector.getIndexOfTouchedDrawElement(symbolContainer, e.getX(), e.getY(), tolerance, widthForOneSymbol, noteSheetDrawer.getStartPositionForSymbols());
 
             if (DrawElementsTouchDetector.INVALID_INDEX != index) {
-                Symbol symbol = symbols.get(index);
+                Symbol symbol = symbolContainer.get(index);
                 symbol.setMarked(!symbol.isMarked());
                 invalidate();
             }
         }
 
         return true;
-    }
-
-    public void resetSymbolMarkers() {
-        for (Symbol symbol : symbols) {
-            symbol.setMarked(false);
-        }
-
-        invalidate();
-    }
-
-    public void deleteMarkedSymbols() {
-        List<Integer> deletedIndices = new LinkedList<Integer>();
-
-        for (int i = 0; i < symbols.size(); i++) {
-            Symbol symbol = symbols.get(i);
-
-            if (symbol.isMarked()) {
-                deletedIndices.add(i);
-            }
-        }
-
-        for (int i = deletedIndices.size() - 1; i >= 0; i--) {
-            int index = deletedIndices.get(i);
-            symbols.remove(index);
-        }
-    }
-
-    public List<Symbol> getSymbols() {
-        return symbols;
     }
 }

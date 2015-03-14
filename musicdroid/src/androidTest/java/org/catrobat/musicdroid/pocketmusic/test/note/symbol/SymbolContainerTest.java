@@ -52,10 +52,9 @@ public class SymbolContainerTest extends AndroidTestCase {
         symbolContainer.add(NoteSymbolTestDataFactory.createNoteSymbol());
 
         assertEquals(1, symbolContainer.size());
-        assertEquals(1, symbolContainer.getSymbols().size());
     }
 
-    public void testAddAll() {
+    public void testAddAllList() {
         SymbolContainer symbolContainer = SymbolContainerTestDataFactory.createSymbolContainer();
 
         List<Symbol> symbols = new LinkedList<Symbol>();
@@ -64,6 +63,15 @@ public class SymbolContainerTest extends AndroidTestCase {
         symbolContainer.addAll(symbols);
 
         assertEquals(symbols.size(), symbolContainer.size());
+    }
+
+    public void testAddAllContainer() {
+        SymbolContainer symbolContainer1 = SymbolContainerTestDataFactory.createSymbolContainer();
+        SymbolContainer symbolContainer2 = SymbolContainerTestDataFactory.createSimpleSymbolContainer();
+
+        symbolContainer1.addAll(symbolContainer2);
+
+        assertEquals(symbolContainer1.size(), symbolContainer2.size());
     }
 
     public void testClear() {
@@ -86,10 +94,29 @@ public class SymbolContainerTest extends AndroidTestCase {
 
     public void testGetMarkedSymbolCount() {
         SymbolContainer symbolContainer = SymbolContainerTestDataFactory.createSimpleSymbolContainer();
-        int expectedCount = 1;
+
         symbolContainer.get(0).setMarked(true);
 
-        assertEquals(expectedCount, symbolContainer.getMarkedSymbolCount());
+        assertEquals(1, symbolContainer.size());
+    }
+
+    public void testDeleteMarkedSymbols() {
+        SymbolContainer symbolContainer = SymbolContainerTestDataFactory.createSimpleSymbolContainer();
+
+        symbolContainer.get(0).setMarked(true);
+        symbolContainer.deleteMarkedSymbols();
+
+        assertTrue(symbolContainer.isEmpty());
+    }
+
+    public void testResetSymbolMarkers() {
+        SymbolContainer symbolContainer = SymbolContainerTestDataFactory.createSimpleSymbolContainer();
+
+        symbolContainer.get(0).setMarked(true);
+
+        symbolContainer.resetSymbolMarkers();
+
+        assertFalse(symbolContainer.get(0).isMarked());
     }
 
     public void testEquals1() {

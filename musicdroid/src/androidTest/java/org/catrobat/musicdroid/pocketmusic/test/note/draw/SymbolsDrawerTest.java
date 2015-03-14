@@ -30,15 +30,14 @@ import org.catrobat.musicdroid.pocketmusic.note.draw.SymbolsDrawer;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolContainerConverter;
 import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
-
-import java.util.List;
 
 public class SymbolsDrawerTest extends AbstractDrawerTest {
 
     private Track track;
-    private List<Symbol> symbols;
+    private SymbolContainer symbolContainer;
     private SymbolsDrawer symbolsDrawer;
 
     @Override
@@ -47,8 +46,8 @@ public class SymbolsDrawerTest extends AbstractDrawerTest {
 
         TrackToSymbolContainerConverter trackConverter = new TrackToSymbolContainerConverter();
         track = TrackTestDataFactory.createTrackWithBreak();
-        symbols = trackConverter.convertTrack(track, Project.DEFAULT_BEATS_PER_MINUTE).getSymbols();
-        symbolsDrawer = new SymbolsDrawer(noteSheetCanvas, paintDefault, getContext().getResources(), symbols, track.getKey(), drawPosition, distanceBetweenLines);
+        symbolContainer = trackConverter.convertTrack(track, Project.DEFAULT_BEATS_PER_MINUTE);
+        symbolsDrawer = new SymbolsDrawer(noteSheetCanvas, paintDefault, getContext().getResources(), symbolContainer, drawPosition, distanceBetweenLines);
     }
 
     public void testDrawSymbols1() {
@@ -62,12 +61,14 @@ public class SymbolsDrawerTest extends AbstractDrawerTest {
 
     private int getSymbolCountFromTrack(Track track) {
         TrackToSymbolContainerConverter converter = new TrackToSymbolContainerConverter();
-        List<Symbol> symbols = converter.convertTrack(track, Project.DEFAULT_BEATS_PER_MINUTE).getSymbols();
+        SymbolContainer symbols = converter.convertTrack(track, Project.DEFAULT_BEATS_PER_MINUTE);
         int distanceWhenHelpLinesStart = 5;
 
         int count = 0;
 
-        for (Symbol symbol : symbols) {
+        for (int i = 0; i < symbols.size(); i++) {
+            Symbol symbol = symbols.get(i);
+
             if (symbol instanceof NoteSymbol) {
                 NoteSymbol noteSymbol = (NoteSymbol) symbol;
 
