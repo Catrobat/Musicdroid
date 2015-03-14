@@ -178,9 +178,9 @@ public class ProjectSelectionActivity extends Activity {
         if (data != null) {
             try {
                 ioHandler.onReceive(requestCode, resultCode, new File(data.getData().getPath()));
-                Toast.makeText(this, getResources().getString(R.string.project_import_successful), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getResources().getString(R.string.project_import_success), Toast.LENGTH_LONG).show();
             } catch (Exception e) {
-                ErrorDialog.createDialog(R.string.project_import_failed, e).show(getFragmentManager(), "tag");
+                ErrorDialog.createDialog(R.string.dialog_project_import_error, e).show(getFragmentManager(), "tag");
             }
         }
     }

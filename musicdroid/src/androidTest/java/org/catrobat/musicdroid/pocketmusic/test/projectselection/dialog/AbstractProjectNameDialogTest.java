@@ -71,7 +71,7 @@ public class AbstractProjectNameDialogTest extends AndroidTestCase {
         dialog.setProjectExists(true);
         dialog.onPositiveButton();
 
-        assertDialogState(R.string.dialog_project_name_exists_error, false);
+        assertDialogState(R.string.dialog_name_error, false);
     }
 
     public void testOnPositiveButton() {

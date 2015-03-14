@@ -23,5 +23,5 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/edit_callback_action_delete_project" android:icon="@drawable/ic_action_discard" android:title="@string/piano_edit_mode_delete" android:orderInCategory="100" android:showAsAction="ifRoom" />
+    <item android:id="@+id/edit_callback_action_delete_project" android:icon="@drawable/ic_action_discard" android:title="@string/delete_marked" android:orderInCategory="100" android:showAsAction="ifRoom" />
 </menu >

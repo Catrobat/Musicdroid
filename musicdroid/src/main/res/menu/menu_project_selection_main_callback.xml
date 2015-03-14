@@ -23,8 +23,8 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/callback_action_delete_project" android:icon="@drawable/ic_action_discard" android:title="@string/action_project_delete" android:orderInCategory="100" android:showAsAction="ifRoom" />
-    <item android:id="@+id/callback_action_edit_project" android:icon="@drawable/ic_action_edit" android:title="@string/action_project_edit" android:orderInCategory="100" android:showAsAction="ifRoom" />
-    <item android:id="@+id/callback_action_copy_project" android:icon="@drawable/ic_action_copy" android:title="@string/project_selection_copy_menu_title" android:orderInCategory="100" android:showAsAction="ifRoom" />
-    <item android:id="@+id/callback_action_share_project" android:icon="@drawable/ic_action_share" android:title="@string/action_project_share" android:orderInCategory="100" android:showAsAction="ifRoom" />
+    <item android:id="@+id/callback_action_delete_project" android:icon="@drawable/ic_action_discard" android:title="@string/menu_delete" android:orderInCategory="100" android:showAsAction="ifRoom" />
+    <item android:id="@+id/callback_action_edit_project" android:icon="@drawable/ic_action_edit" android:title="@string/menu_edit" android:orderInCategory="100" android:showAsAction="ifRoom" />
+    <item android:id="@+id/callback_action_copy_project" android:icon="@drawable/ic_action_copy" android:title="@string/menu_copy" android:orderInCategory="100" android:showAsAction="ifRoom" />
+    <item android:id="@+id/callback_action_share_project" android:icon="@drawable/ic_action_share" android:title="@string/menu_share" android:orderInCategory="100" android:showAsAction="ifRoom" />
 </menu >

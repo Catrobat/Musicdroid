@@ -34,7 +34,7 @@
         android:id="@+id/oct_button_01_white"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="@string/note_name_simple_c" />
+        android:text="@string/note_name_c" />
 
     <Button
         android:id="@+id/oct_button_02_white"
@@ -42,7 +42,7 @@
         android:layout_height="match_parent"
         android:layout_toRightOf="@+id/oct_button_01_white"
         android:layout_toEndOf="@+id/oct_button_01_white"
-        android:text="@string/note_name_simple_d" />
+        android:text="@string/note_name_d" />
 
     <Button
         android:id="@+id/oct_button_03_white"
@@ -50,7 +50,7 @@
         android:layout_height="match_parent"
         android:layout_toRightOf="@+id/oct_button_02_white"
         android:layout_toEndOf="@+id/oct_button_02_white"
-        android:text="@string/note_name_simple_e" />
+        android:text="@string/note_name_e" />
 
     <Button
         android:id="@+id/oct_button_04_white"
@@ -58,40 +58,40 @@
         android:layout_height="match_parent"
         android:layout_toRightOf="@+id/oct_button_03_white"
         android:layout_toEndOf="@+id/oct_button_03_white"
-        android:text="@string/note_name_simple_f" />
+        android:text="@string/note_name_f" />
     <Button
         android:id="@+id/oct_button_05_white"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_toRightOf="@+id/oct_button_04_white"
         android:layout_toEndOf="@+id/oct_button_04_white"
-        android:text="@string/note_name_simple_g" />
+        android:text="@string/note_name_g" />
     <Button
         android:id="@+id/oct_button_06_white"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_toRightOf="@+id/oct_button_05_white"
         android:layout_toEndOf="@+id/oct_button_05_white"
-        android:text="@string/note_name_simple_a" />
+        android:text="@string/note_name_a" />
     <Button
         android:id="@+id/oct_button_07_white"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_toRightOf="@+id/oct_button_06_white"
         android:layout_toEndOf="@+id/oct_button_06_white"
-        android:text="@string/note_name_simple_h" />
+        android:text="@string/note_name_h" />
 
     <Button
         android:id="@+id/oct_button_01_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/note_name_simple_cis" />
+        android:text="@string/note_name_cis" />
 
     <Button
         android:id="@+id/oct_button_02_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/note_name_simple_dis" />
+        android:text="@string/note_name_dis" />
 
     <Button
         android:id="@+id/oct_button_03_black"
@@ -103,18 +103,18 @@
         android:id="@+id/oct_button_04_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/note_name_simple_fis" />
+        android:text="@string/note_name_fis" />
 
     <Button
         android:id="@+id/oct_button_05_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/note_name_simple_gis" />
+        android:text="@string/note_name_gis" />
 
     <Button
         android:id="@+id/oct_button_06_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/note_name_simple_ais" />
+        android:text="@string/note_name_ais" />
 
 </RelativeLayout >

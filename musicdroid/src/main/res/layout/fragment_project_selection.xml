@@ -41,7 +41,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/action_project_add"
+        android:text="@string/plus"
         android:id="@+id/new_project_button"
         android:layout_weight=".10"/>
 </LinearLayout >

@@ -65,7 +65,7 @@ public class ProjectSelectionDeleteContextMenu extends ProjectSelectionContextMe
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         parent.getMenuInflater().inflate(R.menu.menu_project_selection_delete_callback, menu);
         super.onCreateActionMode(mode, menu);
-        mode.setTitle(R.string.project_selection_delete_menu_title);
+        mode.setTitle(R.string.select_delete);
         return true;
     }
 }

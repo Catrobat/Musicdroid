@@ -36,7 +36,7 @@ public class CopyProjectDialog extends AbstractProjectNameDialog {
     public static String ARGUMENT_PROJECT = "project";
 
     public CopyProjectDialog() {
-        super(R.string.dialog_project_copy_title, R.string.dialog_project_copy_message, R.string.dialog_project_copy_success, R.string.dialog_project_copy_error, R.string.dialog_project_copy_cancel);
+        super(R.string.copy_project, R.string.dialog_enter_name, R.string.copy_success, R.string.dialog_copy_error, R.string.copy_cancel);
     }
 
     @Override

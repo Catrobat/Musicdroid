@@ -185,7 +185,7 @@ public class ProjectListViewAdapter extends BaseAdapter {
                                 projects.get(position).getTrack(0),
                                 projects.get(position).getBeatsPerMinute());
                     } catch (IOException | MidiException e) {
-                        ErrorDialog.createDialog(R.string.midi_open, e).show(activity.getFragmentManager(), "tag");
+                        ErrorDialog.createDialog(R.string.dialog_open_midi_error, e).show(activity.getFragmentManager(), "tag");
                     }
                 }
 
@@ -213,7 +213,7 @@ public class ProjectListViewAdapter extends BaseAdapter {
 
     private String getDurationTextViewText(int actualPosition, int trackPosition) {
         long timeInMilliseconds = projects.get(actualPosition).getTrack(trackPosition).getTotalTimeInMilliseconds();
-        return activity.getResources().getText(R.string.project_duration)
+        return activity.getResources().getText(R.string.duration)
                 + String.format("%02d", (timeInMilliseconds / 1000) / 60)
                 + activity.getResources().getString(R.string.minutes_short) + " "
                 + String.format("%02d", timeInMilliseconds / 1000)

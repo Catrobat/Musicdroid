@@ -36,14 +36,14 @@
         android:id="@+id/project_selection_button_wrapper">
 
         <ImageButton
-            android:contentDescription="@string/title_activity_project_selection"
+            android:contentDescription="@string/menu_play"
             android:id="@+id/project_play_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_action_play" />
 
         <ImageButton
-            android:contentDescription="@string/title_activity_project_selection"
+            android:contentDescription="@string/menu_stop"
             android:id="@+id/project_pause_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -40,7 +40,7 @@ public class AboutDialog extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_about, null);
         Dialog aboutDialog = new AlertDialog.Builder(getActivity())
                 .setView(view)
-                .setTitle(R.string.about_Dialog)
+                .setTitle(R.string.menu_about)
                 .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {

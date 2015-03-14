@@ -28,20 +28,20 @@
         android:id="@+id/action_clear_midi"
         android:icon="@drawable/ic_action_discard"
         android:showAsAction="never"
-        android:title="@string/action_delete_midi_title" />
+        android:title="@string/menu_clear" />
     <item
         android:id="@+id/action_undo_midi"
         android:icon="@drawable/ic_action_undo"
         android:showAsAction="ifRoom"
-        android:title="@string/action_undo_midi" />
+        android:title="@string/menu_undo" />
     <item
         android:id="@+id/action_play_and_stop_midi"
         android:icon="@drawable/ic_action_play"
         android:showAsAction="ifRoom"
-        android:title="@string/action_play_midi" />
+        android:title="@string/menu_play" />
     <item
         android:id="@+id/action_save_midi"
         android:icon="@drawable/ic_action_save"
         android:showAsAction="ifRoom"
-        android:title="@string/action_save_midi_title" />
+        android:title="@string/menu_save" />
 </menu >

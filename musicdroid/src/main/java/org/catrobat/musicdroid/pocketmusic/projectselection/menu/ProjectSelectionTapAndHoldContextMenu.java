@@ -69,7 +69,7 @@ public class ProjectSelectionTapAndHoldContextMenu extends ProjectSelectionConte
                 try {
                     runShareRoutine();
                 } catch (IOException | MidiException e) {
-                    ErrorDialog.createDialog(R.string.share_error, e).show(parent.getFragmentManager(), "tag");
+                    ErrorDialog.createDialog(R.string.dialog_share_error, e).show(parent.getFragmentManager(), "tag");
                 }
                 mode.finish();
                 return true;

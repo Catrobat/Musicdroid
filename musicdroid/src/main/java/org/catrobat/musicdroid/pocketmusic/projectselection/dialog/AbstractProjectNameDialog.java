@@ -100,7 +100,7 @@ public abstract class AbstractProjectNameDialog extends DialogFragment {
 
             try {
                 if (projectNameExists(projectName)) {
-                    makeToastText(R.string.dialog_project_name_exists_error, Toast.LENGTH_LONG);
+                    makeToastText(R.string.dialog_name_error, Toast.LENGTH_LONG);
                 } else {
                     onNewProjectName(projectName);
                     updateActivity();
