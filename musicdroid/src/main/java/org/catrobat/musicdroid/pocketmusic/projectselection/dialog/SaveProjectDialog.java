@@ -42,7 +42,7 @@ public class SaveProjectDialog extends AbstractProjectNameDialog {
     private Project project;
 
     public SaveProjectDialog() {
-        super(R.string.dialog_project_save_title, R.string.dialog_project_save_message, R.string.dialog_project_save_success, R.string.dialog_project_save_error, R.string.dialog_project_save_cancel);
+        super(R.string.menu_save, R.string.dialog_enter_name, R.string.save_success, R.string.dialog_save_error, R.string.save_cancel);
         project = null;
     }
 

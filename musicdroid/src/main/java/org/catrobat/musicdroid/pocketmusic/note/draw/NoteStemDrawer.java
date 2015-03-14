@@ -33,25 +33,25 @@ import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolPosition;
 
 public class NoteStemDrawer {
 
-	public static final double LENGTH_OF_STEM_IN_NOTE_LINE_DISTANCES = 2.5;
+    public static final double LENGTH_OF_STEM_IN_NOTE_LINE_DISTANCES = 2.5;
 
     private NoteFlagDrawer noteFlagDrawer;
     private NoteSheetCanvas noteSheetCanvas;
     private int distanceBetweenLinesHalf;
     private int stemLength;
 
-	public NoteStemDrawer(NoteSheetCanvas noteSheetCanvas, int distanceBetweenLines) {
+    public NoteStemDrawer(NoteSheetCanvas noteSheetCanvas, int distanceBetweenLines) {
         noteFlagDrawer = new NoteFlagDrawer(noteSheetCanvas, distanceBetweenLines);
         this.noteSheetCanvas = noteSheetCanvas;
         this.distanceBetweenLinesHalf = distanceBetweenLines / 2;
         this.stemLength = (int) (Math.round(LENGTH_OF_STEM_IN_NOTE_LINE_DISTANCES * distanceBetweenLines));
-	}
+    }
 
-	public RectF drawStem(SymbolPosition symbolPosition, NoteSymbol noteSymbol, MusicalKey key, Paint paint) {
+    public RectF drawStem(SymbolPosition symbolPosition, NoteSymbol noteSymbol, MusicalKey key, Paint paint) {
         RectF stemRect = new RectF();
         PointF endPointOfNoteStem = new PointF();
 
-        if(noteSymbol.isStemUp(key)) {
+        if (noteSymbol.isStemUp(key)) {
             stemRect.left = symbolPosition.getRight();
             stemRect.right = symbolPosition.getRight();
             stemRect.bottom = symbolPosition.getBottom() - distanceBetweenLinesHalf;
@@ -69,7 +69,7 @@ public class NoteStemDrawer {
             endPointOfNoteStem.y = stemRect.bottom;
         }
 
-		noteSheetCanvas.drawLine(stemRect.left, stemRect.bottom, stemRect.right,
+        noteSheetCanvas.drawLine(stemRect.left, stemRect.bottom, stemRect.right,
                 stemRect.top, paint);
 
         if (NoteFlag.NO_FLAG != noteSymbol.getFlag()) {
@@ -77,7 +77,7 @@ public class NoteStemDrawer {
         }
 
         return stemRect;
-	}
+    }
 
     private void drawFlag(PointF endPointOfNoteStem, NoteSymbol noteSymbol, MusicalKey key, Paint paint) {
         noteFlagDrawer.drawFlag(endPointOfNoteStem, noteSymbol, key, paint);

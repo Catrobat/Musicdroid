@@ -36,7 +36,7 @@ public class EditProjectDialog extends AbstractProjectNameDialog {
     public static final String ARGUMENT_PROJECT = "project";
 
     public EditProjectDialog() {
-        super(R.string.dialog_project_edit_title, R.string.dialog_project_edit_message, R.string.dialog_project_edit_success, R.string.dialog_project_edit_error, R.string.dialog_project_edit_cancel);
+        super(R.string.dialog_edit_project, R.string.dialog_enter_name, R.string.edit_success, R.string.dialog_edit_error, R.string.edit_cancel);
     }
 
     @Override

@@ -73,10 +73,10 @@ public abstract class ProjectSelectionContextMenu implements ActionMode.Callback
             if (adapter.getProjectSelectionBackgroundFlags(i)) {
                 String projectName = adapter.getItem(i).getName();
                 if (adapter.deleteItemByProjectName(projectName)) {
-                    Toast.makeText(parent, parent.getString(R.string.project_selection_on_deletion_successful), Toast.LENGTH_LONG).show();
+                    Toast.makeText(parent, parent.getString(R.string.delete_success), Toast.LENGTH_LONG).show();
                     i--;
                 } else {
-                    ErrorDialog.createDialog(R.string.delete_unsuccessful, null).show(parent.getFragmentManager(), "tag");
+                    ErrorDialog.createDialog(R.string.dialog_delete_error, null).show(parent.getFragmentManager(), "tag");
                 }
             }
     }
@@ -96,7 +96,7 @@ public abstract class ProjectSelectionContextMenu implements ActionMode.Callback
 
     public void checkedItemStateChanged() {
         if (adapter.getSelectedItemsCount() != 0)
-            getActionMode().setTitle(adapter.getSelectedItemsCount()+"");
+            getActionMode().setTitle(adapter.getSelectedItemsCount() + "");
     }
 
     public ActionMode getActionMode() {

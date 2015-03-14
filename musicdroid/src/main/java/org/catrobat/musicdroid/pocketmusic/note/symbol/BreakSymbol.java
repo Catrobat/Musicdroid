@@ -26,37 +26,37 @@ import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 
 public class BreakSymbol extends Symbol {
 
-	private NoteLength noteLength;
+    private NoteLength noteLength;
 
-	public BreakSymbol(NoteLength noteLength) {
+    public BreakSymbol(NoteLength noteLength) {
         this.noteLength = noteLength;
-	}
+    }
 
-	public NoteLength getNoteLength() {
-		return noteLength;
-	}
+    public NoteLength getNoteLength() {
+        return noteLength;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if ((obj == null) || !(obj instanceof BreakSymbol)) {
-			return false;
-		}
+    @Override
+    public boolean equals(Object obj) {
+        if ((obj == null) || !(obj instanceof BreakSymbol)) {
+            return false;
+        }
 
         if (false == super.equals(obj)) {
             return false;
         }
 
-		BreakSymbol breakSymbol = (BreakSymbol) obj;
+        BreakSymbol breakSymbol = (BreakSymbol) obj;
 
-		if (noteLength.equals(breakSymbol.getNoteLength())) {
-			return true;
-		}
+        if (noteLength.equals(breakSymbol.getNoteLength())) {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	@Override
-	public String toString() {
-		return "[BreakSymbol] marked=" + marked + " noteLength=" + noteLength;
-	}
+    @Override
+    public String toString() {
+        return "[BreakSymbol] marked=" + marked + " noteLength=" + noteLength;
+    }
 }

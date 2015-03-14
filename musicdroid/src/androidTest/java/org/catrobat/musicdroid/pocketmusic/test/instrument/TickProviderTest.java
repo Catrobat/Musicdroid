@@ -28,10 +28,6 @@ import android.test.AndroidTestCase;
 import org.catrobat.musicdroid.pocketmusic.instrument.TickProvider;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
-import org.catrobat.musicdroid.pocketmusic.note.Track;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
-import org.catrobat.musicdroid.pocketmusic.test.note.TrackTestDataFactory;
-import org.catrobat.musicdroid.pocketmusic.test.note.symbol.BreakSymbolTestDataFactory;
 
 public class TickProviderTest extends AndroidTestCase {
 
@@ -40,13 +36,13 @@ public class TickProviderTest extends AndroidTestCase {
 
     @Override
     protected void setUp() {
-        currentTimeMillis = new long[] {100, 500};
+        currentTimeMillis = new long[]{100, 500};
         tickProvider = new TickProviderMock(Project.DEFAULT_BEATS_PER_MINUTE, currentTimeMillis);
     }
 
     public void testMockClassBehaviour() {
         for (long time : currentTimeMillis) {
-            assertEquals(time,  tickProvider.currentTimeMillis());
+            assertEquals(time, tickProvider.currentTimeMillis());
         }
     }
 

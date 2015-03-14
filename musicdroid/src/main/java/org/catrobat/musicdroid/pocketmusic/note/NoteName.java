@@ -22,6 +22,7 @@
  */
 
 package org.catrobat.musicdroid.pocketmusic.note;
+
 public enum NoteName {
     A0(21, false), A0S(22, true), B0(23, false), C1(24, false), C1S(25, true), D1(26, false), D1S(27, true), E1(28,
             false), F1(29, false), F1S(30, true), G1(31, false), G1S(32, true), A1(33, false), A1S(34, true), B1(35,

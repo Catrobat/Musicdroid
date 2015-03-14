@@ -67,7 +67,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     public void testClear() {
         solo.clickOnButton(PIANO_BUTTON_TEXT);
         solo.clickOnActionBarItem(R.id.action_clear_midi);
-        assertTrue(solo.waitForText(pianoActivity.getString(R.string.action_delete_midi_success)));
+        assertTrue(solo.waitForText(pianoActivity.getString(R.string.clear_success)));
 
         assertEquals(0, pianoActivity.getSymbolContainer().size());
     }
@@ -134,7 +134,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         clickSomePianoButtonsForLargeTrack();
         solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
         solo.clickOnActionBarItem(R.id.action_play_and_stop_midi);
-        solo.waitForText(pianoActivity.getString(R.string.action_midi_stopped));
+        solo.waitForText(pianoActivity.getString(R.string.stopped));
         assertFalse(pianoActivity.getMidiPlayer().isPlaying());
     }
 

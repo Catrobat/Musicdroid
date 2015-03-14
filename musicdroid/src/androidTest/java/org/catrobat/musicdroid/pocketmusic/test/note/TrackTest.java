@@ -34,35 +34,35 @@ import org.catrobat.musicdroid.pocketmusic.note.Track;
 
 public class TrackTest extends AndroidTestCase {
 
-	public void testGetInstrument() {
-		Track track = TrackTestDataFactory.createTrack();
+    public void testGetInstrument() {
+        Track track = TrackTestDataFactory.createTrack();
 
-		assertEquals(MusicalInstrument.ACOUSTIC_GRAND_PIANO, track.getInstrument());
-	}
+        assertEquals(MusicalInstrument.ACOUSTIC_GRAND_PIANO, track.getInstrument());
+    }
 
-	public void testAddNoteEvent1() {
-		Track track = TrackTestDataFactory.createTrack();
-		track.addNoteEvent(0, NoteEventTestDataFactory.createNoteEvent());
+    public void testAddNoteEvent1() {
+        Track track = TrackTestDataFactory.createTrack();
+        track.addNoteEvent(0, NoteEventTestDataFactory.createNoteEvent());
 
-		assertEquals(1, track.size());
-	}
+        assertEquals(1, track.size());
+    }
 
-	public void testAddNoteEvent2() {
-		Track track = TrackTestDataFactory.createTrack();
-		track.addNoteEvent(0, NoteEventTestDataFactory.createNoteEvent());
-		track.addNoteEvent(0, NoteEventTestDataFactory.createNoteEvent());
+    public void testAddNoteEvent2() {
+        Track track = TrackTestDataFactory.createTrack();
+        track.addNoteEvent(0, NoteEventTestDataFactory.createNoteEvent());
+        track.addNoteEvent(0, NoteEventTestDataFactory.createNoteEvent());
 
-		assertEquals(2, track.size());
-	}
+        assertEquals(2, track.size());
+    }
 
-	public void testGetNoteEventsForTick() {
-		Track track = TrackTestDataFactory.createTrack();
-		long tick = 0;
-		NoteEvent noteEvent = NoteEventTestDataFactory.createNoteEvent();
-		track.addNoteEvent(tick, noteEvent);
+    public void testGetNoteEventsForTick() {
+        Track track = TrackTestDataFactory.createTrack();
+        long tick = 0;
+        NoteEvent noteEvent = NoteEventTestDataFactory.createNoteEvent();
+        track.addNoteEvent(tick, noteEvent);
 
-		assertEquals(noteEvent, track.getNoteEventsForTick(tick).get(0));
-	}
+        assertEquals(noteEvent, track.getNoteEventsForTick(tick).get(0));
+    }
 
     public void testEquals1() {
         long tick = 0;
@@ -118,14 +118,14 @@ public class TrackTest extends AndroidTestCase {
         assertFalse(track.equals(""));
     }
 
-	public void testToString() {
-		Track track = TrackTestDataFactory.createTrack();
-		String expectedString = "[Track] instrument=" + MusicalInstrument.ACOUSTIC_GRAND_PIANO
+    public void testToString() {
+        Track track = TrackTestDataFactory.createTrack();
+        String expectedString = "[Track] instrument=" + MusicalInstrument.ACOUSTIC_GRAND_PIANO
                 + " key=" + track.getKey()
                 + " size=" + track.size();
 
-		assertEquals(expectedString, track.toString());
-	}
+        assertEquals(expectedString, track.toString());
+    }
 
     public void testSetTickBasedOnTrack1() {
         Track track = TrackTestDataFactory.createTrack();

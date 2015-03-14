@@ -109,7 +109,7 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         }
 
         solo.clickOnView(getActivity().findViewById(R.id.callback_action_delete_project));
-        solo.waitForText(projectSelectionActivity.getString(R.string.project_selection_on_deletion_successful));
+        solo.waitForText(projectSelectionActivity.getString(R.string.delete_success));
 
         assertEquals(ProjectTestDataFactory.getProjectFilesInStorage(), expectedProjects);
     }
@@ -155,7 +155,7 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
     }
 
     public void testLinkToNextActivity() {
-        solo.clickOnButton(getActivity().getResources().getString(R.string.action_project_add));
+        solo.clickOnButton(getActivity().getResources().getString(R.string.plus));
         solo.waitForActivity(PianoActivity.class);
         solo.assertCurrentActivity(PianoActivity.class.getSimpleName(), PianoActivity.class);
     }
@@ -188,13 +188,13 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
 
         solo.clickOnView(getActivity().findViewById(R.id.action_delete_project));
         solo.goBack();
-        solo.clickOnButton(getActivity().getResources().getString(R.string.action_project_add));
+        solo.clickOnButton(getActivity().getResources().getString(R.string.plus));
         solo.waitForActivity(PianoActivity.class);
     }
 
     public void testAutoRefresh() throws IOException, MidiException {
         String fileName = "New_file";
-        solo.clickOnButton(getActivity().getResources().getString(R.string.action_project_add));
+        solo.clickOnButton(getActivity().getResources().getString(R.string.plus));
         solo.waitForActivity(PianoActivity.class);
         createSampleProjectFile(fileName);
         solo.goBack();
@@ -202,8 +202,8 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
     }
 
     public void testAboutDialog() throws IOException {
-        solo.clickOnMenuItem(getActivity().getResources().getString(R.string.action_project_about));
+        solo.clickOnMenuItem(getActivity().getResources().getString(R.string.menu_about));
         solo.waitForDialogToOpen();
-        assertTrue(solo.searchText(getActivity().getResources().getString(R.string.about_Dialog)));
+        assertTrue(solo.searchText(getActivity().getResources().getString(R.string.menu_about)));
     }
 }

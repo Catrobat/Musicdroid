@@ -22,92 +22,79 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-
-    <string name="app_name">Musicdroid</string>
-    <string name="arrow_down">v</string>
-    <string name="arrow_left">&#60;</string>
-    <string name="splash_screen_logo_content_description">Logo</string>string>
-    <string name="action_undo_midi">Undo</string>
-    <string name="action_play_midi">Play</string>
-    <string name="action_stop_midi">Stop</string>
-    <string name="action_midi_playing">Playing</string>
-    <string name="action_midi_stopped">Stopped</string>
-    <string name="action_midi_finished">Done</string>
-    <string name="action_play_midi_error">Could not start playing</string>
-    <string name="action_play_midi_dialog_stop">Stop</string>
-    <string name="action_save_midi_title">Save Project</string>
-    <string name="action_delete_midi_title">Clear Project</string>
-    <string name="action_delete_midi_success">Clear successful</string>
-    <string name="note_name_simple_c">C</string>
-    <string name="note_name_simple_d">D</string>
-    <string name="note_name_simple_e">E</string>
-    <string name="note_name_simple_f">F</string>
-    <string name="note_name_simple_g">G</string>
-    <string name="note_name_simple_a">A</string>
-    <string name="note_name_simple_h">H</string>
-    <string name="note_name_simple_cis">CIS</string>
-    <string name="note_name_simple_dis">DIS</string>
-    <string name="note_name_simple_fis">FIS</string>
-    <string name="note_name_simple_gis">GIS</string>
-    <string name="note_name_simple_ais">AIS</string>
-    <string name="title_activity_project_selection">ProjectSelectionActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_project_add">+</string>
-    <string name="action_project_edit">Edit</string>
-    <string name="action_project_about">About</string>
-    <string name="action_project_import">Import</string>
-    <string name="action_project_share">Share</string>
-    <string name="action_project_delete">Delete</string>
-    <string name="action_project_refresh">Refresh</string>
-    <string name="project_name">Project name:&#160;</string>
-    <string name="project_duration">Duration:&#160;</string>
-    <string name="project_selection_delete_menu_title">Select items to delete</string>
-    <string name="project_selection_edit_menu_title">Select an item to edit</string>
-    <string name="project_selection_share_menu_title">Select an item to share</string>
-
-    <string name="project_selection_copy_menu_title">Copy</string>
-    <string name="project_selection_on_deletion_successful">Delete was successful.</string>
-    <string name="delete_unsuccessful">Delete failed.</string>
-
-    <string name="minutes_short">min</string>
-    <string name="seconds_short">sec</string>
-    <string name="selected">selected</string>
-    <string name="project_import_successful">Project import successful!</string>
-    <string name="project_shared">Project sharing successful!</string>
-    <string name="project_import_failed">Project import failed!</string>
-
-    <string name="piano_edit_mode_delete">Delete marked</string>
-
-    <string name="about_Dialog">About Dialog</string>
-
-    <string name="dialog_project_edit_title">Edit project</string>
-    <string name="dialog_project_edit_message">Please enter a name:</string>
-    <string name="dialog_project_edit_success">Edit was successful!</string>
-    <string name="dialog_project_edit_cancel">Edit canceled!</string>
-    <string name="dialog_project_edit_error">Edit failed!</string>
-
-    <string name="dialog_project_copy_title">Copy project</string>
-    <string name="dialog_project_copy_message">Please enter a new name:</string>
-    <string name="dialog_project_copy_success">Copy successful!</string>
-    <string name="dialog_project_copy_cancel">Copy canceled!</string>
-    <string name="dialog_project_copy_error">Copy failed!</string>
-    <string name="dialog_project_name_exists_error">This name already exists!</string>
-
-    <string name="dialog_project_save_title">Save Project</string>
-    <string name="dialog_project_save_message">Please enter a name:</string>
-    <string name="dialog_project_save_success">Save successful!</string>
-    <string name="dialog_project_save_cancel">Save canceled!</string>
-    <string name="dialog_project_save_error">Save failed!</string>
-
+    <string name="breaks">B</string>
+    <string name="whole_break">whole break</string>
+    <string name="half_break">half break</string>
+    <string name="quarter_break">quarter break</string>
+    <string name="eight_break">eight break</string>
+    <string name="sixteenth_break">sixteenth break</string>
     <string name="break_1_4">1/4</string>
     <string name="break_1_8">1/8</string>
     <string name="break_1_16">1/16</string>
     <string name="break_1_2">1/2</string>
     <string name="break_1_1">1</string>
+    <string name="note_name_c">C</string>
+    <string name="note_name_d">D</string>
+    <string name="note_name_e">E</string>
+    <string name="note_name_f">F</string>
+    <string name="note_name_g">G</string>
+    <string name="note_name_a">A</string>
+    <string name="note_name_h">B</string>
+    <string name="note_name_cis">CIS</string>
+    <string name="note_name_dis">DIS</string>
+    <string name="note_name_fis">FIS</string>
+    <string name="note_name_gis">GIS</string>
+    <string name="note_name_ais">AIS</string>
 
-    <string name="midi_open">Could not open MIDI file!</string>
-    <string name="share_error">Could not share file!</string>
+    <string name="menu_undo">Undo</string>
+    <string name="menu_play">Play</string>
+    <string name="menu_stop">Stop</string>
+    <string name="menu_edit">Edit</string>
+    <string name="menu_clear">Clear</string>
+    <string name="menu_save">Save</string>
+    <string name="menu_import">Import</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_about">About</string>
+    <string name="menu_copy">Copy</string>
 
-    <string name="error_dialog_title">Error</string>
-    <string name="error_dialog_detail">Detail:</string>
+    <string name="dialog_edit_project">Edit project</string>
+    <string name="dialog_enter_name">Please enter a name:</string>
+
+    <string name="dialog_play_error">Could not start playing</string>
+    <string name="dialog_delete_error">Delete failed!</string>
+    <string name="dialog_project_import_error">Project import failed!</string>
+    <string name="dialog_edit_error">Edit failed!</string>
+    <string name="dialog_copy_error">Copy failed!</string>
+    <string name="dialog_name_error">This name already exists!</string>
+    <string name="dialog_save_error">Save failed!</string>
+    <string name="dialog_open_midi_error">Could not open MIDI file!</string>
+    <string name="dialog_share_error">Could not share file!</string>
+
+    <string name="app_name">Musicdroid</string>
+    <string name="logo">Logo</string>
+    <string name="playing">Playing</string>
+    <string name="stopped">Stopped</string>
+    <string name="done">Done</string>
+    <string name="clear_success">Clear successful</string>
+    <string name="plus">+</string>
+    <string name="project_name">Project name:&#160;</string>
+    <string name="duration">Duration:&#160;</string>
+    <string name="select_delete">Select items to delete</string>
+    <string name="select_edit">Select an item to edit</string>
+    <string name="select_share">Select an item to share</string>
+    <string name="delete_success">Delete successful!</string>
+    <string name="minutes_short">min</string>
+    <string name="seconds_short">sec</string>
+    <string name="project_import_success">Project import successful!</string>
+    <string name="delete_marked">Delete marked</string>
+    <string name="edit_success">Edit was successful!</string>
+    <string name="edit_cancel">Edit canceled!</string>
+    <string name="copy_project">Copy project</string>
+    <string name="copy_success">Copy successful!</string>
+    <string name="copy_cancel">Copy canceled!</string>
+    <string name="save_success">Save successful!</string>
+    <string name="save_cancel">Save canceled!</string>
+    <string name="error">Error</string>
+    <string name="detail">Detail:</string>
 </resources>

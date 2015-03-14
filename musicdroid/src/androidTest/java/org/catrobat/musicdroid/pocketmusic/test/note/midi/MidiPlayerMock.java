@@ -45,7 +45,8 @@ public class MidiPlayerMock extends MidiPlayer {
     }
 
     @Override
-    protected void writeTempPlayFile(File tempPlayFile, Track track, int beatsPerMinute) throws IOException, MidiException {}
+    protected void writeTempPlayFile(File tempPlayFile, Track track, int beatsPerMinute) throws IOException, MidiException {
+    }
 
     @Override
     protected MediaPlayer createNotePlayer(final Activity activity, final int midiFileId) {
@@ -66,7 +67,7 @@ public class MidiPlayerMock extends MidiPlayer {
     @Override
     public void onPlayTrackComplete(final File tempPlayFile, Activity activity) {
         setPlaying(false);
-        super.onPlayTrackComplete(tempPlayFile,activity);
+        super.onPlayTrackComplete(tempPlayFile, activity);
     }
 
     private class MediaPlayerMock extends MediaPlayer {

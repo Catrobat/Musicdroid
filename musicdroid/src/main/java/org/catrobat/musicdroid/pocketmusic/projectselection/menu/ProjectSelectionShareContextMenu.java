@@ -45,7 +45,7 @@ public class ProjectSelectionShareContextMenu extends ProjectSelectionContextMen
         try {
             runShareRoutine();
         } catch (IOException | MidiException e) {
-            ErrorDialog.createDialog(R.string.share_error, e).show(parent.getFragmentManager(), "tag");
+            ErrorDialog.createDialog(R.string.dialog_share_error, e).show(parent.getFragmentManager(), "tag");
         }
         actionMode.finish();
     }
@@ -63,7 +63,7 @@ public class ProjectSelectionShareContextMenu extends ProjectSelectionContextMen
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         parent.getMenuInflater().inflate(R.menu.menu_project_selection_share_callback, menu);
         super.onCreateActionMode(mode, menu);
-        mode.setTitle(R.string.project_selection_share_menu_title);
+        mode.setTitle(R.string.select_share);
         return true;
     }
 }

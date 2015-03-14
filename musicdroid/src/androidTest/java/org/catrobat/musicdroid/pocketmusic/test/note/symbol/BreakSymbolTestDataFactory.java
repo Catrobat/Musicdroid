@@ -28,11 +28,16 @@ import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 
 public class BreakSymbolTestDataFactory {
 
-    private BreakSymbolTestDataFactory() {}
+    private BreakSymbolTestDataFactory() {
+    }
 
-    public static BreakSymbol createBreakSymbol() { return createBreakSymbol(NoteLength.QUARTER); }
+    public static BreakSymbol createBreakSymbol() {
+        return createBreakSymbol(NoteLength.QUARTER);
+    }
 
-    public static BreakSymbol createBreakSymbol(NoteLength noteLength) { return new BreakSymbol(noteLength); }
+    public static BreakSymbol createBreakSymbol(NoteLength noteLength) {
+        return new BreakSymbol(noteLength);
+    }
 
     public static BreakSymbol createBreakSymbol(boolean marked) {
         BreakSymbol breakSymbol = new BreakSymbol(NoteLength.QUARTER);

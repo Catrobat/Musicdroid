@@ -49,13 +49,13 @@ public class MidiToProjectConverterTest extends AndroidTestCase {
         file.delete();
     }
 
-	public void testConvertToMidiToProject() throws MidiException, IOException {
-		ProjectToMidiConverter projectConverter = new ProjectToMidiConverter();
-		MidiToProjectConverter midiConverter = new MidiToProjectConverter();
+    public void testConvertToMidiToProject() throws MidiException, IOException {
+        ProjectToMidiConverter projectConverter = new ProjectToMidiConverter();
+        MidiToProjectConverter midiConverter = new MidiToProjectConverter();
 
         projectConverter.writeProjectAsMidi(project);
         Project actualProject = midiConverter.convertMidiFileToProject(file);
 
         assertEquals(project, actualProject);
-	}
+    }
 }

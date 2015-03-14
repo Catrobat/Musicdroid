@@ -33,12 +33,12 @@ import java.util.Collections;
 
 public class ProjectTestDataFactory {
 
-	private ProjectTestDataFactory() {
-	}
+    private ProjectTestDataFactory() {
+    }
 
-	public static Project createProject() {
+    public static Project createProject() {
         return new Project("TestProject", Project.DEFAULT_BEATS_PER_MINUTE);
-	}
+    }
 
     public static Project createProject(String name) {
         return new Project(name, Project.DEFAULT_BEATS_PER_MINUTE);
@@ -48,32 +48,32 @@ public class ProjectTestDataFactory {
         return new Project("TestProject", beatsPerMinute);
     }
 
-	public static Project createProjectWithTrack(MusicalInstrument instrument) {
-		Project project = createProject();
-		Track track = TrackTestDataFactory.createTrack(instrument);
-		project.addTrack(track);
+    public static Project createProjectWithTrack(MusicalInstrument instrument) {
+        Project project = createProject();
+        Track track = TrackTestDataFactory.createTrack(instrument);
+        project.addTrack(track);
 
-		return project;
-	}
+        return project;
+    }
 
-	public static Project createProjectWithTrack() {
-		Project project = createProject();
-		Track track = TrackTestDataFactory.createTrack();
-		project.addTrack(track);
+    public static Project createProjectWithTrack() {
+        Project project = createProject();
+        Track track = TrackTestDataFactory.createTrack();
+        project.addTrack(track);
 
-		return project;
-	}
+        return project;
+    }
 
-	public static Project createProjectWithSemiComplexTracks() {
-		Project project = createProject();
-		Track track1 = TrackTestDataFactory.createSemiComplexTrack(MusicalInstrument.GUNSHOT);
-		Track track2 = TrackTestDataFactory.createSemiComplexTrack(MusicalInstrument.WHISTLE);
+    public static Project createProjectWithSemiComplexTracks() {
+        Project project = createProject();
+        Track track1 = TrackTestDataFactory.createSemiComplexTrack(MusicalInstrument.GUNSHOT);
+        Track track2 = TrackTestDataFactory.createSemiComplexTrack(MusicalInstrument.WHISTLE);
 
-		project.addTrack(track1);
-		project.addTrack(track2);
+        project.addTrack(track1);
+        project.addTrack(track2);
 
-		return project;
-	}
+        return project;
+    }
 
     public static Project createProjectWithOneSimpleTrack(String projectName) {
         Project project = createProject(projectName);

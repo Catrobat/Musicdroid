@@ -24,7 +24,9 @@
 package org.catrobat.musicdroid.pocketmusic.test.projectselection.io;
 
 import android.content.Intent;
+
 import org.catrobat.musicdroid.pocketmusic.projectselection.io.IOHandler;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,7 +50,7 @@ public class IOHandlerMock extends IOHandler {
     }
 
     @Override
-    public void onReceive(int requestCode, int resultCode, File targetFile) throws IOException{
+    public void onReceive(int requestCode, int resultCode, File targetFile) throws IOException {
     }
 
     public Intent getIntent() {

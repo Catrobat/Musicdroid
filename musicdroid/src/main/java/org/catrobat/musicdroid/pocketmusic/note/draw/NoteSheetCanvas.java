@@ -26,7 +26,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
@@ -65,14 +64,16 @@ public class NoteSheetCanvas {
         canvas.drawOval(rect, paint);
     }
 
-    public void drawPath(Path path, Paint paint) { canvas.drawPath(path, paint); }
+    public void drawPath(Path path, Paint paint) {
+        canvas.drawPath(path, paint);
+    }
 
     public Rect drawBitmap(Resources resources, int bitmapId, int bitmapHeight, int xPosition, int yPosition, Paint paint) {
         Bitmap bitmap = BitmapFactory.decodeResource(resources, bitmapId);
 
         Rect rect = calculateProportionalRect(bitmap, bitmapHeight, xPosition, yPosition);
 
-        if(paint.getColor() != NoteSheetDrawer.COLOR_DEFAULT) {
+        if (paint.getColor() != NoteSheetDrawer.COLOR_DEFAULT) {
             bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
             bitmap = recolorBitmap(bitmap, NoteSheetDrawer.COLOR_DEFAULT, paint.getColor());
         }

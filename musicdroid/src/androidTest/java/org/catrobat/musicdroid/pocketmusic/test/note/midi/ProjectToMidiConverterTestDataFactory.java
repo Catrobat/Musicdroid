@@ -26,7 +26,6 @@ package org.catrobat.musicdroid.pocketmusic.test.note.midi;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
-import org.catrobat.musicdroid.pocketmusic.test.note.ProjectTestDataFactory;
 
 import java.io.IOException;
 

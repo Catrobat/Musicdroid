@@ -29,7 +29,8 @@ import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolPosition;
 
 public class SymbolPositionTestDataFactory {
 
-    private SymbolPositionTestDataFactory() {}
+    private SymbolPositionTestDataFactory() {
+    }
 
     public static SymbolPosition createSymbolPosition() {
         return createSymbolPosition(new RectF(0, 0, 100, 100));

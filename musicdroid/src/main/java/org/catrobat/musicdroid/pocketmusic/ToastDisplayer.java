@@ -36,29 +36,29 @@ public class ToastDisplayer {
     private static Toast doneToast;
 
     private static void clearAllToasts() {
-        if(playToast!=null)
+        if (playToast != null)
             playToast.cancel();
-        if(stopToast!=null)
+        if (stopToast != null)
             stopToast.cancel();
-        if(doneToast!=null)
+        if (doneToast != null)
             doneToast.cancel();
     }
 
     public static void showPlayToast(Context context) {
         clearAllToasts();
-        playToast = Toast.makeText(context,context.getString(R.string.action_midi_playing),Toast.LENGTH_LONG);
+        playToast = Toast.makeText(context, context.getString(R.string.playing), Toast.LENGTH_LONG);
         playToast.show();
     }
 
     public static void showStopToast(Context context) {
         clearAllToasts();
-        stopToast = Toast.makeText(context,context.getString(R.string.action_midi_stopped),Toast.LENGTH_LONG);
+        stopToast = Toast.makeText(context, context.getString(R.string.stopped), Toast.LENGTH_LONG);
         stopToast.show();
     }
 
     public static void showDoneToast(Context context) {
         clearAllToasts();
-        doneToast = Toast.makeText(context,context.getString(R.string.action_midi_finished),Toast.LENGTH_LONG);
+        doneToast = Toast.makeText(context, context.getString(R.string.done), Toast.LENGTH_LONG);
         doneToast.show();
     }
 }

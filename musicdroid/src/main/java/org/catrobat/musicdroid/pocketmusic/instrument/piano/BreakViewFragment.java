@@ -75,7 +75,7 @@ public class BreakViewFragment extends Fragment {
         setBreakButtonOnClickListener(break116Button, NoteLength.SIXTEENTH);
     }
 
-    public void setBreakButtonOnClickListener(ImageButton breakButton, final NoteLength noteLength){
+    public void setBreakButtonOnClickListener(ImageButton breakButton, final NoteLength noteLength) {
         breakButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

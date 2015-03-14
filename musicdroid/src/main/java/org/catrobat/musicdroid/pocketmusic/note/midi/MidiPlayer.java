@@ -163,7 +163,7 @@ public class MidiPlayer {
             ToastDisplayer.showDoneToast(activity.getApplicationContext());
             ProjectSelectionActivity projectSelectionActivity = (ProjectSelectionActivity) activity;
             projectSelectionActivity.notifyTrackPlayed();
-        } catch (Exception e){
+        } catch (Exception e) {
         }
     }
 
@@ -171,7 +171,7 @@ public class MidiPlayer {
         return MediaPlayer.create(activity, uri);
     }
 
-    public int getPlayQueueSize(){
+    public int getPlayQueueSize() {
         return playQueue.size();
     }
 }

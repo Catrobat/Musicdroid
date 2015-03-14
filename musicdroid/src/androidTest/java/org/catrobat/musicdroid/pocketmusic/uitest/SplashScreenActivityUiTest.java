@@ -25,7 +25,9 @@ package org.catrobat.musicdroid.pocketmusic.uitest;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.TextView;
+
 import com.robotium.solo.Solo;
+
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
 import org.catrobat.musicdroid.pocketmusic.splashscreen.SplashScreenActivity;

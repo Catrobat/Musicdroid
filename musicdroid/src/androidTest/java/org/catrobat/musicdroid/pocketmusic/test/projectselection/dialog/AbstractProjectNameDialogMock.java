@@ -63,7 +63,9 @@ public class AbstractProjectNameDialogMock extends AbstractProjectNameDialog {
         this.projectExists = projectExists;
     }
 
-    public boolean isOnDialogCreationCalled() { return onDialogCreationCalled; }
+    public boolean isOnDialogCreationCalled() {
+        return onDialogCreationCalled;
+    }
 
     public boolean isOnNewProjectNameCalled() {
         return onNewProjectNameCalled;
@@ -90,10 +92,13 @@ public class AbstractProjectNameDialogMock extends AbstractProjectNameDialog {
     }
 
     @Override
-    protected void onNewProjectName(String name) throws IOException, MidiException { onNewProjectNameCalled = true; }
+    protected void onNewProjectName(String name) throws IOException, MidiException {
+        onNewProjectNameCalled = true;
+    }
 
     @Override
-    protected void updateActivity() {}
+    protected void updateActivity() {
+    }
 
     @Override
     public void onPositiveButton() {

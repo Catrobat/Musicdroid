@@ -30,40 +30,40 @@ import org.catrobat.musicdroid.pocketmusic.note.Octave;
 import java.util.Arrays;
 
 public class OctaveTest extends AndroidTestCase {
-	
-	public void testGetNoteNames() {
-		NoteName[] noteNames = new NoteName[] {
-				NoteName.C1, NoteName.C1S,
-				NoteName.D1, NoteName.D1S,
-				NoteName.E1, NoteName.F1,
-				NoteName.F1S, NoteName.G1,
-				NoteName.G1S, NoteName.A1,
-				NoteName.A1S, NoteName.B1};
-		Octave octave = Octave.createContraOctave();
-		
-		assertTrue(Arrays.equals(noteNames, octave.getNoteNames()));
-	}
-	
-	public void testCreateCustomOctave1() {
-		NoteName startNoteName = NoteName.D1S;
-		NoteName[] noteNames = new NoteName[] {
-				NoteName.D1S, NoteName.E1,
-				NoteName.F1, NoteName.F1S,
-				NoteName.G1, NoteName.G1S,
-				NoteName.A1, NoteName.A1S,
-				NoteName.B1, NoteName.C2,
-				NoteName.C2S, NoteName.D2};
-		Octave octave = Octave.createCustomOctave(startNoteName);
-		
-		assertTrue(Arrays.equals(noteNames, octave.getNoteNames()));
-	}
-	
-	public void testCreateCustomOctave2() {
-		NoteName startNoteName = NoteName.C8;
-		NoteName[] noteNames = new NoteName[] {
-				NoteName.C8};
-		Octave octave = Octave.createCustomOctave(startNoteName);
-		
-		assertTrue(Arrays.equals(noteNames, octave.getNoteNames()));
-	}
+
+    public void testGetNoteNames() {
+        NoteName[] noteNames = new NoteName[]{
+                NoteName.C1, NoteName.C1S,
+                NoteName.D1, NoteName.D1S,
+                NoteName.E1, NoteName.F1,
+                NoteName.F1S, NoteName.G1,
+                NoteName.G1S, NoteName.A1,
+                NoteName.A1S, NoteName.B1};
+        Octave octave = Octave.createContraOctave();
+
+        assertTrue(Arrays.equals(noteNames, octave.getNoteNames()));
+    }
+
+    public void testCreateCustomOctave1() {
+        NoteName startNoteName = NoteName.D1S;
+        NoteName[] noteNames = new NoteName[]{
+                NoteName.D1S, NoteName.E1,
+                NoteName.F1, NoteName.F1S,
+                NoteName.G1, NoteName.G1S,
+                NoteName.A1, NoteName.A1S,
+                NoteName.B1, NoteName.C2,
+                NoteName.C2S, NoteName.D2};
+        Octave octave = Octave.createCustomOctave(startNoteName);
+
+        assertTrue(Arrays.equals(noteNames, octave.getNoteNames()));
+    }
+
+    public void testCreateCustomOctave2() {
+        NoteName startNoteName = NoteName.C8;
+        NoteName[] noteNames = new NoteName[]{
+                NoteName.C8};
+        Octave octave = Octave.createCustomOctave(startNoteName);
+
+        assertTrue(Arrays.equals(noteNames, octave.getNoteNames()));
+    }
 }

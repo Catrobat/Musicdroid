@@ -46,112 +46,112 @@ import java.util.List;
 
 public class MidiToProjectConverter {
 
-	private static final MusicalInstrument DEFAULT_INSTRUMENT = MusicalInstrument.ACOUSTIC_GRAND_PIANO;
+    private static final MusicalInstrument DEFAULT_INSTRUMENT = MusicalInstrument.ACOUSTIC_GRAND_PIANO;
 
-	private int beatsPerMinute;
+    private int beatsPerMinute;
 
-	public MidiToProjectConverter() {
+    public MidiToProjectConverter() {
         // TODO fw consider other BPM
-		beatsPerMinute = Project.DEFAULT_BEATS_PER_MINUTE;
-	}
+        beatsPerMinute = Project.DEFAULT_BEATS_PER_MINUTE;
+    }
 
-	public Project convertMidiFileToProject(File file) throws MidiException, IOException {
-		MidiFile midi = new MidiFile(file);
+    public Project convertMidiFileToProject(File file) throws MidiException, IOException {
+        MidiFile midi = new MidiFile(file);
 
-		validateMidiFile(midi);
+        validateMidiFile(midi);
 
         String projectName = file.getName().split(ProjectToMidiConverter.MIDI_FILE_EXTENSION)[0];
 
-		return convertMidi(projectName, midi);
-	}
+        return convertMidi(projectName, midi);
+    }
 
-	private void validateMidiFile(MidiFile midiFile) throws MidiException {
-		if (midiFile.getTrackCount() > 0) {
-			MidiTrack tempoTrack = midiFile.getTracks().get(0);
+    private void validateMidiFile(MidiFile midiFile) throws MidiException {
+        if (midiFile.getTrackCount() > 0) {
+            MidiTrack tempoTrack = midiFile.getTracks().get(0);
 
-			Iterator<MidiEvent> it = tempoTrack.getEvents().iterator();
+            Iterator<MidiEvent> it = tempoTrack.getEvents().iterator();
 
-			if (it.hasNext()) {
-				MidiEvent event = it.next();
+            if (it.hasNext()) {
+                MidiEvent event = it.next();
 
-				if (event instanceof Text) {
-					Text text = (Text) event;
+                if (event instanceof Text) {
+                    Text text = (Text) event;
 
-					if (text.getText().equals(ProjectToMidiConverter.MIDI_FILE_IDENTIFIER)) {
-						return;
-					}
-				}
-			}
-		}
+                    if (text.getText().equals(ProjectToMidiConverter.MIDI_FILE_IDENTIFIER)) {
+                        return;
+                    }
+                }
+            }
+        }
 
-		throw new MidiException("Unsupported MIDI!");
-	}
+        throw new MidiException("Unsupported MIDI!");
+    }
 
-	private Project convertMidi(String name, MidiFile midi) {
-		List<Track> tracks = new ArrayList<Track>();
+    private Project convertMidi(String name, MidiFile midi) {
+        List<Track> tracks = new ArrayList<Track>();
 
-		for (MidiTrack midiTrack : midi.getTracks()) {
-			tracks.add(createTrack(midiTrack));
-		}
+        for (MidiTrack midiTrack : midi.getTracks()) {
+            tracks.add(createTrack(midiTrack));
+        }
 
-		Project project = new Project(name, beatsPerMinute);
+        Project project = new Project(name, beatsPerMinute);
 
-		for (Track track : tracks) {
-			if (track.size() > 0) {
-				project.addTrack(track);
-			}
-		}
+        for (Track track : tracks) {
+            if (track.size() > 0) {
+                project.addTrack(track);
+            }
+        }
 
-		return project;
-	}
+        return project;
+    }
 
-	private Track createTrack(MidiTrack midiTrack) {
-		MusicalInstrument instrument = getInstrumentFromMidiTrack(midiTrack);
-		Track track = new Track(MusicalKey.VIOLIN, instrument);
-		Iterator<MidiEvent> it = midiTrack.getEvents().iterator();
+    private Track createTrack(MidiTrack midiTrack) {
+        MusicalInstrument instrument = getInstrumentFromMidiTrack(midiTrack);
+        Track track = new Track(MusicalKey.VIOLIN, instrument);
+        Iterator<MidiEvent> it = midiTrack.getEvents().iterator();
 
-		while (it.hasNext()) {
-			MidiEvent midiEvent = it.next();
+        while (it.hasNext()) {
+            MidiEvent midiEvent = it.next();
 
-			if (midiEvent instanceof NoteOn) {
-				NoteOn noteOn = (NoteOn) midiEvent;
-				long tick = noteOn.getTick();
-				NoteName noteName = NoteName.getNoteNameFromMidiValue(noteOn.getNoteValue());
-				NoteEvent noteEvent = new NoteEvent(noteName, true);
+            if (midiEvent instanceof NoteOn) {
+                NoteOn noteOn = (NoteOn) midiEvent;
+                long tick = noteOn.getTick();
+                NoteName noteName = NoteName.getNoteNameFromMidiValue(noteOn.getNoteValue());
+                NoteEvent noteEvent = new NoteEvent(noteName, true);
 
-				track.addNoteEvent(tick, noteEvent);
-			} else if (midiEvent instanceof NoteOff) {
-				NoteOff noteOff = (NoteOff) midiEvent;
-				long tick = noteOff.getTick();
-				NoteName noteName = NoteName.getNoteNameFromMidiValue(noteOff.getNoteValue());
-				NoteEvent noteEvent = new NoteEvent(noteName, false);
+                track.addNoteEvent(tick, noteEvent);
+            } else if (midiEvent instanceof NoteOff) {
+                NoteOff noteOff = (NoteOff) midiEvent;
+                long tick = noteOff.getTick();
+                NoteName noteName = NoteName.getNoteNameFromMidiValue(noteOff.getNoteValue());
+                NoteEvent noteEvent = new NoteEvent(noteName, false);
 
-				track.addNoteEvent(tick, noteEvent);
-			} else if (midiEvent instanceof Tempo) {
-				Tempo tempo = (Tempo) midiEvent;
+                track.addNoteEvent(tick, noteEvent);
+            } else if (midiEvent instanceof Tempo) {
+                Tempo tempo = (Tempo) midiEvent;
 
-				beatsPerMinute = (int) tempo.getBpm();
-			}
-		}
+                beatsPerMinute = (int) tempo.getBpm();
+            }
+        }
 
-		return track;
-	}
+        return track;
+    }
 
-	private MusicalInstrument getInstrumentFromMidiTrack(MidiTrack midiTrack) {
-		Iterator<MidiEvent> it = midiTrack.getEvents().iterator();
+    private MusicalInstrument getInstrumentFromMidiTrack(MidiTrack midiTrack) {
+        Iterator<MidiEvent> it = midiTrack.getEvents().iterator();
         MusicalInstrument instrument = DEFAULT_INSTRUMENT;
 
-		while (it.hasNext()) {
-			MidiEvent midiEvent = it.next();
+        while (it.hasNext()) {
+            MidiEvent midiEvent = it.next();
 
-			if (midiEvent instanceof ProgramChange) {
-				ProgramChange program = (ProgramChange) midiEvent;
+            if (midiEvent instanceof ProgramChange) {
+                ProgramChange program = (ProgramChange) midiEvent;
 
-				instrument = MusicalInstrument.getInstrumentFromProgram(program.getProgramNumber());
-				break;
-			}
-		}
+                instrument = MusicalInstrument.getInstrumentFromProgram(program.getProgramNumber());
+                break;
+            }
+        }
 
-		return instrument;
-	}
+        return instrument;
+    }
 }

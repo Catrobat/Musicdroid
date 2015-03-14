@@ -28,28 +28,28 @@
     android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content">
+
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/project_selection_button_wrapper">
 
         <ImageButton
-            android:contentDescription="@string/title_activity_project_selection"
+            android:contentDescription="@string/menu_play"
             android:id="@+id/project_play_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_action_play" />
 
         <ImageButton
-            android:contentDescription="@string/title_activity_project_selection"
+            android:contentDescription="@string/menu_stop"
             android:id="@+id/project_pause_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="invisible"
             android:src="@drawable/ic_action_stop" />
-
-        </FrameLayout >
+    </FrameLayout >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,12 +58,12 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/project_selection_button_wrapper"
         android:id="@+id/project_selection_text_view_wrapper_ll">
+
         <TextView
             android:id="@+id/project_name_text_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            />
+            android:gravity="center_vertical" />
         <TextView
             android:id="@+id/project_duration_text_view"
             android:layout_width="match_parent"

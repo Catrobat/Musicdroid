@@ -85,7 +85,7 @@ public class ProjectSelectionFragment extends Fragment {
                 try {
                     projects.add(midiToProjectConverter.convertMidiFileToProject(new File(ProjectToMidiConverter.MIDI_FOLDER, aMidiFile)));
                 } catch (MidiException | IOException e) {
-                    ErrorDialog.createDialog(R.string.midi_open, e).show(getFragmentManager(), "tag");
+                    ErrorDialog.createDialog(R.string.dialog_open_midi_error, e).show(getFragmentManager(), "tag");
                 }
             }
         }
@@ -155,7 +155,7 @@ public class ProjectSelectionFragment extends Fragment {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         fetchProjectInformation();
     }

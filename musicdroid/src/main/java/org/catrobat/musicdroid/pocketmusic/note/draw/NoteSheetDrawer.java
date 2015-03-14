@@ -30,10 +30,7 @@ import android.graphics.Rect;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
-
-import java.util.List;
 
 public class NoteSheetDrawer {
 
@@ -90,7 +87,7 @@ public class NoteSheetDrawer {
     private int calculateDistanceBetweenLines() {
         int lineHeight = noteSheetCanvas.getHeight() / POSSIBLE_LINE_SPACES_ON_SCREEN;
 
-        if(lineHeight % 2 == 0)
+        if (lineHeight % 2 == 0)
             return lineHeight;
 
         return lineHeight - 1;

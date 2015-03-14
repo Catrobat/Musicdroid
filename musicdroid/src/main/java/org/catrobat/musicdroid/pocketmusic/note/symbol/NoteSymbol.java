@@ -27,7 +27,6 @@ import org.catrobat.musicdroid.pocketmusic.note.NoteFlag;
 import org.catrobat.musicdroid.pocketmusic.note.NoteLength;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -36,72 +35,72 @@ import java.util.Map;
 
 public class NoteSymbol extends Symbol {
 
-	private Map<NoteName, NoteLength> notes;
+    private Map<NoteName, NoteLength> notes;
 
-	public NoteSymbol() {
+    public NoteSymbol() {
         notes = new HashMap<NoteName, NoteLength>();
-	}
+    }
 
-	public void addNote(NoteName noteName, NoteLength noteLength) {
-		notes.put(noteName, noteLength);
-	}
+    public void addNote(NoteName noteName, NoteLength noteLength) {
+        notes.put(noteName, noteLength);
+    }
 
-	public int size() {
-		return notes.size();
-	}
+    public int size() {
+        return notes.size();
+    }
 
-	public List<NoteName> getNoteNamesSorted() {
-		List<NoteName> noteNames = new LinkedList<NoteName>(notes.keySet());
-		Collections.sort(noteNames);
-		return noteNames;
-	}
+    public List<NoteName> getNoteNamesSorted() {
+        List<NoteName> noteNames = new LinkedList<NoteName>(notes.keySet());
+        Collections.sort(noteNames);
+        return noteNames;
+    }
 
-	public NoteLength getNoteLength(NoteName noteName) {
-		return notes.get(noteName);
-	}
+    public NoteLength getNoteLength(NoteName noteName) {
+        return notes.get(noteName);
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if ((obj == null) || !(obj instanceof NoteSymbol)) {
-			return false;
-		}
+    @Override
+    public boolean equals(Object obj) {
+        if ((obj == null) || !(obj instanceof NoteSymbol)) {
+            return false;
+        }
 
         if (false == super.equals(obj)) {
             return false;
         }
 
-		NoteSymbol noteSymbol = (NoteSymbol) obj;
+        NoteSymbol noteSymbol = (NoteSymbol) obj;
 
-		if (notes.equals(noteSymbol.notes)) {
-			return true;
-		}
+        if (notes.equals(noteSymbol.notes)) {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	@Override
-	public String toString() {
-		return "[NoteSymbol] marked=" + marked + " size=" + size();
-	}
+    @Override
+    public String toString() {
+        return "[NoteSymbol] marked=" + marked + " size=" + size();
+    }
 
-	public boolean isStemUp(MusicalKey key) {
-		List<NoteName> noteNames = getNoteNamesSorted();
+    public boolean isStemUp(MusicalKey key) {
+        List<NoteName> noteNames = getNoteNamesSorted();
 
-		NoteName firstNoteName = noteNames.get(0);
-		NoteName lastNoteName = noteNames.get(noteNames.size() - 1);
+        NoteName firstNoteName = noteNames.get(0);
+        NoteName lastNoteName = noteNames.get(noteNames.size() - 1);
 
-		int distanceFirst = NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, firstNoteName);
-		int distanceLast = NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, lastNoteName);
-		int distance = 0;
+        int distanceFirst = NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, firstNoteName);
+        int distanceLast = NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, lastNoteName);
+        int distance = 0;
 
-		if (Math.abs(distanceFirst) > Math.abs(distanceLast)) {
-			distance = distanceFirst;
-		} else {
-			distance = distanceLast;
-		}
+        if (Math.abs(distanceFirst) > Math.abs(distanceLast)) {
+            distance = distanceFirst;
+        } else {
+            distance = distanceLast;
+        }
 
-		return distance > 0;
-	}
+        return distance > 0;
+    }
 
     public boolean hasStem() {
         for (NoteLength noteLength : notes.values()) {

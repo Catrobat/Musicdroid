@@ -34,12 +34,8 @@ import android.widget.TextView;
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
-import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
-import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
 import org.catrobat.musicdroid.pocketmusic.tools.DisplayMeasurements;
-
-import java.util.List;
 
 public class NoteSheetViewFragment extends Fragment {
 
@@ -90,7 +86,7 @@ public class NoteSheetViewFragment extends Fragment {
         setSymbolCountText(symbolContainer.size());
     }
 
-    public String getTrackSizeTextViewText(){
+    public String getTrackSizeTextViewText() {
         return trackSizeTextView.getText().toString();
     }
 

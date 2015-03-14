@@ -62,7 +62,9 @@ public class CanvasMock extends Canvas {
         return HEIGHT;
     }
 
-    public int getWidth() { return WIDTH; }
+    public int getWidth() {
+        return WIDTH;
+    }
 
     @Override
     public void drawLine(float startX, float startY, float stopX, float stopY, Paint paint) {

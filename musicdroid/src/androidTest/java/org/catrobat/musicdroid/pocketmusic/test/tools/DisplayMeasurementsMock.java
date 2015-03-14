@@ -43,7 +43,7 @@ public class DisplayMeasurementsMock extends DisplayMeasurements {
         return initializeDisplay()[Y_INDEX];
     }
 
-    public int getHalfDisplayHeight(){
+    public int getHalfDisplayHeight() {
         return (getDisplayHeight() - getActionBarHeight()) / 2;
     }
 

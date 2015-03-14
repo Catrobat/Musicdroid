@@ -63,7 +63,7 @@ public class ProjectSelectionEditContextMenu extends ProjectSelectionContextMenu
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         parent.getMenuInflater().inflate(R.menu.menu_project_selection_edit_callback, menu);
         super.onCreateActionMode(mode, menu);
-        mode.setTitle(R.string.project_selection_edit_menu_title);
+        mode.setTitle(R.string.select_edit);
         return true;
     }
 }

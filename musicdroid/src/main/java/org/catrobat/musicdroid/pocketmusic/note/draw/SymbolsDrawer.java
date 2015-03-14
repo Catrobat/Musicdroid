@@ -25,14 +25,10 @@ package org.catrobat.musicdroid.pocketmusic.note.draw;
 import android.content.res.Resources;
 import android.graphics.Paint;
 
-import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class SymbolsDrawer {
 
@@ -52,8 +48,8 @@ public class SymbolsDrawer {
         return noteDrawer.getWidthForOneSymbol();
     }
 
-	public void drawSymbols() {
-		for (int i = 0; i < symbolContainer.size(); i++) {
+    public void drawSymbols() {
+        for (int i = 0; i < symbolContainer.size(); i++) {
             Symbol symbol = symbolContainer.get(i);
 
             if (symbol instanceof NoteSymbol) {
@@ -63,6 +59,6 @@ public class SymbolsDrawer {
             } else {
                 throw new IllegalArgumentException("Not supported symbol: " + symbol);
             }
-		}
-	}
+        }
+    }
 }
