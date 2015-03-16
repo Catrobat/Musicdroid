@@ -33,37 +33,38 @@ public class OctaveTest extends AndroidTestCase {
 
     public void testGetNoteNames() {
         NoteName[] noteNames = new NoteName[]{
-                NoteName.C1, NoteName.C1S,
-                NoteName.D1, NoteName.D1S,
-                NoteName.E1, NoteName.F1,
-                NoteName.F1S, NoteName.G1,
-                NoteName.G1S, NoteName.A1,
-                NoteName.A1S, NoteName.B1};
-        Octave octave = Octave.createContraOctave();
+                NoteName.C4, NoteName.C4S, NoteName.D4,
+                NoteName.D4S, NoteName.E4, NoteName.F4,
+                NoteName.F4S, NoteName.G4, NoteName.G4S,
+                NoteName.A4, NoteName.A4S, NoteName.B4};
+        Octave octave = Octave.ONE_LINE_OCTAVE;
 
         assertTrue(Arrays.equals(noteNames, octave.getNoteNames()));
     }
 
-    public void testCreateCustomOctave1() {
-        NoteName startNoteName = NoteName.D1S;
-        NoteName[] noteNames = new NoteName[]{
-                NoteName.D1S, NoteName.E1,
-                NoteName.F1, NoteName.F1S,
-                NoteName.G1, NoteName.G1S,
-                NoteName.A1, NoteName.A1S,
-                NoteName.B1, NoteName.C2,
-                NoteName.C2S, NoteName.D2};
-        Octave octave = Octave.createCustomOctave(startNoteName);
+    public void testNext() {
+        Octave octave = Octave.SUB_CONTRA_OCTAVE;
+        Octave nextOctave = Octave.CONTRA_OCTAVE;
 
-        assertTrue(Arrays.equals(noteNames, octave.getNoteNames()));
+        assertEquals(nextOctave, octave.next());
     }
 
-    public void testCreateCustomOctave2() {
-        NoteName startNoteName = NoteName.C8;
-        NoteName[] noteNames = new NoteName[]{
-                NoteName.C8};
-        Octave octave = Octave.createCustomOctave(startNoteName);
+    public void testNextNoChange() {
+        Octave lastOctave = Octave.FIVE_LINE_OCTAVE;
 
-        assertTrue(Arrays.equals(noteNames, octave.getNoteNames()));
+        assertEquals(lastOctave, lastOctave.next());
+    }
+
+    public void testPrevious() {
+        Octave octave = Octave.THREE_LINE_OCTAVE;
+        Octave previousOctave = Octave.TWO_LINE_OCTAVE;
+
+        assertEquals(previousOctave, octave.previous());
+    }
+
+    public void testPreviousNoChange() {
+        Octave firstOctave = Octave.SUB_CONTRA_OCTAVE;
+
+        assertEquals(firstOctave, firstOctave.previous());
     }
 }
