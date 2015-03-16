@@ -50,6 +50,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     protected void setUp() {
         solo = new Solo(getInstrumentation(), getActivity());
         pianoActivity = getActivity();
+        pianoActivity.inCallback = false;
     }
 
     @Override
@@ -207,6 +208,14 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         assertEquals(0, pianoActivity.getSymbolContainer().size());
     }
 
+    public void testEditModeReplace() {
+        enterEditModeWithOneMarkedSymbol();
+        solo.clickOnButton(PIANO_BUTTON_TEXT);
+
+        assertEquals(1, pianoActivity.getSymbolContainer().size());
+        assertFalse(pianoActivity.getSymbolContainer().get(0).isMarked());
+    }
+
     private void enterEditModeWithOneMarkedSymbol() {
         solo.clickOnButton(PIANO_BUTTON_TEXT);
 
@@ -232,5 +241,23 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
         assertEquals(1, pianoActivity.getSymbolContainer().size());
         assertTrue(pianoActivity.getAdditionalSettingsFragment().isPianoViewVisible());
+    }
+
+    public void testClickBreakAndReplace() {
+        solo.setActivityOrientation(Solo.PORTRAIT);
+        solo.clickOnButton(0);
+        solo.clickOnImageButton(1);
+
+        solo.sleep(1000);
+
+        pianoActivity.getSymbolContainer().get(0).setMarked(true);
+        solo.clickLongOnView(pianoActivity.getNoteSheetView());
+
+        solo.sleep(1000);
+
+        solo.clickOnButton(PIANO_BUTTON_TEXT);
+
+        assertEquals(1, pianoActivity.getSymbolContainer().size());
+        assertFalse(pianoActivity.getSymbolContainer().get(0).isMarked());
     }
 }
