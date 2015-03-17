@@ -34,11 +34,13 @@ public class TickProvider implements Serializable {
     protected int beatsPerMinute;
     protected long tick;
     protected long startTimiMillis;
+    protected boolean isCounting;
 
     public TickProvider(int beatsPerMinute) {
         this.beatsPerMinute = beatsPerMinute;
         tick = 0;
         startTimiMillis = 0;
+        isCounting = false;
     }
 
     protected long currentTimeMillis() {
@@ -46,13 +48,21 @@ public class TickProvider implements Serializable {
     }
 
     public void startCounting() {
-        startTimiMillis = currentTimeMillis();
+        if (false == isCounting) {
+            startTimiMillis = currentTimeMillis();
+        }
+
+        isCounting = true;
     }
 
     public void stopCounting() {
-        long difference = currentTimeMillis() - startTimiMillis;
-        NoteLength noteLength = NoteLength.getNoteLengthFromMilliseconds(difference, beatsPerMinute);
-        tick += noteLength.toTicks(beatsPerMinute);
+        if (isCounting) {
+            long difference = currentTimeMillis() - startTimiMillis;
+            NoteLength noteLength = NoteLength.getNoteLengthFromMilliseconds(difference, beatsPerMinute);
+            tick += noteLength.toTicks(beatsPerMinute);
+        }
+
+        isCounting = false;
     }
 
     public long getTick() {

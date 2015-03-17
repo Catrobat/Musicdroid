@@ -125,6 +125,11 @@ public class SymbolContainer implements Serializable {
     }
 
     @Override
+    public String toString() {
+        return "[SymbolContainer] key=" + key + " instrument=" + instrument + " size=" + size();
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if ((obj == null) || !(obj instanceof SymbolContainer)) {
             return false;

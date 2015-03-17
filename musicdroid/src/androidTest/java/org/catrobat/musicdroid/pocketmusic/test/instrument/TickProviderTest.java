@@ -36,7 +36,7 @@ public class TickProviderTest extends AndroidTestCase {
 
     @Override
     protected void setUp() {
-        currentTimeMillis = new long[]{100, 500};
+        currentTimeMillis = new long[]{100, 500, 600};
         tickProvider = new TickProviderMock(Project.DEFAULT_BEATS_PER_MINUTE, currentTimeMillis);
     }
 
@@ -48,14 +48,31 @@ public class TickProviderTest extends AndroidTestCase {
 
     public void testCounting() {
         tickProvider.startCounting();
-        tickProvider.stopCounting();
 
-        long difference = currentTimeMillis[1] - currentTimeMillis[0];
+        assertTickOnStop(currentTimeMillis[1] - currentTimeMillis[0]);
+    }
+
+    public void testCountingWithDoubleStart() {
+        tickProvider.startCounting();
+        tickProvider.startCounting();
+
+        assertTickOnStop(currentTimeMillis[1] - currentTimeMillis[0]);
+    }
+
+    public void testCountingWithDoubleStartAndStop() {
+        tickProvider.startCounting();
+        tickProvider.startCounting();
+
+        assertTickOnStop(currentTimeMillis[1] - currentTimeMillis[0]);
+        assertTickOnStop(currentTimeMillis[1] - currentTimeMillis[0]);
+    }
+
+    private void assertTickOnStop(long difference) {
+        tickProvider.stopCounting();
         NoteLength noteLength = NoteLength.getNoteLengthFromMilliseconds(difference, Project.DEFAULT_BEATS_PER_MINUTE);
         long expectedTick = noteLength.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
-        long actualTick = tickProvider.getTick();
 
-        assertEquals(expectedTick, actualTick);
+        assertEquals(expectedTick, tickProvider.getTick());
     }
 
     private class TickProviderMock extends TickProvider {

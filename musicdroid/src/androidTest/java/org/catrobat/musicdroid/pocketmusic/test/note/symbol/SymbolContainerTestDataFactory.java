@@ -75,7 +75,7 @@ public class SymbolContainerTestDataFactory {
     public static SymbolContainer createSymbolsWithBreak() {
         SymbolContainer symbolContainer = createSymbolContainer();
 
-        symbolContainer.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C4));
+        symbolContainer.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C4, NoteName.D4));
         symbolContainer.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.E4));
         symbolContainer.add(BreakSymbolTestDataFactory.createBreakSymbol(NoteLength.QUARTER));
         symbolContainer.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C4));
