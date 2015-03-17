@@ -32,7 +32,7 @@ public class PianoViewFragment extends Fragment {
     private DisplayMeasurements displayMeasurements;
 
     public PianoViewFragment() {
-        Octave octave = Octave.createOneLineOctave();
+        Octave octave = Octave.ONE_LINE_OCTAVE;
         noteNames = octave.getNoteNames();
     }
 
@@ -54,6 +54,23 @@ public class PianoViewFragment extends Fragment {
         setOnTouchListeners();
 
         return rootView;
+    }
+
+    private void findViewsById(View rootView) {
+        whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_01_white));
+        whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_02_white));
+        whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_03_white));
+        whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_04_white));
+        whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_05_white));
+        whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_06_white));
+        whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_07_white));
+
+        blackButtons.add((Button) rootView.findViewById(R.id.oct_button_01_black));
+        blackButtons.add((Button) rootView.findViewById(R.id.oct_button_02_black));
+        blackButtons.add((Button) rootView.findViewById(R.id.oct_button_03_black));
+        blackButtons.add((Button) rootView.findViewById(R.id.oct_button_04_black));
+        blackButtons.add((Button) rootView.findViewById(R.id.oct_button_05_black));
+        blackButtons.add((Button) rootView.findViewById(R.id.oct_button_06_black));
     }
 
     public void prepareViewDependingOnOrientation() {
@@ -84,23 +101,6 @@ public class PianoViewFragment extends Fragment {
             else
                 j += 2;
         }
-    }
-
-    private void findViewsById(View rootView) {
-        whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_01_white));
-        whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_02_white));
-        whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_03_white));
-        whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_04_white));
-        whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_05_white));
-        whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_06_white));
-        whiteButtons.add((Button) rootView.findViewById(R.id.oct_button_07_white));
-
-        blackButtons.add((Button) rootView.findViewById(R.id.oct_button_01_black));
-        blackButtons.add((Button) rootView.findViewById(R.id.oct_button_02_black));
-        blackButtons.add((Button) rootView.findViewById(R.id.oct_button_03_black));
-        blackButtons.add((Button) rootView.findViewById(R.id.oct_button_04_black));
-        blackButtons.add((Button) rootView.findViewById(R.id.oct_button_05_black));
-        blackButtons.add((Button) rootView.findViewById(R.id.oct_button_06_black));
     }
 
     public void calculatePianoKeyPositions(int pianoKeyWidthScaleFactor, int pianoBlackKeyHeightScaleFactor) {
