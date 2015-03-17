@@ -41,6 +41,7 @@ import org.catrobat.musicdroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteEventsToSymbolsConverter;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainerToTrackConverter;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolContainerConverter;
@@ -49,9 +50,12 @@ import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.SaveProjectDi
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 
 public abstract class InstrumentActivity extends FragmentActivity {
+
+    public static boolean inCallback = false;
 
     public static final int MAX_SYMBOLS_SIZE = 60;
 
@@ -142,7 +146,14 @@ public abstract class InstrumentActivity extends FragmentActivity {
             tickProvider.stopCounting();
         }
 
-        symbolContainer.addAll(noteEventsConverter.convertNoteEvent(tickProvider.getTick(), noteEvent, beatsPerMinute));
+        List<Symbol> symbols = noteEventsConverter.convertNoteEvent(tickProvider.getTick(), noteEvent, beatsPerMinute);
+
+        if (inCallback && (false == noteEvent.isNoteOn())) {
+            symbolContainer.replaceMarkedSymbols(symbols.get(0));
+        } else {
+            symbolContainer.addAll(symbols);
+        }
+
         redraw();
     }
 
@@ -151,7 +162,12 @@ public abstract class InstrumentActivity extends FragmentActivity {
             return;
         }
 
-        symbolContainer.add(breakSymbol);
+        if (inCallback) {
+            symbolContainer.replaceMarkedSymbols(breakSymbol);
+        } else {
+            symbolContainer.add(breakSymbol);
+        }
+
         redraw();
     }
 
