@@ -82,15 +82,15 @@ public class NoteEventsToSymbolsConverter implements Serializable {
             NoteLength noteLength = NoteLength.getNoteLengthFromTickDuration(tick - lastTickForNote, beatsPerMinute);
 
             if (currentSymbol instanceof NoteSymbol) {
-                ((NoteSymbol) currentSymbol).addNote(noteName, noteLength);
+                NoteSymbol noteSymbol = (NoteSymbol) currentSymbol;
+                noteSymbol.addNote(noteName, noteLength);
+
+                if (1 == noteSymbol.size()) {
+                    symbols.add(noteSymbol);
+                }
             }
 
             openNotes.remove(noteName);
-
-            if (false == symbols.contains(currentSymbol)) {
-                symbols.add(currentSymbol);
-            }
-
             lastTick = tick;
         }
 

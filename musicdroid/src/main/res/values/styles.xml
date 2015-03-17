@@ -27,7 +27,6 @@
 
     <style name="AppTheme" parent="android:Theme.Holo" >
         <item name="android:windowEnableSplitTouch">false</item>
-        <item name="android:splitMotionEvents">false</item>
         <item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
     </style >
     <style name="MyActionButtonOverflow" parent="android:style/Widget.Holo.ActionButton.Overflow">
