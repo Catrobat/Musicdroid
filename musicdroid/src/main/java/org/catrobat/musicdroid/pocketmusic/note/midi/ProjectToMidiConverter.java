@@ -52,11 +52,11 @@ public class ProjectToMidiConverter {
     private static final int MAX_CHANNEL = 16;
 
     private NoteEventToMidiEventConverter eventConverter;
-    private ArrayList<MusicalInstrument> usedChannels;
+    private int nextChannel;
 
     public ProjectToMidiConverter() {
         eventConverter = new NoteEventToMidiEventConverter();
-        usedChannels = new ArrayList<>();
+        nextChannel = 0;
     }
 
     public boolean deleteMidiByName(String name) {
@@ -118,7 +118,7 @@ public class ProjectToMidiConverter {
 
         for (String trackName : project.getTrackNames()) {
             Track track = project.getTrack(trackName);
-            int channel = addInstrumentAndGetChannel(track.getInstrument());
+            int channel = getNextChannel();
 
             MidiTrack noteTrack = createNoteTrack(trackName, track, channel);
 
@@ -128,16 +128,12 @@ public class ProjectToMidiConverter {
         return new MidiFile(MidiFile.DEFAULT_RESOLUTION, tracks);
     }
 
-    private int addInstrumentAndGetChannel(MusicalInstrument instrument) throws MidiException {
-        if (usedChannels.contains(instrument)) {
-            return usedChannels.indexOf(instrument) + 1;
-        } else if (usedChannels.size() == MAX_CHANNEL) {
+    private int getNextChannel() throws MidiException {
+        if (nextChannel >= MAX_CHANNEL) {
             throw new MidiException("You cannot have more than " + MAX_CHANNEL + " channels!");
-        } else {
-            usedChannels.add(instrument);
-
-            return usedChannels.indexOf(instrument) + 1;
         }
+
+        return nextChannel++;
     }
 
     private MidiTrack createTempoTrackWithMetaInfo(int beatsPerMinute) {
