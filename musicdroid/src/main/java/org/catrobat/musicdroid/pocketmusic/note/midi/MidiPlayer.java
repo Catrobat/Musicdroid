@@ -107,7 +107,7 @@ public class MidiPlayer {
 
     protected void writeTempPlayFile(File tempPlayFile, Track track, int beatsPerMinute) throws IOException, MidiException {
         Project project = new Project("temp", beatsPerMinute);
-        project.addTrack(track);
+        project.addTrack("tempTrack", track);
         ProjectToMidiConverter converter = new ProjectToMidiConverter();
         converter.writeProjectAsMidi(project, tempPlayFile);
     }
