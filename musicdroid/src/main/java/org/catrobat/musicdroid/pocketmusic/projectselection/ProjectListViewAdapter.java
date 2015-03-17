@@ -180,10 +180,12 @@ public class ProjectListViewAdapter extends BaseAdapter {
 
                     // TODO consider more tracks
                     try {
+                        Project project = projects.get(position);
+
                         MidiPlayer.getInstance().playTrack(activity,
                                 activity.getCacheDir(),
-                                projects.get(position).getTrack(0),
-                                projects.get(position).getBeatsPerMinute());
+                                project.getTrack(project.getTrackNames().iterator().next()),
+                                project.getBeatsPerMinute());
                     } catch (IOException | MidiException e) {
                         ErrorDialog.createDialog(R.string.dialog_open_midi_error, e).show(activity.getFragmentManager(), "tag");
                     }
@@ -208,11 +210,11 @@ public class ProjectListViewAdapter extends BaseAdapter {
     private void initTextViews(int actualPosition) {
         viewHolder.projectNameTextView.setText(activity.getResources().getText(R.string.project_name)
                 + projects.get(actualPosition).getName());
-        viewHolder.projectDurationTextView.setText(getDurationTextViewText(actualPosition, 0));
+        viewHolder.projectDurationTextView.setText(getDurationTextViewText(actualPosition));
     }
 
-    private String getDurationTextViewText(int actualPosition, int trackPosition) {
-        long timeInMilliseconds = projects.get(actualPosition).getTrack(trackPosition).getTotalTimeInMilliseconds();
+    private String getDurationTextViewText(int actualPosition) {
+        long timeInMilliseconds = projects.get(actualPosition).getTotalTimeInMilliseconds();
         return activity.getResources().getText(R.string.duration)
                 + String.format("%02d", (timeInMilliseconds / 1000) / 60)
                 + activity.getResources().getString(R.string.minutes_short) + " "

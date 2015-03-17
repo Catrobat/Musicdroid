@@ -58,7 +58,8 @@ public class SaveProjectDialog extends AbstractProjectNameDialog {
         Track track = symbolsConverter.convertSymbols(symbolContainer, beatsPerMinute);
 
         project = new Project(name, beatsPerMinute);
-        project.addTrack(track);
+        // TODO fw consider for more tracks
+        project.addTrack("changeThisName", track);
 
         ProjectToMidiConverter projectConverter = new ProjectToMidiConverter();
         projectConverter.writeProjectAsMidi(project);

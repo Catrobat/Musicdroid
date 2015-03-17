@@ -228,10 +228,9 @@ public abstract class InstrumentActivity extends FragmentActivity {
             ProjectToMidiConverter converter = new ProjectToMidiConverter();
 
             try {
-                // TODO fw refactor for several tracks
+                // TODO fw refactor for several tracks, consider the name for the track.
                 SymbolContainerToTrackConverter symbolsConverter = new SymbolContainerToTrackConverter();
-                project.clear();
-                project.addTrack(symbolsConverter.convertSymbols(symbolContainer, beatsPerMinute));
+                project.addTrack("changeThisName", symbolsConverter.convertSymbols(symbolContainer, beatsPerMinute));
                 converter.writeProjectAsMidi(project);
                 Toast.makeText(getBaseContext(), R.string.save_success, Toast.LENGTH_LONG).show();
             } catch (MidiException e) {
@@ -279,7 +278,7 @@ public abstract class InstrumentActivity extends FragmentActivity {
                 try {
                     //TODO fw consider more tracks
                     project = midiConverter.convertMidiFileToProject(midiFile);
-                    Track track = project.getTrack(0);
+                    Track track = project.getTrack(project.getTrackNames().iterator().next());
                     TrackToSymbolContainerConverter trackConverter = new TrackToSymbolContainerConverter();
                     symbolContainer = trackConverter.convertTrack(track, beatsPerMinute);
                 } catch (MidiException | IOException e) {
