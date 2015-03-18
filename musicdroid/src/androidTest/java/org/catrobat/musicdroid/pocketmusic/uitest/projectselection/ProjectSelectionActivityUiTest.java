@@ -48,7 +48,6 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
 
     private Solo solo;
     private static final String FILE_NAME = "TestProject";
-    private static final String RENAME_TEST_STRING = "edit";
     private ProjectSelectionActivity projectSelectionActivity;
 
     public ProjectSelectionActivityUiTest() {
