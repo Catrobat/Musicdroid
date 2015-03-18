@@ -48,4 +48,12 @@ public class TrackToSymbolContainerConverterTest extends AndroidTestCase {
 
         assertEquals(symbolContainer, converter.convertTrack(track, Project.DEFAULT_BEATS_PER_MINUTE));
     }
+
+    public void testConvertTrackAccord() {
+        TrackToSymbolContainerConverter converter = new TrackToSymbolContainerConverter();
+        Track track = TrackTestDataFactory.createTrackWithAccords();
+        SymbolContainer symbolContainer = SymbolContainerTestDataFactory.createSymbolsWithAccords();
+
+        assertEquals(symbolContainer, converter.convertTrack(track, Project.DEFAULT_BEATS_PER_MINUTE));
+    }
 }

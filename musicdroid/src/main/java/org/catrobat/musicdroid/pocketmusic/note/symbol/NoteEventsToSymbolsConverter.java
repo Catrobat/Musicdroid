@@ -42,12 +42,12 @@ public class NoteEventsToSymbolsConverter implements Serializable {
 
     public NoteEventsToSymbolsConverter() {
         lastTick = 0;
-        openNotes = new HashMap<NoteName, Long>();
+        openNotes = new HashMap<>();
         currentSymbol = null;
     }
 
     public List<Symbol> convertNoteEventList(long tick, List<NoteEvent> noteEvents, int beatsPerMinute) {
-        List<Symbol> symbols = new LinkedList<Symbol>();
+        List<Symbol> symbols = new LinkedList<>();
 
         for (NoteEvent noteEvent : noteEvents) {
             symbols.addAll(convertNoteEvent(tick, noteEvent, beatsPerMinute));
@@ -57,7 +57,7 @@ public class NoteEventsToSymbolsConverter implements Serializable {
     }
 
     public List<Symbol> convertNoteEvent(long tick, NoteEvent noteEvent, int beatsPerMinute) {
-        List<Symbol> symbols = new LinkedList<Symbol>();
+        List<Symbol> symbols = new LinkedList<>();
 
         NoteName noteName = noteEvent.getNoteName();
 
@@ -82,15 +82,15 @@ public class NoteEventsToSymbolsConverter implements Serializable {
             NoteLength noteLength = NoteLength.getNoteLengthFromTickDuration(tick - lastTickForNote, beatsPerMinute);
 
             if (currentSymbol instanceof NoteSymbol) {
-                ((NoteSymbol) currentSymbol).addNote(noteName, noteLength);
+                NoteSymbol noteSymbol = (NoteSymbol) currentSymbol;
+                noteSymbol.addNote(noteName, noteLength);
+
+                if (1 == noteSymbol.size()) {
+                    symbols.add(noteSymbol);
+                }
             }
 
             openNotes.remove(noteName);
-
-            if (false == symbols.contains(currentSymbol)) {
-                symbols.add(currentSymbol);
-            }
-
             lastTick = tick;
         }
 

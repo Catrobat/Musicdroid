@@ -50,4 +50,12 @@ public class SymbolContainerToTrackConverterTest extends AndroidTestCase {
             assertTrue(tick != track.getLastTick());
         }
     }
+
+    public void testConvertSymbolsAccord() {
+        SymbolContainerToTrackConverter converter = new SymbolContainerToTrackConverter();
+        SymbolContainer symbolContainer = SymbolContainerTestDataFactory.createSymbolsWithAccords();
+        Track expectedTrack = TrackTestDataFactory.createTrackWithAccords();
+
+        assertEquals(expectedTrack, converter.convertSymbols(symbolContainer, Project.DEFAULT_BEATS_PER_MINUTE));
+    }
 }

@@ -142,7 +142,6 @@ public class PianoViewFragment extends Fragment {
         return (new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
-
                 if (isDownActionEvent(event)) {
                     view.setX(view.getX() + 5);
                     addKeyPress(new NoteEvent(noteName, true));

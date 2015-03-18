@@ -176,4 +176,11 @@ public class SymbolContainerTest extends AndroidTestCase {
 
         assertFalse(symbolContainer.equals(""));
     }
+
+    public void testToString() {
+        SymbolContainer symbolContainer = SymbolContainerTestDataFactory.createSimpleSymbolContainer();
+        String expectedString = "[SymbolContainer] key=" + symbolContainer.getKey() + " instrument=" + symbolContainer.getInstrument() + " size=" + symbolContainer.size();
+
+        assertEquals(expectedString, symbolContainer.toString());
+    }
 }

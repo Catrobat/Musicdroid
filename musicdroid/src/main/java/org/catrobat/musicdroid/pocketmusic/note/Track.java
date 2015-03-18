@@ -24,6 +24,8 @@
 package org.catrobat.musicdroid.pocketmusic.note;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -89,7 +91,22 @@ public class Track implements Serializable {
     }
 
     public List<NoteEvent> getNoteEventsForTick(long tick) {
-        return events.get(tick);
+        List<NoteEvent> noteEvents = events.get(tick);
+
+        Collections.sort(noteEvents, new Comparator<NoteEvent>() {
+            @Override
+            public int compare(NoteEvent noteEvent1, NoteEvent noteEvent2) {
+                if (noteEvent1.isNoteOn() == noteEvent2.isNoteOn()) {
+                    return 0;
+                } else if (noteEvent1.isNoteOn()) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        });
+
+        return noteEvents;
     }
 
     public Set<Long> getSortedTicks() {
