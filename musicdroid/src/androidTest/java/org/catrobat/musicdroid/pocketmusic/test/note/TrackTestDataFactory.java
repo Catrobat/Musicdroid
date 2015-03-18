@@ -156,4 +156,34 @@ public final class TrackTestDataFactory {
 
         return track;
     }
+
+    public static Track createTrackWithAccords() {
+        Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
+
+        long tick = 0;
+
+        track.addNoteEvent(tick, new NoteEvent(NoteName.C3, true));
+        track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
+
+        tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+
+        track.addNoteEvent(tick, new NoteEvent(NoteName.C3, false));
+        track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
+        track.addNoteEvent(tick, new NoteEvent(NoteName.D3, true));
+        track.addNoteEvent(tick, new NoteEvent(NoteName.D4, true));
+
+        tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+
+        track.addNoteEvent(tick, new NoteEvent(NoteName.D3, false));
+        track.addNoteEvent(tick, new NoteEvent(NoteName.D4, false));
+        track.addNoteEvent(tick, new NoteEvent(NoteName.E3, true));
+        track.addNoteEvent(tick, new NoteEvent(NoteName.E4, true));
+
+        tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+
+        track.addNoteEvent(tick, new NoteEvent(NoteName.E3, false));
+        track.addNoteEvent(tick, new NoteEvent(NoteName.E4, false));
+
+        return track;
+    }
 }
