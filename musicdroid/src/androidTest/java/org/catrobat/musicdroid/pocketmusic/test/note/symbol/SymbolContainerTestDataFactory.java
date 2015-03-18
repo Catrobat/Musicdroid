@@ -106,8 +106,8 @@ public class SymbolContainerTestDataFactory {
         SymbolContainer symbolContainer = createSymbolContainer();
 
         symbolContainer.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C3, NoteName.C4));
-        symbolContainer.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.D3, NoteName.D4));
-        symbolContainer.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.E3, NoteName.E4));
+        symbolContainer.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C3, NoteName.C4));
+        symbolContainer.add(NoteSymbolTestDataFactory.createNoteSymbol(NoteLength.QUARTER, NoteName.C3, NoteName.C4));
 
         return symbolContainer;
     }
