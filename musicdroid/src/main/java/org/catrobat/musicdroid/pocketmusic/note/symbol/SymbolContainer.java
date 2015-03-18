@@ -125,6 +125,7 @@ public class SymbolContainer implements Serializable {
             Symbol currentSymbol = symbols.get(i);
 
             if (currentSymbol.isMarked()) {
+                newSymbol.setMarked(true);
                 symbols.set(i, newSymbol);
             }
         }
