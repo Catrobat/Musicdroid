@@ -28,6 +28,7 @@ import android.test.AndroidTestCase;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.BreakSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteSymbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
@@ -117,6 +118,16 @@ public class SymbolContainerTest extends AndroidTestCase {
         symbolContainer.resetSymbolMarkers();
 
         assertFalse(symbolContainer.get(0).isMarked());
+    }
+
+    public void testReplaceMarkedSymbols() {
+        SymbolContainer symbolContainer = SymbolContainerTestDataFactory.createSimpleSymbolContainer();
+        BreakSymbol breakSymbol = BreakSymbolTestDataFactory.createBreakSymbol();
+
+        symbolContainer.get(0).setMarked(true);
+        symbolContainer.replaceMarkedSymbols(breakSymbol);
+
+        assertEquals(breakSymbol, symbolContainer.get(0));
     }
 
     public void testEquals1() {

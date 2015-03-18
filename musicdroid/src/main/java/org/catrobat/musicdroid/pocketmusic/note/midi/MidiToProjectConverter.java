@@ -30,6 +30,7 @@ import com.leff.midi.event.NoteOn;
 import com.leff.midi.event.ProgramChange;
 import com.leff.midi.event.meta.Tempo;
 import com.leff.midi.event.meta.Text;
+import com.leff.midi.event.meta.TrackName;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
@@ -49,10 +50,14 @@ public class MidiToProjectConverter {
     private static final MusicalInstrument DEFAULT_INSTRUMENT = MusicalInstrument.ACOUSTIC_GRAND_PIANO;
 
     private int beatsPerMinute;
+    private List<Track> tracks;
+    private List<String> trackNames;
 
     public MidiToProjectConverter() {
         // TODO fw consider other BPM
         beatsPerMinute = Project.DEFAULT_BEATS_PER_MINUTE;
+        tracks = new ArrayList<>();
+        trackNames = new ArrayList<>();
     }
 
     public Project convertMidiFileToProject(File file) throws MidiException, IOException {
@@ -88,24 +93,26 @@ public class MidiToProjectConverter {
     }
 
     private Project convertMidi(String name, MidiFile midi) {
-        List<Track> tracks = new ArrayList<Track>();
-
         for (MidiTrack midiTrack : midi.getTracks()) {
-            tracks.add(createTrack(midiTrack));
+            createTrack(midiTrack);
         }
 
         Project project = new Project(name, beatsPerMinute);
 
+        int i = 0;
+
         for (Track track : tracks) {
             if (track.size() > 0) {
-                project.addTrack(track);
+                String trackName = trackNames.get(i);
+                i++;
+                project.addTrack(trackName, track);
             }
         }
 
         return project;
     }
 
-    private Track createTrack(MidiTrack midiTrack) {
+    private void createTrack(MidiTrack midiTrack) {
         MusicalInstrument instrument = getInstrumentFromMidiTrack(midiTrack);
         Track track = new Track(MusicalKey.VIOLIN, instrument);
         Iterator<MidiEvent> it = midiTrack.getEvents().iterator();
@@ -113,6 +120,10 @@ public class MidiToProjectConverter {
         while (it.hasNext()) {
             MidiEvent midiEvent = it.next();
 
+            if (midiEvent instanceof TrackName) {
+                TrackName trackNameEvent = (TrackName) midiEvent;
+                trackNames.add(trackNameEvent.getTrackName());
+            }
             if (midiEvent instanceof NoteOn) {
                 NoteOn noteOn = (NoteOn) midiEvent;
                 long tick = noteOn.getTick();
@@ -134,7 +145,7 @@ public class MidiToProjectConverter {
             }
         }
 
-        return track;
+        tracks.add(track);
     }
 
     private MusicalInstrument getInstrumentFromMidiTrack(MidiTrack midiTrack) {

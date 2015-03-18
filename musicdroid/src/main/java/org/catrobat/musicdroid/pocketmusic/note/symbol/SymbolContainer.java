@@ -120,6 +120,16 @@ public class SymbolContainer implements Serializable {
         }
     }
 
+    public void replaceMarkedSymbols(Symbol newSymbol) {
+        for (int i = 0; i < symbols.size(); i++) {
+            Symbol currentSymbol = symbols.get(i);
+
+            if (currentSymbol.isMarked()) {
+                symbols.set(i, newSymbol);
+            }
+        }
+    }
+
     public boolean isEmpty() {
         return symbols.isEmpty();
     }

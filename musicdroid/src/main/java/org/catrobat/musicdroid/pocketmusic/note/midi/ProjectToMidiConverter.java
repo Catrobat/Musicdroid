@@ -31,6 +31,7 @@ import com.leff.midi.event.ProgramChange;
 import com.leff.midi.event.meta.Tempo;
 import com.leff.midi.event.meta.Text;
 import com.leff.midi.event.meta.TimeSignature;
+import com.leff.midi.event.meta.TrackName;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
@@ -51,11 +52,11 @@ public class ProjectToMidiConverter {
     private static final int MAX_CHANNEL = 16;
 
     private NoteEventToMidiEventConverter eventConverter;
-    private ArrayList<MusicalInstrument> usedChannels;
+    private int nextChannel;
 
     public ProjectToMidiConverter() {
         eventConverter = new NoteEventToMidiEventConverter();
-        usedChannels = new ArrayList<>();
+        nextChannel = 0;
     }
 
     public boolean deleteMidiByName(String name) {
@@ -102,8 +103,8 @@ public class ProjectToMidiConverter {
     }
 
     private MidiFile convertProject(Project project) throws MidiException {
-        for (int i = 0; i < project.size(); i++) {
-            Track track = project.getTrack(i);
+        for (String trackName : project.getTrackNames()) {
+            Track track = project.getTrack(trackName);
 
             if (0 == track.size()) {
                 throw new MidiException("Cannot save a project with an empty track!");
@@ -115,11 +116,11 @@ public class ProjectToMidiConverter {
         MidiTrack tempoTrack = createTempoTrackWithMetaInfo(project.getBeatsPerMinute());
         tracks.add(tempoTrack);
 
-        for (int i = 0; i < project.size(); i++) {
-            Track track = project.getTrack(i);
-            int channel = addInstrumentAndGetChannel(track.getInstrument());
+        for (String trackName : project.getTrackNames()) {
+            Track track = project.getTrack(trackName);
+            int channel = getNextChannel();
 
-            MidiTrack noteTrack = createNoteTrack(track, channel);
+            MidiTrack noteTrack = createNoteTrack(trackName, track, channel);
 
             tracks.add(noteTrack);
         }
@@ -127,16 +128,12 @@ public class ProjectToMidiConverter {
         return new MidiFile(MidiFile.DEFAULT_RESOLUTION, tracks);
     }
 
-    private int addInstrumentAndGetChannel(MusicalInstrument instrument) throws MidiException {
-        if (usedChannels.contains(instrument)) {
-            return usedChannels.indexOf(instrument) + 1;
-        } else if (usedChannels.size() == MAX_CHANNEL) {
+    private int getNextChannel() throws MidiException {
+        if (nextChannel >= MAX_CHANNEL) {
             throw new MidiException("You cannot have more than " + MAX_CHANNEL + " channels!");
-        } else {
-            usedChannels.add(instrument);
-
-            return usedChannels.indexOf(instrument) + 1;
         }
+
+        return nextChannel++;
     }
 
     private MidiTrack createTempoTrackWithMetaInfo(int beatsPerMinute) {
@@ -156,9 +153,11 @@ public class ProjectToMidiConverter {
         return tempoTrack;
     }
 
-    private MidiTrack createNoteTrack(Track track, int channel) throws MidiException {
+    private MidiTrack createNoteTrack(String trackName, Track track, int channel) throws MidiException {
         MidiTrack noteTrack = new MidiTrack();
 
+        TrackName trackNameEvent = new TrackName(0, channel, trackName);
+        noteTrack.insertEvent(trackNameEvent);
         ProgramChange program = new ProgramChange(0, channel, track.getInstrument().getProgram());
         noteTrack.insertEvent(program);
 

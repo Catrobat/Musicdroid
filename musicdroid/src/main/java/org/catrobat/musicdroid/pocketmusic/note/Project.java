@@ -24,8 +24,11 @@
 package org.catrobat.musicdroid.pocketmusic.note;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Project implements Serializable {
 
@@ -34,23 +37,21 @@ public class Project implements Serializable {
 
     private String name;
     private int beatsPerMinute;
-    private List<Track> tracks;
+    private Map<String, Track> tracks;
 
     public Project(String name, int beatsPerMinute) {
         this.name = name;
         this.beatsPerMinute = beatsPerMinute;
-        this.tracks = new LinkedList<>();
+        this.tracks = new HashMap<>();
     }
 
     public Project(Project project) {
         name = project.getName();
         beatsPerMinute = project.getBeatsPerMinute();
-        tracks = new LinkedList<>();
+        tracks = new HashMap<>();
 
-        for (int i = 0; i < project.size(); i++) {
-            Track track = project.getTrack(i);
-
-            tracks.add(new Track(track));
+        for (String name : project.tracks.keySet()) {
+            tracks.put(name, new Track(project.tracks.get(name)));
         }
     }
 
@@ -71,16 +72,30 @@ public class Project implements Serializable {
         return beatsPerMinute;
     }
 
-    public void addTrack(Track track) {
-        tracks.add(track);
+    public void addTrack(String trackName, Track track) {
+        tracks.put(trackName, track);
     }
 
-    public void removeTrack(Track track) {
-        tracks.remove(track);
+    public Set<String> getTrackNames() {
+        return tracks.keySet();
     }
 
-    public Track getTrack(int location) {
-        return tracks.get(location);
+    public Track getTrack(String trackName) {
+        return tracks.get(trackName);
+    }
+
+    public long getTotalTimeInMilliseconds() {
+        long totalTime = 0;
+
+        for (Track track : tracks.values()) {
+            long trackTime = track.getTotalTimeInMilliseconds();
+
+            if (trackTime > totalTime) {
+                totalTime = trackTime;
+            }
+        }
+
+        return totalTime;
     }
 
     public int size() {
@@ -103,13 +118,7 @@ public class Project implements Serializable {
             return false;
         }
 
-        if (size() == project.size()) {
-            for (int i = 0; i < size(); i++) {
-                if (false == getTrack(i).equals(project.getTrack(i))) {
-                    return false;
-                }
-            }
-
+        if (tracks.equals(project.tracks)) {
             return true;
         }
 
@@ -119,10 +128,5 @@ public class Project implements Serializable {
     @Override
     public String toString() {
         return "[Project] name=" + name + " beatsPerMinute=" + beatsPerMinute + " trackCount=" + size();
-    }
-
-    // TODO fw remove me. Pls.
-    public void clear() {
-        tracks.clear();
     }
 }

@@ -38,7 +38,6 @@ import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 
 public class PianoActivity extends InstrumentActivity {
 
-    public static boolean inCallback = false;
     private static final String SAVED_INSTANCE_PIANO_VISIBLE = "pianoVisible";
 
     private PianoViewFragment pianoViewFragment;

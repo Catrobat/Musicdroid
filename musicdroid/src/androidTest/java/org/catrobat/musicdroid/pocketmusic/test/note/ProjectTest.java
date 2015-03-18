@@ -54,7 +54,8 @@ public class ProjectTest extends AndroidTestCase {
     public void testAddTrack() {
         Project project = ProjectTestDataFactory.createProject();
         Track track = TrackTestDataFactory.createTrack();
-        project.addTrack(track);
+        String trackName = "trackName";
+        project.addTrack(trackName, track);
 
         assertEquals(1, project.size());
     }
@@ -62,18 +63,26 @@ public class ProjectTest extends AndroidTestCase {
     public void testGetTrack() {
         Project project = ProjectTestDataFactory.createProject();
         Track track = TrackTestDataFactory.createTrack();
-        project.addTrack(track);
+        String trackName = "trackName";
+        project.addTrack(trackName, track);
 
-        assertEquals(track, project.getTrack(0));
+        assertEquals(track, project.getTrack(trackName));
     }
 
-    public void testRemoveTrack() {
+    public void testGetTrackNames() {
         Project project = ProjectTestDataFactory.createProject();
         Track track = TrackTestDataFactory.createTrack();
-        project.addTrack(track);
-        project.removeTrack(track);
+        project.addTrack("trackName", track);
 
-        assertEquals(0, project.size());
+        assertEquals(1, project.getTrackNames().size());
+    }
+
+    public void testGetTotalTimeInMilliseconds() {
+        Project project = ProjectTestDataFactory.createProject();
+        Track track = TrackTestDataFactory.createSimpleTrack();
+        project.addTrack("trackName", track);
+
+        assertEquals(track.getTotalTimeInMilliseconds(), project.getTotalTimeInMilliseconds());
     }
 
     public void testEquals1() {
