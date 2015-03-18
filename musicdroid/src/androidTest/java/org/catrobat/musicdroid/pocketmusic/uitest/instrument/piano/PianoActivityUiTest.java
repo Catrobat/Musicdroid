@@ -31,7 +31,9 @@ import com.robotium.solo.Solo;
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
+import org.catrobat.musicdroid.pocketmusic.note.NoteName;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
+import org.catrobat.musicdroid.pocketmusic.test.note.NoteEventTestDataFactory;
 
 import java.io.File;
 
@@ -213,7 +215,25 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         solo.clickOnButton(PIANO_BUTTON_TEXT);
 
         assertEquals(1, pianoActivity.getSymbolContainer().size());
-        assertFalse(pianoActivity.getSymbolContainer().get(0).isMarked());
+        assertTrue(pianoActivity.getSymbolContainer().get(0).isMarked());
+    }
+
+    public void testEditModeReplaceAddAccord() throws Throwable {
+        enterEditModeWithOneMarkedSymbol();
+
+        runTestOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                pianoActivity.addNoteEvent(NoteEventTestDataFactory.createNoteEvent(NoteName.C4, true));
+                pianoActivity.addNoteEvent(NoteEventTestDataFactory.createNoteEvent(NoteName.D4, true));
+                pianoActivity.addNoteEvent(NoteEventTestDataFactory.createNoteEvent(NoteName.C4, false));
+                pianoActivity.addNoteEvent(NoteEventTestDataFactory.createNoteEvent(NoteName.D4, false));
+            }
+        });
+
+        solo.sleep(1000);
+
+        assertEquals(1, pianoActivity.getSymbolContainer().size());
     }
 
     private void enterEditModeWithOneMarkedSymbol() {

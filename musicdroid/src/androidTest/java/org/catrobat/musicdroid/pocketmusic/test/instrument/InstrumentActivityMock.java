@@ -27,9 +27,6 @@ import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 
-/**
- * Created by Elli on 06.11.14.
- */
 public class InstrumentActivityMock extends InstrumentActivity {
 
     private boolean dismissed;
@@ -37,10 +34,6 @@ public class InstrumentActivityMock extends InstrumentActivity {
     public InstrumentActivityMock() {
         super(MusicalKey.VIOLIN, MusicalInstrument.ACCORDION);
         dismissed = false;
-    }
-
-    public boolean isDismissed() {
-        return dismissed;
     }
 
     @Override

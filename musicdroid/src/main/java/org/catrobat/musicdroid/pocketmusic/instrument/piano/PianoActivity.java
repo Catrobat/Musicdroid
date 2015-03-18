@@ -148,9 +148,11 @@ public class PianoActivity extends InstrumentActivity {
     }
 
     public void scrollNoteSheet() {
-        if (noteSheetViewFragment.checkForScrollAndRecalculateWidth()) {
-            HorizontalScrollView hv = (HorizontalScrollView) findViewById(R.id.scroll_note_sheet_view);
-            hv.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+        if (false == inCallback) {
+            if (noteSheetViewFragment.checkForScrollAndRecalculateWidth()) {
+                HorizontalScrollView hv = (HorizontalScrollView) findViewById(R.id.scroll_note_sheet_view);
+                hv.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+            }
         }
     }
 
