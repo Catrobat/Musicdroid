@@ -278,6 +278,6 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         solo.clickOnButton(PIANO_BUTTON_TEXT);
 
         assertEquals(1, pianoActivity.getSymbolContainer().size());
-        assertFalse(pianoActivity.getSymbolContainer().get(0).isMarked());
+        assertTrue(pianoActivity.getSymbolContainer().get(0).isMarked());
     }
 }
