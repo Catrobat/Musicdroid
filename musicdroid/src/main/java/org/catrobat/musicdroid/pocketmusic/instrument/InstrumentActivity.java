@@ -148,7 +148,7 @@ public abstract class InstrumentActivity extends FragmentActivity {
 
         List<Symbol> symbols = noteEventsConverter.convertNoteEvent(tickProvider.getTick(), noteEvent, beatsPerMinute);
 
-        if (inCallback && (false == noteEvent.isNoteOn())) {
+        if (inCallback && (false == noteEvent.isNoteOn()) && (0 < symbols.size())) {
             symbolContainer.replaceMarkedSymbols(symbols.get(0));
         } else {
             symbolContainer.addAll(symbols);
