@@ -22,6 +22,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
+    <string name="octave">Octave:</string>
     <string name="breaks">B</string>
     <string name="whole_break">whole break</string>
     <string name="half_break">half break</string>
@@ -78,6 +79,7 @@
     <string name="done">Done</string>
     <string name="clear_success">Clear successful</string>
     <string name="plus">+</string>
+    <string name="minus">-</string>
     <string name="project_name">Project name:&#160;</string>
     <string name="duration">Duration:&#160;</string>
     <string name="select_delete">Select items to delete</string>

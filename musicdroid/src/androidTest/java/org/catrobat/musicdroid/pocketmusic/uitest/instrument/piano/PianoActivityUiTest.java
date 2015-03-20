@@ -32,6 +32,7 @@ import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.note.NoteName;
+import org.catrobat.musicdroid.pocketmusic.note.Octave;
 import org.catrobat.musicdroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.musicdroid.pocketmusic.test.note.NoteEventTestDataFactory;
 
@@ -254,7 +255,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
     public void testClickBreak() {
         solo.setActivityOrientation(Solo.PORTRAIT);
-        solo.clickOnButton(0);
+        solo.clickOnButton(1);
         solo.clickOnImageButton(1);
 
         solo.sleep(1000);
@@ -265,7 +266,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
     public void testClickBreakAndReplace() {
         solo.setActivityOrientation(Solo.PORTRAIT);
-        solo.clickOnButton(0);
+        solo.clickOnButton(getActivity().getString(R.string.breaks));
         solo.clickOnImageButton(1);
 
         solo.sleep(1000);
@@ -279,5 +280,23 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
         assertEquals(1, pianoActivity.getSymbolContainer().size());
         assertTrue(pianoActivity.getSymbolContainer().get(0).isMarked());
+    }
+
+    public void testClickOctaveDownButton() {
+        solo.clickOnButton(getActivity().getString(R.string.minus));
+
+        solo.sleep(1000);
+
+        assertEquals(Octave.DEFAULT_OCTAVE.previous(), pianoActivity.getOctave());
+        assertEquals(pianoActivity.getNoteSheetViewFragment().getOctaveText(), getActivity().getString(R.string.octave) + " " + (-1));
+    }
+
+    public void testClickOctaveUpButton() {
+        solo.clickOnButton(getActivity().getString(R.string.plus));
+
+        solo.sleep(1000);
+
+        assertEquals(Octave.DEFAULT_OCTAVE.next(), pianoActivity.getOctave());
+        assertEquals(pianoActivity.getNoteSheetViewFragment().getOctaveText(), getActivity().getString(R.string.octave) + " " + (1));
     }
 }

@@ -35,6 +35,7 @@ import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetView;
 import org.catrobat.musicdroid.pocketmusic.instrument.noteSheet.NoteSheetViewFragment;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
+import org.catrobat.musicdroid.pocketmusic.note.Octave;
 
 public class PianoActivity extends InstrumentActivity {
 
@@ -70,6 +71,12 @@ public class PianoActivity extends InstrumentActivity {
     public void startEditMode() {
         editModeContextMenu = new EditModeContextMenu(this);
         startActionMode(editModeContextMenu);
+    }
+
+    @Override
+    public void setOctave(Octave octave) {
+        super.setOctave(octave);
+        noteSheetViewFragment.setOctaveText(octave);
     }
 
     public void notifyCheckedItemStateChanged() {
