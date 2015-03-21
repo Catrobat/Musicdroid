@@ -33,6 +33,7 @@ import org.catrobat.musicdroid.pocketmusic.error.ErrorDialog;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
+import org.catrobat.musicdroid.pocketmusic.note.Octave;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;
 import org.catrobat.musicdroid.pocketmusic.note.midi.MidiException;
@@ -51,7 +52,6 @@ import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.SaveProjectDi
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
 public abstract class InstrumentActivity extends FragmentActivity {
 
@@ -59,10 +59,11 @@ public abstract class InstrumentActivity extends FragmentActivity {
 
     public static final int MAX_SYMBOLS_SIZE = 60;
 
-    private static final String R_RAW = "raw";
+    private static final String SAVED_INSTANCE_OCTAVE = "SavedOctave";
     private static final String SAVED_INSTANCE_SYMBOLS = "SavedSymbols";
     private static final String SAVED_INSTANCE_PROJECT = "SavedProject";
 
+    private Octave octave;
     private int beatsPerMinute;
     private MidiPlayer midiPlayer;
     private Project project;
@@ -74,12 +75,21 @@ public abstract class InstrumentActivity extends FragmentActivity {
 
     public InstrumentActivity(MusicalKey key, MusicalInstrument instrument) {
         // TODO fw consider other BPM
+        octave = Octave.DEFAULT_OCTAVE;
         beatsPerMinute = Project.DEFAULT_BEATS_PER_MINUTE;
         midiPlayer = MidiPlayer.getInstance();
         project = null;
         symbolContainer = new SymbolContainer(key, instrument);
         noteEventsConverter = new NoteEventsToSymbolsConverter();
         tickProvider = new TickProvider(beatsPerMinute);
+    }
+
+    public Octave getOctave() {
+        return octave;
+    }
+
+    public void setOctave(Octave octave) {
+        this.octave = octave;
     }
 
     public SymbolContainer getSymbolContainer() {
@@ -95,6 +105,7 @@ public abstract class InstrumentActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
 
         if (null != savedInstanceState) {
+            octave = (Octave) savedInstanceState.getSerializable(SAVED_INSTANCE_OCTAVE);
             symbolContainer = (SymbolContainer) savedInstanceState.getSerializable(SAVED_INSTANCE_SYMBOLS);
             project = (Project) savedInstanceState.getSerializable(SAVED_INSTANCE_PROJECT);
 
@@ -110,6 +121,7 @@ public abstract class InstrumentActivity extends FragmentActivity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
 
+        savedInstanceState.putSerializable(SAVED_INSTANCE_OCTAVE, octave);
         savedInstanceState.putSerializable(SAVED_INSTANCE_SYMBOLS, symbolContainer);
 
         if (null != project) {
@@ -139,8 +151,6 @@ public abstract class InstrumentActivity extends FragmentActivity {
         }
 
         if (noteEvent.isNoteOn()) {
-            int midiResourceId = getResources().getIdentifier(noteEvent.getNoteName().toString().toLowerCase(Locale.getDefault()), R_RAW, getPackageName());
-            midiPlayer.playNote(this, midiResourceId);
             tickProvider.startCounting();
         } else {
             tickProvider.stopCounting();

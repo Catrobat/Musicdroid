@@ -34,7 +34,10 @@ import org.catrobat.musicdroid.pocketmusic.R;
 
 public class AdditionalSettingsFragment extends Fragment {
 
+    private Button switchOctaveUpButton;
+    private Button switchOctaveDownButton;
     private Button switchToBreakViewButton;
+
     private boolean pianoViewVisible = true;
     private PianoActivity pianoActivity;
 
@@ -49,12 +52,15 @@ public class AdditionalSettingsFragment extends Fragment {
         pianoActivity = (PianoActivity) getActivity();
 
         switchToBreakViewButton = (Button) rootView.findViewById(R.id.switch_to_break_button);
-        setSwitchToBreakViewButtonOnClickListener();
+        switchOctaveDownButton = (Button) rootView.findViewById(R.id.switch_octave_down);
+        switchOctaveUpButton = (Button) rootView.findViewById(R.id.switch_octave_up);
+
+        setOnClickListeners();
 
         return rootView;
     }
 
-    public void setSwitchToBreakViewButtonOnClickListener() {
+    public void setOnClickListeners() {
         switchToBreakViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,6 +69,20 @@ public class AdditionalSettingsFragment extends Fragment {
                 } else {
                     pianoActivity.switchToPianoView();
                 }
+            }
+        });
+
+        switchOctaveDownButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pianoActivity.setOctave(pianoActivity.getOctave().previous());
+            }
+        });
+
+        switchOctaveUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pianoActivity.setOctave(pianoActivity.getOctave().next());
             }
         });
     }

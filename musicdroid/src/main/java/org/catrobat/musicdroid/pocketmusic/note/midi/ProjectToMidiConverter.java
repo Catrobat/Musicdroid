@@ -33,7 +33,6 @@ import com.leff.midi.event.meta.Text;
 import com.leff.midi.event.meta.TimeSignature;
 import com.leff.midi.event.meta.TrackName;
 
-import org.catrobat.musicdroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.musicdroid.pocketmusic.note.NoteEvent;
 import org.catrobat.musicdroid.pocketmusic.note.Project;
 import org.catrobat.musicdroid.pocketmusic.note.Track;

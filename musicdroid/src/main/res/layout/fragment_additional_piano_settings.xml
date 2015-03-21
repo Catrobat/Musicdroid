@@ -27,10 +27,21 @@
     android:orientation="horizontal" >
 
     <Button
+        android:id="@+id/switch_octave_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/minus" />
+    <Button
         android:id="@+id/switch_to_break_button"
         android:background="@color/additional_settings_button_background"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="0.8"
         android:text="@string/breaks" />
+    <Button
+        android:id="@+id/switch_octave_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/plus" />
 
 </LinearLayout >

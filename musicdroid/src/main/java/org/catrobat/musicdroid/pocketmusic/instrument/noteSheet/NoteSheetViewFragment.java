@@ -34,6 +34,7 @@ import android.widget.TextView;
 import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.InstrumentActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
+import org.catrobat.musicdroid.pocketmusic.note.Octave;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
 import org.catrobat.musicdroid.pocketmusic.tools.DisplayMeasurements;
 
@@ -41,6 +42,7 @@ public class NoteSheetViewFragment extends Fragment {
 
     private NoteSheetView noteSheetView;
     private TextView trackSizeTextView;
+    private TextView octaveTextView;
 
     private DisplayMeasurements displayMeasurements;
 
@@ -55,6 +57,7 @@ public class NoteSheetViewFragment extends Fragment {
 
         noteSheetView = (NoteSheetView) rootView.findViewById(R.id.note_sheet_view);
         trackSizeTextView = (TextView) rootView.findViewById(R.id.track_size_text_view);
+        octaveTextView = (TextView) rootView.findViewById(R.id.octave_state_text_view);
 
         noteSheetView.setOnLongClickListener(new View.OnLongClickListener() {
 
@@ -84,6 +87,7 @@ public class NoteSheetViewFragment extends Fragment {
     public void redraw(SymbolContainer symbolContainer) {
         noteSheetView.redraw(symbolContainer);
         setSymbolCountText(symbolContainer.size());
+        setOctaveText(((PianoActivity) getActivity()).getOctave());
     }
 
     public String getTrackSizeTextViewText() {
@@ -100,5 +104,15 @@ public class NoteSheetViewFragment extends Fragment {
 
     public void setSymbolCountText(int symbolCount) {
         trackSizeTextView.setText(symbolCount + " / " + InstrumentActivity.MAX_SYMBOLS_SIZE);
+    }
+
+    public String getOctaveText() {
+        return octaveTextView.getText().toString();
+    }
+
+    public void setOctaveText(Octave octave) {
+        int offset = octave.ordinal() - Octave.DEFAULT_OCTAVE.ordinal();
+
+        octaveTextView.setText(getString(R.string.octave) + " " + offset);
     }
 }

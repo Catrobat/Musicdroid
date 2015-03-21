@@ -43,14 +43,14 @@ public class OctaveTest extends AndroidTestCase {
     }
 
     public void testNext() {
-        Octave octave = Octave.SUB_CONTRA_OCTAVE;
-        Octave nextOctave = Octave.CONTRA_OCTAVE;
+        Octave octave = Octave.ONE_LINE_OCTAVE;
+        Octave nextOctave = Octave.TWO_LINE_OCTAVE;
 
         assertEquals(nextOctave, octave.next());
     }
 
     public void testNextNoChange() {
-        Octave lastOctave = Octave.FIVE_LINE_OCTAVE;
+        Octave lastOctave = Octave.FOUR_LINE_OCTAVE;
 
         assertEquals(lastOctave, lastOctave.next());
     }
@@ -63,7 +63,7 @@ public class OctaveTest extends AndroidTestCase {
     }
 
     public void testPreviousNoChange() {
-        Octave firstOctave = Octave.SUB_CONTRA_OCTAVE;
+        Octave firstOctave = Octave.CONTRA_OCTAVE;
 
         assertEquals(firstOctave, firstOctave.previous());
     }
