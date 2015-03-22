@@ -41,6 +41,13 @@ public class SymbolPosition implements Serializable {
         calculatePosition(rects);
     }
 
+    public SymbolPosition(SymbolPosition symbolPosition) {
+        left = symbolPosition.getLeft();
+        top = symbolPosition.getTop();
+        right = symbolPosition.getRight();
+        bottom = symbolPosition.getBottom();
+    }
+
     public void calculatePosition(RectF... rects) {
         left = INVALID_INT;
         top = INVALID_INT;

@@ -36,6 +36,16 @@ public abstract class Symbol implements Serializable {
         symbolPosition = null;
     }
 
+    public Symbol(Symbol symbol) {
+        marked = symbol.isMarked();
+
+        if (null == symbol.getSymbolPosition()) {
+            symbolPosition = null;
+        } else {
+            symbolPosition = new SymbolPosition(symbol.getSymbolPosition());
+        }
+    }
+
     public boolean isMarked() {
         return marked;
     }

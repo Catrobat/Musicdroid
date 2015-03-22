@@ -101,4 +101,12 @@ public class SymbolPositionTest extends AndroidTestCase {
 
         assertEquals(rect, symbolPosition.toRectF());
     }
+
+    public void testCopy() {
+        SymbolPosition symbolPosition = SymbolPositionTestDataFactory.createSymbolPosition();
+        SymbolPosition copySymbolPosition = new SymbolPosition(symbolPosition);
+
+        assertTrue(symbolPosition != copySymbolPosition);
+        assertTrue(symbolPosition.equals(copySymbolPosition));
+    }
 }

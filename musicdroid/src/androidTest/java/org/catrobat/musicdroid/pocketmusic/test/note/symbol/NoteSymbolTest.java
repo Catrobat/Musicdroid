@@ -185,4 +185,12 @@ public class NoteSymbolTest extends AndroidTestCase {
 
         assertFalse(noteSymbol.isStemUp(MusicalKey.VIOLIN));
     }
+
+    public void testCopy() {
+        NoteSymbol symbol = NoteSymbolTestDataFactory.createNoteSymbol();
+        NoteSymbol copySymbol = new NoteSymbol(symbol);
+
+        assertTrue(symbol != copySymbol);
+        assertTrue(symbol.equals(copySymbol));
+    }
 }
