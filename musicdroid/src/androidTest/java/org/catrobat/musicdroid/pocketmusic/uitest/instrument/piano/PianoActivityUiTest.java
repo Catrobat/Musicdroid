@@ -255,7 +255,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
     public void testClickBreak() {
         solo.setActivityOrientation(Solo.PORTRAIT);
-        solo.clickOnButton(1);
+        solo.clickOnButton(getActivity().getString(R.string.breaks));
         solo.clickOnImageButton(1);
 
         solo.sleep(1000);
