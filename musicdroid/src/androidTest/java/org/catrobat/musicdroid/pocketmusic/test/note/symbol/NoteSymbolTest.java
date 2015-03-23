@@ -121,7 +121,7 @@ public class NoteSymbolTest extends AndroidTestCase {
         NoteSymbol noteSymbol1 = NoteSymbolTestDataFactory.createNoteSymbol(true);
         NoteSymbol noteSymbol2 = NoteSymbolTestDataFactory.createNoteSymbol(false);
 
-        assertFalse(noteSymbol1.equals(noteSymbol2));
+        assertTrue(noteSymbol1.equals(noteSymbol2));
     }
 
     public void testEquals8() {

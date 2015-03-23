@@ -37,7 +37,7 @@ public abstract class Symbol implements Serializable {
     }
 
     public Symbol(Symbol symbol) {
-        marked = symbol.isMarked();
+        marked = false;
 
         if (null == symbol.getSymbolPosition()) {
             symbolPosition = null;
@@ -74,10 +74,6 @@ public abstract class Symbol implements Serializable {
             if (false == symbol.getSymbolPosition().equals(symbolPosition)) {
                 return false;
             }
-        }
-
-        if (symbol.isMarked() != isMarked()) {
-            return false;
         }
 
         return true;

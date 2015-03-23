@@ -79,11 +79,8 @@ public class EditModeContextMenu implements ActionMode.Callback {
     }
 
     private void onActionDelete() {
-        SymbolContainer symbolContainer = parent.getSymbolContainer();
-
-        symbolContainer.deleteMarkedSymbols();
-        symbolContainer.resetSymbolMarkers();
-        parent.getNoteSheetViewFragment().setSymbolCountText(symbolContainer.size());
+        parent.deleteMarkedSymbols();
+        parent.getNoteSheetViewFragment().setSymbolCountText(parent.getSymbolContainer().size());
         parent.getNoteSheetView().invalidate();
     }
 }

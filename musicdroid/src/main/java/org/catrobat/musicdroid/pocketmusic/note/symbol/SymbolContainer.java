@@ -98,10 +98,6 @@ public class SymbolContainer implements Serializable {
         return symbols.get(index);
     }
 
-    public void removeLastSymbol() {
-        symbols.removeLast();
-    }
-
     public int getMarkedSymbolCount() {
         int count = 0;
 

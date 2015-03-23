@@ -76,7 +76,7 @@ public class BreakSymbolTest extends AndroidTestCase {
         BreakSymbol breakSymbol1 = BreakSymbolTestDataFactory.createBreakSymbol(true);
         BreakSymbol breakSymbol2 = BreakSymbolTestDataFactory.createBreakSymbol(false);
 
-        assertFalse(breakSymbol1.equals(breakSymbol2));
+        assertTrue(breakSymbol1.equals(breakSymbol2));
     }
 
     public void testCopy() {
