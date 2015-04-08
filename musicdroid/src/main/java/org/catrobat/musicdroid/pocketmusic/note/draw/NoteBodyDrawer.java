@@ -80,6 +80,7 @@ public final class NoteBodyDrawer {
                         prevNoteName, noteName));
 
                 if (differenceBetweenNotesInHalfTones == 1) {
+                    noteSymbol.setStemInCenter();
                     if (isStemUpdirected) {
                         right += 2 * noteWidth;
                         left += 2 * noteWidth;

@@ -93,6 +93,8 @@ public class SymbolPosition implements Serializable {
         return new RectF(getLeft(), getTop(), getRight(), getBottom());
     }
 
+    public float getCenterOfRect() { return (getRight() - getLeft())/2;}
+
     @Override
     public boolean equals(Object obj) {
         if ((obj == null) || !(obj instanceof SymbolPosition)) {

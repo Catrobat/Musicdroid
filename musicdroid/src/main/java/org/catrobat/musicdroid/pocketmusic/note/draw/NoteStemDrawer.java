@@ -52,16 +52,16 @@ public class NoteStemDrawer {
         PointF endPointOfNoteStem = new PointF();
 
         if (noteSymbol.isStemUp(key)) {
-            stemRect.left = symbolPosition.getRight();
-            stemRect.right = symbolPosition.getRight();
+            stemRect.left = symbolPosition.getRight() + noteSymbol.getStemShift(symbolPosition.getCenterOfRect(), key);
+            stemRect.right = symbolPosition.getRight() + noteSymbol.getStemShift(symbolPosition.getCenterOfRect(), key);
             stemRect.bottom = symbolPosition.getBottom() - distanceBetweenLinesHalf;
             stemRect.top = symbolPosition.getTop() - stemLength;
 
             endPointOfNoteStem.x = stemRect.left;
             endPointOfNoteStem.y = stemRect.top;
         } else {
-            stemRect.left = symbolPosition.getLeft();
-            stemRect.right = symbolPosition.getLeft();
+            stemRect.left = symbolPosition.getLeft() + noteSymbol.getStemShift(symbolPosition.getCenterOfRect(), key);
+            stemRect.right = symbolPosition.getLeft() + noteSymbol.getStemShift(symbolPosition.getCenterOfRect(), key);
             stemRect.top = symbolPosition.getTop() + distanceBetweenLinesHalf;
             stemRect.bottom = symbolPosition.getBottom() + stemLength;
 

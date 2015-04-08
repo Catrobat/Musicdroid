@@ -101,4 +101,13 @@ public class SymbolPositionTest extends AndroidTestCase {
 
         assertEquals(rect, symbolPosition.toRectF());
     }
+
+    public void testGetCenterOfSymbolPosition() {
+        RectF rect = new RectF(0, 0, 100, 100);
+        SymbolPosition symbolPosition = new SymbolPosition(rect);
+
+        float expectedCenter = 50;
+
+        assertEquals(expectedCenter, symbolPosition.getCenterOfRect());
+    }
 }

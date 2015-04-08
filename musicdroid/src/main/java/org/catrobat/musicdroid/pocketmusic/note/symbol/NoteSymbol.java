@@ -37,9 +37,12 @@ public class NoteSymbol extends Symbol {
 
     private Map<NoteName, NoteLength> notes;
 
+    private boolean IsStemInCenter;
+
     public NoteSymbol() {
         notes = new HashMap<NoteName, NoteLength>();
-    }
+        IsStemInCenter = false;
+     }
 
     public void addNote(NoteName noteName, NoteLength noteLength) {
         notes.put(noteName, noteLength);
@@ -110,6 +113,25 @@ public class NoteSymbol extends Symbol {
         }
 
         return false;
+    }
+
+    public void setStemInCenter() {
+       this.IsStemInCenter = true;
+    }
+
+    public float getStemShift(float centerOfSymbolPosition, MusicalKey key) {
+        if(this.isStemInCenter()) {
+            if(this.isStemUp(key)) {
+               return centerOfSymbolPosition * (-1) ;
+            } else {
+                return centerOfSymbolPosition;
+            }
+        }
+        return 0;
+    }
+
+    public boolean isStemInCenter() {
+        return  this.IsStemInCenter;
     }
 
     public NoteFlag getFlag() {

@@ -24,6 +24,7 @@
 package org.catrobat.musicdroid.pocketmusic.test.note.symbol;
 
 import android.graphics.RectF;
+import android.provider.ContactsContract;
 import android.test.AndroidTestCase;
 
 import org.catrobat.musicdroid.pocketmusic.note.MusicalKey;
@@ -184,5 +185,13 @@ public class NoteSymbolTest extends AndroidTestCase {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteName.C5, NoteName.C5);
 
         assertFalse(noteSymbol.isStemUp(MusicalKey.VIOLIN));
+    }
+
+    public void testGetStemShift() {
+        NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteName.C5, NoteName.D5);
+        noteSymbol.setStemInCenter();
+        float expectedShift = 20;
+
+        assertEquals(noteSymbol.getStemShift(20, MusicalKey.VIOLIN), expectedShift);
     }
 }
