@@ -169,4 +169,21 @@ public class NoteDrawerTest extends AbstractDrawerTest {
         assertCanvasElementQueueSize(stemCount + crossCount + helpLinesCount + bodyCount);
         clearCanvasElementQueue();
     }
+
+    public void testIsStemInCenter() {
+        NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteName.C5, NoteName.D5);
+        noteDrawer.drawSymbol(noteSymbol);
+
+        assertTrue(noteSymbol.isStemInCenter());
+        clearCanvasElementQueue();
+    }
+
+    public void testIsStemInCenterFalse() {
+        NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteName.C5, NoteName.F5);
+        noteDrawer.drawSymbol(noteSymbol);
+
+        assertFalse(noteSymbol.isStemInCenter());
+        clearCanvasElementQueue();
+    }
+
 }
