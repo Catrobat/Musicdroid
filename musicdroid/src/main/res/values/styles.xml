@@ -33,6 +33,21 @@
         <item name="android:src">@drawable/ic_action_overflow</item>
     </style>
 
--->
+    <style name="DefaultDialog" parent="android:style/Theme.Dialog" >
+        <item name="android:layout_width" >match_parent</item >
+        <item name="android:layout_height" >wrap_content</item >
+        <item name="android:paddingBottom" >@dimen/dialog_item_margin</item >
+        <item name="android:layout_marginLeft" >@dimen/dialog_margin</item >
+        <item name="android:layout_marginRight" >@dimen/dialog_margin</item >
+        <item name="android:windowBackground" >@null</item >
+    </style >
+
+        <style name="DefaultDialog.Item" >
+        <item name="android:layout_width" >match_parent</item >
+        <item name="android:minHeight" >@dimen/dialog_item_height</item >
+        <item name="android:layout_height" >wrap_content</item >
+        <item name="android:layout_marginLeft" >@dimen/dialog_item_margin</item >
+        <item name="android:layout_marginRight" >@dimen/dialog_item_margin</item >
+    </style >
 
 </resources >

@@ -25,23 +25,49 @@ package org.catrobat.musicdroid.pocketmusic.projectselection.dialog;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import org.catrobat.musicdroid.pocketmusic.R;
 
 public class AboutDialog extends DialogFragment {
 
+
     @Override
     public Dialog onCreateDialog(Bundle bundle) {
-
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_about, null);
-        Dialog aboutDialog = new AlertDialog.Builder(getActivity())
-                .setView(view)
-                .setTitle(R.string.menu_about)
-                .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+        TextView aboutUrlTextView = (TextView) view.findViewById(R.id.dialog_about_text_view_url);
+        aboutUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
+        String aboutUrl = getString(R.string.about_link_template, "http://developer.catrobat.org/licenses",
+                getString(R.string.dialog_about_pocketcode_license_link_text));
+
+        aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
+
+        TextView aboutUrlCatrobatView = (TextView) view.findViewById(R.id.dialog_about_text_catrobat_url);
+        aboutUrlCatrobatView.setMovementMethod(LinkMovementMethod.getInstance());
+
+        String aboutCatrobatUrl = getString(R.string.about_link_template, "http://www.catrobat.org/",
+                getString(R.string.dialog_about_catrobat_link_text));
+
+        aboutUrlCatrobatView.setText(Html.fromHtml(aboutCatrobatUrl));
+
+        TextView aboutVersionNameTextView = (TextView) view.findViewById(R.id.dialog_about_text_view_version_name);
+        String versionName = this.getString(R.string.android_version_prefix) + getVersionName(getActivity());
+        aboutVersionNameTextView.setText(versionName);
+
+        Dialog aboutDialog = new AlertDialog.Builder(getActivity()).setView(view).setTitle(R.string.dialog_about_title)
+                .setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -50,6 +76,17 @@ public class AboutDialog extends DialogFragment {
         aboutDialog.setCanceledOnTouchOutside(true);
 
         return aboutDialog;
+    }
 
+    public static String getVersionName(Context context) {
+        String versionName = "unknown";
+        try {
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(),
+                    PackageManager.GET_META_DATA);
+            versionName = packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException nameNotFoundException) {
+            Log.e(AboutDialog.class.getSimpleName(), "Name not found", nameNotFoundException);
+        }
+        return versionName;
     }
 }

@@ -199,10 +199,14 @@ public class ProjectSelectionActivityUiTest extends ActivityInstrumentationTestC
         solo.goBack();
         assertTrue(solo.searchText(fileName));
     }
-
     public void testAboutDialog() throws IOException {
         solo.clickOnMenuItem(getActivity().getResources().getString(R.string.menu_about));
         solo.waitForDialogToOpen();
-        assertTrue(solo.searchText(getActivity().getResources().getString(R.string.menu_about)));
+        assertTrue(solo.searchText(getActivity().getResources().getString(R.string.dialog_about_license_info)));
+        assertTrue(solo.searchText(getActivity().getResources().getString(R.string.dialog_about_catrobat_link_text)));
+        assertTrue(solo.searchText(getActivity().getResources().getString(R.string.dialog_about_pocketcode_license_link_text)));
+        assertTrue(solo.searchText(getActivity().getResources().getString(R.string.dialog_about_title)));
+        solo.clickOnButton(getActivity().getResources().getString(R.string.ok));
+        assertTrue(solo.waitForDialogToClose());
     }
 }
