@@ -66,10 +66,17 @@ public abstract class Symbol implements Serializable {
             }
         }
 
-        if (symbol.isMarked() != isMarked()) {
-            return false;
-        }
+        return symbol.isMarked() == isMarked();
 
-        return true;
     }
+
+    public Symbol copy() {
+        Symbol symbol = createCopy();
+
+        symbol.setMarked(marked);
+
+        return symbol;
+    }
+
+    protected abstract Symbol createCopy();
 }

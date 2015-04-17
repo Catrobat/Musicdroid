@@ -42,7 +42,7 @@ public class SymbolContainer implements Serializable {
         this.key = key;
         this.instrument = instrument;
 
-        symbols = new LinkedList<Symbol>();
+        symbols = new LinkedList<>();
     }
 
     public MusicalKey getKey() {
@@ -126,7 +126,7 @@ public class SymbolContainer implements Serializable {
 
             if (currentSymbol.isMarked()) {
                 newSymbol.setMarked(true);
-                symbols.set(i, newSymbol);
+                symbols.set(i, newSymbol.copy());
             }
         }
     }

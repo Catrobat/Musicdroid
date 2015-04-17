@@ -35,39 +35,42 @@ public class SymbolContainerTestDataFactory {
     }
 
     public static SymbolContainer createSymbolContainer(MusicalKey key, MusicalInstrument instrument) {
-        SymbolContainer symbolContainer = new SymbolContainer(key, instrument);
-
-        return symbolContainer;
+        return new SymbolContainer(key, instrument);
     }
 
     public static SymbolContainer createSymbolContainer(MusicalKey key) {
-        SymbolContainer symbolContainer = createSymbolContainer(key, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
-
-        return symbolContainer;
+        return createSymbolContainer(key, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
     }
 
     public static SymbolContainer createSymbolContainer(MusicalInstrument instrument) {
-        SymbolContainer symbolContainer = createSymbolContainer(MusicalKey.VIOLIN, instrument);
-
-        return symbolContainer;
+        return createSymbolContainer(MusicalKey.VIOLIN, instrument);
     }
 
     public static SymbolContainer createSymbolContainer() {
-        SymbolContainer symbolContainer = createSymbolContainer(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
-
-        return symbolContainer;
+        return createSymbolContainer(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
     }
 
     public static SymbolContainer createSimpleSymbolContainer() {
-        SymbolContainer symbolContainer = createSymbolContainer();
-        symbolContainer.add(NoteSymbolTestDataFactory.createNoteSymbol());
-
-        return symbolContainer;
+        return createSymbolContainerWithSeveralNoteSymbols(1);
     }
 
     public static SymbolContainer createSymbolContainerWithOneNoteSymbol(NoteName noteName) {
         SymbolContainer symbolContainer = createSymbolContainer();
         symbolContainer.add(NoteSymbolTestDataFactory.createNoteSymbol(noteName));
+
+        return symbolContainer;
+    }
+
+    public static SymbolContainer createSymbolContainerWithThreeNoteSymbols() {
+        return createSymbolContainerWithSeveralNoteSymbols(3);
+    }
+
+    public static SymbolContainer createSymbolContainerWithSeveralNoteSymbols(int amount) {
+        SymbolContainer symbolContainer = createSymbolContainer();
+
+        for (int i = 0; i < amount; i++) {
+            symbolContainer.add(NoteSymbolTestDataFactory.createNoteSymbol());
+        }
 
         return symbolContainer;
     }

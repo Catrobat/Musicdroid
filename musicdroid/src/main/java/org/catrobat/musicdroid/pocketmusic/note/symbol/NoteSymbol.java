@@ -38,7 +38,7 @@ public class NoteSymbol extends Symbol {
     private Map<NoteName, NoteLength> notes;
 
     public NoteSymbol() {
-        notes = new HashMap<NoteName, NoteLength>();
+        notes = new HashMap<>();
     }
 
     public void addNote(NoteName noteName, NoteLength noteLength) {
@@ -50,7 +50,7 @@ public class NoteSymbol extends Symbol {
     }
 
     public List<NoteName> getNoteNamesSorted() {
-        List<NoteName> noteNames = new LinkedList<NoteName>(notes.keySet());
+        List<NoteName> noteNames = new LinkedList<>(notes.keySet());
         Collections.sort(noteNames);
         return noteNames;
     }
@@ -71,11 +71,16 @@ public class NoteSymbol extends Symbol {
 
         NoteSymbol noteSymbol = (NoteSymbol) obj;
 
-        if (notes.equals(noteSymbol.notes)) {
-            return true;
-        }
+        return notes.equals(noteSymbol.notes);
 
-        return false;
+    }
+
+    @Override
+    protected Symbol createCopy() {
+        NoteSymbol noteSymbol = new NoteSymbol();
+        noteSymbol.notes = new HashMap<>(notes);
+
+        return noteSymbol;
     }
 
     @Override
@@ -91,7 +96,7 @@ public class NoteSymbol extends Symbol {
 
         int distanceFirst = NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, firstNoteName);
         int distanceLast = NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, lastNoteName);
-        int distance = 0;
+        int distance;
 
         if (Math.abs(distanceFirst) > Math.abs(distanceLast)) {
             distance = distanceFirst;
