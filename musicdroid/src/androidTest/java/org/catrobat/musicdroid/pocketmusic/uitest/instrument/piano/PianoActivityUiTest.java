@@ -76,8 +76,26 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
         assertEquals(0, pianoActivity.getSymbolContainer().size());
     }
 
+    public void testClearUndo() {
+        solo.clickOnButton(PIANO_BUTTON_TEXT);
+        solo.clickOnActionBarItem(R.id.action_clear_midi);
+
+        assertTrue(solo.waitForText(pianoActivity.getString(R.string.clear_success)));
+
+        solo.clickOnActionBarItem(R.id.action_undo_midi);
+
+        assertEquals(1, pianoActivity.getSymbolContainer().size());
+    }
+
     public void testUndo() {
         solo.clickOnButton(PIANO_BUTTON_TEXT);
+        solo.clickOnActionBarItem(R.id.action_undo_midi);
+
+        assertEquals(0, pianoActivity.getSymbolContainer().size());
+    }
+
+    public void testUndoBreak() {
+        clickBreak();
         solo.clickOnActionBarItem(R.id.action_undo_midi);
 
         assertEquals(0, pianoActivity.getSymbolContainer().size());
@@ -208,7 +226,7 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
         solo.clickOnActionBarItem(R.id.action_undo_midi);
 
-        assertEquals(0, pianoActivity.getSymbolContainer().size());
+        assertEquals(1, pianoActivity.getSymbolContainer().size());
     }
 
     public void testEditModeReplace() {
@@ -254,22 +272,14 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
     }
 
     public void testClickBreak() {
-        solo.setActivityOrientation(Solo.PORTRAIT);
-        solo.clickOnButton(1);
-        solo.clickOnImageButton(1);
-
-        solo.sleep(1000);
+        clickBreak();
 
         assertEquals(1, pianoActivity.getSymbolContainer().size());
         assertTrue(pianoActivity.getAdditionalSettingsFragment().isPianoViewVisible());
     }
 
     public void testClickBreakAndReplace() {
-        solo.setActivityOrientation(Solo.PORTRAIT);
-        solo.clickOnButton(getActivity().getString(R.string.breaks));
-        solo.clickOnImageButton(1);
-
-        solo.sleep(1000);
+        clickBreak();
 
         pianoActivity.getSymbolContainer().get(0).setMarked(true);
         solo.clickLongOnView(pianoActivity.getNoteSheetView());
@@ -280,6 +290,14 @@ public class PianoActivityUiTest extends ActivityInstrumentationTestCase2<PianoA
 
         assertEquals(1, pianoActivity.getSymbolContainer().size());
         assertTrue(pianoActivity.getSymbolContainer().get(0).isMarked());
+    }
+
+    private void clickBreak() {
+        solo.setActivityOrientation(Solo.PORTRAIT);
+        solo.clickOnButton(getActivity().getString(R.string.breaks));
+        solo.clickOnImageButton(1);
+
+        solo.sleep(1000);
     }
 
     public void testClickOctaveDownButton() {

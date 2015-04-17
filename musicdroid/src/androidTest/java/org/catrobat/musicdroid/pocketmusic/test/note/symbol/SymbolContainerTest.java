@@ -183,4 +183,16 @@ public class SymbolContainerTest extends AndroidTestCase {
 
         assertEquals(expectedString, symbolContainer.toString());
     }
+
+    public void testCopy() {
+        SymbolContainer symbolContainer = SymbolContainerTestDataFactory.createSimpleSymbolContainer();
+        SymbolContainer copySymbolContainer = new SymbolContainer(symbolContainer);
+
+        assertTrue(symbolContainer != copySymbolContainer);
+        assertTrue(symbolContainer.equals(copySymbolContainer));
+
+        for (int i = 0; i < symbolContainer.size(); i++) {
+            assertTrue(symbolContainer.get(i) != copySymbolContainer.get(i));
+        }
+    }
 }
