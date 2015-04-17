@@ -49,16 +49,16 @@ public class AboutDialog extends DialogFragment {
         TextView aboutUrlTextView = (TextView) view.findViewById(R.id.dialog_about_text_view_url);
         aboutUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
-        String aboutUrl = getString(R.string.about_link_template, "http://developer.catrobat.org/licenses",
-                getString(R.string.dialog_about_pocketcode_license_link_text));
+        String aboutUrl = getString(R.string.about_link_template, getResources().getString(R.string.about_catrobat_licence_link),
+                getString(R.string.dialog_pocketcode_license_link_text));
 
         aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
 
         TextView aboutUrlCatrobatView = (TextView) view.findViewById(R.id.dialog_about_text_catrobat_url);
         aboutUrlCatrobatView.setMovementMethod(LinkMovementMethod.getInstance());
 
-        String aboutCatrobatUrl = getString(R.string.about_link_template, "http://www.catrobat.org/",
-                getString(R.string.dialog_about_catrobat_link_text));
+        String aboutCatrobatUrl = getString(R.string.about_link_template, getResources().getString(R.string.about_catrobat_project_homepage),
+                getString(R.string.dialog_catrobat_link_text));
 
         aboutUrlCatrobatView.setText(Html.fromHtml(aboutCatrobatUrl));
 
@@ -66,8 +66,8 @@ public class AboutDialog extends DialogFragment {
         String versionName = this.getString(R.string.android_version_prefix) + getVersionName(getActivity());
         aboutVersionNameTextView.setText(versionName);
 
-        Dialog aboutDialog = new AlertDialog.Builder(getActivity()).setView(view).setTitle(R.string.dialog_about_title)
-                .setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
+        Dialog aboutDialog = new AlertDialog.Builder(getActivity()).setView(view).setTitle(R.string.dialog_title)
+                .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();

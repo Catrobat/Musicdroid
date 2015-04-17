@@ -27,6 +27,5 @@
     <dimen name="dialog_item_margin" >16dp</dimen >
     <dimen name="dialog_item_edittext_margin" >12dp</dimen >
     <dimen name="dialog_margin" >16dp</dimen >
-     <dimen name="dialog_item_height" >48dp</dimen >
+    <dimen name="dialog_item_height" >48dp</dimen >
 </resources>
-
