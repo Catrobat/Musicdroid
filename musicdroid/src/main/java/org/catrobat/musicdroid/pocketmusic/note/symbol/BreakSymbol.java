@@ -32,6 +32,12 @@ public class BreakSymbol extends Symbol {
         this.noteLength = noteLength;
     }
 
+    public BreakSymbol(BreakSymbol breakSymbol) {
+        super(breakSymbol);
+
+        noteLength = breakSymbol.getNoteLength();
+    }
+
     public NoteLength getNoteLength() {
         return noteLength;
     }

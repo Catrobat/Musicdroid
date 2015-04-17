@@ -45,6 +45,7 @@ import org.catrobat.musicdroid.pocketmusic.note.symbol.NoteEventsToSymbolsConver
 import org.catrobat.musicdroid.pocketmusic.note.symbol.Symbol;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainer;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolContainerToTrackConverter;
+import org.catrobat.musicdroid.pocketmusic.note.symbol.SymbolMementoStack;
 import org.catrobat.musicdroid.pocketmusic.note.symbol.TrackToSymbolContainerConverter;
 import org.catrobat.musicdroid.pocketmusic.projectselection.ProjectSelectionActivity;
 import org.catrobat.musicdroid.pocketmusic.projectselection.dialog.SaveProjectDialog;
@@ -62,6 +63,7 @@ public abstract class InstrumentActivity extends FragmentActivity {
     private static final String SAVED_INSTANCE_OCTAVE = "SavedOctave";
     private static final String SAVED_INSTANCE_SYMBOLS = "SavedSymbols";
     private static final String SAVED_INSTANCE_PROJECT = "SavedProject";
+    private static final String SAVED_INSTANCE_MEMENTO = "SavedMemento";
 
     private Octave octave;
     private int beatsPerMinute;
@@ -70,6 +72,7 @@ public abstract class InstrumentActivity extends FragmentActivity {
     private SymbolContainer symbolContainer;
     private NoteEventsToSymbolsConverter noteEventsConverter;
     private TickProvider tickProvider;
+    private SymbolMementoStack mementoStack;
 
     private boolean activityInFocus = false;
 
@@ -82,6 +85,7 @@ public abstract class InstrumentActivity extends FragmentActivity {
         symbolContainer = new SymbolContainer(key, instrument);
         noteEventsConverter = new NoteEventsToSymbolsConverter();
         tickProvider = new TickProvider(beatsPerMinute);
+        mementoStack = new SymbolMementoStack();
     }
 
     public Octave getOctave() {
@@ -108,6 +112,7 @@ public abstract class InstrumentActivity extends FragmentActivity {
             octave = (Octave) savedInstanceState.getSerializable(SAVED_INSTANCE_OCTAVE);
             symbolContainer = (SymbolContainer) savedInstanceState.getSerializable(SAVED_INSTANCE_SYMBOLS);
             project = (Project) savedInstanceState.getSerializable(SAVED_INSTANCE_PROJECT);
+            mementoStack = (SymbolMementoStack) savedInstanceState.getSerializable(SAVED_INSTANCE_MEMENTO);
 
             if (null != project) {
                 setTitle(project.getName());
@@ -123,6 +128,7 @@ public abstract class InstrumentActivity extends FragmentActivity {
 
         savedInstanceState.putSerializable(SAVED_INSTANCE_OCTAVE, octave);
         savedInstanceState.putSerializable(SAVED_INSTANCE_SYMBOLS, symbolContainer);
+        savedInstanceState.putSerializable(SAVED_INSTANCE_MEMENTO, mementoStack);
 
         if (null != project) {
             savedInstanceState.putSerializable(SAVED_INSTANCE_PROJECT, project);
@@ -158,6 +164,10 @@ public abstract class InstrumentActivity extends FragmentActivity {
 
         List<Symbol> symbols = noteEventsConverter.convertNoteEvent(tickProvider.getTick(), noteEvent, beatsPerMinute);
 
+        if (0 < symbols.size()) {
+            mementoStack.pushMemento(symbolContainer);
+        }
+
         if (inCallback && (false == noteEvent.isNoteOn()) && (0 < symbols.size())) {
             symbolContainer.replaceMarkedSymbols(symbols.get(0));
         } else {
@@ -171,6 +181,8 @@ public abstract class InstrumentActivity extends FragmentActivity {
         if (symbolContainer.size() >= MAX_SYMBOLS_SIZE) {
             return;
         }
+
+        mementoStack.pushMemento(symbolContainer);
 
         if (inCallback) {
             symbolContainer.replaceMarkedSymbols(breakSymbol);
@@ -217,13 +229,14 @@ public abstract class InstrumentActivity extends FragmentActivity {
     }
 
     private void onActionUndo() {
-        if (symbolContainer.size() > 0) {
-            symbolContainer.removeLastSymbol();
+        if (false == mementoStack.isEmpty()) {
+            symbolContainer = mementoStack.popMemento();
             redraw();
         }
     }
 
     private void onActionClear() {
+        mementoStack.pushMemento(symbolContainer);
         symbolContainer.clear();
         redraw();
 
@@ -313,6 +326,12 @@ public abstract class InstrumentActivity extends FragmentActivity {
                 getIntent().removeExtra(ProjectSelectionActivity.INTENT_EXTRA_FILE_NAME);
             }
         }
+    }
+
+    public void deleteMarkedSymbols() {
+        mementoStack.pushMemento(symbolContainer);
+        symbolContainer.deleteMarkedSymbols();
+        symbolContainer.resetSymbolMarkers();
     }
 
     protected abstract void redraw();
