@@ -45,6 +45,23 @@ public class SymbolContainer implements Serializable {
         symbols = new LinkedList<>();
     }
 
+    public SymbolContainer(SymbolContainer symbolContainer) {
+        key = symbolContainer.getKey();
+        instrument = symbolContainer.getInstrument();
+
+        symbols = new LinkedList<>();
+
+        for (int i = 0; i < symbolContainer.size(); i++) {
+            Symbol symbol = symbolContainer.get(i);
+
+            if (symbol instanceof NoteSymbol) {
+                symbols.add(new NoteSymbol((NoteSymbol) symbol));
+            } else {
+                symbols.add(new BreakSymbol((BreakSymbol) symbol));
+            }
+        }
+    }
+
     public MusicalKey getKey() {
         return key;
     }
@@ -79,10 +96,6 @@ public class SymbolContainer implements Serializable {
 
     public Symbol get(int index) {
         return symbols.get(index);
-    }
-
-    public void removeLastSymbol() {
-        symbols.removeLast();
     }
 
     public int getMarkedSymbolCount() {

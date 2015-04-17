@@ -41,6 +41,15 @@ public class NoteSymbol extends Symbol {
         notes = new HashMap<>();
     }
 
+    public NoteSymbol(NoteSymbol noteSymbol) {
+        super(noteSymbol);
+
+        notes = new HashMap<>();
+        for (NoteName noteName : noteSymbol.notes.keySet()) {
+            notes.put(noteName, noteSymbol.notes.get(noteName));
+        }
+    }
+
     public void addNote(NoteName noteName, NoteLength noteLength) {
         notes.put(noteName, noteLength);
     }

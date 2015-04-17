@@ -121,7 +121,7 @@ public class NoteSymbolTest extends AndroidTestCase {
         NoteSymbol noteSymbol1 = NoteSymbolTestDataFactory.createNoteSymbol(true);
         NoteSymbol noteSymbol2 = NoteSymbolTestDataFactory.createNoteSymbol(false);
 
-        assertFalse(noteSymbol1.equals(noteSymbol2));
+        assertTrue(noteSymbol1.equals(noteSymbol2));
     }
 
     public void testEquals8() {
@@ -184,5 +184,13 @@ public class NoteSymbolTest extends AndroidTestCase {
         NoteSymbol noteSymbol = NoteSymbolTestDataFactory.createNoteSymbol(NoteName.C5, NoteName.C5);
 
         assertFalse(noteSymbol.isStemUp(MusicalKey.VIOLIN));
+    }
+
+    public void testCopy() {
+        NoteSymbol symbol = NoteSymbolTestDataFactory.createNoteSymbol();
+        NoteSymbol copySymbol = new NoteSymbol(symbol);
+
+        assertTrue(symbol != copySymbol);
+        assertTrue(symbol.equals(copySymbol));
     }
 }

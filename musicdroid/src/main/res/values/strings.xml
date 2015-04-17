@@ -71,6 +71,10 @@
     <string name="dialog_save_error">Save failed!</string>
     <string name="dialog_open_midi_error">Could not open MIDI file!</string>
     <string name="dialog_share_error">Could not share file!</string>
+    <string name="dialog_title" >About Musicdroid</string >
+    <string name="dialog_license_info" >Musicdroid is an application for creating music on Android devices. It is part of the Catrobat project and is meant to be used in combination with Pocket Code. \n\n The source code of Musicdroid is mainly licenced under the GNU AGPL v3 licence. For the precise details of the license see the link below.</string >
+    <string name="dialog_catrobat_link_text" >About Catrobat</string >
+    <string name="dialog_pocketcode_license_link_text">Catrobat Source Code License</string>
 
     <string name="app_name">Musicdroid</string>
     <string name="logo">Logo</string>
@@ -99,4 +103,8 @@
     <string name="save_cancel">Save canceled!</string>
     <string name="error">Error</string>
     <string name="detail">Detail:</string>
+    <string name="about_link_template" translatable="false" >&lt;a href="%1$s">%2$s&lt;/a></string >
+    <string name="android_version_prefix" translateable="false" >Andr.</string >
+    <string name="about_catrobat_licence_link" translatable="false">http://developer.catrobat.org/licenses</string>
+    <string name="about_catrobat_project_homepage" translatable="false">http://www.catrobat.org/</string>
 </resources>
