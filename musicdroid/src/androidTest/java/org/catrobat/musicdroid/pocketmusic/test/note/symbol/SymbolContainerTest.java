@@ -58,7 +58,7 @@ public class SymbolContainerTest extends AndroidTestCase {
     public void testAddAllList() {
         SymbolContainer symbolContainer = SymbolContainerTestDataFactory.createSymbolContainer();
 
-        List<Symbol> symbols = new LinkedList<Symbol>();
+        List<Symbol> symbols = new LinkedList<>();
         symbols.add(NoteSymbolTestDataFactory.createNoteSymbol());
         symbols.add(NoteSymbolTestDataFactory.createNoteSymbol());
         symbolContainer.addAll(symbols);
@@ -128,6 +128,23 @@ public class SymbolContainerTest extends AndroidTestCase {
         symbolContainer.replaceMarkedSymbols(breakSymbol);
 
         assertEquals(breakSymbol, symbolContainer.get(0));
+    }
+
+    public void testReplaceMarkedSymbolsNoDuplicateReference() {
+        SymbolContainer symbolContainer = SymbolContainerTestDataFactory.createSymbolContainerWithThreeNoteSymbols();
+        BreakSymbol breakSymbol = BreakSymbolTestDataFactory.createBreakSymbol();
+
+        for (int i = 0; i < symbolContainer.size(); i++) {
+            symbolContainer.get(i).setMarked(true);
+        }
+
+        symbolContainer.replaceMarkedSymbols(breakSymbol);
+
+        for (int i = 0; i < symbolContainer.size(); i++) {
+            Symbol symbol = symbolContainer.get(i);
+            assertFalse(breakSymbol == symbol);
+            assertTrue(symbol.isMarked());
+        }
     }
 
     public void testEquals1() {

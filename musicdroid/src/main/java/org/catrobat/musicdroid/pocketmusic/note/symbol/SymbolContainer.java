@@ -139,7 +139,7 @@ public class SymbolContainer implements Serializable {
 
             if (currentSymbol.isMarked()) {
                 newSymbol.setMarked(true);
-                symbols.set(i, newSymbol);
+                symbols.set(i, newSymbol.copy());
             }
         }
     }

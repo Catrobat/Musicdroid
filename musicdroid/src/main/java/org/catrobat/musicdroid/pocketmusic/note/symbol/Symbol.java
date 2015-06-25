@@ -78,4 +78,14 @@ public abstract class Symbol implements Serializable {
 
         return true;
     }
+
+    public Symbol copy() {
+        Symbol symbol = createCopy();
+
+        symbol.setMarked(marked);
+
+        return symbol;
+    }
+
+    protected abstract Symbol createCopy();
 }

@@ -54,11 +54,13 @@ public class BreakSymbol extends Symbol {
 
         BreakSymbol breakSymbol = (BreakSymbol) obj;
 
-        if (noteLength.equals(breakSymbol.getNoteLength())) {
-            return true;
-        }
+        return noteLength.equals(breakSymbol.getNoteLength());
 
-        return false;
+    }
+
+    @Override
+    protected Symbol createCopy() {
+        return new BreakSymbol(getNoteLength());
     }
 
     @Override
