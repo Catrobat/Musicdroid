@@ -102,28 +102,30 @@ public class PianoViewFragment extends Fragment {
 
         int buttonWidth = displayMeasurements.getDisplayWidth() / (Octave.NUMBER_OF_UNSIGNED_HALF_TONE_STEPS_PER_OCTAVE + pianoKeyWidthScaleFactor);
 
-        ArrayList<RelativeLayout.LayoutParams> blackKeyLayoutParams = new ArrayList<>();
-        ArrayList<RelativeLayout.LayoutParams> whiteKeyLayoutParams = new ArrayList<>();
-
+        int blackButtonMargin = getResources().getDimensionPixelSize(R.dimen.black_button_margin);
+        int blackButtonWidth = buttonWidth - blackButtonMargin;
 
         for (int i = 0; i < blackButtons.size(); i++) {
-            blackKeyLayoutParams.add(new RelativeLayout.LayoutParams(
-                    buttonWidth,
+            RelativeLayout.LayoutParams black_button_rlp = new RelativeLayout.LayoutParams(
+                    blackButtonWidth,
                     displayMeasurements.getDisplayHeight() / pianoBlackKeyHeightScaleFactor
-            ));
+            );
 
-            blackKeyLayoutParams.get(i).setMargins((buttonWidth / 2) * ((i * 2) + 1), 0, 0, 0);
-            blackButtons.get(i).setLayoutParams(blackKeyLayoutParams.get(i));
+            black_button_rlp.setMargins((blackButtonWidth / 2) * ((i * 2) + 1) + (i+1) * blackButtonMargin, 0, 0, 0);
+            blackButtons.get(i).setLayoutParams(black_button_rlp);
         }
 
-        for (int i = 0; i < whiteButtons.size(); i++) {
-            whiteKeyLayoutParams.add(new RelativeLayout.LayoutParams(
-                    buttonWidth,
-                    RelativeLayout.LayoutParams.MATCH_PARENT
-            ));
+        int whiteButtonMargin = getResources().getDimensionPixelSize(R.dimen.white_button_margin);
+        int whiteButtonWidth = buttonWidth - whiteButtonMargin;
 
-            whiteKeyLayoutParams.get(i).setMargins(buttonWidth * i, 0, 0, 0);
-            whiteButtons.get(i).setLayoutParams(whiteKeyLayoutParams.get(i));
+        for (int i = 0; i < whiteButtons.size(); i++) {
+            RelativeLayout.LayoutParams whiteButtonRlp = new RelativeLayout.LayoutParams(
+                    whiteButtonWidth,
+                    RelativeLayout.LayoutParams.MATCH_PARENT
+            );
+
+            whiteButtonRlp.setMargins(whiteButtonWidth * i + whiteButtonMargin * i, 0, 0, 0);
+            whiteButtons.get(i).setLayoutParams(whiteButtonRlp);
         }
     }
 
@@ -138,14 +140,14 @@ public class PianoViewFragment extends Fragment {
             public boolean onTouch(View view, MotionEvent event) {
                 final Octave octave = ((PianoActivity) getActivity()).getOctave();
                 if (isDownActionEvent(event)) {
-                    view.setX(view.getX() + 5);
+                    //view.setX(view.getX() + 5);
                     addKeyPress(new NoteEvent(octave.getNoteNames()[index], true));
                 } else if (isUpActionEvent(event)) {
-                    view.setX(view.getX() - 5);
+                    //view.setX(view.getX() - 5);
                     addKeyPress(new NoteEvent(octave.getNoteNames()[index], false));
                 }
 
-                return true;
+                return false;
             }
 
             private boolean isDownActionEvent(MotionEvent event) {
