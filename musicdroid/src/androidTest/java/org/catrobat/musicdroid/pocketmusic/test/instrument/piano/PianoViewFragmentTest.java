@@ -68,8 +68,8 @@ public class PianoViewFragmentTest extends ActivityInstrumentationTestCase2<Pian
         for (int i = 0; i < pianoViewFragment.getWhiteButtonCount(); i++)
             assertEquals(pianoViewFragment.getWhiteButtonAtIndex(i).getWidth(), buttonWidth - whiteButtonMargin);
 
-        assertEquals(((buttonWidth + blackButtonMargin)/ 2), pianoViewFragment.getBlackButtonAtIndex(0).getLeft());
-        assertEquals((((3*buttonWidth) + blackButtonMargin) / 2), pianoViewFragment.getBlackButtonAtIndex(1).getLeft());
+        assertEquals(((buttonWidth + blackButtonMargin) / 2), pianoViewFragment.getBlackButtonAtIndex(0).getLeft());
+        assertEquals(((3 * buttonWidth) + blackButtonMargin) / 2, pianoViewFragment.getBlackButtonAtIndex(1).getLeft());
 
         assertEquals(0, pianoViewFragment.getWhiteButtonAtIndex(0).getLeft());
         assertEquals(buttonWidth, pianoViewFragment.getWhiteButtonAtIndex(1).getLeft());
