@@ -27,6 +27,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.widget.Button;
 
+import org.catrobat.musicdroid.pocketmusic.R;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoActivity;
 import org.catrobat.musicdroid.pocketmusic.instrument.piano.PianoViewFragment;
 import org.catrobat.musicdroid.pocketmusic.tools.DisplayMeasurements;
@@ -59,14 +60,16 @@ public class PianoViewFragmentTest extends ActivityInstrumentationTestCase2<Pian
     private void assertButtonPosition(int keyWidthScaleFactor, int keysPerOctave) {
         DisplayMeasurements displayMeasurements = new DisplayMeasurements(getActivity());
         int buttonWidth = displayMeasurements.getDisplayWidth() / (keysPerOctave + keyWidthScaleFactor);
+        int whiteButtonMargin = pianoViewFragment.getActivity().getResources().getDimensionPixelSize(R.dimen.white_button_margin);
+        int blackButtonMargin = pianoViewFragment.getActivity().getResources().getDimensionPixelSize(R.dimen.black_button_margin);
 
         for (int i = 0; i < pianoViewFragment.getBlackButtonCount(); i++)
-            assertEquals(pianoViewFragment.getBlackButtonAtIndex(i).getWidth(), buttonWidth);
+            assertEquals(pianoViewFragment.getBlackButtonAtIndex(i).getWidth(), buttonWidth - blackButtonMargin);
         for (int i = 0; i < pianoViewFragment.getWhiteButtonCount(); i++)
-            assertEquals(pianoViewFragment.getWhiteButtonAtIndex(i).getWidth(), buttonWidth);
+            assertEquals(pianoViewFragment.getWhiteButtonAtIndex(i).getWidth(), buttonWidth - whiteButtonMargin);
 
-        assertEquals((buttonWidth / 2), pianoViewFragment.getBlackButtonAtIndex(0).getLeft());
-        assertEquals((buttonWidth / 2 * 3), pianoViewFragment.getBlackButtonAtIndex(1).getLeft());
+        assertEquals(((buttonWidth + blackButtonMargin) / 2), pianoViewFragment.getBlackButtonAtIndex(0).getLeft());
+        assertEquals(((3 * buttonWidth) + blackButtonMargin) / 2, pianoViewFragment.getBlackButtonAtIndex(1).getLeft());
 
         assertEquals(0, pianoViewFragment.getWhiteButtonAtIndex(0).getLeft());
         assertEquals(buttonWidth, pianoViewFragment.getWhiteButtonAtIndex(1).getLeft());
